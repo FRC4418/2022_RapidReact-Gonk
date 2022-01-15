@@ -13,7 +13,7 @@ public final class Constants {
 	public static class X3D {
 		public static final int
 			// ---Joystick IDs---
-			LEFT_JOYSTICK_ID = -1,   //Set ID constants
+			LEFT_JOYSTICK_ID = 0,   //Set ID constants
 			// RIGHT_JOYSTICK_ID = 1,
 
 			/// ---Axes---
@@ -23,18 +23,18 @@ public final class Constants {
 			// OTHER_AXIS = 3,
 
 			// ---Button IDs---
-			TRIGGER_BUTTON_ID = -1,//Set ID constants
-			GRIP_BUTTON_ID = -1,//Set ID constants
-			THREE_BUTTON_ID = -1, //Set ID constants
-			FOUR_BUTTON_ID = -1, //Set ID constants 
-			FIVE_BUTTON_ID = -1, //Set ID constants
-			SIX_BUTTON_ID = -1, //Set ID constants
-			SEVEN_BUTTON_ID = -1, //Set ID constants
-			EIGHT_BUTTON_ID = -1, //Set ID constants
-			NINE_BUTTON_ID = -1, //Set ID constants
-			TEN_BUTTON_ID = -1, //Set ID constants
-			ELEVEN_BUTTON_ID = -1, //Set ID constants
-			TWELVE_BUTTON_ID = -1; //Set ID constants
+			TRIGGER_BUTTON_ID = 1,
+			GRIP_BUTTON_ID = 2,
+			THREE_BUTTON_ID = 3,
+			FOUR_BUTTON_ID = 4,
+			FIVE_BUTTON_ID = 5,
+			SIX_BUTTON_ID = 6,
+			SEVEN_BUTTON_ID = 7,
+			EIGHT_BUTTON_ID = 8,
+			NINE_BUTTON_ID = 9,
+			TEN_BUTTON_ID = 10,
+			ELEVEN_BUTTON_ID = 11,
+			TWELVE_BUTTON_ID = 12;
 	}
 
 	public static class Gamepad {
@@ -50,17 +50,17 @@ public final class Constants {
 			// RIGHT_TRIGGER_AXIS = 3,
 
 			// ---Button IDs---
-			A_BUTTON_ID = -1, //Set ID constants
-			B_BUTTON_ID = -1, //Set ID constants
-			X_BUTTON_ID = -1, //Set ID constants
-			Y_BUTTON_ID = -1, //Set ID constants
-			LEFT_BUMPER_BUTTON_ID = -1, //Set ID constants
-			RIGHT_BUMPER_BUTTON_ID = -1, //Set ID constants
-			BACK_BUTTON_ID = -1, //Set ID constants
-			START_BUTTON_ID = -1, //Set ID constants
+			A_BUTTON_ID = 1,
+			B_BUTTON_ID = 2,
+			X_BUTTON_ID = 3,
+			Y_BUTTON_ID = 4,
+			LEFT_BUMPER_BUTTON_ID = 5,
+			RIGHT_BUMPER_BUTTON_ID = 6,
+			BACK_BUTTON_ID = 7,
+			START_BUTTON_ID = 8,
 			// LOGITECH_BUTTON_ID = 9,
-			LEFT_JOYSTICK_BUTTON_ID = -1, //Set ID constants
-			RIGHT_JOYSTICK_BUTTON_ID = -1, //Set ID constants
+			LEFT_JOYSTICK_BUTTON_ID = 10,
+			RIGHT_JOYSTICK_BUTTON_ID = 11,
 
 			// ---POV Indices---
 			ANGLE_UP_POV = 0;
@@ -131,10 +131,10 @@ public final class Constants {
 
 	public static class Drive {
 		public static final int
-			LEFT_A_TALON_SRX_ID = -1, //Set ID constants
-			LEFT_B_TALON_SRX_ID = -1, //Set ID constants
-			RIGHT_A_TALON_SRX_ID = -1, //Set ID constants
-			RIGHT_B_TALON_SRX_ID = -1; //Set ID constants
+			FRONT_LEFT_TALON_SRX_ID = 1, //Set ID constants
+			BACK_LEFT_TALON_SRX_ID = 2, //Set ID constants
+			FRONT_RIGHT_TALON_SRX_ID = 3, //Set ID constants
+			BACK_RIGHT_TALON_SRX_ID = 4; //Set ID constants
 
 			// LEFT_ENCODER_CHANNELA_ID = 6,
 			// LEFT_ENCODER_CHANNELB_ID = 7,

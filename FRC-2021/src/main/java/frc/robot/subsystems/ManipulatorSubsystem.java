@@ -132,6 +132,7 @@ public class ManipulatorSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		inTuningMode = tuningModeBooleanBox.getBoolean(false);
+		// inTuningMode = tuningModeBooleanBox.getBoolean(false); // TODO: Make this an interactable boolean in Shuffleboard
+		inTuningMode = true;
 	}
 }
