@@ -35,13 +35,15 @@ public class ShooterCommand extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (ms.inTuningMode) {
-			ms.setElbowFireMotor(ms.highShooterRPMTextField.getDouble(0.0) * rpmToVelocity);
-			ms.setWristFireMotor(ms.lowShooterRPMTextField.getDouble(0.0) * rpmToVelocity);
-		} else {
-			ms.setElbowFireMotor(Constants.Manipulator.WRIST_TARGET_RPM * rpmToVelocity);
-			ms.setWristFireMotor(Constants.Manipulator.ELBOW_TARGET_RPM * rpmToVelocity);
-		}
+		ms.setHighGoalShooterMotor(1.0);
+
+		// if (ms.inTuningMode) {
+		// 	ms.setHighGoalShooterMotor(
+		// 		ms.highShooterOnOffTextField.getDouble(Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE)
+		// 	);
+		// } else {
+		// 	ms.setHighGoalShooterMotor(Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE);
+		// }
 		
 		// SmartDashboard.putNumber("Wrist Motor Velocity", Math.abs(RobotContainer.manipulatorsubsystem.highShooterMotor.getSelectedSensorVelocity(0)));
 
@@ -56,8 +58,7 @@ public class ShooterCommand extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.manipulatorsubsystem.setElbowFireMotor(0.0);
-		RobotContainer.manipulatorsubsystem.setWristFireMotor(0.0);
+		ms.setHighGoalShooterMotor(0.0);
 	}
 
 	// Returns true when the command should end.

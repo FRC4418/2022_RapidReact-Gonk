@@ -13,7 +13,7 @@ public final class Constants {
 	public static class X3D {
 		public static final int
 			// ---Joystick IDs---
-			LEFT_JOYSTICK_ID = 0,   //Set ID constants
+			LEFT_JOYSTICK_ID = 0,
 			// RIGHT_JOYSTICK_ID = 1,
 
 			/// ---Axes---
@@ -39,7 +39,7 @@ public final class Constants {
 
 	public static class Gamepad {
 		public static final int
-			JOYSTICK_ID = -1, //Set ID constants
+			JOYSTICK_ID = 1,
 
 			// ---Axes---
 			LEFT_X_AXIS = 0,
@@ -157,18 +157,20 @@ public final class Constants {
 
 	public static class Manipulator {
 		public static final int
-			WRIST_FIRE_TALONSRX_ID = -1, //Set ID constants
-			ELBOW_FIRE_TALONSRX_ID = -1, //Set ID constants
-			SHOULDER_FIRE_TALONSRX_ID = -1, //Set ID constants
-			BOTTOM_INTAKE_TALONSRX_ID = -1; //Set ID constants
+			// WRIST_FIRE_TALONSRX_ID = -1, //Set ID constants
+			// ELBOW_FIRE_TALONSRX_ID = -1, //Set ID constants
+			// SHOULDER_FIRE_TALONSRX_ID = -1, //Set ID constants
+			// BOTTOM_INTAKE_TALONSRX_ID = -1; //Set ID constants
+			HIGH_GOAL_SHOOTER_775_ID = 11;
 
 		public static final double
 			INTAKE_PERCENT_OUTPUT = 0.5;
 
+		public static final double
+			HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
 		public static final int
 			SHOOTER_SPEED_TOLERANCE = 20,
-			ELBOW_TARGET_RPM = 4_550,	// low shooter
-			WRIST_TARGET_RPM = 4_545, // high shooter, RPMs are changed to units/100ms in motor commands
+			// ELBOW_TARGET_RPM = 4_550,	// low shooter
 			COUNTS_PER_REVOLUTION = 1024,
 			UNITS_PER_REVOLUTION = COUNTS_PER_REVOLUTION * 4;	//the talon counts every rising and falling edge
 	}

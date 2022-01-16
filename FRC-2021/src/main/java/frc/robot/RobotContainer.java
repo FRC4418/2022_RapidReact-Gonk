@@ -56,32 +56,14 @@ public class RobotContainer {
 			backwardIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.BACKWARD_INTAKE_BUTTON_ID),
 			forwardIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.FORWARD_INTAKE_BUTTON_ID),
 			feederButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.FEEDER_BUTTON_ID),
-			shooterButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.SHOOT_BUTTON_ID),
-
-			panelSpinButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.PANEL_SPIN_BUTTON_ID),
-			reversePanelSpinButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.PANEL_SPIN_REVERSE_BUTTON_ID),
-
-			extendClimberButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.EXTEND_CLIMBER_BUTTON_ID),
-			lowerClimberButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.LOWER_CLIMBER_BUTTON_ID),
-
-			spoolWinchButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.SPOOL_WINCH_BUTTON_ID),
-			unspoolWinchButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.UNSPOOL_WINCH_BUTTON_ID);
+			
+			shooterButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.SHOOT_BUTTON_ID);
 
 		private static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleDriverArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraightCommand());
 			
-			backwardIntakeButton.whileHeld(new IntakeCommand(true));
-			forwardIntakeButton.whileHeld(new IntakeCommand(false));
-			feederButton.whileHeld(new FeederCommand());
 			shooterButton.whileHeld(new ShooterCommand());
-			
-			
-			// true is extending, false is lowering
-			extendClimberButton.whileHeld(new MoveClimberCommand(true));
-			lowerClimberButton.whileHeld(new MoveClimberCommand(false));
-	
-			
 		}
 		
 		// Tank drive axes
@@ -117,17 +99,7 @@ public class RobotContainer {
 		private static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleSpotterArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraightCommand());
-			toggleSensitivityButton.whenPressed(new ToggleTeleopSensitivityMode());
-			
-			intakeButton.whileHeld(new IntakeCommand(false));
-			feederButton.whileHeld(new ShooterCommand());
-			
-			
-			// true is extending, false is lowering
-			extendClimberButton.whileHeld(new MoveClimberCommand(true));
-			lowerClimberButton.whileHeld(new MoveClimberCommand(false));
-	
-
+			toggleSensitivityButton.whenPressed(new ToggleTeleopSensitivityMode());			
 		}
 
 		// Tank drive axes

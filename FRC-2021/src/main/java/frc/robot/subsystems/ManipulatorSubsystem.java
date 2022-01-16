@@ -25,14 +25,15 @@ public class ManipulatorSubsystem extends SubsystemBase {
 	public boolean inTuningMode;
 	public NetworkTableEntry tuningModeBooleanBox;
 
-	private WPI_TalonSRX outerIntakeMotor;
-	private WPI_TalonSRX innerIntakeMotor;
+	// private WPI_TalonSRX outerIntakeMotor;
+	// private WPI_TalonSRX innerIntakeMotor;
 	public NetworkTableEntry intakePercentOutputTextField;
 
-	public WPI_TalonSRX lowShooterMotor;
-	public NetworkTableEntry lowShooterRPMTextField;
-	public WPI_TalonSRX highShooterMotor;
-	public NetworkTableEntry highShooterRPMTextField;
+	// public WPI_TalonSRX lowShooterMotor;
+	// public NetworkTableEntry lowShooterRPMTextField;
+	public WPI_TalonSRX highGoalShooterMotor;
+
+	public NetworkTableEntry highShooterPercentageTextField;
 
 	/* Encoder.getRate() returns distance per second
 	distance per second * distance per pulse = pulse per second
@@ -49,69 +50,55 @@ public class ManipulatorSubsystem extends SubsystemBase {
 	private boolean pivotUp = true;
 
 	public ManipulatorSubsystem() {
-		// loader, AKA feeder
-		outerIntakeMotor = new WPI_TalonSRX(Constants.Manipulator.BOTTOM_INTAKE_TALONSRX_ID);
-		
-		// lower shooter
-		innerIntakeMotor = new WPI_TalonSRX(Constants.Manipulator.SHOULDER_FIRE_TALONSRX_ID);
+		highGoalShooterMotor = new WPI_TalonSRX(Constants.Manipulator.HIGH_GOAL_SHOOTER_775_ID);
 
-		// higher shooter
-		lowShooterMotor = new WPI_TalonSRX(Constants.Manipulator.ELBOW_FIRE_TALONSRX_ID);
-		// elbowFireMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        lowShooterMotor.setSensorPhase(false);
-        /* set closed loop gains in slot0 */
-        lowShooterMotor.config_kF(0, 0.1097);
-        lowShooterMotor.config_kP(0, 0.22);
-        lowShooterMotor.config_kI(0, 0); 
-        lowShooterMotor.config_kD(0, 0);
-
-		highShooterMotor = new WPI_TalonSRX(Constants.Manipulator.WRIST_FIRE_TALONSRX_ID);
 		// wristFireMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        highShooterMotor.setSensorPhase(false);
+        highGoalShooterMotor.setSensorPhase(false);
         /* set closed loop gains in slot0 */
-        highShooterMotor.config_kF(0, 0.1097);
-        highShooterMotor.config_kP(0, 0.22);
-        highShooterMotor.config_kI(0, 0);
-        highShooterMotor.config_kD(0, 0);
+        highGoalShooterMotor.config_kF(0, 0.1097);
+        highGoalShooterMotor.config_kP(0, 0.22);
+        highGoalShooterMotor.config_kI(0, 0);
+        highGoalShooterMotor.config_kD(0, 0);
 	}
 
 	public void putManipulatorDisplays() {
-		tuningModeBooleanBox = Robot.statusDisplayTab
-			.add("Motor Tuning Mode", false)
-			.withWidget(BuiltInWidgets.kBooleanBox)
-			.withPosition(0, 0)
-			.withSize(2, 1)
-			.getEntry();
+		// tuningModeBooleanBox = Robot.statusDisplayTab
+		// 	.add("Motor Tuning Mode", false)
+		// 	.withWidget(BuiltInWidgets.kBooleanBox)
+		// 	.withPosition(0, 0)
+		// 	.withSize(2, 1)
+		// 	.getEntry();
 
-		highShooterRPMTextField = Robot.statusDisplayTab
-			.add("Low Shooter RPM", Constants.Manipulator.WRIST_TARGET_RPM)
+		highShooterPercentageTextField = Robot.statusDisplayTab
+			.add("High Goal Shooter Percentage", Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(0, 1)
 			.withSize(2, 1)
 			.getEntry();
 		
-		lowShooterRPMTextField = Robot.statusDisplayTab
-			.add("High Shooter RPM", Constants.Manipulator.ELBOW_TARGET_RPM)
-			.withWidget(BuiltInWidgets.kTextView)
-			.withPosition(0, 2)
-			.withSize(2, 1)
-			.getEntry();
+		// lowShooterRPMTextField = Robot.statusDisplayTab
+		// 	.add("Low Goal Shooter RPM", Constants.Manipulator.ELBOW_TARGET_RPM)
+		// 	.withWidget(BuiltInWidgets.kTextView)
+		// 	.withPosition(0, 2)
+		// 	.withSize(2, 1)
+		// 	.getEntry();
 
-		intakePercentOutputTextField = Robot.statusDisplayTab
-			.add("Intake % Output ", 0.4)
-			.withWidget(BuiltInWidgets.kTextView)
-			.withPosition(0, 3)
-			.withSize(2, 1)
-			.getEntry();
+		// intakePercentOutputTextField = Robot.statusDisplayTab
+		// 	.add("Intake % Output ", 0.4)
+		// 	.withWidget(BuiltInWidgets.kTextView)
+		// 	.withPosition(0, 3)
+		// 	.withSize(2, 1)
+		// 	.getEntry();
 	}
 
 	// set motors by velocity
-	public void setElbowFireMotor(double velocity) { lowShooterMotor.set(ControlMode.Velocity, velocity); }
-	public void setWristFireMotor(double velocity) { highShooterMotor.set(ControlMode.Velocity, velocity); }
+	// public void setElbowFireMotor(double velocity) { lowShooterMotor.set(ControlMode.Velocity, velocity); }
+	// public void setWristFireMotor(double velocity) { highGoalShooterMotor.set(ControlMode.Velocity, velocity); }
 	
 	// set motors by percent output
-	public void setShoulderFireMotor(double percentOutput) { innerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setIntakeMotor(double percentOutput) { outerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
+	// public void setShoulderFireMotor(double percentOutput) { innerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
+	// public void setIntakeMotor(double percentOutput) { outerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setHighGoalShooterMotor(double percentOutput) { highGoalShooterMotor.set(ControlMode.PercentOutput, percentOutput); }
 
 	// read potentiometer
 	public double getPivotPotentiometer() { return pivotPotentiometer.get(); }
@@ -134,5 +121,7 @@ public class ManipulatorSubsystem extends SubsystemBase {
 	public void periodic() {
 		// inTuningMode = tuningModeBooleanBox.getBoolean(false); // TODO: Make this an interactable boolean in Shuffleboard
 		inTuningMode = true;
+
+		// highGoalShooterMotor.set(ControlMode.PercentOutput, highShooterPercentageTextField.getDouble(Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE));
 	}
 }
