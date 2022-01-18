@@ -153,6 +153,47 @@ public final class Constants {
 
 		public static final int
 			ENCODER_DECODING_SCALE_FACTOR = 2;
+
+		public static class PID {
+			/**
+			 * Which PID slot to pull gains from. Starting 2018, you can choose from
+			 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
+			 * configuration.
+			 */
+			public static final int kSlotIdx = 0;
+
+			/**
+			 * Talon FX supports multiple (cascaded) PID loops. For
+			 * now we just want the primary one.
+			 */
+			public static final int kIdx = 0;
+
+			/**
+			 * Set to zero to skip waiting for confirmation, set to nonzero to wait and
+			 * report to DS if action fails.
+			 */
+			public static final int kTimeoutMs = 30;
+
+			/**
+			 * PID Gains may have to be adjusted based on the responsiveness of control loop.
+			 * kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+			 */
+			public final static Gains kLeftMotorVelocityGains = new Gains(
+				0.1,				// kP
+				0.001,				// kI
+				5,					// kD
+				1023.0/20660.0,		// kF
+				300,				// Iz
+				1.00);				// Peakout
+			
+			public final static Gains kRightMotorVelocityGains = new Gains(
+				0.1,				// kP
+				0.001,				// kI
+				5,					// kD
+				1023.0/20660.0,		// kF
+				300,				// Iz
+				1.00);				// Peakout
+		}
 	}
 
 	public static class Manipulator {

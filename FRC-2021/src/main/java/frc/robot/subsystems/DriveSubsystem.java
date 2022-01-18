@@ -46,6 +46,16 @@ public class DriveSubsystem extends SubsystemBase {
 		leftDriveMotorB.follow(leftDriveMotorA);
 		rightDriveMotorB.follow(rightDriveMotorA);
 
+		leftDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
+		leftDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
+		leftDriveMotorA.config_kI(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kI, Constants.Drive.PID.kTimeoutMs);
+        leftDriveMotorA.config_kD(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kD, Constants.Drive.PID.kTimeoutMs);
+
+		rightDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
+		rightDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
+		rightDriveMotorA.config_kI(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kI, Constants.Drive.PID.kTimeoutMs);
+        rightDriveMotorA.config_kD(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kD, Constants.Drive.PID.kTimeoutMs);
+
 		// ----------------------------------------------------------
 
 		// Drive system
