@@ -46,6 +46,9 @@ public class DriveSubsystem extends SubsystemBase {
 		leftDriveMotorB.follow(leftDriveMotorA);
 		rightDriveMotorB.follow(rightDriveMotorA);
 
+		// leftDriveMotorA.setInverted(true);
+		// rightDriveMotorA.setInverted(true);
+
 		// ----------------------------------------------------------
 
 		// Drive system
