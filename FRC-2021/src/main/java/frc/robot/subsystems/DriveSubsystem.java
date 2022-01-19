@@ -18,15 +18,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.old_commands.TeleopDriveCommand;
 import frc.robot.teamlibraries.DriveInputPipeline;
 
 
 public class DriveSubsystem extends SubsystemBase {
-	private WPI_TalonSRX leftDriveMotorA;
-	private WPI_TalonSRX leftDriveMotorB;
-	private WPI_TalonSRX rightDriveMotorA;
-	private WPI_TalonSRX rightDriveMotorB;
+	private WPI_TalonSRX frontLeftDriveMotor;
+	private WPI_TalonSRX backLeftDriveMotor;
+	private WPI_TalonSRX frontRightDriveMotor;
+	private WPI_TalonSRX backRightDriveMotor;
 
 	private Encoder leftDriveEncoder;
 	private Encoder rightDriveEncoder;
@@ -37,14 +37,15 @@ public class DriveSubsystem extends SubsystemBase {
 	private boolean spotterIsInArcadeMode = false;
 
 	public DriveSubsystem() {
-		// Drive Motors
-		leftDriveMotorA = new WPI_TalonSRX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
-		leftDriveMotorB = new WPI_TalonSRX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
-		rightDriveMotorA = new WPI_TalonSRX(Constants.Drive.FRONT_RIGHT_TALON_SRX_ID);
-		rightDriveMotorB = new WPI_TalonSRX(Constants.Drive.BACK_RIGHT_TALON_SRX_ID);
+		// Drive Motor
+		frontLeftDriveMotor = new WPI_TalonSRX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
+		backLeftDriveMotor = new WPI_TalonSRX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
+		frontRightDriveMotor = new WPI_TalonSRX(Constants.Drive.FRONT_RIGHT_TALON_SRX_ID);
+		backRightDriveMotor = new WPI_TalonSRX(Constants.Drive.BACK_RIGHT_TALON_SRX_ID);
 
-		leftDriveMotorB.follow(leftDriveMotorA);
-		rightDriveMotorB.follow(rightDriveMotorA);
+		backLeftDriveMotor.follow(frontLeftDriveMotor);
+		backRightDriveMotor.follow(frontRightDriveMotor);
+
 
 		// leftDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
 		// leftDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
@@ -59,9 +60,9 @@ public class DriveSubsystem extends SubsystemBase {
 		// ----------------------------------------------------------
 
 		// Drive system
-		brakeOrCoastMotors(false, false);
+		coastOrBrakeMotors(false, false);
 
-		robotDrive = new DifferentialDrive(leftDriveMotorA, rightDriveMotorA);
+		robotDrive = new DifferentialDrive(frontLeftDriveMotor, frontRightDriveMotor);
 
 		// ----------------------------------------------------------
 
@@ -77,39 +78,39 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	public DriveSubsystem setLeftMotors(double negToPosPercentage) {
-		leftDriveMotorA.set(ControlMode.PercentOutput, negToPosPercentage);
+		frontLeftDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public DriveSubsystem setRightMotors(double negToPosPercentage) {
-		rightDriveMotorA.set(ControlMode.PercentOutput, negToPosPercentage);
+		frontRightDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public double getLeftPercent() {
-		return leftDriveMotorA.getMotorOutputPercent();
+		return frontLeftDriveMotor.getMotorOutputPercent();
 	}
 
 	public double getRightPercent() {
-		return rightDriveMotorA.getMotorOutputPercent();
+		return frontRightDriveMotor.getMotorOutputPercent();
 	}
 
 	// brake or coast left and right motors (true for braking)
-	public DriveSubsystem brakeOrCoastMotors(boolean leftIsBraking, boolean rightIsBraking) {
+	public DriveSubsystem coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
 		if (leftIsBraking) {
-			leftDriveMotorA.setNeutralMode(NeutralMode.Brake);
-			leftDriveMotorB.setNeutralMode(NeutralMode.Brake);
+			frontLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
+			backLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
 		} else {
-			leftDriveMotorA.setNeutralMode(NeutralMode.Coast);
-			leftDriveMotorB.setNeutralMode(NeutralMode.Coast);
+			frontLeftDriveMotor.setNeutralMode(NeutralMode.Coast);
+			backLeftDriveMotor.setNeutralMode(NeutralMode.Coast);
 		}
 
 		if (rightIsBraking) {
-			rightDriveMotorA.setNeutralMode(NeutralMode.Brake);
-			rightDriveMotorB.setNeutralMode(NeutralMode.Brake);
+			frontRightDriveMotor.setNeutralMode(NeutralMode.Brake);
+			backRightDriveMotor.setNeutralMode(NeutralMode.Brake);
 		} else {
-			rightDriveMotorA.setNeutralMode(NeutralMode.Coast);
-			rightDriveMotorB.setNeutralMode(NeutralMode.Coast);
+			frontRightDriveMotor.setNeutralMode(NeutralMode.Coast);
+			backRightDriveMotor.setNeutralMode(NeutralMode.Coast);
 		}
 
 		return this;
@@ -121,7 +122,7 @@ public class DriveSubsystem extends SubsystemBase {
 	// and disable them when the robot is moving
 	public DriveSubsystem autoBreakTankDrive(double[] values) {
 		// brake motors if value is 0, else coast
-		brakeOrCoastMotors(values[0] == 0.0, values[1] == 0.0);
+		coastOrBrakeMotors(values[0] == 0.0, values[1] == 0.0);
 		return this;
 	}
 
@@ -149,8 +150,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 	// stop driving
 	public DriveSubsystem stopDrive() {
-		leftDriveMotorA.set(ControlMode.PercentOutput, 0);
-		rightDriveMotorA.set(ControlMode.PercentOutput, 0);
+		frontLeftDriveMotor.set(ControlMode.PercentOutput, 0);
+		frontRightDriveMotor.set(ControlMode.PercentOutput, 0);
 		return this;
 	}
 

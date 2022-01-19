@@ -6,14 +6,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+public class AutonomousSubsystem extends SubsystemBase {
+  /** Creates a new AutonomousSubsystem. */
+  public AutonomousSubsystem() {}
 
-public class TeleopInput extends SubsystemBase {
-	public TeleopInput() {
-		
-	}
-
-	@Override
-	public void periodic() {
-		
-	}
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 }
