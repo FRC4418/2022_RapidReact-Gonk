@@ -14,7 +14,7 @@ public final class Constants {
 		public static final int
 			// ---Joystick IDs---
 			LEFT_JOYSTICK_ID = 0,
-			// RIGHT_JOYSTICK_ID = 1,
+			RIGHT_JOYSTICK_ID = 1,
 
 			/// ---Axes---
 			ROLL_AXIS = 0, 
@@ -76,8 +76,8 @@ public final class Constants {
 	public static class DriverControlIDs {
 		public static final int
 			// Tank drive axis
-			// LEFT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
-			// RIGHT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
+			LEFT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
+			RIGHT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
 
 			// Arcade drive axis
 			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,

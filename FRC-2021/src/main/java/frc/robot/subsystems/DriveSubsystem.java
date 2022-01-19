@@ -116,35 +116,14 @@ public class DriveSubsystem extends SubsystemBase {
 		return this;
 	}
 
+
 	// ----------------------------------------------------------
 
-	// Automatically set the breaks on when the robot is not moving
-	// and disable them when the robot is moving
-	public DriveSubsystem autoBreakTankDrive(double[] values) {
+
+	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
+	public DriveSubsystem breakTankDriveIfNotMoving(double[] values) {
 		// brake motors if value is 0, else coast
 		coastOrBrakeMotors(values[0] == 0.0, values[1] == 0.0);
-		return this;
-	}
-
-	public DriveSubsystem tankDrive(double leftValue, double rightValue){
-		robotDrive.tankDrive(leftValue, rightValue);
-		return this;
-	}
-	
-	public DriveSubsystem tankDrive(double[] values) {
-		tankDrive(values[0], values[1]);
-		return this;
-	}
-
-	// standard arcade drive with directional toggle
-	public DriveSubsystem arcadeDrive(double forwardValue, double angleValue) {
-		robotDrive.arcadeDrive(-forwardValue, angleValue);
-		return this;
-	}
-
-	// arcade drive wrapper for double arrays
-	public DriveSubsystem arcadeDrive(double[] values) {
-		arcadeDrive(values[0], values[1]);
 		return this;
 	}
 
@@ -155,92 +134,81 @@ public class DriveSubsystem extends SubsystemBase {
 		return this;
 	}
 
-	// a wrapper around tank drive that sets stuff up to be better optimized for teleop control
-	public DriveSubsystem teleopTankDriveWrapper(double leftValue, double rightValue) {
-		// Convert to an array to allow for easy data transmission
-		double[] values = {leftValue, rightValue};
-
-		// do fancy array manipulation stuffs
-		DriveInputPipeline pipeline = new DriveInputPipeline(values);
+	public DriveSubsystem tankDrive(double leftValue, double rightValue) {
+		var pipeline = new DriveInputPipeline(leftValue, rightValue);
 		pipeline
 			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE)
 			.magnetizeTankDrive()
 			.applyDeadzones();
-		values = pipeline.getValues();
-
-		autoBreakTankDrive(values);
-
-		// use the modified arrays to drive the robot
-		tankDrive(values);
-
-		return this;
-	}
-
-	// a wrapper around arcade drive that sets stuff up to be better optimized for teleop controll
-	public DriveSubsystem teleopArcadeDriveWrapper(double forwardValue, double angleValue) {
-		// Convert to an array to allow for easy data transmission
-		double[] values = {forwardValue, angleValue};
-
-		// do fancy array manipulation stuffs
-		/*values = inputMapWrapper(values, InputMapModes.IMM_SQUARE, InputMapModes.IMM_SQUARE);
-		values = deadzoneTankDrive(values);*/
-		DriveInputPipeline dip = new DriveInputPipeline(values);
-		dip.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_CUBE, DriveInputPipeline.InputMapModes.IMM_CUBE);
-		dip.applyDeadzones();
-		values = dip.getValues();
 		
-		autoBreakTankDrive(dip.convertArcadeDriveToTank(values));
-
-		// use the modified arrays to drive the robot
-		arcadeDrive(values);
+		double[] values = pipeline.getValues();
+		breakTankDriveIfNotMoving(values);
+		robotDrive.tankDrive(values[0], values[1]);
 
 		return this;
 	}
+
+	public DriveSubsystem arcadeDrive(double forwardValue, double angleValue) {
+		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
+		pipeline
+			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_CUBE, DriveInputPipeline.InputMapModes.IMM_CUBE)
+			.applyDeadzones();
+		
+		double[] values = pipeline.getValues();
+		breakTankDriveIfNotMoving(pipeline.convertArcadeDriveToTank(values));
+		robotDrive.arcadeDrive(-values[0], values[1]);
+
+		return this;
+	}
+
 
 	// ----------------------------------------------------------
 
-	// spotter overrides driver for dominant controls
+
+	// spotter overrides driver for dominant controls for emergencies
 	public DriveSubsystem driveWithDominantControls() {
 		if (spotterIsInArcade()
 		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.ARCADE)) {
-			teleopArcadeDriveWrapper(
+			arcadeDrive(
 				RobotContainer.SpotterControls.getForwardArcadeDriveAxis(),
 				RobotContainer.SpotterControls.getAngleArcadeDriveAxis());
 		} else if (!spotterIsInArcade()
 		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.TANK
 		|| RobotContainer.gamepadJoystickMagnitude(false) > Constants.AxisDominanceThresholds.TANK)) {
-			teleopTankDriveWrapper(
+			tankDrive(
 				RobotContainer.SpotterControls.getLeftTankDriveAxis(),
 				RobotContainer.SpotterControls.getRightTankDriveAxis());
 		}
 
-		// if (driverIsInArcade()) {
-		teleopArcadeDriveWrapper(
-			RobotContainer.DriverControls.getForwardArcadeDriveAxis(), // forward
-			RobotContainer.DriverControls.getAngleArcadeDriveAxis());  // angle
-		// } else {
-		// 	teleopTankDriveWrapper(
-		// 	RobotContainer.DriverControls.getLeftTankDriveAxis(),  // left
-		// 	RobotContainer.DriverControls.getRightTankDriveAxis());  // right
-		// }
+		if (driverIsInArcade()) {
+			arcadeDrive(
+				RobotContainer.DriverControls.getForwardArcadeDriveAxis(), // forward
+				RobotContainer.DriverControls.getAngleArcadeDriveAxis());  // angle
+		} else {
+			tankDrive(
+				RobotContainer.DriverControls.getLeftTankDriveAxis(),  // left
+				RobotContainer.DriverControls.getRightTankDriveAxis());  // right
+		}
 
 		return this;
 	}
 
+	private boolean driverIsInArcade() { return driverIsInArcadeMode; }
 	public DriveSubsystem toggleDriverDriveMode() {
 		driverIsInArcadeMode = !driverIsInArcadeMode;
 		return this;
 	}
-	// private boolean driverIsInArcade() { return driverIsInArcadeMode; }
-
+	
+	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
 	public DriveSubsystem toggleSpotterDriveMode() {
 		spotterIsInArcadeMode = !spotterIsInArcadeMode;
 		return this;
 	}
-	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
+
 
 	// ----------------------------------------------------------
 
+	
 	public double getLeftDistance() { return -leftDriveEncoder.getDistance(); }
 
 	public double getRightDistance() { return rightDriveEncoder.getDistance(); }
@@ -264,7 +232,10 @@ public class DriveSubsystem extends SubsystemBase {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
 	
+
 	@Override
 	public void periodic() {
 		// Set the default command for a subsystem here.

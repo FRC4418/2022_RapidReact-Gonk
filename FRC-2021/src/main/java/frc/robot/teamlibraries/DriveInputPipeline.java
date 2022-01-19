@@ -31,17 +31,10 @@ public class DriveInputPipeline {
 		setMagCutoff();
 	}
 
-	public DriveInputPipeline(double[] values) {
-		setValues(values);
-		setMagCutoff();
-	}
-
 	// Setters
 	public void setValues(double valueA, double valueB) {
 		values = new double[]{valueA, valueB};
 	}
-
-	public void setValues(double[] values) { this.values = values; }
 
 	// Set the mag cutoff value
 	private void setMagCutoff() {
@@ -143,9 +136,6 @@ public class DriveInputPipeline {
 	}
 
 
-
-
-
 	// Arcade drive? -----------------------------------------
 
 	// An implementation of arcade drive
@@ -158,8 +148,8 @@ public class DriveInputPipeline {
 		double a = 0;
 		double b = 1;
 
-		if(fwd >= 0) {
-			if(rcw >= 0) {
+		if (fwd >= 0) {
+			if (rcw >= 0) {
 				left = convertArcadeDriveToTankL(fwd, rcw, a, b);
 				right = convertArcadeDriveToTankR(fwd, rcw, a, b);
 			} else {
@@ -167,7 +157,7 @@ public class DriveInputPipeline {
 				right = convertArcadeDriveToTankL(fwd, -rcw, a, b);
 			}
 		} else {
-			if(rcw >= 0) {
+			if (rcw >= 0) {
 				left = -convertArcadeDriveToTankR(-fwd, rcw, a, b);
 				right = -convertArcadeDriveToTankL(-fwd, rcw, a, b);
 			} else {
@@ -176,7 +166,7 @@ public class DriveInputPipeline {
 			}
 		}
 
-		return new double[]{left, right};
+		return new double[] {left, right};
 	}
 
 	private double convertArcadeDriveToTankL(double fwd, double rcw, double a, double b) {

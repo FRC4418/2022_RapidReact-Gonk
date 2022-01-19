@@ -28,7 +28,7 @@ public class RobotContainer {
 	// Create joysticks
 	private static final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
-		// X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
+		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
 		GAMEPAD = new Joystick(Constants.Gamepad.JOYSTICK_ID);
 
 	public static double gamepadJoystickMagnitude(boolean isLeftJoystick) {
@@ -67,12 +67,12 @@ public class RobotContainer {
 		}
 		
 		// Tank drive axes
-		// public static double getLeftTankDriveAxis() {
-		// 	return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.LEFT_TANK_DRIVE_AXIS_ID);
-		// }
-		// public static double getRightTankDriveAxis() {
-		// 	return X3D_RIGHT.getRawAxis(Constants.DriverControlIDs.RIGHT_TANK_DRIVE_AXIS_ID);
-		// }
+		public static double getLeftTankDriveAxis() {
+			return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.LEFT_TANK_DRIVE_AXIS_ID);
+		}
+		public static double getRightTankDriveAxis() {
+			return X3D_RIGHT.getRawAxis(Constants.DriverControlIDs.RIGHT_TANK_DRIVE_AXIS_ID);
+		}
 
 		// Arcade drive axes
 		public static double getForwardArcadeDriveAxis() {
