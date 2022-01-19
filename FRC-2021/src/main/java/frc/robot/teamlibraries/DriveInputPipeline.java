@@ -58,13 +58,11 @@ public class DriveInputPipeline {
 			case IMM_CUBE: // cube the input
 				value = Math.pow(value, 3);
 				break;
-			case IMM_S: // apply an s shaped curve to the input
-				// TODO: Write the value conversion for an s-shaped curve
-				break;
-			default: // apply no curve
-				//DriverStation.reportWarning("Using the default input map for some reason, use a different one or fix this ya big dum dum.", false);
 			case IMM_LINEAR: // linear is also the defalt, but, without warning messages
 				// nothing happens yo, 1:1 mapping
+				break;
+			default: // apply no curve
+				//DriverStation.reportWarning("Using the default input map for some reason, use a different one or fix this ya big dum dum.", false);			
 		}
 		return value;
 	}
