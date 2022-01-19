@@ -5,22 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.old_commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
 
 
-public class ToggleDriverArcadeDriveCommand extends CommandBase {
-	public ToggleDriverArcadeDriveCommand() {
-		
+public class ToggleSpotterArcadeDriveCommand extends CommandBase {
+	public ToggleSpotterArcadeDriveCommand() {
+
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.driveSubsystem.toggleDriverDriveMode();
+		RobotContainer.driveSubsystem.toggleSpotterDriveMode();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
