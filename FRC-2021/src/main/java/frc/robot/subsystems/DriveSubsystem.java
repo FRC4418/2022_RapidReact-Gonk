@@ -161,12 +161,12 @@ public class DriveSubsystem extends SubsystemBase {
 		double[] values = {leftValue, rightValue};
 
 		// do fancy array manipulation stuffs
-		DriveInputPipeline dip = new DriveInputPipeline(values);
-		dip
+		DriveInputPipeline pipeline = new DriveInputPipeline(values);
+		pipeline
 			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE)
 			.magnetizeTankDrive()
 			.applyDeadzones();
-		values = dip.getValues();
+		values = pipeline.getValues();
 
 		autoBreakTankDrive(values);
 
