@@ -131,10 +131,10 @@ public final class Constants {
 
 	public static class Drive {
 		public static final int
-			FRONT_LEFT_TALON_SRX_ID = 1, //Set ID constants
-			BACK_LEFT_TALON_SRX_ID = 2, //Set ID constants
-			FRONT_RIGHT_TALON_SRX_ID = 3, //Set ID constants
-			BACK_RIGHT_TALON_SRX_ID = 4; //Set ID constants
+			FRONT_LEFT_TALON_SRX_ID = 4, //Set ID constants
+			BACK_LEFT_TALON_SRX_ID = 3, //Set ID constants
+			FRONT_RIGHT_TALON_SRX_ID = 2, //Set ID constants
+			BACK_RIGHT_TALON_SRX_ID = 1; //Set ID constants
 
 			// LEFT_ENCODER_CHANNELA_ID = 6,
 			// LEFT_ENCODER_CHANNELB_ID = 7,
