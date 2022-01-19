@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,8 +39,8 @@ public class Robot extends TimedRobot {
 		m_robotContainer = new RobotContainer();
 		m_autonomousCommand = new AutonomousCommand();
 
-		m_frontShooterCamera = CameraServer.getInstance().startAutomaticCapture(0);
-		m_rightPanelCamera = CameraServer.getInstance().startAutomaticCapture(1);
+		m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
+		m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
 		RobotContainer.manipulatorsubsystem.putManipulatorDisplays();
 	}
