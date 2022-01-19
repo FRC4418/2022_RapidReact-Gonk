@@ -138,7 +138,6 @@ public class DriveInputPipeline {
 
 	// Arcade drive? -----------------------------------------
 
-	// An implementation of arcade drive
 	// I have no idea how this works
 	public double[] convertArcadeDriveToTank(double[] values) {
 		double fwd = values[0];
