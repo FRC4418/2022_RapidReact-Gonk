@@ -76,12 +76,14 @@ public class DriveSubsystem extends SubsystemBase {
 		// rightDriveEncoder.reset();
 	}
 
-	public void setLeftMotors(double negToPosPercentage) {
+	public DriveSubsystem setLeftMotors(double negToPosPercentage) {
 		leftDriveMotorA.set(ControlMode.PercentOutput, negToPosPercentage);
+		return this;
 	}
 
-	public void setRightMotors(double negToPosPercentage) {
+	public DriveSubsystem setRightMotors(double negToPosPercentage) {
 		rightDriveMotorA.set(ControlMode.PercentOutput, negToPosPercentage);
+		return this;
 	}
 
 	public double getLeftPercent() {
@@ -93,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	// brake or coast left and right motors (true for braking)
-	public void brakeOrCoastMotors(boolean leftIsBraking, boolean rightIsBraking) {
+	public DriveSubsystem brakeOrCoastMotors(boolean leftIsBraking, boolean rightIsBraking) {
 		if (leftIsBraking) {
 			leftDriveMotorA.setNeutralMode(NeutralMode.Brake);
 			leftDriveMotorB.setNeutralMode(NeutralMode.Brake);
@@ -109,57 +111,72 @@ public class DriveSubsystem extends SubsystemBase {
 			rightDriveMotorA.setNeutralMode(NeutralMode.Coast);
 			rightDriveMotorB.setNeutralMode(NeutralMode.Coast);
 		}
+
+		return this;
 	}
 
 	// ----------------------------------------------------------
 
 	// Automatically set the breaks on when the robot is not moving
 	// and disable them when the robot is moving
-	public void autoBreakTankDrive(double[] values) {
+	public DriveSubsystem autoBreakTankDrive(double[] values) {
 		// brake motors if value is 0, else coast
 		brakeOrCoastMotors(values[0] == 0.0, values[1] == 0.0);
+		return this;
 	}
 
-	public void tankDrive(double leftValue, double rightValue){
+	public DriveSubsystem tankDrive(double leftValue, double rightValue){
 		robotDrive.tankDrive(leftValue, rightValue);
+		return this;
 	}
 	
-	public void tankDrive(double[] values) { tankDrive(values[0], values[1]); }
+	public DriveSubsystem tankDrive(double[] values) {
+		tankDrive(values[0], values[1]);
+		return this;
+	}
 
 	// standard arcade drive with directional toggle
-	public void arcadeDrive(double forwardValue, double angleValue) {
+	public DriveSubsystem arcadeDrive(double forwardValue, double angleValue) {
 		robotDrive.arcadeDrive(-forwardValue, angleValue);
+		return this;
 	}
 
 	// arcade drive wrapper for double arrays
-	public void arcadeDrive(double[] values) { arcadeDrive(values[0], values[1]); }
+	public DriveSubsystem arcadeDrive(double[] values) {
+		arcadeDrive(values[0], values[1]);
+		return this;
+	}
 
 	// stop driving
-	public void stopDrive(){
+	public DriveSubsystem stopDrive() {
 		leftDriveMotorA.set(ControlMode.PercentOutput, 0);
 		rightDriveMotorA.set(ControlMode.PercentOutput, 0);
+		return this;
 	}
 
 	// a wrapper around tank drive that sets stuff up to be better optimized for teleop control
-	public void teleopTankDriveWrapper(double leftValue, double rightValue) {
+	public DriveSubsystem teleopTankDriveWrapper(double leftValue, double rightValue) {
 		// Convert to an array to allow for easy data transmission
 		double[] values = {leftValue, rightValue};
 
 		// do fancy array manipulation stuffs
 		DriveInputPipeline dip = new DriveInputPipeline(values);
-		dip.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE);
-		dip.magnetizeTankDrive();
-		dip.applyDeadzones();
+		dip
+			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE)
+			.magnetizeTankDrive()
+			.applyDeadzones();
 		values = dip.getValues();
 
 		autoBreakTankDrive(values);
 
 		// use the modified arrays to drive the robot
 		tankDrive(values);
+
+		return this;
 	}
 
 	// a wrapper around arcade drive that sets stuff up to be better optimized for teleop controll
-	public void teleopArcadeDriveWrapper(double forwardValue, double angleValue) {
+	public DriveSubsystem teleopArcadeDriveWrapper(double forwardValue, double angleValue) {
 		// Convert to an array to allow for easy data transmission
 		double[] values = {forwardValue, angleValue};
 
@@ -175,12 +192,14 @@ public class DriveSubsystem extends SubsystemBase {
 
 		// use the modified arrays to drive the robot
 		arcadeDrive(values);
+
+		return this;
 	}
 
 	// ----------------------------------------------------------
 
 	// spotter overrides driver for dominant controls
-	public void driveWithDominantControls() {
+	public DriveSubsystem driveWithDominantControls() {
 		if (spotterIsInArcade()
 		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.ARCADE)) {
 			teleopArcadeDriveWrapper(
@@ -203,12 +222,20 @@ public class DriveSubsystem extends SubsystemBase {
 		// 	RobotContainer.DriverControls.getLeftTankDriveAxis(),  // left
 		// 	RobotContainer.DriverControls.getRightTankDriveAxis());  // right
 		// }
+
+		return this;
 	}
 
-	public void toggleDriverDriveMode() { driverIsInArcadeMode = !driverIsInArcadeMode; }
+	public DriveSubsystem toggleDriverDriveMode() {
+		driverIsInArcadeMode = !driverIsInArcadeMode;
+		return this;
+	}
 	// private boolean driverIsInArcade() { return driverIsInArcadeMode; }
 
-	public void toggleSpotterDriveMode() { spotterIsInArcadeMode = !spotterIsInArcadeMode; }
+	public DriveSubsystem toggleSpotterDriveMode() {
+		spotterIsInArcadeMode = !spotterIsInArcadeMode;
+		return this;
+	}
 	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
 
 	// ----------------------------------------------------------
@@ -220,12 +247,21 @@ public class DriveSubsystem extends SubsystemBase {
 	// two-sided encoder distance (average one-sided encoder distance)
 	public double getDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
 
-	public void resetLeftDriveEncoder() { leftDriveEncoder.reset(); }
+	public DriveSubsystem resetLeftDriveEncoder() {
+		leftDriveEncoder.reset();
+		return this;
+	}
 
-	public void resetRightEncoder() { rightDriveEncoder.reset(); }
+	public DriveSubsystem resetRightEncoder() {
+		rightDriveEncoder.reset();
+		return this;
+	}
 
 	// resets both
-	public void resetEncoders() { resetLeftDriveEncoder(); resetRightEncoder(); }
+	public DriveSubsystem resetEncoders() {
+		resetLeftDriveEncoder(); resetRightEncoder();
+		return this;
+	}
 
 	
 	@Override

@@ -29,9 +29,10 @@ public class AutonomousCommand extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		RobotContainer.driveSubsystem.brakeOrCoastMotors(false, false);
-		RobotContainer.driveSubsystem.setLeftMotors(0.5);
-		RobotContainer.driveSubsystem.setRightMotors(-0.5);
+		RobotContainer.driveSubsystem
+			.brakeOrCoastMotors(false, false)
+			.setLeftMotors(0.5)
+			.setRightMotors(-0.5);
 
 		counter++;
 		SmartDashboard.putNumber("AUTO PRINT COUNTER", counter);

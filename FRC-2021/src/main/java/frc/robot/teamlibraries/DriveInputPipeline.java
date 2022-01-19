@@ -58,7 +58,7 @@ public class DriveInputPipeline {
 
 	// Apply a custom curve function to the input
 	private double inputMap(double value, InputMapModes inputMapMode) {
-		switch(inputMapMode) {
+		switch (inputMapMode) {
 			case IMM_SQUARE: // square the input
 				value = Math.pow(value, 2);
 				break;
@@ -66,6 +66,7 @@ public class DriveInputPipeline {
 				value = Math.pow(value, 3);
 				break;
 			case IMM_S: // apply an s shaped curve to the input
+				// TODO: Write the value conversion for an s-shaped curve
 				break;
 			default: // apply no curve
 				//DriverStation.reportWarning("Using the default input map for some reason, use a different one or fix this ya big dum dum.", false);
@@ -76,17 +77,20 @@ public class DriveInputPipeline {
 	}
 
 	// Allow for two values to be mapped at once using different mappings
-	public void inputMapWrapper(InputMapModes inputMapModeFor0, InputMapModes inputMapModeFor1) {
+	public DriveInputPipeline inputMapWrapper(InputMapModes inputMapModeFor0, InputMapModes inputMapModeFor1) {
 		// apply the map for the first value
 		inputMap(values[0], inputMapModeFor0);
 
 		// apply the map for the second value
 		inputMap(values[1], inputMapModeFor1);
+
+		return this;
 	}
 
 	// Allow for two values to be mapped at once using the same mapping
-	public void inputMapWrapper(InputMapModes inputMapModeForBoth) {
+	public DriveInputPipeline inputMapWrapper(InputMapModes inputMapModeForBoth) {
 		inputMapWrapper(inputMapModeForBoth, inputMapModeForBoth);
+		return this;
 	}
 
 
@@ -94,16 +98,18 @@ public class DriveInputPipeline {
 	// Deadzones ---------------------------------------------
 
 	// apply a deadzone to the inputs
-	public void applyDeadzones() {
+	public DriveInputPipeline applyDeadzones() {
 		// if the value is within the deadzone set it to 0
-		if(Math.abs(values[0]) < deadzone) {
+		if (Math.abs(values[0]) < deadzone) {
 			values[0] = 0;
 		}
 
 		// second verse, same as the first
-		if(Math.abs(values[1]) < deadzone) {
+		if (Math.abs(values[1]) < deadzone) {
 			values[1] = 0;
 		}
+
+		return this;
 	}
 
 
@@ -111,29 +117,29 @@ public class DriveInputPipeline {
 
 	// A fancy function that causes the left and right values to snap to the average
 	// when they are close to the average
-	public void magnetizeTankDrive() {
+	public DriveInputPipeline magnetizeTankDrive() {
 		double avg = (values[0] + values[1]) / 2;
 		double absDiff = Math.abs(values[0] - values[1]); // The difference between the two inputs
 		double magnetism; // how strongly the output is magnetized to a value
 
 		// the function dips below 0
 		// if in the part of the function above 0
-		if(absDiff > magCutoff) {
+		if (absDiff > magCutoff) {
 			// when the difference between the inputs is great, set magnetism to very nearly 1
 			// when the difference is not much, near 0.2, have the magnetism begin fall towards 0 
-			magnetism = -magA * Math.pow( Math.E, 
-											(-Math.pow(absDiff, 2 )) / 
-											(2 * Math.pow( magC, 2 )) ) + 1;
+			magnetism = -magA * Math.pow(Math.E, (-Math.pow(absDiff, 2 )) / (2 * Math.pow( magC, 2 )) ) + 1;
 		} else { // else, in the part of the function below 0
 			// set the magnetism to 0
 			// this creates a small zone in which the magnetism will be 0
-		magnetism = 0;
+			magnetism = 0;
 		}
 
 		// the output is attracted to the input if the magnetism is near 1
 		// the output is attracted to the average if the magnetism is near 0
 		values[0] = values[0]*magnetism + avg*(1-magnetism);
 		values[1] = values[1]*magnetism + avg*(1-magnetism);
+
+		return this;
 	}
 
 
