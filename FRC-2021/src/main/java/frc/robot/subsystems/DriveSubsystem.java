@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -23,10 +23,10 @@ import frc.robot.teamlibraries.DriveInputPipeline;
 
 
 public class DriveSubsystem extends SubsystemBase {
-	private WPI_TalonSRX frontLeftDriveMotor;
-	private WPI_TalonSRX backLeftDriveMotor;
-	private WPI_TalonSRX frontRightDriveMotor;
-	private WPI_TalonSRX backRightDriveMotor;
+	private WPI_TalonFX frontLeftDriveMotor;
+	private WPI_TalonFX backLeftDriveMotor;
+	private WPI_TalonFX frontRightDriveMotor;
+	private WPI_TalonFX backRightDriveMotor;
 
 	private Encoder leftDriveEncoder;
 	private Encoder rightDriveEncoder;
@@ -38,14 +38,18 @@ public class DriveSubsystem extends SubsystemBase {
 
 	public DriveSubsystem() {
 		// Drive Motor
-		frontLeftDriveMotor = new WPI_TalonSRX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
-		backLeftDriveMotor = new WPI_TalonSRX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
-		frontRightDriveMotor = new WPI_TalonSRX(Constants.Drive.FRONT_RIGHT_TALON_SRX_ID);
-		backRightDriveMotor = new WPI_TalonSRX(Constants.Drive.BACK_RIGHT_TALON_SRX_ID);
+		frontLeftDriveMotor = new WPI_TalonFX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
+		backLeftDriveMotor = new WPI_TalonFX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
+		frontRightDriveMotor = new WPI_TalonFX(Constants.Drive.FRONT_RIGHT_TALON_SRX_ID);
+		backRightDriveMotor = new WPI_TalonFX(Constants.Drive.BACK_RIGHT_TALON_SRX_ID);
 
 		backLeftDriveMotor.follow(frontLeftDriveMotor);
 		backRightDriveMotor.follow(frontRightDriveMotor);
 
+		frontLeftDriveMotor.configFactoryDefault();
+		backLeftDriveMotor.configFactoryDefault();
+		frontRightDriveMotor.configFactoryDefault();
+		backRightDriveMotor.configFactoryDefault();
 
 		// leftDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
 		// leftDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
