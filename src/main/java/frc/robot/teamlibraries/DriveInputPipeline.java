@@ -22,7 +22,7 @@ public class DriveInputPipeline {
 	private double magCutoff;
 
 	public enum InputMapModes {
-		IMM_LINEAR, IMM_SQUARE, IMM_CUBE, IMM_S
+		IMM_LINEAR, IMM_SQUARE, IMM_CUBE, IMM_SIGMOID
 	}
 
 	// Constructors simply set values
@@ -52,14 +52,17 @@ public class DriveInputPipeline {
 	// Apply a custom curve function to the input
 	private double inputMap(double value, InputMapModes inputMapMode) {
 		switch (inputMapMode) {
+			case IMM_LINEAR: // linear is also the defalt, but, without warning messages
+				// nothing happens yo, 1:1 mapping
+				break;
 			case IMM_SQUARE: // square the input
 				value = Math.pow(value, 2);
 				break;
 			case IMM_CUBE: // cube the input
 				value = Math.pow(value, 3);
 				break;
-			case IMM_LINEAR: // linear is also the defalt, but, without warning messages
-				// nothing happens yo, 1:1 mapping
+			case IMM_SIGMOID:	// sigmoid function (AKA logistic)
+				value = 1.0d / (1.0d + Math.pow(Math.E, -7.0d * (value - 0.5d) ) );
 				break;
 			default: // apply no curve
 				//DriverStation.reportWarning("Using the default input map for some reason, use a different one or fix this ya big dum dum.", false);			
