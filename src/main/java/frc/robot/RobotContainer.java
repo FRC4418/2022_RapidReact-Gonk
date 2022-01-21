@@ -11,17 +11,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ManipulatorSubsystem;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.TeleopInput;
 // import frc.robot.subsystems.SensorsSubsystem;
 
 
 public class RobotContainer {
-	public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-	public static ManipulatorSubsystem manipulatorsubsystem = new ManipulatorSubsystem();
-	public static ClimberSubsystem climbSubsystem = new ClimberSubsystem();
+	public static Drivetrain driveSubsystem = new Drivetrain();
+	public static Manipulator manipulatorsubsystem = new Manipulator();
+	public static Climber climbSubsystem = new Climber();
 	public static TeleopInput teleopSensitivitySubsystem = new TeleopInput();
 	// public static SensorsSubsystem sensorsSubsystem = new SensorsSubsystem();
 

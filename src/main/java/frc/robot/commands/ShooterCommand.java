@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ManipulatorSubsystem;
+import frc.robot.subsystems.Manipulator;
 
 
 public class ShooterCommand extends CommandBase {
 	// shorthand reference to RobotContainer's ManipulatorSubsystem singleton
-	private ManipulatorSubsystem ms;
+	private Manipulator ms;
 
 	private final double rpmToVelocity = -Constants.Manipulator.UNITS_PER_REVOLUTION/600;
 

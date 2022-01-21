@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class HUDSubsystem extends SubsystemBase {
+public class ShuffleboardDisplay extends SubsystemBase {
 	/** Creates a new HUDSubsystem. */
-	public HUDSubsystem() {}
+	public ShuffleboardDisplay() {}
 
 	@Override
 	public void periodic() {

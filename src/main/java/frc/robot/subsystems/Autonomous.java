@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class AutonomousSubsystem extends SubsystemBase {
+public class Autonomous extends SubsystemBase {
   /** Creates a new AutonomousSubsystem. */
-  public AutonomousSubsystem() {}
+  public Autonomous() {}
 
   @Override
   public void periodic() {

@@ -9,11 +9,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class SensorsSubsystem extends SubsystemBase {
+public class Sensory extends SubsystemBase {
 	// private static final ADIS16448_IMU imu = new ADIS16448_IMU();
 
 	/** Creates a new SensorsSubsystem. */
-	public SensorsSubsystem() {
+	public Sensory() {
 
 	}
 

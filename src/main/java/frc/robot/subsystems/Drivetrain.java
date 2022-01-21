@@ -22,7 +22,7 @@ import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.teamlibraries.DriveInputPipeline;
 
 
-public class DriveSubsystem extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
 	private WPI_TalonFX frontLeftDriveMotor;
 	private WPI_TalonFX backLeftDriveMotor;
 	private WPI_TalonFX frontRightDriveMotor;
@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
 	private boolean driverIsInArcadeMode = true;
 	private boolean spotterIsInArcadeMode = false;
 
-	public DriveSubsystem() {
+	public Drivetrain() {
 		// Drive Motor
 		frontLeftDriveMotor = new WPI_TalonFX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
 		backLeftDriveMotor = new WPI_TalonFX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
@@ -81,12 +81,12 @@ public class DriveSubsystem extends SubsystemBase {
 		// rightDriveEncoder.reset();
 	}
 
-	public DriveSubsystem setLeftMotors(double negToPosPercentage) {
+	public Drivetrain setLeftMotors(double negToPosPercentage) {
 		frontLeftDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
-	public DriveSubsystem setRightMotors(double negToPosPercentage) {
+	public Drivetrain setRightMotors(double negToPosPercentage) {
 		frontRightDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
@@ -100,7 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	// brake or coast left and right motors (true for braking)
-	public DriveSubsystem coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
+	public Drivetrain coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
 		if (leftIsBraking) {
 			frontLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
 			backLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
@@ -125,20 +125,20 @@ public class DriveSubsystem extends SubsystemBase {
 
 
 	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
-	public DriveSubsystem breakTankDriveIfNotMoving(double[] values) {
+	public Drivetrain breakTankDriveIfNotMoving(double[] values) {
 		// brake motors if value is 0, else coast
 		coastOrBrakeMotors(values[0] == 0.0, values[1] == 0.0);
 		return this;
 	}
 
 	// stop driving
-	public DriveSubsystem stopDrive() {
+	public Drivetrain stopDrive() {
 		frontLeftDriveMotor.set(ControlMode.PercentOutput, 0);
 		frontRightDriveMotor.set(ControlMode.PercentOutput, 0);
 		return this;
 	}
 
-	public DriveSubsystem tankDrive(double leftValue, double rightValue) {
+	public Drivetrain tankDrive(double leftValue, double rightValue) {
 		var pipeline = new DriveInputPipeline(leftValue, rightValue);
 		pipeline
 			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE)
@@ -152,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
 		return this;
 	}
 
-	public DriveSubsystem arcadeDrive(double forwardValue, double angleValue) {
+	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
 		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
 		pipeline
 			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_CUBE, DriveInputPipeline.InputMapModes.IMM_CUBE)
@@ -170,7 +170,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
 	// spotter overrides driver for dominant controls for emergencies
-	public DriveSubsystem driveWithDominantControls() {
+	public Drivetrain driveWithDominantControls() {
 		if (spotterIsInArcade()
 		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.ARCADE)) {
 			arcadeDrive(
@@ -198,13 +198,13 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	private boolean driverIsInArcade() { return driverIsInArcadeMode; }
-	public DriveSubsystem toggleDriverDriveMode() {
+	public Drivetrain toggleDriverDriveMode() {
 		driverIsInArcadeMode = !driverIsInArcadeMode;
 		return this;
 	}
 	
 	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
-	public DriveSubsystem toggleSpotterDriveMode() {
+	public Drivetrain toggleSpotterDriveMode() {
 		spotterIsInArcadeMode = !spotterIsInArcadeMode;
 		return this;
 	}
@@ -220,18 +220,18 @@ public class DriveSubsystem extends SubsystemBase {
 	// two-sided encoder distance (average one-sided encoder distance)
 	public double getDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
 
-	public DriveSubsystem resetLeftDriveEncoder() {
+	public Drivetrain resetLeftDriveEncoder() {
 		leftDriveEncoder.reset();
 		return this;
 	}
 
-	public DriveSubsystem resetRightEncoder() {
+	public Drivetrain resetRightEncoder() {
 		rightDriveEncoder.reset();
 		return this;
 	}
 
 	// resets both
-	public DriveSubsystem resetEncoders() {
+	public Drivetrain resetEncoders() {
 		resetLeftDriveEncoder(); resetRightEncoder();
 		return this;
 	}

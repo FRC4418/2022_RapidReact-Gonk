@@ -21,7 +21,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 
-public class ManipulatorSubsystem extends SubsystemBase {
+public class Manipulator extends SubsystemBase {
 	public boolean inTuningMode;
 	public NetworkTableEntry tuningModeBooleanBox;
 
@@ -49,7 +49,7 @@ public class ManipulatorSubsystem extends SubsystemBase {
 
 	private boolean pivotUp = true;
 
-	public ManipulatorSubsystem() {
+	public Manipulator() {
 		highGoalShooterMotor = new WPI_TalonSRX(Constants.Manipulator.HIGH_GOAL_SHOOTER_775_ID);
 
 		// wristFireMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
