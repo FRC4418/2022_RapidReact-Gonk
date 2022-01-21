@@ -17,10 +17,15 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Constants;
+import frc.robot.Constants.AxisDominanceThresholds;
+import frc.robot.Constants.Drive;
+import frc.robot.RobotContainer.DriverControls;
+import frc.robot.RobotContainer.SpotterControls;
+// import frc.robot.Constants.Drive.PID;
 import frc.robot.RobotContainer;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.teamlibraries.DriveInputPipeline;
+import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -39,10 +44,10 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain() {
 		// Drive Motor
-		frontLeftDriveMotor = new WPI_TalonFX(Constants.Drive.FRONT_LEFT_TALON_SRX_ID);
-		backLeftDriveMotor = new WPI_TalonFX(Constants.Drive.BACK_LEFT_TALON_SRX_ID);
-		frontRightDriveMotor = new WPI_TalonFX(Constants.Drive.FRONT_RIGHT_TALON_SRX_ID);
-		backRightDriveMotor = new WPI_TalonFX(Constants.Drive.BACK_RIGHT_TALON_SRX_ID);
+		frontLeftDriveMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_LEFT_ID);
+		backLeftDriveMotor = new WPI_TalonFX(Drive.TalonFX.BACK_LEFT_ID);
+		frontRightDriveMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_RIGHT_ID);
+		backRightDriveMotor = new WPI_TalonFX(Drive.TalonFX.BACK_RIGHT_ID);
 
 		backLeftDriveMotor.follow(frontLeftDriveMotor);
 		backRightDriveMotor.follow(frontRightDriveMotor);
@@ -52,15 +57,15 @@ public class Drivetrain extends SubsystemBase {
 		frontRightDriveMotor.configFactoryDefault();
 		backRightDriveMotor.configFactoryDefault();
 
-		// leftDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
-		// leftDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
-		// leftDriveMotorA.config_kI(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kI, Constants.Drive.PID.kTimeoutMs);
-        // leftDriveMotorA.config_kD(Constants.Drive.PID.kIdx, Constants.Drive.PID.kLeftMotorVelocityGains.kD, Constants.Drive.PID.kTimeoutMs);
+		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
+		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
+		// frontLeftDriveMotor.config_kI(PID.kIdx, PID.kLeftMotorVelocityGains.kI, PID.kTimeoutMs);
+        // frontLeftDriveMotor.config_kD(PID.kIdx, PID.kLeftMotorVelocityGains.kD, PID.kTimeoutMs);
 
-		// rightDriveMotorA.config_kF(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kF, Constants.Drive.PID.kTimeoutMs);
-		// rightDriveMotorA.config_kP(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kP, Constants.Drive.PID.kTimeoutMs);
-		// rightDriveMotorA.config_kI(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kI, Constants.Drive.PID.kTimeoutMs);
-        // rightDriveMotorA.config_kD(Constants.Drive.PID.kIdx, Constants.Drive.PID.kRightMotorVelocityGains.kD, Constants.Drive.PID.kTimeoutMs);
+		// frontRightDriveMotor.config_kF(PID.kIdx, PID.kRightMotorVelocityGains.kF, PID.kTimeoutMs);
+		// frontRightDriveMotor.config_kP(PID.kIdx, PID.kRightMotorVelocityGains.kP, PID.kTimeoutMs);
+		// frontRightDriveMotor.config_kI(PID.kIdx, PID.kRightMotorVelocityGains.kI, PID.kTimeoutMs);
+        // frontRightDriveMotor.config_kD(PID.kIdx, PID.kRightMotorVelocityGains.kD, PID.kTimeoutMs);
 
 		// ----------------------------------------------------------
 
@@ -72,14 +77,22 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 
 		// Encoders
-		// leftDriveEncoder = new Encoder(Constants.DRIVE_LEFT_ENCODER_CHANNELA_ID, Constants.DRIVE_LEFT_ENCODER_CHANNELB_ID);
-		// rightDriveEncoder = new Encoder(Constants.DRIVE_RIGHT_ENCODER_CHANNELA_ID, Constants.DRIVE_RIGHT_ENCODER_CHANNELB_ID);
+		leftDriveEncoder = new Encoder(
+			Drive.Encoder.LEFT_CHANNEL_A_ID,
+			Drive.Encoder.LEFT_CHANNEL_B_ID,
+			false,	// TODO: Figure out if left drivetrain encoder needs direction-flipping
+			Drive.Encoder.ENCODING_TYPE);
+		rightDriveEncoder = new Encoder(
+			Drive.Encoder.RIGHT_CHANNEL_A_ID,
+			Drive.Encoder.RIGHT_CHANNEL_B_ID,
+			false,	// TODO: Figure out if right drivetrain encoder needs direction-flipping
+			Drive.Encoder.ENCODING_TYPE);
 
-		// leftDriveEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
-		// rightDriveEncoder.setDistancePerPulse(Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
+		leftDriveEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
+		rightDriveEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
 
-		// leftDriveEncoder.reset();
-		// rightDriveEncoder.reset();
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
 	}
 
 	public Drivetrain setLeftMotors(double negToPosPercentage) {
@@ -142,7 +155,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain tankDrive(double leftValue, double rightValue) {
 		var pipeline = new DriveInputPipeline(leftValue, rightValue);
 		pipeline
-			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_SQUARE)
+			.inputMapWrapper(InputMapModes.IMM_SQUARE)
 			.magnetizeTankDrive()
 			.applyDeadzones();
 		
@@ -156,7 +169,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
 		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
 		pipeline
-			.inputMapWrapper(DriveInputPipeline.InputMapModes.IMM_CUBE, DriveInputPipeline.InputMapModes.IMM_CUBE)
+			.inputMapWrapper(InputMapModes.IMM_CUBE, InputMapModes.IMM_CUBE)
 			.applyDeadzones();
 		
 		double[] values = pipeline.getValues();
@@ -173,26 +186,26 @@ public class Drivetrain extends SubsystemBase {
 	// spotter overrides driver for dominant controls for emergencies
 	public Drivetrain driveWithDominantControls() {
 		if (spotterIsInArcade()
-		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.ARCADE)) {
+		&& (RobotContainer.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
 			arcadeDrive(
-				RobotContainer.SpotterControls.getForwardArcadeDriveAxis(),
-				RobotContainer.SpotterControls.getAngleArcadeDriveAxis());
+				SpotterControls.getForwardArcadeDriveAxis(),
+				SpotterControls.getAngleArcadeDriveAxis());
 		} else if (!spotterIsInArcade()
-		&& (RobotContainer.gamepadJoystickMagnitude(true) > Constants.AxisDominanceThresholds.TANK
-		|| RobotContainer.gamepadJoystickMagnitude(false) > Constants.AxisDominanceThresholds.TANK)) {
+		&& (RobotContainer.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
+		|| RobotContainer.gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
 			tankDrive(
-				RobotContainer.SpotterControls.getLeftTankDriveAxis(),
-				RobotContainer.SpotterControls.getRightTankDriveAxis());
+				SpotterControls.getLeftTankDriveAxis(),
+				SpotterControls.getRightTankDriveAxis());
 		}
 
 		if (driverIsInArcade()) {
 			arcadeDrive(
-				RobotContainer.DriverControls.getForwardArcadeDriveAxis(), // forward
-				RobotContainer.DriverControls.getAngleArcadeDriveAxis());  // angle
+				DriverControls.getForwardArcadeDriveAxis(), // forward
+				DriverControls.getAngleArcadeDriveAxis());  // angle
 		} else {
 			tankDrive(
-				RobotContainer.DriverControls.getLeftTankDriveAxis(),  // left
-				RobotContainer.DriverControls.getRightTankDriveAxis());  // right
+				DriverControls.getLeftTankDriveAxis(),  // left
+				DriverControls.getRightTankDriveAxis());  // right
 		}
 
 		return this;

@@ -8,10 +8,10 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.CounterBase;
 import frc.robot.teamlibraries.Gains;
 
 
-// TODO: Set ID constants
 public final class Constants {
 	public static class X3D {
 		public static final int
@@ -133,29 +133,30 @@ public final class Constants {
 	}
 
 	public static class Drive {
-		public static final int
-			FRONT_LEFT_TALON_SRX_ID = 4, //Set ID constants
-			BACK_LEFT_TALON_SRX_ID = 3, //Set ID constants
-			FRONT_RIGHT_TALON_SRX_ID = 2, //Set ID constants
-			BACK_RIGHT_TALON_SRX_ID = 1; //Set ID constants
+		public static class TalonFX {
+			public static final int
+				FRONT_LEFT_ID = 4,
+				BACK_LEFT_ID = 3,
+				FRONT_RIGHT_ID = 2,
+				BACK_RIGHT_ID = 1;
+		}
+		
+		public static class Encoder {
+			// TODO: Set encoder channel ID constants
+			public static final int
+				LEFT_CHANNEL_A_ID = 6,
+				LEFT_CHANNEL_B_ID = 7,
+				RIGHT_CHANNEL_A_ID = 8,
+				RIGHT_CHANNEL_B_ID = 9;
+			
+			// TODO: Figure out encoder distance per pulse for drivetrain encoders
+			public static final double
+				DISTANCE_PER_PULSE  = (15.24 * Math.PI) / 256; // diameter * pi = circumference. circumference / 256 = distance per pulse0
 
-			// LEFT_ENCODER_CHANNELA_ID = 6,
-			// LEFT_ENCODER_CHANNELB_ID = 7,
-			// RIGHT_ENCODER_CHANNELA_ID = 8,
-			// RIGHT_ENCODER_CHANNELB_ID = 9,
-
-			// GYRO_ID = 0,
-
-			// FRONT_DISTANCE_PING_ID = 10,
-			// FRONT_DISTANCE_ECHO_ID = 11,
-			// BACK_DISTANCE_PING_ID = 12,
-			// BACK_DISTANCE_ECHO_ID = 13;
-
-		public static final double
-			ENCODER_DISTANCE_PER_PULSE  = (15.24 * Math.PI) / 256; // diameter * pi = circumference. circumference / 256 = distance per pulse
-
-		public static final int
-			ENCODER_DECODING_SCALE_FACTOR = 2;
+			// TODO: Figure out encoder distance per pulse for drivetrain encoders
+			public static final CounterBase.EncodingType
+				ENCODING_TYPE = CounterBase.EncodingType.k2X;
+		}
 
 		public static class PID {
 			/**
@@ -201,10 +202,6 @@ public final class Constants {
 
 	public static class Manipulator {
 		public static final int
-			// WRIST_FIRE_TALONSRX_ID = -1, //Set ID constants
-			// ELBOW_FIRE_TALONSRX_ID = -1, //Set ID constants
-			// SHOULDER_FIRE_TALONSRX_ID = -1, //Set ID constants
-			// BOTTOM_INTAKE_TALONSRX_ID = -1; //Set ID constants
 			HIGH_GOAL_SHOOTER_775_ID = 11;
 
 		public static final double
@@ -223,7 +220,7 @@ public final class Constants {
 		public static final int
 			// ENCODER_CHANNELA_ID = 2,
 			// FRONT_ENCODER_CHANNELB_ID = 3,
-			TALONSRX_ID = -1; //Set ID constants
+			TALONSRX_ID = -1; // Set ID constants
 		
 		// TODO: Figure out climber encoder distance per pulse
 		// public static final double CLIMBER_ENCODER_DISTANCE_PER_PULSE = SOME VALUE;
