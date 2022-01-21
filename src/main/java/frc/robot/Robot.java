@@ -24,25 +24,26 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  * project.
  */
 public class Robot extends TimedRobot {
-	private UsbCamera m_frontShooterCamera;
-	private UsbCamera m_rightPanelCamera;
+	// private UsbCamera m_frontShooterCamera;
+	// private UsbCamera m_rightPanelCamera;
 
 	private Command m_autonomousCommand;
-
-	private RobotContainer m_robotContainer;
 
 	public static ShuffleboardTab statusDisplayTab = Shuffleboard.getTab("4418 Status Display");;
 
 	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
-		m_robotContainer = new RobotContainer();
+		// Configure the button bindings
+		RobotContainer.DriverControls.configureButtonBindings();
+		RobotContainer.SpotterControls.configureButtonBindings();
+		
 		m_autonomousCommand = new DriveStraightForDistance(2.3);
 
-		m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
-		m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
+		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
-		RobotContainer.manipulatorsubsystem.putManipulatorDisplays();
+		RobotContainer.manipulator.putManipulatorDisplays();
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics

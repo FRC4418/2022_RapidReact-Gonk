@@ -29,13 +29,13 @@ import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 
 public class Drivetrain extends SubsystemBase {
-	private WPI_TalonFX frontLeftDriveMotor;
-	private WPI_TalonFX backLeftDriveMotor;
-	private WPI_TalonFX frontRightDriveMotor;
-	private WPI_TalonFX backRightDriveMotor;
+	private WPI_TalonFX frontLeftMotor;
+	private WPI_TalonFX backLeftMotor;
+	private WPI_TalonFX frontRightMotor;
+	private WPI_TalonFX backRightMotor;
 
-	private Encoder leftDriveEncoder;
-	private Encoder rightDriveEncoder;
+	public Encoder leftEncoder;
+	public Encoder rightEncoder;
 
 	private DifferentialDrive robotDrive;
 
@@ -44,18 +44,18 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain() {
 		// Drive Motor
-		frontLeftDriveMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_LEFT_ID);
-		backLeftDriveMotor = new WPI_TalonFX(Drive.TalonFX.BACK_LEFT_ID);
-		frontRightDriveMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_RIGHT_ID);
-		backRightDriveMotor = new WPI_TalonFX(Drive.TalonFX.BACK_RIGHT_ID);
+		frontLeftMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_LEFT_ID);
+		backLeftMotor = new WPI_TalonFX(Drive.TalonFX.BACK_LEFT_ID);
+		frontRightMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_RIGHT_ID);
+		backRightMotor = new WPI_TalonFX(Drive.TalonFX.BACK_RIGHT_ID);
 
-		backLeftDriveMotor.follow(frontLeftDriveMotor);
-		backRightDriveMotor.follow(frontRightDriveMotor);
+		backLeftMotor.follow(frontLeftMotor);
+		backRightMotor.follow(frontRightMotor);
 
-		frontLeftDriveMotor.configFactoryDefault();
-		backLeftDriveMotor.configFactoryDefault();
-		frontRightDriveMotor.configFactoryDefault();
-		backRightDriveMotor.configFactoryDefault();
+		frontLeftMotor.configFactoryDefault();
+		backLeftMotor.configFactoryDefault();
+		frontRightMotor.configFactoryDefault();
+		backRightMotor.configFactoryDefault();
 
 		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
 		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
@@ -72,63 +72,63 @@ public class Drivetrain extends SubsystemBase {
 		// Drive system
 		coastOrBrakeMotors(false, false);
 
-		robotDrive = new DifferentialDrive(frontLeftDriveMotor, frontRightDriveMotor);
+		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
 		// ----------------------------------------------------------
 
 		// Encoders
-		leftDriveEncoder = new Encoder(
+		leftEncoder = new Encoder(
 			Drive.Encoder.LEFT_CHANNEL_A_ID,
 			Drive.Encoder.LEFT_CHANNEL_B_ID,
 			false,	// TODO: Figure out if left drivetrain encoder needs direction-flipping
 			Drive.Encoder.ENCODING_TYPE);
-		rightDriveEncoder = new Encoder(
+		rightEncoder = new Encoder(
 			Drive.Encoder.RIGHT_CHANNEL_A_ID,
 			Drive.Encoder.RIGHT_CHANNEL_B_ID,
 			false,	// TODO: Figure out if right drivetrain encoder needs direction-flipping
 			Drive.Encoder.ENCODING_TYPE);
 
-		leftDriveEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
-		rightDriveEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
+		leftEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
+		rightEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
 
-		leftDriveEncoder.reset();
-		rightDriveEncoder.reset();
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	public Drivetrain setLeftMotors(double negToPosPercentage) {
-		frontLeftDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+		frontLeftMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public Drivetrain setRightMotors(double negToPosPercentage) {
-		frontRightDriveMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+		frontRightMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public double getLeftPercent() {
-		return frontLeftDriveMotor.getMotorOutputPercent();
+		return frontLeftMotor.getMotorOutputPercent();
 	}
 
 	public double getRightPercent() {
-		return frontRightDriveMotor.getMotorOutputPercent();
+		return frontRightMotor.getMotorOutputPercent();
 	}
 
 	// brake or coast left and right motors (true for braking)
 	public Drivetrain coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
 		if (leftIsBraking) {
-			frontLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
-			backLeftDriveMotor.setNeutralMode(NeutralMode.Brake);
+			frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+			backLeftMotor.setNeutralMode(NeutralMode.Brake);
 		} else {
-			frontLeftDriveMotor.setNeutralMode(NeutralMode.Coast);
-			backLeftDriveMotor.setNeutralMode(NeutralMode.Coast);
+			frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+			backLeftMotor.setNeutralMode(NeutralMode.Coast);
 		}
 
 		if (rightIsBraking) {
-			frontRightDriveMotor.setNeutralMode(NeutralMode.Brake);
-			backRightDriveMotor.setNeutralMode(NeutralMode.Brake);
+			frontRightMotor.setNeutralMode(NeutralMode.Brake);
+			backRightMotor.setNeutralMode(NeutralMode.Brake);
 		} else {
-			frontRightDriveMotor.setNeutralMode(NeutralMode.Coast);
-			backRightDriveMotor.setNeutralMode(NeutralMode.Coast);
+			frontRightMotor.setNeutralMode(NeutralMode.Coast);
+			backRightMotor.setNeutralMode(NeutralMode.Coast);
 		}
 
 		return this;
@@ -141,14 +141,14 @@ public class Drivetrain extends SubsystemBase {
 	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
 	public Drivetrain breakTankDriveIfNotMoving(double[] values) {
 		// brake motors if value is 0, else coast
-		coastOrBrakeMotors(values[0] == 0.0, values[1] == 0.0);
+		coastOrBrakeMotors(values[0] == 0.0d, values[1] == 0.0d);
 		return this;
 	}
 
 	// stop driving
 	public Drivetrain stopDrive() {
-		frontLeftDriveMotor.set(ControlMode.PercentOutput, 0);
-		frontRightDriveMotor.set(ControlMode.PercentOutput, 0);
+		frontLeftMotor.set(ControlMode.PercentOutput, 0.0d);
+		frontRightMotor.set(ControlMode.PercentOutput, 0.0d);
 		return this;
 	}
 
@@ -227,26 +227,26 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 
 	
-	public double getLeftDistance() { return -leftDriveEncoder.getDistance(); }
+	public double getLeftDistance() { return leftEncoder.getDistance(); }
 
-	public double getRightDistance() { return rightDriveEncoder.getDistance(); }
+	public double getRightDistance() { return rightEncoder.getDistance(); }
 
-	// two-sided encoder distance (average one-sided encoder distance)
-	public double getDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
+	public double getAverageDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
 
-	public Drivetrain resetLeftDriveEncoder() {
-		leftDriveEncoder.reset();
+	public Drivetrain resetLeftEncoder() {
+		leftEncoder.reset();
 		return this;
 	}
 
 	public Drivetrain resetRightEncoder() {
-		rightDriveEncoder.reset();
+		rightEncoder.reset();
 		return this;
 	}
 
 	// resets both
 	public Drivetrain resetEncoders() {
-		resetLeftDriveEncoder(); resetRightEncoder();
+		resetLeftEncoder();
+		resetRightEncoder();
 		return this;
 	}
 

@@ -15,7 +15,7 @@ import frc.robot.RobotContainer;
 
 public class TeleopDriveCommand extends CommandBase {
 	public TeleopDriveCommand() {
-		addRequirements(RobotContainer.driveSubsystem);
+		addRequirements(RobotContainer.drivetrain);
 	}
 
 	// Called when the command is initially scheduled.
@@ -29,13 +29,13 @@ public class TeleopDriveCommand extends CommandBase {
 	public void execute() {
 		// SmartDashboard.putNumber("Gamepad Left Joy Magnitude", RobotContainer.gamepadJoystickMagnitude(true));
 
-		RobotContainer.driveSubsystem.driveWithDominantControls();
+		RobotContainer.drivetrain.driveWithDominantControls();
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.driveSubsystem.stopDrive();
+		RobotContainer.drivetrain.stopDrive();
 	}
 
 	// Returns true when the command should end.

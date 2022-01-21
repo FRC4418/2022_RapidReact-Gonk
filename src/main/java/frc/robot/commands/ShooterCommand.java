@@ -24,7 +24,7 @@ public class ShooterCommand extends CommandBase {
 	private final double rpmToVelocity = -Constants.Manipulator.UNITS_PER_REVOLUTION/600;
 
 	public ShooterCommand() {
-		ms = RobotContainer.manipulatorsubsystem;
+		ms = RobotContainer.manipulator;
 	}
 
 	// Called when the command is initially scheduled.

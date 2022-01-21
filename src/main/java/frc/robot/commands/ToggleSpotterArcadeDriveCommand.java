@@ -21,7 +21,7 @@ public class ToggleSpotterArcadeDriveCommand extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.driveSubsystem.toggleSpotterDriveMode();
+		RobotContainer.drivetrain.toggleSpotterDriveMode();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

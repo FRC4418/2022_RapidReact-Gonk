@@ -19,10 +19,10 @@ import frc.robot.subsystems.TeleopInput;
 
 
 public class RobotContainer {
-	public static Drivetrain driveSubsystem = new Drivetrain();
-	public static Manipulator manipulatorsubsystem = new Manipulator();
-	public static Climber climbSubsystem = new Climber();
-	public static TeleopInput teleopSensitivitySubsystem = new TeleopInput();
+	public static Drivetrain drivetrain = new Drivetrain();
+	public static Manipulator manipulator = new Manipulator();
+	public static Climber climber = new Climber();
+	public static TeleopInput teleopSensitivity = new TeleopInput();
 	// public static SensorsSubsystem sensorsSubsystem = new SensorsSubsystem();
 
 	// Create joysticks
@@ -59,7 +59,7 @@ public class RobotContainer {
 			
 			shooterButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.SHOOT_BUTTON_ID);
 
-		private static void configureButtonBindings() {
+		public static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleDriverArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraight());
 			
@@ -96,7 +96,7 @@ public class RobotContainer {
 			extendClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.EXTEND_CLIMBER_BUTTON_ID),
 			lowerClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.LOWER_CLIMBER_BUTTON_ID);
 
-		private static void configureButtonBindings() {
+		public static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleSpotterArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraight());
 			toggleSensitivityButton.whenPressed(new ToggleTeleopSensitivityMode());			
@@ -117,15 +117,5 @@ public class RobotContainer {
 		public static double getAngleArcadeDriveAxis() {
 			return GAMEPAD.getRawAxis(Constants.SpotterControlIDs.ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
-	}
-		
-
-	/**
-	 * The container for the robot.  Contains subsystems, OI devices, and commands.
-	 */
-	public RobotContainer() {
-		// Configure the button bindings
-		DriverControls.configureButtonBindings();
-		SpotterControls.configureButtonBindings();
 	}
 }

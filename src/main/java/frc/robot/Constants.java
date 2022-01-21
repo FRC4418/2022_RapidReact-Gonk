@@ -151,7 +151,7 @@ public final class Constants {
 			
 			// TODO: Figure out encoder distance per pulse for drivetrain encoders
 			public static final double
-				DISTANCE_PER_PULSE  = (15.24 * Math.PI) / 256; // diameter * pi = circumference. circumference / 256 = distance per pulse0
+				DISTANCE_PER_PULSE  = (15.24 * Math.PI) / 256; // diameter * pi = circumference. circumference / 256 = distance per pulse
 
 			// TODO: Figure out encoder distance per pulse for drivetrain encoders
 			public static final CounterBase.EncodingType
