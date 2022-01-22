@@ -16,7 +16,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.TeleopInput;
 import frc.robot.subsystems.Sensory;
-import frc.robot.subsystems.ShuffleboardDisplay;
+import frc.robot.subsystems.Telemetry;
 
 
 public class RobotContainer {
@@ -25,7 +25,7 @@ public class RobotContainer {
 	public static Climber climber = new Climber();
 	public static TeleopInput teleopSensitivity = new TeleopInput();
 	public static Sensory sensory = new Sensory();
-	public static ShuffleboardDisplay shuffleboardDisplay = new ShuffleboardDisplay();
+	public static Telemetry telemetry = new Telemetry();
 
 	// Create joysticks
 	private static final Joystick
@@ -53,19 +53,11 @@ public class RobotContainer {
 	public static class DriverControls {
 		public static JoystickButton
 			toggleArcadeDriveButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_ARCADE_DRIVE_BUTTON_ID),
-			driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID),
-		
-			backwardIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.BACKWARD_INTAKE_BUTTON_ID),
-			forwardIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.FORWARD_INTAKE_BUTTON_ID),
-			feederButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.FEEDER_BUTTON_ID),
+			driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID);
 			
-			shooterButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.SHOOT_BUTTON_ID);
-
 		public static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleDriverArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraight());
-			
-			shooterButton.whileHeld(new ShooterCommand());
 		}
 		
 		// Tank drive axes

@@ -13,6 +13,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ConveyerDemo;
 import frc.robot.commands.DriveStraightForDistance;
 import frc.robot.commands.DriveStraightForDistance.DriveStraightDirection;
 
@@ -42,8 +43,7 @@ public class Robot extends TimedRobot {
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
-		// RobotContainer.manipulator.putManipulatorDisplays();
-		RobotContainer.shuffleboardDisplay.initializeDisplay();
+		RobotContainer.telemetry.initializeTelemetry();
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -85,6 +85,9 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+
+		var manipulatorDemo = new ConveyerDemo();
+		manipulatorDemo.schedule();
 	}
 
 	@Override

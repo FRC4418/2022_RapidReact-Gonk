@@ -4,40 +4,47 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Telemetry;
+
 
 public class ConveyerDemo extends CommandBase {
+	private Manipulator ms;
+	private Telemetry tt;
 
-  private Manipulator ms;
-  /** Creates a new ConveyerDemo. */
-  public ConveyerDemo() {
-    // Use addRequirements() here to declare subsystem dependencies
-    ms = RobotContainer.manipulator;
-  }
+	public ConveyerDemo() {
+		// Use addRequirements() here to declare subsystem dependencies
+		ms = RobotContainer.manipulator;
+		tt = RobotContainer.telemetry;
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    ms.setLowConveyerMotor(0.6);
-    ms.setHighConveyerMotor(0.6);
-  }
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    ms.setLowConveyerMotor(0.0);
-    ms.setHighConveyerMotor(0.0);
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(0.6d));
+		ms.setHighConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(0.6d));
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		ms.setLowConveyerMotor(0.0d);
+		ms.setHighConveyerMotor(0.0d);
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

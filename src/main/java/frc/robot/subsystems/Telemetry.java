@@ -16,24 +16,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
-public class ShuffleboardDisplay extends SubsystemBase {
-	public static ShuffleboardTab statusDisplayTab;
+public class Telemetry extends SubsystemBase {
+	public static ShuffleboardTab telemetryTab;
 	
 	public NetworkTableEntry tuningModeBooleanBox;
+
+	public NetworkTableEntry lowerConveyorMotorPercentTextView;
+	public NetworkTableEntry higherConveyorMotorPercentTextView;
 	
 	public SendableChooser<AutonomousRoutine> sendableAutoRoutineChooser = new SendableChooser<>();
 	
-	private boolean inTuningMode;
+	public boolean inTuningMode;
 
-	/** Creates a new HUDSubsystem. */
-	public ShuffleboardDisplay() {
+	public Telemetry() {
 		
 	}
 
-	public void initializeDisplay() {
-		statusDisplayTab = Shuffleboard.getTab("4418 Status Display");
+	public void initializeTelemetry() {
+		telemetryTab = Shuffleboard.getTab("4418 Telemetry");
 		
-		tuningModeBooleanBox = statusDisplayTab
+		tuningModeBooleanBox = telemetryTab
 			.add("Motor Tuning", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(0, 0)
@@ -42,13 +44,24 @@ public class ShuffleboardDisplay extends SubsystemBase {
 
 		sendableAutoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
 		sendableAutoRoutineChooser.addOption("Drive Striaght to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
-		statusDisplayTab
+		telemetryTab
 			.add("Autonomous Routine", sendableAutoRoutineChooser)
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
 			.withPosition(0, 1)
 			.withSize(2, 1);
 
-		
+		lowerConveyorMotorPercentTextView = telemetryTab
+			.add("Lower Conveyor Motor Percent", 0.6d)
+			.withWidget(BuiltInWidgets.kTextView)
+			.withPosition(3, 0)
+			.withSize(3, 1)
+			.getEntry();
+		higherConveyorMotorPercentTextView = telemetryTab
+			.add("Higher Conveyor Motor Percent", 0.6d)
+			.withWidget(BuiltInWidgets.kTextView)
+			.withPosition(3, 1)
+			.withSize(3, 1)
+			.getEntry();
 	}
 
 	@Override
