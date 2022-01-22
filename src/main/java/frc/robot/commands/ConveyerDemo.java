@@ -8,6 +8,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
+import frc.robot.Constants.Manipulator.ConveyorShooter;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Telemetry;
 
@@ -31,8 +32,8 @@ public class ConveyerDemo extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(0.6d));
-		ms.setHighConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(0.6d));
+		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_LOWER_CONVEYOR_MOTOR_PERCENT));
+		ms.setHighConveyerMotor(tt.higherConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_HIGHER_CONVEYOR_MOTOR_PERCENT));
 	}
 
 	// Called once the command ends or is interrupted.

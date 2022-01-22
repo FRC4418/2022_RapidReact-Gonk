@@ -185,10 +185,13 @@ public final class Constants {
 		}
 		
 		public static class ConveyorShooter {
-			// TODO: Set acutal conveyor-shooter motors to have these IDs
 			public static final int
-				LOW_CONVEYOR_MOTOR_ID = 24,
-				HIGH_CONVEYOR_MOTOR_ID = 25;
+				LOWER_CONVEYOR_MOTOR_ID = 5,
+				HIGHER_CONVEYOR_MOTOR_ID = 7;
+
+			public static final double
+				DEFAULT_LOWER_CONVEYOR_MOTOR_PERCENT = 0.3,
+				DEFAULT_HIGHER_CONVEYOR_MOTOR_PERCENT = 0.3;
 		}
 
 		public static class HighGoalShooter {
