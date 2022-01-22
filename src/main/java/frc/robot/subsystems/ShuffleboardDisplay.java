@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShuffleboardDisplay extends SubsystemBase {
 	/** Creates a new HUDSubsystem. */
-	public ShuffleboardDisplay() {}
+	public ShuffleboardDisplay() {
+		
+	}
 
 	@Override
 	public void periodic() {
