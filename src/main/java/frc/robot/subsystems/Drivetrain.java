@@ -62,10 +62,8 @@ public class Drivetrain extends SubsystemBase {
 
 		// Integrated sensors (built-in encoders)
 		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		frontLeftMotor.setSelectedSensorPosition(0.0d);
-
 		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		frontRightMotor.setSelectedSensorPosition(0.0d);
+		resetEncoders();
 
 		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
 		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
@@ -225,7 +223,9 @@ public class Drivetrain extends SubsystemBase {
 		return frontRightMotor.getSelectedSensorPosition() * Drive.Encoder.TICKS_TO_INCHES_CONVERSION;
 	}
 
-	public double getAverageDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
+	public double getAverageDistance() {
+		return (getRightDistance() + getLeftDistance()) / 2.0d;
+	}
 
 	public Drivetrain resetLeftEncoder() {
 		frontLeftMotor.setSelectedSensorPosition(0.0d);

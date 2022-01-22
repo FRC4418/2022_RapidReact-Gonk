@@ -31,13 +31,15 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void initialize() {
 		dt.coastOrBrakeMotors(false, false);
+		dt.resetEncoders();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		double error = dt.getLeftDistance() - dt.getRightDistance();
-		dt.tankDrive(0.5d + kP * error, 0.5d - kP * error);
+		// dt.tankDrive(0.5d + kP * error, 0.5d - kP * error);
+		dt.tankDrive(0.5d, 0.5d);
 
 		SmartDashboard.putNumber("left encoder", dt.getLeftDistance());
 		SmartDashboard.putNumber("right encoder", dt.getRightDistance());

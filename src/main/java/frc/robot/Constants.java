@@ -140,11 +140,12 @@ public final class Constants {
 				BACK_RIGHT_ID = 1;
 		}
 		
-		public static class Encoder {			
+		public static class Encoder {
 			public static final double
 				// 2048 ticks in 1 revolution for Falcon 500s
 				// wheel diameter * pi = circumference of 1 revolution
-				TICKS_TO_INCHES_CONVERSION  = (6.0d * Math.PI) / 2048.0d;
+				// gearbox is 44:30 ratio
+				TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) * (44.0d / 30.0d);
 		}
 
 		public static class PID {
