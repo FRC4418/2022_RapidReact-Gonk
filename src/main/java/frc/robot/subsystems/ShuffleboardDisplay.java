@@ -47,6 +47,8 @@ public class ShuffleboardDisplay extends SubsystemBase {
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
 			.withPosition(0, 1)
 			.withSize(2, 1);
+
+		
 	}
 
 	@Override

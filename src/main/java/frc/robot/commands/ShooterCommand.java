@@ -12,18 +12,16 @@ package frc.robot.commands;
 //import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Manipulator;
+// import frc.robot.RobotContainer;
+// import frc.robot.subsystems.Manipulator;
 
 
 public class ShooterCommand extends CommandBase {
 	// shorthand reference to RobotContainer's ManipulatorSubsystem singleton
-	private Manipulator ms;
-
-	// private final double rpmToVelocity = -Constants.Manipulator.UNITS_PER_REVOLUTION/600;
+	// private Manipulator ms;
 
 	public ShooterCommand() {
-		ms = RobotContainer.manipulator;
+		// ms = RobotContainer.manipulator;
 	}
 
 	// Called when the command is initially scheduled.
