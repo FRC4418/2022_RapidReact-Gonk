@@ -9,7 +9,15 @@
       "/LiveWindow/ShuffleboardDisplay": "Subsystem",
       "/LiveWindow/TeleopInput": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/Shuffleboard/4418 Status Display/Autonomous Routine": "String Chooser"
+    },
+    "windows": {
+      "/Shuffleboard/4418 Status Display/Autonomous Routine": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   }
 }

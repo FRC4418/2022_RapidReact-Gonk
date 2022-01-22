@@ -9,8 +9,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class ShuffleboardDisplay extends SubsystemBase {
@@ -18,7 +21,7 @@ public class ShuffleboardDisplay extends SubsystemBase {
 	
 	public NetworkTableEntry tuningModeBooleanBox;
 	
-	public NetworkTableEntry autonomousRoutineChooser;
+	public SendableChooser<AutonomousRoutine> sendableAutoRoutineChooser = new SendableChooser<>();
 	
 	private boolean inTuningMode;
 
@@ -31,14 +34,19 @@ public class ShuffleboardDisplay extends SubsystemBase {
 		statusDisplayTab = Shuffleboard.getTab("4418 Status Display");
 		
 		tuningModeBooleanBox = statusDisplayTab
-			.add("Motor Tuning On/Off", false)
+			.add("Motor Tuning", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(0, 0)
 			.withSize(2, 1)
 			.getEntry();
 
-		autonomousRoutineChooser = statusDisplayTab
-			.add("Selected Auto Routine")
+		sendableAutoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
+		sendableAutoRoutineChooser.addOption("Drive Striaght to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
+		statusDisplayTab
+			.add("Autonomous Routine", sendableAutoRoutineChooser)
+			.withWidget(BuiltInWidgets.kComboBoxChooser)
+			.withPosition(0, 1)
+			.withSize(2, 1);
 	}
 
 	@Override

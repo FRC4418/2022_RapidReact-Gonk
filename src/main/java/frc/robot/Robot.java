@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 
-	private Command m_autonomousCommand;
+	public static Command m_autonomousCommand;
 
 	// run when robot is started, put initialization code here
 	@Override
