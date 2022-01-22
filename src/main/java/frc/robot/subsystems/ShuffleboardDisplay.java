@@ -5,12 +5,24 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Robot;
+
+
 public class ShuffleboardDisplay extends SubsystemBase {
+	public NetworkTableEntry tuningModeBooleanBox;
+
 	/** Creates a new HUDSubsystem. */
 	public ShuffleboardDisplay() {
-		
+		tuningModeBooleanBox = Robot.statusDisplayTab
+			.add("Motor Tuning Mode", false)
+			.withWidget(BuiltInWidgets.kBooleanBox)
+			.withPosition(0, 0)
+			.withSize(2, 1)
+			.getEntry();
 	}
 
 	@Override

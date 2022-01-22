@@ -24,7 +24,6 @@ import frc.robot.Constants;
 
 public class Manipulator extends SubsystemBase {
 	public boolean inTuningMode;
-	public NetworkTableEntry tuningModeBooleanBox;
 
 	// private WPI_TalonSRX outerIntakeMotor;
 	// private WPI_TalonSRX innerIntakeMotor;
@@ -63,13 +62,6 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public void putManipulatorDisplays() {
-		// tuningModeBooleanBox = Robot.statusDisplayTab
-		// 	.add("Motor Tuning Mode", false)
-		// 	.withWidget(BuiltInWidgets.kBooleanBox)
-		// 	.withPosition(0, 0)
-		// 	.withSize(2, 1)
-		// 	.getEntry();
-
 		// highShooterPercentageTextField = Robot.statusDisplayTab
 		// 	.add("High Goal Shooter Percentage", Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE)
 		// 	.withWidget(BuiltInWidgets.kTextView)
@@ -110,7 +102,7 @@ public class Manipulator extends SubsystemBase {
 	// public double getRightEncoderRPM() { return -rightDriveEncoder.getRate() * distPerSecToRPM; }
 
 	// get whether the pivot is up
-	public boolean pivotIsUp(){
+	public boolean pivotIsUp() {
 		if (getPivotPotentiometer() > 13) {
 			return pivotUp;
 		} else {
@@ -120,7 +112,6 @@ public class Manipulator extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// inTuningMode = tuningModeBooleanBox.getBoolean(false); // TODO: Make this an interactable boolean in Shuffleboard
 		inTuningMode = true;
 
 		// highGoalShooterMotor.set(ControlMode.PercentOutput, highShooterPercentageTextField.getDouble(Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE));
