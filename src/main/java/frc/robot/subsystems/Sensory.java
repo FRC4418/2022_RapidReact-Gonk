@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Sensory extends SubsystemBase {
 	// private static final ADIS16448_IMU imu = new ADIS1644s8_IMU();
@@ -36,6 +37,7 @@ public class Sensory extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
+		SmartDashboard.putBoolean("Limit switch value", limitSwitch.get());
+		SmartDashboard.putBoolean("Limit switch value", limitSwitch2.get());
 	}
 }
