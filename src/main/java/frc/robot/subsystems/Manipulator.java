@@ -70,12 +70,12 @@ public class Manipulator extends SubsystemBase {
 		// 	.withSize(2, 1)
 		// 	.getEntry();
 
-		highShooterPercentageTextField = Robot.statusDisplayTab
-			.add("High Goal Shooter Percentage", Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE)
-			.withWidget(BuiltInWidgets.kTextView)
-			.withPosition(0, 1)
-			.withSize(2, 1)
-			.getEntry();
+		// highShooterPercentageTextField = Robot.statusDisplayTab
+		// 	.add("High Goal Shooter Percentage", Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE)
+		// 	.withWidget(BuiltInWidgets.kTextView)
+		// 	.withPosition(0, 1)
+		// 	.withSize(2, 1)
+		// 	.getEntry();
 		
 		// lowShooterRPMTextField = Robot.statusDisplayTab
 		// 	.add("Low Goal Shooter RPM", Constants.Manipulator.ELBOW_TARGET_RPM)
