@@ -14,20 +14,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class ShuffleboardDisplay extends SubsystemBase {
-	public static ShuffleboardTab statusDisplayTab = Shuffleboard.getTab("4418 Status Display");
+	public static ShuffleboardTab statusDisplayTab;
 
-	public NetworkTableEntry tuningModeBooleanBox = statusDisplayTab
-		.add("Motor Tuning Mode", false)
-		.withWidget(BuiltInWidgets.kBooleanBox)
-		.withPosition(0, 0)
-		.withSize(2, 1)
-		.getEntry();
+	public NetworkTableEntry tuningModeBooleanBox;
 	
 	private boolean inTuningMode;
 
 	/** Creates a new HUDSubsystem. */
 	public ShuffleboardDisplay() {
 		
+	}
+
+	public void initializeDisplay() {
+		statusDisplayTab = Shuffleboard.getTab("4418 Status Display");
+		tuningModeBooleanBox = statusDisplayTab
+			.add("Motor Tuning Mode", false)
+			.withWidget(BuiltInWidgets.kToggleSwitch)
+			.withPosition(0, 0)
+			.withSize(2, 1)
+			.getEntry();
 	}
 
 	@Override

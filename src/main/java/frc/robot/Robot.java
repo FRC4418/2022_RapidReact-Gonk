@@ -42,7 +42,8 @@ public class Robot extends TimedRobot {
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
-		RobotContainer.manipulator.putManipulatorDisplays();
+		// RobotContainer.manipulator.putManipulatorDisplays();
+		RobotContainer.shuffleboardDisplay.initializeDisplay();
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics

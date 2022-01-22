@@ -16,6 +16,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.TeleopInput;
 import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.ShuffleboardDisplay;
 
 
 public class RobotContainer {
@@ -24,6 +25,7 @@ public class RobotContainer {
 	public static Climber climber = new Climber();
 	public static TeleopInput teleopSensitivity = new TeleopInput();
 	public static Sensory sensory = new Sensory();
+	public static ShuffleboardDisplay shuffleboardDisplay = new ShuffleboardDisplay();
 
 	// Create joysticks
 	private static final Joystick
