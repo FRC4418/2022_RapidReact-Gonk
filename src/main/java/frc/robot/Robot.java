@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveStraightForDistance;
 import frc.robot.commands.DriveStraightForDistance.DriveStraightDirection;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 
 /**
@@ -30,8 +28,6 @@ public class Robot extends TimedRobot {
 	// private UsbCamera m_rightPanelCamera;
 
 	private Command m_autonomousCommand;
-
-	public static ShuffleboardTab statusDisplayTab = Shuffleboard.getTab("4418 Status Display");;
 
 	// run when robot is started, put initialization code here
 	@Override
@@ -55,8 +51,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
-
-		inTuningMode = tuningModeBooleanBox.getBoolean(false); // TODO: Make this an interactable boolean in Shuffleboard
 	}
 
 	@Override
