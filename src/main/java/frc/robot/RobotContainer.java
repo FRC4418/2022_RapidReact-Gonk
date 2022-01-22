@@ -24,7 +24,7 @@ public class RobotContainer {
 	public static Manipulator manipulator = new Manipulator();
 	public static Climber climber = new Climber();
 	public static TeleopInput teleopSensitivity = new TeleopInput();
-	public static Sensory sensory = new Sensory();
+	// public static Sensory sensory = new Sensory();
 	public static Telemetry telemetry = new Telemetry();
 
 	// Create joysticks
