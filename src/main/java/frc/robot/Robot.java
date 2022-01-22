@@ -7,12 +7,14 @@
 
 package frc.robot;
 
+
 // import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveStraightForDistance;
+import frc.robot.commands.DriveStraightForDistance.DriveStraightDirection;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -38,8 +40,8 @@ public class Robot extends TimedRobot {
 		RobotContainer.DriverControls.configureButtonBindings();
 		RobotContainer.SpotterControls.configureButtonBindings();
 		
-		// autonomous, drive straight for 30 inches
-		m_autonomousCommand = new DriveStraightForDistance(30.0d);
+		// autonomous, drive straight and backwards for 30 inches
+		m_autonomousCommand = new DriveStraightForDistance(30.0d, DriveStraightDirection.BACKWARDS);
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);

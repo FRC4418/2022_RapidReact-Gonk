@@ -16,13 +16,21 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class DriveStraightForDistance extends CommandBase {
+	public enum DriveStraightDirection {
+		FORWARDS,
+		BACKWARDS
+	}
+
+	private final double motorPercentOutput = 0.5d;
 	private final double kP = 0.1;
 
 	private double distanceInInches;
+	private DriveStraightDirection direction;
 	private Drivetrain dt;
 
-	public DriveStraightForDistance(double distanceInInches) {
+	public DriveStraightForDistance(double distanceInInches, DriveStraightDirection direction) {
 		this.distanceInInches = distanceInInches;
+		this.direction = direction;
 		dt = RobotContainer.drivetrain;
 		addRequirements(dt);
 	}
@@ -38,8 +46,14 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void execute() {
 		double error = dt.getLeftDistance() - dt.getRightDistance();
-		// dt.tankDrive(0.5d + kP * error, 0.5d - kP * error);
-		dt.tankDrive(0.5d, 0.5d);
+
+		if (direction == DriveStraightDirection.FORWARDS) {
+			// dt.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
+			dt.tankDrive(motorPercentOutput, motorPercentOutput);
+		} else {
+			// dt.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
+			dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
+		}
 
 		SmartDashboard.putNumber("left encoder", dt.getLeftDistance());
 		SmartDashboard.putNumber("right encoder", dt.getRightDistance());
