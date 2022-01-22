@@ -110,11 +110,6 @@ public class Manipulator extends SubsystemBase {
 	public void setIntake2(double percentOutput) { intake2.set(ControlMode.PercentOutput, percentOutput); }
 	public void setIntake3(double percentOutput) { intake3.set(ControlMode.PercentOutput, percentOutput); }
 
-
-
-	// read potentiometer
-	public double getPivotPotentiometer() { return pivotPotentiometer.get(); }
-
 	public double getLowConveyerMotor() { return lowConveyorMotor.get(); }
 	public double getHighConveryerMotor() { return highConveyorMotor.get(); }
 	public double getIntake() { return intake.get(); }
@@ -125,15 +120,6 @@ public class Manipulator extends SubsystemBase {
 	// public double getLeftEncoderRPM() { return -leftDriveEncoder.getRate() * distPerSecToRPM; }
 
 	// public double getRightEncoderRPM() { return -rightDriveEncoder.getRate() * distPerSecToRPM; }
-
-	// get whether the pivot is up
-	public boolean pivotIsUp() {
-		if (getPivotPotentiometer() > 13) {
-			return pivotUp;
-		} else {
-			return !pivotUp;
-		}
-	}
 
 	@Override
 	public void periodic() {
