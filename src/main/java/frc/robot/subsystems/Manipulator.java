@@ -105,7 +105,7 @@ public class Manipulator extends SubsystemBase {
 	
 	// set motors by percent output
 	public void setLowConveyerMotor(double percentOutput) { lowConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setHighConveryerMotor(double percentOutput) { highConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setHighConveyerMotor(double percentOutput) { highConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
 	public void setIntake(double percentOutput) { intake.set(ControlMode.PercentOutput, percentOutput); }
 	public void setIntake2(double percentOutput) { intake2.set(ControlMode.PercentOutput, percentOutput); }
 	public void setIntake3(double percentOutput) { intake3.set(ControlMode.PercentOutput, percentOutput); }
