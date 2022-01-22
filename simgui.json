@@ -6,6 +6,7 @@
       "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/Manipulator": "Subsystem",
       "/LiveWindow/Sensory": "Subsystem",
+      "/LiveWindow/ShuffleboardDisplay": "Subsystem",
       "/LiveWindow/TeleopInput": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler"

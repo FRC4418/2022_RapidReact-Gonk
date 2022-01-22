@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShuffleboardDisplay extends SubsystemBase {
 	public static ShuffleboardTab statusDisplayTab;
-
+	
 	public NetworkTableEntry tuningModeBooleanBox;
+	
+	public NetworkTableEntry autonomousRoutineChooser;
 	
 	private boolean inTuningMode;
 
@@ -27,12 +29,16 @@ public class ShuffleboardDisplay extends SubsystemBase {
 
 	public void initializeDisplay() {
 		statusDisplayTab = Shuffleboard.getTab("4418 Status Display");
+		
 		tuningModeBooleanBox = statusDisplayTab
-			.add("Motor Tuning Mode", false)
+			.add("Motor Tuning On/Off", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(0, 0)
 			.withSize(2, 1)
 			.getEntry();
+
+		autonomousRoutineChooser = statusDisplayTab
+			.add("Selected Auto Routine")
 	}
 
 	@Override
