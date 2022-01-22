@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
@@ -17,11 +18,11 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveStraightForDistance extends CommandBase {
 	private final double kP = 0.1;
 
-	private double distanceInMeters;
+	private double distanceInInches;
 	private Drivetrain dt;
 
-	public DriveStraightForDistance(double distanceInMeters) {
-		this.distanceInMeters = distanceInMeters;
+	public DriveStraightForDistance(double distanceInInches) {
+		this.distanceInInches = distanceInInches;
 		dt = RobotContainer.drivetrain;
 		addRequirements(dt);
 	}
@@ -37,6 +38,9 @@ public class DriveStraightForDistance extends CommandBase {
 	public void execute() {
 		double error = dt.getLeftDistance() - dt.getRightDistance();
 		dt.tankDrive(0.5d + kP * error, 0.5d - kP * error);
+
+		SmartDashboard.putNumber("left encoder", dt.getLeftDistance());
+		SmartDashboard.putNumber("right encoder", dt.getRightDistance());
 	}
 
 	// Called once the command ends or is interrupted.
@@ -48,6 +52,6 @@ public class DriveStraightForDistance extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return dt.getAverageDistance() >= distanceInMeters;
+		return dt.getAverageDistance() >= distanceInInches;
 	}
 }

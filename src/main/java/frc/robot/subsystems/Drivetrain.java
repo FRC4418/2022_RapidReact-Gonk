@@ -9,11 +9,12 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 // import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -33,9 +34,6 @@ public class Drivetrain extends SubsystemBase {
 	private WPI_TalonFX backLeftMotor;
 	private WPI_TalonFX frontRightMotor;
 	private WPI_TalonFX backRightMotor;
-
-	public Encoder leftEncoder;
-	public Encoder rightEncoder;
 
 	private DifferentialDrive robotDrive;
 
@@ -57,6 +55,18 @@ public class Drivetrain extends SubsystemBase {
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
 
+		frontRightMotor.setInverted(true);
+		backRightMotor.setInverted(InvertType.FollowMaster);
+
+		// ----------------------------------------------------------
+
+		// Integrated sensors (built-in encoders)
+		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		frontLeftMotor.setSelectedSensorPosition(0.0d);
+
+		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		frontRightMotor.setSelectedSensorPosition(0.0d);
+
 		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
 		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
 		// frontLeftDriveMotor.config_kI(PID.kIdx, PID.kLeftMotorVelocityGains.kI, PID.kTimeoutMs);
@@ -73,26 +83,6 @@ public class Drivetrain extends SubsystemBase {
 		coastOrBrakeMotors(false, false);
 
 		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-
-		// ----------------------------------------------------------
-
-		// Encoders
-		leftEncoder = new Encoder(
-			Drive.Encoder.LEFT_CHANNEL_A_ID,
-			Drive.Encoder.LEFT_CHANNEL_B_ID,
-			false,	// TODO: Figure out if left drivetrain encoder needs direction-flipping
-			Drive.Encoder.ENCODING_TYPE);
-		rightEncoder = new Encoder(
-			Drive.Encoder.RIGHT_CHANNEL_A_ID,
-			Drive.Encoder.RIGHT_CHANNEL_B_ID,
-			false,	// TODO: Figure out if right drivetrain encoder needs direction-flipping
-			Drive.Encoder.ENCODING_TYPE);
-
-		leftEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
-		rightEncoder.setDistancePerPulse(Drive.Encoder.DISTANCE_PER_PULSE);
-
-		leftEncoder.reset();
-		rightEncoder.reset();
 	}
 
 	public Drivetrain setLeftMotors(double negToPosPercentage) {
@@ -227,19 +217,23 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 
 	
-	public double getLeftDistance() { return leftEncoder.getDistance(); }
+	public double getLeftDistance() {
+		return frontLeftMotor.getSelectedSensorPosition() * Drive.Encoder.TICKS_TO_INCHES_CONVERSION;
+	}
 
-	public double getRightDistance() { return rightEncoder.getDistance(); }
+	public double getRightDistance() {
+		return frontRightMotor.getSelectedSensorPosition() * Drive.Encoder.TICKS_TO_INCHES_CONVERSION;
+	}
 
 	public double getAverageDistance() { return (getRightDistance() + getLeftDistance()) / 2.0; }
 
 	public Drivetrain resetLeftEncoder() {
-		leftEncoder.reset();
+		frontLeftMotor.setSelectedSensorPosition(0.0d);
 		return this;
 	}
 
 	public Drivetrain resetRightEncoder() {
-		rightEncoder.reset();
+		frontRightMotor.setSelectedSensorPosition(0.0d);
 		return this;
 	}
 

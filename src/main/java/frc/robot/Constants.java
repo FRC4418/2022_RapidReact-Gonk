@@ -8,7 +8,6 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.CounterBase;
 import frc.robot.teamlibraries.Gains;
 
 
@@ -141,21 +140,11 @@ public final class Constants {
 				BACK_RIGHT_ID = 1;
 		}
 		
-		public static class Encoder {
-			// TODO: Set encoder channel ID constants
-			public static final int
-				LEFT_CHANNEL_A_ID = 6,
-				LEFT_CHANNEL_B_ID = 7,
-				RIGHT_CHANNEL_A_ID = 8,
-				RIGHT_CHANNEL_B_ID = 9;
-			
-			// TODO: Figure out encoder distance per pulse for drivetrain encoders
+		public static class Encoder {			
 			public static final double
-				DISTANCE_PER_PULSE  = (15.24 * Math.PI) / 256; // diameter * pi = circumference. circumference / 256 = distance per pulse
-
-			// TODO: Figure out encoder distance per pulse for drivetrain encoders
-			public static final CounterBase.EncodingType
-				ENCODING_TYPE = CounterBase.EncodingType.k2X;
+				// 2048 ticks in 1 revolution for Falcon 500s
+				// wheel diameter * pi = circumference of 1 revolution
+				TICKS_TO_INCHES_CONVERSION  = (6.0d * Math.PI) / 2048.0d;
 		}
 
 		public static class PID {
@@ -218,12 +207,7 @@ public final class Constants {
 
 	public static class Climber {
 		public static final int
-			// ENCODER_CHANNELA_ID = 2,
-			// FRONT_ENCODER_CHANNELB_ID = 3,
 			TALONSRX_ID = -1; // Set ID constants
-		
-		// TODO: Figure out climber encoder distance per pulse
-		// public static final double CLIMBER_ENCODER_DISTANCE_PER_PULSE = SOME VALUE;
 	}
 
 

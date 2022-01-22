@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 		RobotContainer.DriverControls.configureButtonBindings();
 		RobotContainer.SpotterControls.configureButtonBindings();
 		
-		m_autonomousCommand = new DriveStraightForDistance(2.3);
+		m_autonomousCommand = new DriveStraightForDistance(30.0d);
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
