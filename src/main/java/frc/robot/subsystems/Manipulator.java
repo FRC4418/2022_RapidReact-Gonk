@@ -23,42 +23,18 @@ import frc.robot.Constants;
 
 
 public class Manipulator extends SubsystemBase {
-	public boolean inTuningMode;
-
-	// private WPI_TalonSRX outerIntakeMotor;
-	// private WPI_TalonSRX innerIntakeMotor;
-	public NetworkTableEntry intakePercentOutputTextField;
-
-	// public WPI_TalonSRX lowShooterMotor;
-	// public NetworkTableEntry lowShooterRPMTextField;
-	public WPI_TalonSRX highGoalShooterMotor;
-
-	public NetworkTableEntry highShooterPercentageTextField;
-
-	/* Encoder.getRate() returns distance per second
-	distance per second * distance per pulse = pulse per second
-	pulse per second * decoding factor = degrees per second
-	degrees per second / 360 degrees = revolutions per second
-	revolutions per second * 60 seconds = revolutions per minute (RPM) */
-	// private static double distPerSecToRPM = 
-	//   Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE
-	//   * (double) Constants.DRIVE_ENCODER_DECODING_SCALE_FACTOR 
-	//   / 60.0;
-
-	private AnalogPotentiometer pivotPotentiometer;
-
-	private boolean pivotUp = true;
+	// TODO: Create motor variables (with appropriate names) for BOTH intake and conveyor-shooter systems
 
 	public Manipulator() {
-		highGoalShooterMotor = new WPI_TalonSRX(Constants.Manipulator.HIGH_GOAL_SHOOTER_775_ID);
+		// highGoalShooterMotor = new WPI_TalonSRX(Constants.Manipulator.HIGH_GOAL_SHOOTER_775_ID);
 
-		// wristFireMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        highGoalShooterMotor.setSensorPhase(false);
-        /* set closed loop gains in slot0 */
-        highGoalShooterMotor.config_kF(0, 0.1097);
-        highGoalShooterMotor.config_kP(0, 0.22);
-        highGoalShooterMotor.config_kI(0, 0);
-        highGoalShooterMotor.config_kD(0, 0);
+		// // wristFireMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        // highGoalShooterMotor.setSensorPhase(false);
+        // /* set closed loop gains in slot0 */
+        // highGoalShooterMotor.config_kF(0, 0.1097);
+        // highGoalShooterMotor.config_kP(0, 0.22);
+        // highGoalShooterMotor.config_kI(0, 0);
+        // highGoalShooterMotor.config_kD(0, 0);
 	}
 
 	public void putManipulatorDisplays() {
@@ -91,28 +67,19 @@ public class Manipulator extends SubsystemBase {
 	// set motors by percent output
 	// public void setShoulderFireMotor(double percentOutput) { innerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
 	// public void setIntakeMotor(double percentOutput) { outerIntakeMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setHighGoalShooterMotor(double percentOutput) { highGoalShooterMotor.set(ControlMode.PercentOutput, percentOutput); }
+	// public void setHighGoalShooterMotor(double percentOutput) { highGoalShooterMotor.set(ControlMode.PercentOutput, percentOutput); }
 
 	// read potentiometer
-	public double getPivotPotentiometer() { return pivotPotentiometer.get(); }
+	// public double getPivotPotentiometer() { return pivotPotentiometer.get(); }
 
 	// (if confused about distPerSecToRPM static constant, check comment in definition)
 	// public double getLeftEncoderRPM() { return -leftDriveEncoder.getRate() * distPerSecToRPM; }
 
 	// public double getRightEncoderRPM() { return -rightDriveEncoder.getRate() * distPerSecToRPM; }
 
-	// get whether the pivot is up
-	public boolean pivotIsUp() {
-		if (getPivotPotentiometer() > 13) {
-			return pivotUp;
-		} else {
-			return !pivotUp;
-		}
-	}
-
 	@Override
 	public void periodic() {
-		inTuningMode = true;
+		// inTuningMode = true;
 
 		// highGoalShooterMotor.set(ControlMode.PercentOutput, highShooterPercentageTextField.getDouble(Constants.Manipulator.HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE));
 	}

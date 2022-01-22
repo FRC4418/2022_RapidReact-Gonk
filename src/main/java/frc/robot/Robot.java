@@ -56,7 +56,6 @@ public class Robot extends TimedRobot {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
-		inTuningMode = tuningModeBooleanBox.getBoolean(false); // TODO: Make this an interactable boolean in Shuffleboard
 	}
 
 	@Override
