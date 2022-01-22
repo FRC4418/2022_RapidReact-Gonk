@@ -55,8 +55,8 @@ public class DriveStraightForDistance extends CommandBase {
 			dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
 		}
 
-		SmartDashboard.putNumber("left encoder", dt.getLeftDistance());
-		SmartDashboard.putNumber("right encoder", dt.getRightDistance());
+		SmartDashboard.putNumber("Left Encoder", dt.getLeftDistance());
+		SmartDashboard.putNumber("Right Encoder", dt.getRightDistance());
 	}
 
 	// Called once the command ends or is interrupted.
