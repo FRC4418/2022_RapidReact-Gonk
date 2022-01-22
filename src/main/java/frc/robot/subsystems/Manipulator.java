@@ -115,6 +115,12 @@ public class Manipulator extends SubsystemBase {
 	// read potentiometer
 	public double getPivotPotentiometer() { return pivotPotentiometer.get(); }
 
+	public double getLowConveyerMotor() { return lowConveyorMotor.get(); }
+	public double getHighConveryerMotor() { return highConveyorMotor.get(); }
+	public double getIntake() { return intake.get(); }
+	public double getIntake2() { return intake2.get(); }
+	public double getIntake3() { return intake3.get(); }
+
 	// (if confused about distPerSecToRPM static constant, check comment in definition)
 	// public double getLeftEncoderRPM() { return -leftDriveEncoder.getRate() * distPerSecToRPM; }
 
