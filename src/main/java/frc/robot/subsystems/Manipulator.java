@@ -55,6 +55,8 @@ public class Manipulator extends SubsystemBase {
 
 		lowerConveyorMotor = new WPI_TalonSRX(ConveyorShooter.LOWER_CONVEYOR_MOTOR_ID);
 		higherConveyorMotor = new WPI_TalonSRX(ConveyorShooter.HIGHER_CONVEYOR_MOTOR_ID);
+
+		higherConveyorMotor.setInverted(true);
 	}
 	
 	public void setIntake0(double percentOutput) { intake0.set(ControlMode.PercentOutput, percentOutput); }

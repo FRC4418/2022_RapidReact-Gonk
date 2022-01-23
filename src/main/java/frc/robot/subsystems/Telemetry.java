@@ -54,13 +54,13 @@ public class Telemetry extends SubsystemBase {
 			.add("Lower Conveyor Motor Percent", 0.6d)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 0)
-			.withSize(3, 1)
+			.withSize(2, 1)
 			.getEntry();
 		higherConveyorMotorPercentTextView = telemetryTab
 			.add("Higher Conveyor Motor Percent", 0.6d)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 1)
-			.withSize(3, 1)
+			.withSize(2, 1)
 			.getEntry();
 	}
 
