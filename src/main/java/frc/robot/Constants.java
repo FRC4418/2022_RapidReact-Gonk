@@ -126,14 +126,14 @@ public final class Constants {
 			public static final double
 				// 2048 ticks in 1 revolution for Falcon 500s
 				// wheel diameter * pi = circumference of 1 revolution
-				// `box is 44:30 ratio
-				TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) * (1.0d / 7.33d);
+				// 1 to 7.33 gearbox is big to small gear (means more speed)
+				TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
 		}
 
 		public static class OpenLoopControl {
 			public static final double
 				// units in seconds
-				SHARED_RAMP_TIME = 1.5d;	// TODO: Config open-loop ramp time
+				SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
 		}
 
 		// AKA PID stuff

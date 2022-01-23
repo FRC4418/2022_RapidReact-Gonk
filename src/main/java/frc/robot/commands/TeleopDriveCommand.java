@@ -11,17 +11,22 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
+import frc.robot.Constants.Drive.OpenLoopControl;
+import frc.robot.subsystems.Drivetrain;
 
 
 public class TeleopDriveCommand extends CommandBase {
+	private Drivetrain dt;
+
 	public TeleopDriveCommand() {
-		addRequirements(RobotContainer.drivetrain);
+		dt = RobotContainer.drivetrain;
+		addRequirements(dt);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-
+		dt.setOpenLoopRampTimes(OpenLoopControl.SHARED_RAMP_TIME);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -29,13 +34,13 @@ public class TeleopDriveCommand extends CommandBase {
 	public void execute() {
 		// SmartDashboard.putNumber("Gamepad Left Joy Magnitude", RobotContainer.gamepadJoystickMagnitude(true));
 
-		RobotContainer.drivetrain.driveWithDominantControls();
+		dt.driveWithDominantControls();
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.drivetrain.stopDrive();
+		dt.stopDrive();
 	}
 
 	// Returns true when the command should end.

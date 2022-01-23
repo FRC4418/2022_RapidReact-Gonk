@@ -57,7 +57,7 @@ public class RobotContainer {
 			
 		public static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleDriverArcadeDriveCommand());
-			driveStraightButton.whileHeld(new DriveStraight());
+			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
 		}
 		
 		// Tank drive axes
@@ -92,7 +92,7 @@ public class RobotContainer {
 
 		public static void configureButtonBindings() {
 			toggleArcadeDriveButton.whenPressed(new ToggleSpotterArcadeDriveCommand());
-			driveStraightButton.whileHeld(new DriveStraight());
+			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
 			toggleSensitivityButton.whenPressed(new ToggleTeleopSensitivityMode());			
 		}
 

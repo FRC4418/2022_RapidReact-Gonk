@@ -39,8 +39,8 @@ public class ConveyerDemo extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		ms.setLowConveyerMotor(0.0d);
-		ms.setHighConveyerMotor(0.0d);
+		ms.setLowConveyerMotor(0.d);
+		ms.setHighConveyerMotor(0.d);
 	}
 
 	// Returns true when the command should end.

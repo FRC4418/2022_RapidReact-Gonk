@@ -15,22 +15,23 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class DriveStraightForDistance extends CommandBase {
+public class AutoDriveStraightForDistance extends CommandBase {
 	public enum DriveStraightDirection {
 		FORWARDS,
 		BACKWARDS
 	}
 
 	private final double motorPercentOutput = 0.45d;
-	private final double kP = 0.1;
+	private final double kP = 0.1d;
 
 	private double distanceInInches;
 	private DriveStraightDirection direction;
 	private Drivetrain dt;
 
-	public DriveStraightForDistance(double distanceInInches, DriveStraightDirection direction) {
+	public AutoDriveStraightForDistance(double distanceInInches, DriveStraightDirection direction) {
 		this.distanceInInches = distanceInInches;
 		this.direction = direction;
+
 		dt = RobotContainer.drivetrain;
 		addRequirements(dt);
 	}
@@ -38,8 +39,10 @@ public class DriveStraightForDistance extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		dt.coastOrBrakeMotors(false, false);
-		dt.resetEncoders();
+		dt
+			.coastOrBrakeMotors(false, false)
+			.setOpenLoopRampTimes(0.d)
+			.resetEncoders();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

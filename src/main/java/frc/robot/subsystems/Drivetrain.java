@@ -20,7 +20,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants.AxisDominanceThresholds;
 import frc.robot.Constants.Drive;
-import frc.robot.Constants.Drive.OpenLoopControl;
 import frc.robot.RobotContainer.DriverControls;
 import frc.robot.RobotContainer.SpotterControls;
 // import frc.robot.Constants.Drive.PID;
@@ -57,9 +56,6 @@ public class Drivetrain extends SubsystemBase {
 
 		// ----------------------------------------------------------
 
-		frontLeftMotor.configOpenloopRamp(OpenLoopControl.SHARED_RAMP_TIME);
-		frontRightMotor.configOpenloopRamp(OpenLoopControl.SHARED_RAMP_TIME);
-
 		frontRightMotor.setInverted(true);
 		backRightMotor.setInverted(InvertType.FollowMaster);
 
@@ -86,6 +82,14 @@ public class Drivetrain extends SubsystemBase {
 		coastOrBrakeMotors(false, false);
 
 		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+	}
+
+	// ----------------------------------------------------------
+
+	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
+		frontLeftMotor.configOpenloopRamp(timeInSeconds);
+		frontRightMotor.configOpenloopRamp(timeInSeconds);
+		return this;
 	}
 
 	public Drivetrain setLeftMotors(double negToPosPercentage) {
@@ -134,14 +138,14 @@ public class Drivetrain extends SubsystemBase {
 	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
 	public Drivetrain breakTankDriveIfNotMoving(double[] values) {
 		// brake motors if value is 0, else coast
-		coastOrBrakeMotors(values[0] == 0.0d, values[1] == 0.0d);
+		coastOrBrakeMotors(values[0] == 0.d, values[1] == 0.d);
 		return this;
 	}
 
 	// stop driving
 	public Drivetrain stopDrive() {
-		frontLeftMotor.set(ControlMode.PercentOutput, 0.0d);
-		frontRightMotor.set(ControlMode.PercentOutput, 0.0d);
+		frontLeftMotor.set(ControlMode.PercentOutput, 0.d);
+		frontRightMotor.set(ControlMode.PercentOutput, 0.d);
 		return this;
 	}
 
@@ -233,12 +237,12 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain resetLeftEncoder() {
-		frontLeftMotor.setSelectedSensorPosition(0.0d);
+		frontLeftMotor.setSelectedSensorPosition(0.d);
 		return this;
 	}
 
 	public Drivetrain resetRightEncoder() {
-		frontRightMotor.setSelectedSensorPosition(0.0d);
+		frontRightMotor.setSelectedSensorPosition(0.d);
 		return this;
 	}
 

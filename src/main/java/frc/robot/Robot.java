@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ConveyerDemo;
-import frc.robot.commands.DriveStraightForDistance;
-import frc.robot.commands.DriveStraightForDistance.DriveStraightDirection;
+import frc.robot.commands.AutoDriveStraightForDistance;
+import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 
 
 /**
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 		RobotContainer.SpotterControls.configureButtonBindings();
 		
 		// autonomous, drive straight and backwards for 30 inches
-		m_autonomousCommand = new DriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
+		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
