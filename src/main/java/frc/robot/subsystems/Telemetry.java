@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants.Manipulator.ConveyorShooter;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
@@ -51,13 +51,13 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1);
 
 		lowerConveyorMotorPercentTextView = telemetryTab
-			.add("Lower Conveyor Motor Percent", 0.6d)
+			.add("Lower Conveyor Motor Percent", ConveyorShooter.DEFAULT_LOWER_MOTOR_PERCENT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 0)
 			.withSize(2, 1)
 			.getEntry();
 		higherConveyorMotorPercentTextView = telemetryTab
-			.add("Higher Conveyor Motor Percent", 0.6d)
+			.add("Higher Conveyor Motor Percent", ConveyorShooter.DEFAULT_HIGHER_MOTOR_PERCENT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 1)
 			.withSize(2, 1)

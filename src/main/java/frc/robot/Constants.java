@@ -21,7 +21,7 @@ public final class Constants {
 			/// ---Axes---
 			ROLL_AXIS = 0, 
 			PITCH_AXIS = 1,
-			// YAW_AXIS = 2,
+			YAW_AXIS = 2,
 			// OTHER_AXIS = 3,
 
 			// ---Button IDs---
@@ -83,7 +83,7 @@ public final class Constants {
 
 			// Arcade drive axis
 			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,
-			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.ROLL_AXIS,
+			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.YAW_AXIS,
 			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.FIVE_BUTTON_ID,	// does not toggle drive mode for spotter
 			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID;
 	}
@@ -126,11 +126,18 @@ public final class Constants {
 			public static final double
 				// 2048 ticks in 1 revolution for Falcon 500s
 				// wheel diameter * pi = circumference of 1 revolution
-				// gearbox is 44:30 ratio
-				TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) * (44.0d / 30.0d);
+				// `box is 44:30 ratio
+				TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) * (1.0d / 7.33d);
 		}
 
-		public static class PID {
+		public static class OpenLoopControl {
+			public static final double
+				// units in seconds
+				SHARED_RAMP_TIME = 1.5d;	// TODO: Config open-loop ramp time
+		}
+
+		// AKA PID stuff
+		public static class ClosedLoopControl {
 			/**
 			 * Which PID slot to pull gains from. Starting 2018, you can choose from
 			 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
@@ -176,37 +183,32 @@ public final class Constants {
 		public static class Intake {
 			// TODO: Set acutal intake motors to have these IDs
 			public static final int
-				INTAKE_0_ID = 21,
-				INTAKE_1_ID = 22,
-				INTAKE_2_ID = 23;
+				MOTOR_0_ID = 21,
+				MOTOR_1_ID = 22,
+				MOTOR_2_ID = 23;
 
 			public static final double
-				INTAKE_PERCENT_OUTPUT = 0.5d;
+				PERCENT_OUTPUT = 0.5d;
 		}
 		
 		public static class ConveyorShooter {
 			public static final int
-				LOWER_CONVEYOR_MOTOR_ID = 5,
-				HIGHER_CONVEYOR_MOTOR_ID = 7;
+				LOWER_MOTOR_ID = 5,
+				HIGHER_MOTOR_ID = 7;
 
 			public static final double
-				DEFAULT_LOWER_CONVEYOR_MOTOR_PERCENT = 0.3,
-				DEFAULT_HIGHER_CONVEYOR_MOTOR_PERCENT = 0.3;
+				DEFAULT_LOWER_MOTOR_PERCENT = 0.3,
+				DEFAULT_HIGHER_MOTOR_PERCENT = 0.3;
 		}
 
 		public static class HighGoalShooter {
 			public static final int
-				HIGH_GOAL_SHOOTER_775_ID = 11;
+				MOTOR_775_ID = 11;
 			
 			public static final double
-				HIGH_GOAL_SHOOTER_TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
+				TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
 		}
 		
-	}
-
-	public static class Climber {
-		public static final int
-			TALONSRX_ID = -1; // Set ID constants
 	}
 
 

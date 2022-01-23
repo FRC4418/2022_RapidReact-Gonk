@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 		RobotContainer.SpotterControls.configureButtonBindings();
 		
 		// autonomous, drive straight and backwards for 30 inches
-		m_autonomousCommand = new DriveStraightForDistance(30.0d, DriveStraightDirection.BACKWARDS);
+		m_autonomousCommand = new DriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);

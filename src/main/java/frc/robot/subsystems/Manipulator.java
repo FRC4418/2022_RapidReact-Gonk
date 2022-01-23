@@ -49,12 +49,12 @@ public class Manipulator extends SubsystemBase {
 
 	public Manipulator() { 
 		// TODO: Change intake motor names after learning of functionality
-		intake0 = new WPI_TalonSRX(Intake.INTAKE_0_ID);
-		intake1 = new WPI_TalonSRX(Intake.INTAKE_1_ID);
-		intake2 = new WPI_TalonSRX(Intake.INTAKE_2_ID);
+		intake0 = new WPI_TalonSRX(Intake.MOTOR_0_ID);
+		intake1 = new WPI_TalonSRX(Intake.MOTOR_1_ID);
+		intake2 = new WPI_TalonSRX(Intake.MOTOR_2_ID);
 
-		lowerConveyorMotor = new WPI_TalonSRX(ConveyorShooter.LOWER_CONVEYOR_MOTOR_ID);
-		higherConveyorMotor = new WPI_TalonSRX(ConveyorShooter.HIGHER_CONVEYOR_MOTOR_ID);
+		lowerConveyorMotor = new WPI_TalonSRX(ConveyorShooter.LOWER_MOTOR_ID);
+		higherConveyorMotor = new WPI_TalonSRX(ConveyorShooter.HIGHER_MOTOR_ID);
 
 		higherConveyorMotor.setInverted(true);
 	}

@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants.AxisDominanceThresholds;
 import frc.robot.Constants.Drive;
+import frc.robot.Constants.Drive.OpenLoopControl;
 import frc.robot.RobotContainer.DriverControls;
 import frc.robot.RobotContainer.SpotterControls;
 // import frc.robot.Constants.Drive.PID;
@@ -41,7 +42,6 @@ public class Drivetrain extends SubsystemBase {
 	private boolean spotterIsInArcadeMode = false;
 
 	public Drivetrain() {
-		// Drive Motor
 		frontLeftMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_LEFT_ID);
 		backLeftMotor = new WPI_TalonFX(Drive.TalonFX.BACK_LEFT_ID);
 		frontRightMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_RIGHT_ID);
@@ -54,6 +54,11 @@ public class Drivetrain extends SubsystemBase {
 		backLeftMotor.configFactoryDefault();
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
+
+		// ----------------------------------------------------------
+
+		frontLeftMotor.configOpenloopRamp(OpenLoopControl.SHARED_RAMP_TIME);
+		frontRightMotor.configOpenloopRamp(OpenLoopControl.SHARED_RAMP_TIME);
 
 		frontRightMotor.setInverted(true);
 		backRightMotor.setInverted(InvertType.FollowMaster);
@@ -157,7 +162,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
 		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
 		pipeline
-			.inputMapWrapper(InputMapModes.IMM_CUBE, InputMapModes.IMM_CUBE)
+			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_LINEAR)	// TODO: Config joystick map functions
 			.applyDeadzones();
 		
 		double[] values = pipeline.getValues();

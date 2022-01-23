@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Sensory extends SubsystemBase {
 	// private static final ADIS16448_IMU imu = new ADIS1644s8_IMU();
-	DigitalInput limitSwitch = new DigitalInput(1);
+	DigitalInput limitSwitch = new DigitalInput(0);
 	DigitalInput limitSwitch2 = new DigitalInput(1);
 
 	Counter counter = new Counter(limitSwitch);

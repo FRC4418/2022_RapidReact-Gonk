@@ -21,7 +21,7 @@ public class DriveStraightForDistance extends CommandBase {
 		BACKWARDS
 	}
 
-	private final double motorPercentOutput = 0.5d;
+	private final double motorPercentOutput = 0.45d;
 	private final double kP = 0.1;
 
 	private double distanceInInches;
@@ -48,11 +48,11 @@ public class DriveStraightForDistance extends CommandBase {
 		double error = dt.getLeftDistance() - dt.getRightDistance();
 
 		if (direction == DriveStraightDirection.FORWARDS) {
-			// dt.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
-			dt.tankDrive(motorPercentOutput, motorPercentOutput);
+			dt.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
+			// dt.tankDrive(motorPercentOutput, motorPercentOutput);
 		} else {
-			// dt.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
-			dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
+			dt.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
+			// dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
 		}
 
 		SmartDashboard.putNumber("Left Encoder", dt.getLeftDistance());
@@ -68,6 +68,8 @@ public class DriveStraightForDistance extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return dt.getAverageDistance() >= distanceInInches;
+		SmartDashboard.putNumber("traveled average distance", dt.getAverageDistance());
+
+		return Math.abs(dt.getAverageDistance()) >= distanceInInches;
 	}
 }

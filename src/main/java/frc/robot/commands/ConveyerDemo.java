@@ -32,8 +32,8 @@ public class ConveyerDemo extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_LOWER_CONVEYOR_MOTOR_PERCENT));
-		ms.setHighConveyerMotor(tt.higherConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_HIGHER_CONVEYOR_MOTOR_PERCENT));
+		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_LOWER_MOTOR_PERCENT));
+		ms.setHighConveyerMotor(tt.higherConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_HIGHER_MOTOR_PERCENT));
 	}
 
 	// Called once the command ends or is interrupted.
