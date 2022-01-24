@@ -7,10 +7,12 @@
       "/LiveWindow/Manipulator": "Subsystem",
       "/LiveWindow/Sensory": "Subsystem",
       "/LiveWindow/ShuffleboardDisplay": "Subsystem",
+      "/LiveWindow/Telemetry": "Subsystem",
       "/LiveWindow/TeleopInput": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/Shuffleboard/4418 Status Display/Autonomous Routine": "String Chooser"
+      "/Shuffleboard/4418 Status Display/Autonomous Routine": "String Chooser",
+      "/Shuffleboard/4418 Telemetry/Autonomous Routine": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/4418 Status Display/Autonomous Routine": {

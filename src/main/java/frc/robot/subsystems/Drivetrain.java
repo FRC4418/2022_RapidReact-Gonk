@@ -11,8 +11,6 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Constants.AxisDominanceThresholds;
-import frc.robot.Robot;
 import frc.robot.commands.TeleoperatedDrive;
 import frc.robot.teamlibraries.DriveInputPipeline;
 import frc.robot.teamlibraries.Gains;
@@ -21,7 +19,7 @@ import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Constants
+	// ID and encoder constants
 	
 
 	public final int
@@ -35,6 +33,20 @@ public class Drivetrain extends SubsystemBase {
 		// wheel diameter * pi = circumference of 1 revolution
 		// 1 to 7.33 gearbox is big to small gear (means more speed)
 		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
+
+
+	// ----------------------------------------------------------
+	// Open-loop control constants
+
+
+	public final double
+		// units in seconds
+		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
+	
+
+	// ----------------------------------------------------------
+	// Closed-loop control constants
+
 
 	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
 	public final int kSlotIdx = 0;
@@ -60,8 +72,6 @@ public class Drivetrain extends SubsystemBase {
 	// Resources
 
 
-	private TeleopInput ti;
-
 	private WPI_TalonFX frontLeftMotor;
 	private WPI_TalonFX backLeftMotor;
 	private WPI_TalonFX frontRightMotor;
@@ -69,20 +79,12 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive robotDrive;
 
-	private boolean driverIsInArcadeMode = true;
-	private boolean spotterIsInArcadeMode = false;
-
 
 	// ----------------------------------------------------------
 	// Constructor
 
 
 	public Drivetrain() {
-		// ----------------------------------------------------------
-		// Shortcuts to subsystem dependencies
-
-		ti = Robot.teleopInput;
-
 		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
 
@@ -223,51 +225,6 @@ public class Drivetrain extends SubsystemBase {
 		breakTankDriveIfNotMoving(pipeline.convertArcadeDriveToTank(values));
 		robotDrive.arcadeDrive(-values[0], values[1]);
 
-		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Teleop dominance actions
-
-
-	// spotter overrides driver for dominant controls for emergencies
-	public Drivetrain driveWithDominantControls() {
-		if (spotterIsInArcade()
-		&& (ti.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
-			arcadeDrive(
-				ti.spotterControls.getForwardArcadeDriveAxis(),
-				ti.spotterControls.getAngleArcadeDriveAxis());
-		} else if (!spotterIsInArcade()
-		&& (ti.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
-		|| ti.gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
-			tankDrive(
-				ti.spotterControls.getLeftTankDriveAxis(),
-				ti.spotterControls.getRightTankDriveAxis());
-		}
-
-		if (driverIsInArcade()) {
-			arcadeDrive(
-				ti.driverControls.getForwardArcadeDriveAxis(), // forward
-				ti.driverControls.getAngleArcadeDriveAxis());  // angle
-		} else {
-			tankDrive(
-				ti.driverControls.getLeftTankDriveAxis(),  // left
-				ti.driverControls.getRightTankDriveAxis());  // right
-		}
-
-		return this;
-	}
-
-	private boolean driverIsInArcade() { return driverIsInArcadeMode; }
-	public Drivetrain toggleDriverDriveMode() {
-		driverIsInArcadeMode = !driverIsInArcadeMode;
-		return this;
-	}
-	
-	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
-	public Drivetrain toggleSpotterDriveMode() {
-		spotterIsInArcadeMode = !spotterIsInArcadeMode;
 		return this;
 	}
 

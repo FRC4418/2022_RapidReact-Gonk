@@ -7,23 +7,51 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.Constants.AxisDominanceThresholds;
 import frc.robot.commands.DriveStraightWhileHeld;
 
 
 public class TeleopInput extends SubsystemBase {
+	// ----------------------------------------------------------
+	// Resources
+
+	private Drivetrain dt;
+
 	public DriverControls driverControls;
 	public SpotterControls spotterControls;
-	
-	public TeleopInput() {
-		this.driverControls = new DriverControls();
-		this.spotterControls = new SpotterControls();
-	}
 
-	// Create joysticks
+	private boolean driverIsInArcadeMode = true;
+	private boolean spotterIsInArcadeMode = false;
+
 	private final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
 		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
 		GAMEPAD = new Joystick(Constants.Gamepad.JOYSTICK_ID);
+
+	// ----------------------------------------------------------
+	// Constructor and actions
+	
+	public TeleopInput() {
+		this.driverControls = new DriverControls();
+		this.spotterControls = new SpotterControls();
+
+		dt = Robot.drivetrain;
+	}
+
+	private boolean driverIsInArcade() { return driverIsInArcadeMode; }
+	
+	public TeleopInput toggleDriverDriveMode() {
+		driverIsInArcadeMode = !driverIsInArcadeMode;
+		return this;
+	}
+	
+	private boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
+	
+	public TeleopInput toggleSpotterDriveMode() {
+		spotterIsInArcadeMode = !spotterIsInArcadeMode;
+		return this;
+	}
 
 	public double gamepadJoystickMagnitude(boolean isLeftJoystick) {
 		if (isLeftJoystick) {
@@ -41,6 +69,8 @@ public class TeleopInput extends SubsystemBase {
 	// public static double getClimberAxis() {
 	// 	return GAMEPAD.getRawAxis(Constants.DriverControlIDs.CLIMBER_JOYSTICK_AXIS_ID);
 	// }
+
+	// Driver controls inner class
 
 	public class DriverControls {
 		public JoystickButton
@@ -67,6 +97,8 @@ public class TeleopInput extends SubsystemBase {
 			return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
 	}
+	
+	// Spotter controls inner class
 	
 	public class SpotterControls {
 		public POVButton
@@ -99,8 +131,31 @@ public class TeleopInput extends SubsystemBase {
 		}
 	}
 
+	// Scheduler actions
+
 	@Override
 	public void periodic() {
-		
+		if (spotterIsInArcade()
+		&& (gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
+			dt.arcadeDrive(
+				spotterControls.getForwardArcadeDriveAxis(),
+				spotterControls.getAngleArcadeDriveAxis());
+		} else if (!spotterIsInArcade()
+		&& (gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
+		|| gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
+			dt.tankDrive(
+				spotterControls.getLeftTankDriveAxis(),
+				spotterControls.getRightTankDriveAxis());
+		}
+
+		if (driverIsInArcade()) {
+			dt.arcadeDrive(
+				driverControls.getForwardArcadeDriveAxis(),	// forward
+				driverControls.getAngleArcadeDriveAxis());	// angle
+		} else {
+			dt.tankDrive(
+				driverControls.getLeftTankDriveAxis(),		// left
+				driverControls.getRightTankDriveAxis());	// right
+		}
 	}
 }

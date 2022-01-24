@@ -9,12 +9,6 @@ import frc.robot.subsystems.Drivetrain;
 
 public class TeleoperatedDrive extends CommandBase {
 	// ----------------------------------------------------------
-	// Constants
-	public final double
-		// units in seconds
-		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
-
-	// ----------------------------------------------------------
 	// Resources
 
 	private Drivetrain dt;
@@ -32,12 +26,12 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void initialize() {
-		dt.setOpenLoopRampTimes(SHARED_RAMP_TIME);
+		dt.setOpenLoopRampTimes(dt.SHARED_RAMP_TIME);
 	}
 
 	@Override
 	public void execute() {
-		dt.driveWithDominantControls();
+		
 	}
 
 	@Override
