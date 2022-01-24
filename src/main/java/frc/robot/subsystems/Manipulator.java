@@ -70,7 +70,7 @@ public class Manipulator extends SubsystemBase {
 	public void setHighMotor(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
 
 	// ----------------------------------------------------------
-	// Cycle functions
+	// Scheduler functions
 
 	@Override
 	public void periodic() {

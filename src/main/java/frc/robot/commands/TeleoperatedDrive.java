@@ -8,20 +8,33 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class TeleoperatedDrive extends CommandBase {
+	// ----------------------------------------------------------
+	// Constants
+	public final double
+		// units in seconds
+		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
+
+	// ----------------------------------------------------------
+	// Subsystem resources
+
 	private Drivetrain dt;
+
+	// ----------------------------------------------------------
+	// Construtor and actions
 
 	public TeleoperatedDrive() {
 		dt = RobotContainer.drivetrain;
 		addRequirements(dt);
 	}
 
-	// Called when the command is initially scheduled.
+	// ----------------------------------------------------------
+	// Scheduler actions
+
 	@Override
 	public void initialize() {
-		dt.setOpenLoopRampTimes(dt.SHARED_RAMP_TIME);
+		dt.setOpenLoopRampTimes(SHARED_RAMP_TIME);
 	}
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		// SmartDashboard.putNumber("Gamepad Left Joy Magnitude", RobotContainer.gamepadJoystickMagnitude(true));
@@ -29,13 +42,11 @@ public class TeleoperatedDrive extends CommandBase {
 		dt.driveWithDominantControls();
 	}
 
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		dt.stopDrive();
 	}
 
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;

@@ -40,7 +40,7 @@ public class Climber extends SubsystemBase {
 	}
 
 	// ----------------------------------------------------------
-	// Cycle functions
+	// Scheduler functions
 
 	@Override
 	public void periodic() {

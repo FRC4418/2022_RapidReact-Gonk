@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
 	public void setMotor2(double percentOutput) { motor2.set(ControlMode.PercentOutput, percentOutput); }
 
 	// ----------------------------------------------------------
-	// Cycle functions
+	// Scheduler functions
 
 	@Override
 	public void periodic() {

@@ -38,10 +38,6 @@ public class Drivetrain extends SubsystemBase {
 		// 1 to 7.33 gearbox is big to small gear (means more speed)
 		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
 
-	public final double
-		// units in seconds
-		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
-
 	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
 	public final int kSlotIdx = 0;
 

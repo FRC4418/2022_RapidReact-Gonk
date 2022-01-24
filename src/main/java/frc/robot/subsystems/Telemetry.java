@@ -70,7 +70,7 @@ public class Telemetry extends SubsystemBase {
 	}
 
 	// ----------------------------------------------------------
-	// Cycle functions
+	// Scheduler functions
 
 	@Override
 	public void periodic() {

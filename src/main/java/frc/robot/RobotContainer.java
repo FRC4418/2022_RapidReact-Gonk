@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.*;
-// import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.TeleopInput;
@@ -17,7 +17,7 @@ import frc.robot.subsystems.Telemetry;
 public class RobotContainer {
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static Manipulator manipulator = new Manipulator();
-	// public static Climber climber = new Climber();
+	public static Climber climber = new Climber();
 	public static TeleopInput teleopSensitivity = new TeleopInput();
 	// public static Sensory sensory = new Sensory();
 	public static Telemetry telemetry = new Telemetry();
