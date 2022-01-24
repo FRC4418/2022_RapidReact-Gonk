@@ -1,14 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.Constants.Manipulator.ConveyorShooter;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Telemetry;
 
@@ -18,9 +13,9 @@ public class ConveyerDemo extends CommandBase {
 	private Telemetry tt;
 
 	public ConveyerDemo() {
-		// Use addRequirements() here to declare subsystem dependencies
 		ms = RobotContainer.manipulator;
 		tt = RobotContainer.telemetry;
+		addRequirements(ms);
 	}
 
 	// Called when the command is initially scheduled.
@@ -32,15 +27,15 @@ public class ConveyerDemo extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		ms.setLowConveyerMotor(tt.lowerConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_LOWER_MOTOR_PERCENT));
-		ms.setHighConveyerMotor(tt.higherConveyorMotorPercentTextView.getDouble(ConveyorShooter.DEFAULT_HIGHER_MOTOR_PERCENT));
+		ms.setLowMotor(tt.lowerConveyorMotorPercentTextView.getDouble(ms.DEFAULT_LOWER_MOTOR_PERCENT));
+		ms.setHighMotor(tt.higherConveyorMotorPercentTextView.getDouble(ms.DEFAULT_HIGHER_MOTOR_PERCENT));
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		ms.setLowConveyerMotor(0.d);
-		ms.setHighConveyerMotor(0.d);
+		ms.setLowMotor(0.d);
+		ms.setHighMotor(0.d);
 	}
 
 	// Returns true when the command should end.

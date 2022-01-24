@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 
@@ -19,17 +12,58 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants.AxisDominanceThresholds;
-import frc.robot.Constants.Drive;
 import frc.robot.RobotContainer.DriverControls;
 import frc.robot.RobotContainer.SpotterControls;
 // import frc.robot.Constants.Drive.PID;
 import frc.robot.RobotContainer;
-import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.commands.TeleoperatedDrive;
 import frc.robot.teamlibraries.DriveInputPipeline;
+import frc.robot.teamlibraries.Gains;
 import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 
 public class Drivetrain extends SubsystemBase {
+	// ----------------------------------------------------------
+	// Constants
+	
+	public final int
+		FRONT_LEFT_ID = 4,
+		BACK_LEFT_ID = 3,
+		FRONT_RIGHT_ID = 2,
+		BACK_RIGHT_ID = 1;
+
+	public final double
+		// 2048 ticks in 1 revolution for Falcon 500s
+		// wheel diameter * pi = circumference of 1 revolution
+		// 1 to 7.33 gearbox is big to small gear (means more speed)
+		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
+
+	public final double
+		// units in seconds
+		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
+
+	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
+	public final int kSlotIdx = 0;
+
+	// Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
+	public final int kIdx = 0;
+
+	// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
+	public final int kTimeoutMs = 30;
+
+	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+
+	public final Gains kLeftMotorVelocityGains
+		//			kP		kI		kD		kF				Iz		Peakout
+		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	
+	public final Gains kRightMotorVelocityGains 
+		//			kP		kI		kD		kF				Iz		Peakout
+		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+
+	// ----------------------------------------------------------
+	// Subsystem resources
+
 	private WPI_TalonFX frontLeftMotor;
 	private WPI_TalonFX backLeftMotor;
 	private WPI_TalonFX frontRightMotor;
@@ -40,11 +74,16 @@ public class Drivetrain extends SubsystemBase {
 	private boolean driverIsInArcadeMode = true;
 	private boolean spotterIsInArcadeMode = false;
 
+	// ----------------------------------------------------------
+	// Constructor and actions
+
 	public Drivetrain() {
-		frontLeftMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_LEFT_ID);
-		backLeftMotor = new WPI_TalonFX(Drive.TalonFX.BACK_LEFT_ID);
-		frontRightMotor = new WPI_TalonFX(Drive.TalonFX.FRONT_RIGHT_ID);
-		backRightMotor = new WPI_TalonFX(Drive.TalonFX.BACK_RIGHT_ID);
+		// ----------------------------------------------------------
+		// Initialize motor controllers and followers
+		frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_ID);
+		backLeftMotor = new WPI_TalonFX(BACK_LEFT_ID);
+		frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_ID);
+		backRightMotor = new WPI_TalonFX(BACK_RIGHT_ID);
 
 		backLeftMotor.follow(frontLeftMotor);
 		backRightMotor.follow(frontRightMotor);
@@ -225,11 +264,11 @@ public class Drivetrain extends SubsystemBase {
 
 	
 	public double getLeftDistance() {
-		return frontLeftMotor.getSelectedSensorPosition() * Drive.Encoder.TICKS_TO_INCHES_CONVERSION;
+		return frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
 	}
 
 	public double getRightDistance() {
-		return frontRightMotor.getSelectedSensorPosition() * Drive.Encoder.TICKS_TO_INCHES_CONVERSION;
+		return frontRightMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
 	}
 
 	public double getAverageDistance() {
@@ -260,6 +299,6 @@ public class Drivetrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new TeleopDriveCommand());
+		setDefaultCommand(new TeleoperatedDrive());
 	}
 }

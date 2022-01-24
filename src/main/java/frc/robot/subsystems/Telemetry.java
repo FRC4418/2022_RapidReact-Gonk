@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 
@@ -12,12 +8,18 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Manipulator.ConveyorShooter;
+
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class Telemetry extends SubsystemBase {
-	public static ShuffleboardTab telemetryTab;
+	// ----------------------------------------------------------
+	// Subsystem resources
+
+	private Manipulator ms;
+
+	public ShuffleboardTab telemetryTab;
 	
 	public NetworkTableEntry tuningModeBooleanBox;
 
@@ -28,8 +30,11 @@ public class Telemetry extends SubsystemBase {
 	
 	public boolean inTuningMode;
 
+	// ----------------------------------------------------------
+	// Constructor and actions
+
 	public Telemetry() {
-		
+		ms = RobotContainer.manipulator;
 	}
 
 	public void initializeTelemetry() {
@@ -51,18 +56,21 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1);
 
 		lowerConveyorMotorPercentTextView = telemetryTab
-			.add("Lower Conveyor Motor Percent", ConveyorShooter.DEFAULT_LOWER_MOTOR_PERCENT)
+			.add("Lower Conveyor Motor Percent", ms.DEFAULT_LOWER_MOTOR_PERCENT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 0)
 			.withSize(2, 1)
 			.getEntry();
 		higherConveyorMotorPercentTextView = telemetryTab
-			.add("Higher Conveyor Motor Percent", ConveyorShooter.DEFAULT_HIGHER_MOTOR_PERCENT)
+			.add("Higher Conveyor Motor Percent", ms.DEFAULT_HIGHER_MOTOR_PERCENT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 1)
 			.withSize(2, 1)
 			.getEntry();
 	}
+
+	// ----------------------------------------------------------
+	// Cycle functions
 
 	@Override
 	public void periodic() {

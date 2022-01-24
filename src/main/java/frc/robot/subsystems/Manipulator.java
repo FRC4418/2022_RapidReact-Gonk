@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 
@@ -17,22 +10,35 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 //import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Constants.Manipulator.ConveyorShooter;
 // import frc.robot.Robot;
-import frc.robot.Constants.Manipulator.Intake;
 
 
 public class Manipulator extends SubsystemBase {
-	public boolean inTuningMode;
+	// ----------------------------------------------------------
+	// Constants
 
-	public NetworkTableEntry intakePercentOutputTextField;
+	public final int
+		LOWER_MOTOR_ID = 5,
+		HIGHER_MOTOR_ID = 7;
 
-	public WPI_TalonSRX intake0;
-	public WPI_TalonSRX intake1;
-	public WPI_TalonSRX intake2;
+	public final double
+		DEFAULT_LOWER_MOTOR_PERCENT = 0.3,
+		DEFAULT_HIGHER_MOTOR_PERCENT = 0.3;
+
+	// High-goal shooter
+	public final int
+		MOTOR_775_ID = 11;
 	
-	public WPI_TalonSRX lowerConveyorMotor;
-	public WPI_TalonSRX higherConveyorMotor;
+	public final double
+		TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
+	
+	// ----------------------------------------------------------
+	// Subsystem resources
+
+	public boolean inTuningMode;
+	
+	private WPI_TalonSRX lowerConveyorMotor;
+	private WPI_TalonSRX higherConveyorMotor;
 	
 
 	public NetworkTableEntry highShooterPercentageTextField;
@@ -47,30 +53,24 @@ public class Manipulator extends SubsystemBase {
 	//   * (double) Constants.DRIVE_ENCODER_DECODING_SCALE_FACTOR 
 	//   / 60.0;
 
-	public Manipulator() { 
-		// TODO: Change intake motor names after learning of functionality
-		intake0 = new WPI_TalonSRX(Intake.MOTOR_0_ID);
-		intake1 = new WPI_TalonSRX(Intake.MOTOR_1_ID);
-		intake2 = new WPI_TalonSRX(Intake.MOTOR_2_ID);
+	// ----------------------------------------------------------
+	// Constructor and actions
 
-		lowerConveyorMotor = new WPI_TalonSRX(ConveyorShooter.LOWER_MOTOR_ID);
-		higherConveyorMotor = new WPI_TalonSRX(ConveyorShooter.HIGHER_MOTOR_ID);
+	public Manipulator() {
+		lowerConveyorMotor = new WPI_TalonSRX(LOWER_MOTOR_ID);
+		higherConveyorMotor = new WPI_TalonSRX(HIGHER_MOTOR_ID);
 
 		higherConveyorMotor.setInverted(true);
 	}
 	
-	public void setIntake0(double percentOutput) { intake0.set(ControlMode.PercentOutput, percentOutput); }
-	public void setIntake1(double percentOutput) { intake1.set(ControlMode.PercentOutput, percentOutput); }
-	public void setIntake2(double percentOutput) { intake2.set(ControlMode.PercentOutput, percentOutput); }
-	
-	public void setLowConveyerMotor(double percentOutput) { lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setHighConveyerMotor(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public double getLowMotor() { return lowerConveyorMotor.get(); }
+	public double getHighMotor() { return higherConveyorMotor.get(); }
 
-	public double getLowConveyerMotor() { return lowerConveyorMotor.get(); }
-	public double getHighConveryerMotor() { return higherConveyorMotor.get(); }
-	public double getIntake() { return intake0.get(); }
-	public double getIntake2() { return intake1.get(); }
-	public double getIntake3() { return intake2.get(); }
+	public void setLowMotor(double percentOutput) { lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setHighMotor(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+
+	// ----------------------------------------------------------
+	// Cycle functions
 
 	@Override
 	public void periodic() {
