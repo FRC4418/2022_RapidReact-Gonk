@@ -3,7 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -13,7 +13,7 @@ public class DriveStraightWhileHeld extends CommandBase {
 	private final double motorOutputPercent = 0.5d;
 
 	public DriveStraightWhileHeld() {
-		dt = RobotContainer.drivetrain;
+		dt = Robot.drivetrain;
 		addRequirements(dt);
 	}
 

@@ -17,16 +17,16 @@ public final class Constants {
 			// ---Button IDs---
 			TRIGGER_BUTTON_ID = 1,
 			GRIP_BUTTON_ID = 2,
-			THREE_BUTTON_ID = 3,
-			FOUR_BUTTON_ID = 4,
-			FIVE_BUTTON_ID = 5,
-			SIX_BUTTON_ID = 6,
-			SEVEN_BUTTON_ID = 7,
-			EIGHT_BUTTON_ID = 8,
-			NINE_BUTTON_ID = 9,
-			TEN_BUTTON_ID = 10,
-			ELEVEN_BUTTON_ID = 11,
-			TWELVE_BUTTON_ID = 12;
+			BUTTON_3_ID = 3,
+			BUTTON_4_ID = 4,
+			BUTTON_5_ID = 5,
+			BUTTON_6_ID = 6,
+			BUTTON_7_ID = 7,
+			BUTTON_8_ID = 8,
+			BUTTON_9_ID = 9,
+			BUTTON_10_ID = 10,
+			BUTTON_11_ID = 11,
+			BUTTON_12_ID = 12;
 	}
 
 	public static class Gamepad {
@@ -74,7 +74,7 @@ public final class Constants {
 			// Arcade drive axis
 			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,
 			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.YAW_AXIS,
-			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.FIVE_BUTTON_ID,	// does not toggle drive mode for spotter
+			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.BUTTON_5_ID,	// does not toggle drive mode for spotter
 			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID;
 	}
 

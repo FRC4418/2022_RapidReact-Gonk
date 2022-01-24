@@ -3,7 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -23,7 +23,7 @@ public class TeleoperatedDrive extends CommandBase {
 	// Construtor and actions
 
 	public TeleoperatedDrive() {
-		dt = RobotContainer.drivetrain;
+		dt = Robot.drivetrain;
 		addRequirements(dt);
 	}
 
@@ -37,8 +37,6 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		// SmartDashboard.putNumber("Gamepad Left Joy Magnitude", RobotContainer.gamepadJoystickMagnitude(true));
-
 		dt.driveWithDominantControls();
 	}
 

@@ -12,10 +12,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants.AxisDominanceThresholds;
-import frc.robot.RobotContainer.DriverControls;
-import frc.robot.RobotContainer.SpotterControls;
-// import frc.robot.Constants.Drive.PID;
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 import frc.robot.commands.TeleoperatedDrive;
 import frc.robot.teamlibraries.DriveInputPipeline;
 import frc.robot.teamlibraries.Gains;
@@ -26,6 +23,7 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Constants
 	
+
 	public final int
 		FRONT_LEFT_ID = 4,
 		BACK_LEFT_ID = 3,
@@ -57,8 +55,12 @@ public class Drivetrain extends SubsystemBase {
 		//			kP		kI		kD		kF				Iz		Peakout
 		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 
+
 	// ----------------------------------------------------------
 	// Subsystem resources
+
+
+	private TeleopInput ti;
 
 	private WPI_TalonFX frontLeftMotor;
 	private WPI_TalonFX backLeftMotor;
@@ -70,12 +72,20 @@ public class Drivetrain extends SubsystemBase {
 	private boolean driverIsInArcadeMode = true;
 	private boolean spotterIsInArcadeMode = false;
 
+
 	// ----------------------------------------------------------
-	// Constructor and actions
+	// Constructor
+
 
 	public Drivetrain() {
 		// ----------------------------------------------------------
+		// Shortcuts to subsystem dependencies
+
+		ti = Robot.teleopInput;
+
+		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
+
 		frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_ID);
 		backLeftMotor = new WPI_TalonFX(BACK_LEFT_ID);
 		frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_ID);
@@ -89,17 +99,11 @@ public class Drivetrain extends SubsystemBase {
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
 
-		// ----------------------------------------------------------
-
 		frontRightMotor.setInverted(true);
 		backRightMotor.setInverted(InvertType.FollowMaster);
 
 		// ----------------------------------------------------------
-
-		// Integrated sensors (built-in encoders)
-		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		resetEncoders();
+		// Config closed-loop controls
 
 		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
 		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
@@ -112,14 +116,24 @@ public class Drivetrain extends SubsystemBase {
         // frontRightDriveMotor.config_kD(PID.kIdx, PID.kRightMotorVelocityGains.kD, PID.kTimeoutMs);
 
 		// ----------------------------------------------------------
+		// Config integrated sensors (built-in encoders)
 
-		// Drive system
+		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		resetEncoders();
+
+		// ----------------------------------------------------------
+		// Set up drivetrain
+
 		coastOrBrakeMotors(false, false);
 
 		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 	}
 
+
 	// ----------------------------------------------------------
+	// Low-level drivetrain actions
+
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
 		frontLeftMotor.configOpenloopRamp(timeInSeconds);
@@ -167,7 +181,9 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 
+
 	// ----------------------------------------------------------
+	// High-level drivetrain actions
 
 
 	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
@@ -177,7 +193,6 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	// stop driving
 	public Drivetrain stopDrive() {
 		frontLeftMotor.set(ControlMode.PercentOutput, 0.d);
 		frontRightMotor.set(ControlMode.PercentOutput, 0.d);
@@ -213,31 +228,32 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Teleop dominance actions
 
 
 	// spotter overrides driver for dominant controls for emergencies
 	public Drivetrain driveWithDominantControls() {
 		if (spotterIsInArcade()
-		&& (RobotContainer.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
+		&& (ti.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
 			arcadeDrive(
-				SpotterControls.getForwardArcadeDriveAxis(),
-				SpotterControls.getAngleArcadeDriveAxis());
+				ti.spotterControls.getForwardArcadeDriveAxis(),
+				ti.spotterControls.getAngleArcadeDriveAxis());
 		} else if (!spotterIsInArcade()
-		&& (RobotContainer.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
-		|| RobotContainer.gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
+		&& (ti.gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
+		|| ti.gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
 			tankDrive(
-				SpotterControls.getLeftTankDriveAxis(),
-				SpotterControls.getRightTankDriveAxis());
+				ti.spotterControls.getLeftTankDriveAxis(),
+				ti.spotterControls.getRightTankDriveAxis());
 		}
 
 		if (driverIsInArcade()) {
 			arcadeDrive(
-				DriverControls.getForwardArcadeDriveAxis(), // forward
-				DriverControls.getAngleArcadeDriveAxis());  // angle
+				ti.driverControls.getForwardArcadeDriveAxis(), // forward
+				ti.driverControls.getAngleArcadeDriveAxis());  // angle
 		} else {
 			tankDrive(
-				DriverControls.getLeftTankDriveAxis(),  // left
-				DriverControls.getRightTankDriveAxis());  // right
+				ti.driverControls.getLeftTankDriveAxis(),  // left
+				ti.driverControls.getRightTankDriveAxis());  // right
 		}
 
 		return this;
@@ -257,8 +273,9 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-
+	// Encoder actions
 	
+
 	public double getLeftDistance() {
 		return frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
 	}
@@ -281,7 +298,6 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	// resets both
 	public Drivetrain resetEncoders() {
 		resetLeftEncoder();
 		resetRightEncoder();
@@ -290,8 +306,9 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	
+	// Scheduler actions
 
+	
 	@Override
 	public void periodic() {
 		// Set the default command for a subsystem here.

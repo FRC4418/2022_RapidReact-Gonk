@@ -7,6 +7,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.TeleopInput;
+// import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Telemetry;
 import frc.robot.commands.ConveyerDemo;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
@@ -19,17 +25,30 @@ import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
  * project.
  */
 public class Robot extends TimedRobot {
+	public static Drivetrain drivetrain = new Drivetrain();
+	public static Manipulator manipulator = new Manipulator();
+	public static Climber climber = new Climber();
+
+	public static TeleopInput teleopInput = new TeleopInput();
+	public static TeleopInput teleopSensitivity = new TeleopInput();
+	// public static Sensory sensory = new Sensory();
+	public static Telemetry telemetry = new Telemetry();
+
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 
 	public static Command m_autonomousCommand;
 
+	public Robot() {
+
+	}
+
 	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
 		// Configure the button bindings
-		RobotContainer.DriverControls.configureButtonBindings();
-		RobotContainer.SpotterControls.configureButtonBindings();
+		teleopInput.driverControls.configureButtonBindings();
+		teleopInput.spotterControls.configureButtonBindings();
 		
 		// autonomous, drive straight and backwards for 30 inches
 		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
@@ -37,7 +56,7 @@ public class Robot extends TimedRobot {
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
-		RobotContainer.telemetry.initializeTelemetry();
+		telemetry.initializeTelemetry();
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -58,7 +77,7 @@ public class Robot extends TimedRobot {
 
 	}
 
-	// Runs autonomous command selected by {@link RobotContainer} class
+	// Runs autonomous command selected by {@link Robot} class
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
