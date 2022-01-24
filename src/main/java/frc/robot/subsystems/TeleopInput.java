@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.commands.DriveStraightWhileHeld;
-import frc.robot.commands.ToggleDriverArcadeDriveCommand;
 
 
 public class TeleopInput extends SubsystemBase {
@@ -45,11 +44,9 @@ public class TeleopInput extends SubsystemBase {
 
 	public class DriverControls {
 		public JoystickButton
-			toggleArcadeDriveButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_ARCADE_DRIVE_BUTTON_ID),
 			driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID);
 			
 		public void configureButtonBindings() {
-			toggleArcadeDriveButton.whenPressed(new ToggleDriverArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
 		}
 		
@@ -76,17 +73,13 @@ public class TeleopInput extends SubsystemBase {
 			driveStraightButton = new POVButton(GAMEPAD, Constants.SpotterControlIDs.DRIVE_STRAIGHT_POV_ANGLE);
 
 		public JoystickButton
-			toggleArcadeDriveButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.TOGGLE_ARCADE_DRIVE_BUTTON_ID),
-			toggleSensitivityButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.TOGGLE_SENSITIVITY_BUTTON_ID),
 			intakeButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.INTAKE_BUTTON_ID),
 			feederButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.FEEDER_BUTTON_ID),
 			extendClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.EXTEND_CLIMBER_BUTTON_ID),
 			lowerClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.LOWER_CLIMBER_BUTTON_ID);
 
 		public void configureButtonBindings() {
-			toggleArcadeDriveButton.whenPressed(new ToggleSpotterArcadeDriveCommand());
 			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
-			toggleSensitivityButton.whenPressed(new ToggleTeleopSensitivityMode());			
 		}
 
 		// Tank drive axes
