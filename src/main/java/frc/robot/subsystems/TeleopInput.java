@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.POVButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -45,9 +45,9 @@ public class TeleopInput extends SubsystemBase {
 	public class DriverControls {
 		public JoystickButton
 			driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID);
-			
-		public void configureButtonBindings() {
-			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
+
+		public DriverControls() {
+			driveStraightButton.whenHeld(new DriveStraightWhileHeld());
 		}
 		
 		// Tank drive axes
@@ -78,8 +78,8 @@ public class TeleopInput extends SubsystemBase {
 			extendClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.EXTEND_CLIMBER_BUTTON_ID),
 			lowerClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.LOWER_CLIMBER_BUTTON_ID);
 
-		public void configureButtonBindings() {
-			driveStraightButton.whileHeld(new DriveStraightWhileHeld());
+		public SpotterControls() {
+			driveStraightButton.whenHeld(new DriveStraightWhileHeld());
 		}
 
 		// Tank drive axes

@@ -46,10 +46,6 @@ public class Robot extends TimedRobot {
 	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
-		// Configure the button bindings
-		teleopInput.driverControls.configureButtonBindings();
-		teleopInput.spotterControls.configureButtonBindings();
-		
 		// autonomous, drive straight and backwards for 30 inches
 		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
 
