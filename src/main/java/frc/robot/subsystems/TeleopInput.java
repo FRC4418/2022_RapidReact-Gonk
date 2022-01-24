@@ -16,6 +16,7 @@ public class TeleopInput extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
 
+
 	private Drivetrain dt;
 
 	public DriverControls driverControls;
@@ -29,9 +30,11 @@ public class TeleopInput extends SubsystemBase {
 		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
 		GAMEPAD = new Joystick(Constants.Gamepad.JOYSTICK_ID);
 
+
 	// ----------------------------------------------------------
 	// Constructor and actions
 	
+
 	public TeleopInput() {
 		this.driverControls = new DriverControls();
 		this.spotterControls = new SpotterControls();
@@ -65,12 +68,10 @@ public class TeleopInput extends SubsystemBase {
 		}
 	}
 
-	// Climber axes or up/down buttons (buttons take priority over joystick)
-	// public static double getClimberAxis() {
-	// 	return GAMEPAD.getRawAxis(Constants.DriverControlIDs.CLIMBER_JOYSTICK_AXIS_ID);
-	// }
 
+	// ----------------------------------------------------------
 	// Driver controls inner class
+
 
 	public class DriverControls {
 		public JoystickButton
@@ -98,8 +99,11 @@ public class TeleopInput extends SubsystemBase {
 		}
 	}
 	
+
+	// ----------------------------------------------------------
 	// Spotter controls inner class
 	
+
 	public class SpotterControls {
 		public POVButton
 			driveStraightButton = new POVButton(GAMEPAD, Constants.SpotterControlIDs.DRIVE_STRAIGHT_POV_ANGLE);
@@ -131,7 +135,10 @@ public class TeleopInput extends SubsystemBase {
 		}
 	}
 
+
+	// ----------------------------------------------------------
 	// Scheduler actions
+
 
 	@Override
 	public void periodic() {
