@@ -57,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 
 	private TeleopInput ti;

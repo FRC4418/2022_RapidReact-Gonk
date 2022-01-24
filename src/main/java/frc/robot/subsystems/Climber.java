@@ -15,7 +15,7 @@ public class Climber extends SubsystemBase {
 	private final int MOTOR_ID = -1;
 
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 	private WPI_TalonSRX climbMotor;
 	private Encoder climbEncoder;

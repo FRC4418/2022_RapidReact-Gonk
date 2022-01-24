@@ -15,7 +15,7 @@ public class TeleoperatedDrive extends CommandBase {
 		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
 
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 	private Drivetrain dt;
 

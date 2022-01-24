@@ -25,6 +25,10 @@ import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
  * project.
  */
 public class Robot extends TimedRobot {
+	// ----------------------------------------------------------
+	// Subsystem dependencies
+
+
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static Manipulator manipulator = new Manipulator();
 	public static Climber climber = new Climber();
@@ -34,14 +38,30 @@ public class Robot extends TimedRobot {
 	// public static Sensory sensory = new Sensory();
 	public static Telemetry telemetry = new Telemetry();
 
+
+	// ----------------------------------------------------------
+	// Resources
+
+
+	// TODO: Code cool camera stuff
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 
 	public static Command m_autonomousCommand;
 
+
+	// ----------------------------------------------------------
+	// Constructor
+
+
 	public Robot() {
 
 	}
+
+
+	// ----------------------------------------------------------
+	// Robot-mode scheduler actions
+
 
 	// run when robot is started, put initialization code here
 	@Override
@@ -63,6 +83,11 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 	}
 
+
+	// ----------------------------------------------------------
+	// Disabled-mode scheduler actions
+
+
 	@Override
 	public void disabledInit() {
 
@@ -72,6 +97,11 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 
 	}
+
+
+	// ----------------------------------------------------------
+	// Autonomous-phase scheduler actions
+
 
 	// Runs autonomous command selected by {@link Robot} class
 	@Override
@@ -86,6 +116,11 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 
 	}
+
+
+	// ----------------------------------------------------------
+	// Teleop-phase scheduler actions
+
 
 	@Override
 	public void teleopInit() {
@@ -103,6 +138,11 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 	}
+
+
+	// ----------------------------------------------------------
+	// Test-phase scheduler actions
+
 
 	@Override
 	public void testInit() {

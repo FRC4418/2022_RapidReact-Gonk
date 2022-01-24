@@ -15,7 +15,7 @@ import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 public class Telemetry extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 	private Manipulator ms;
 

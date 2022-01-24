@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
 		PERCENT_OUTPUT = 0.5d;
 
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 	// TODO: Change intake motor names after learning of functionality
 	public WPI_TalonSRX motor0;

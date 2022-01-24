@@ -34,7 +34,7 @@ public class Manipulator extends SubsystemBase {
 		TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
 	
 	// ----------------------------------------------------------
-	// Subsystem resources
+	// Resources
 
 	public boolean inTuningMode;
 	
