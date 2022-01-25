@@ -4,7 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -25,7 +25,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 		this.distanceInInches = distanceInInches;
 		this.direction = direction;
 
-		dt = Robot.drivetrain;
+		dt = RobotContainer.drivetrain;
 		addRequirements(dt);
 	}
 

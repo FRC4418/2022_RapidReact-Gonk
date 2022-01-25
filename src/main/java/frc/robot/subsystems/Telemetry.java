@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
@@ -47,8 +48,8 @@ public class Telemetry extends SubsystemBase {
 	// Constructor and actions
 
 	public Telemetry() {
-		it = Robot.intake;
-		ms = Robot.manipulator;
+		it = RobotContainer.intake;
+		ms = RobotContainer.manipulator;
 	}
 
 	public void initializeTelemetry() {
