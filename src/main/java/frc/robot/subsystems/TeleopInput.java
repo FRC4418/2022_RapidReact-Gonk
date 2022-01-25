@@ -45,6 +45,8 @@ public class TeleopInput extends SubsystemBase {
 		dt = Robot.drivetrain;
 	}
 
+	// TODO: Figure out how to split funcs and vars for driver and spotter
+
 	public JoystickButton
 		DRIVER_driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID);
 

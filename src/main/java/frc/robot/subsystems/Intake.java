@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -27,8 +26,6 @@ public class Intake extends SubsystemBase {
 
 	public WPI_TalonSRX rollerMotor;
 	public WPI_TalonFX retractMotor;
-
-	public NetworkTableEntry intakePercentOutputTextField;
 	
 	// ----------------------------------------------------------
 	// Constructor and actions
@@ -38,8 +35,8 @@ public class Intake extends SubsystemBase {
 		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
 	}
 
-	public double getRollerMotor() { return rollerMotor.get(); }
-	public double getRetractMotor() { return retractMotor.get(); }
+	public double getRollerMotorPercent() { return rollerMotor.get(); }
+	public double getRetractMotorPercent() { return retractMotor.get(); }
 
 	public void setRollerMotorPercent(double percentOutput) { rollerMotor.set(ControlMode.PercentOutput, percentOutput); }
 	public void setRetractMotorPosition(double position) { retractMotor.set(ControlMode.Position, position); }
