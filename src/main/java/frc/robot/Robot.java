@@ -31,16 +31,16 @@ public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
 	// Subsystem dependencies
 
-	public static TeleopInput teleopInput = new TeleopInput();
+	public final static TeleopInput teleopInput = new TeleopInput();
 
-	public static Drivetrain drivetrain = new Drivetrain();
-	public static Intake intake = new Intake();
-	public static Manipulator manipulator = new Manipulator();
-	public static Climber climber = new Climber();
+	public final static Drivetrain drivetrain = new Drivetrain();
+	public final static Intake intake = new Intake();
+	public final static Manipulator manipulator = new Manipulator();
+	public final static Climber climber = new Climber();
 
 	// public static Sensory sensory = new Sensory();
-	public static Autonomous autonomous = new Autonomous();
-	public static Telemetry telemetry = new Telemetry();
+	public final static Autonomous autonomous = new Autonomous();
+	public final static Telemetry telemetry = new Telemetry();
 
 
 	// ----------------------------------------------------------
