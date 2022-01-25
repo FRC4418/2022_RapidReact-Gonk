@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class DriveStraightWhileHeld extends CommandBase {
-	private Drivetrain dt;
+	private final Drivetrain dt;
 
 	private final double motorOutputPercent = 0.5d;
 

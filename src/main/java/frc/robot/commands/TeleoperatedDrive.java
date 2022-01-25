@@ -11,7 +11,7 @@ public class TeleoperatedDrive extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private Drivetrain dt;
+	private final Drivetrain dt;
 
 	// ----------------------------------------------------------
 	// Construtor and actions

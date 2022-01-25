@@ -11,8 +11,8 @@ public class ManipulatorDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private Manipulator ms;
-	private Telemetry tt;
+	private final Manipulator ms;
+	private final Telemetry tt;
 
 	// ----------------------------------------------------------
 	// Constructor

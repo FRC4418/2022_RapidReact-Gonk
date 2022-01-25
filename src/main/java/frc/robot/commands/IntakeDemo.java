@@ -12,8 +12,8 @@ public class IntakeDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private Intake it;
-	private Telemetry tt;
+	private final Intake it;
+	private final Telemetry tt;
 
 	// ----------------------------------------------------------
 	// Constructor

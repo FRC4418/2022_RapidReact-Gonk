@@ -9,6 +9,8 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class AutoDriveStraightForDistance extends CommandBase {
+	private final Drivetrain dt;
+
 	public enum DriveStraightDirection {
 		FORWARDS,
 		BACKWARDS
@@ -19,7 +21,6 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 	private double distanceInInches;
 	private DriveStraightDirection direction;
-	private Drivetrain dt;
 
 	public AutoDriveStraightForDistance(double distanceInInches, DriveStraightDirection direction) {
 		this.distanceInInches = distanceInInches;
