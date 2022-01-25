@@ -7,6 +7,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import frc.robot.subsystems.Autonomous;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.TeleopInput;
+// import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Telemetry;
 import frc.robot.commands.ManipulatorDemo;
 import frc.robot.commands.IntakeDemo;
 import frc.robot.commands.AutoDriveStraightForDistance;
@@ -23,22 +31,21 @@ public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
 	// Subsystem dependencies
 
-	// public static TeleopInput teleopInput = new TeleopInput();
+	public static TeleopInput teleopInput = new TeleopInput();
 
-	// public static Drivetrain drivetrain = new Drivetrain();
-	// public static Intake intake = new Intake();
-	// public static Manipulator manipulator = new Manipulator();
-	// public static Climber climber = new Climber();
+	public static Drivetrain drivetrain = new Drivetrain();
+	public static Intake intake = new Intake();
+	public static Manipulator manipulator = new Manipulator();
+	public static Climber climber = new Climber();
 
-	// // public static Sensory sensory = new Sensory();
-	// public static Autonomous autonomous = new Autonomous();
-	// public static Telemetry telemetry = new Telemetry();
+	// public static Sensory sensory = new Sensory();
+	public static Autonomous autonomous = new Autonomous();
+	public static Telemetry telemetry = new Telemetry();
 
 
 	// ----------------------------------------------------------
 	// Resources
 
-	private RobotContainer robotContainer;
 
 	// TODO: Code cool camera stuff
 	// private UsbCamera m_frontShooterCamera;
@@ -58,7 +65,7 @@ public class Robot extends TimedRobot {
 
 
 	public Robot() {
-		robotContainer = new RobotContainer();
+
 	}
 
 
@@ -78,7 +85,7 @@ public class Robot extends TimedRobot {
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
-		RobotContainer.telemetry.initializeTelemetry();
+		telemetry.initializeTelemetry();
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics

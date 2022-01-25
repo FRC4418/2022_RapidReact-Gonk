@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Telemetry;
 
@@ -18,8 +18,8 @@ public class ManipulatorDemo extends CommandBase {
 	// Constructor
 
 	public ManipulatorDemo() {
-		ms = RobotContainer.manipulator;
-		tt = RobotContainer.telemetry;
+		ms = Robot.manipulator;
+		tt = Robot.telemetry;
 		addRequirements(ms);
 	}
 

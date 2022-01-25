@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 import frc.robot.Constants.AxisDominanceThresholds;
 import frc.robot.commands.DriveStraightWhileHeld;
 
@@ -39,7 +39,7 @@ public class TeleopInput extends SubsystemBase {
 		this.driverControls = new DriverControls();
 		this.spotterControls = new SpotterControls();
 
-		dt = RobotContainer.drivetrain;
+		dt = Robot.drivetrain;
 	}
 
 	private boolean driverIsInArcade() { return driverIsInArcadeMode; }
