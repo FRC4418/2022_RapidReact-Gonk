@@ -19,24 +19,22 @@ public class Manipulator extends SubsystemBase {
 	// Constants
 
 	public final int
-		LOWER_MOTOR_ID = 5,
-		HIGHER_MOTOR_ID = 7;
+		INDEXER_CAN_ID = 5,
+		LAUNCHER_CAN_ID = 7;
 
 	public final double
-		DEFAULT_LOWER_MOTOR_PERCENT = 0.3,
-		DEFAULT_HIGHER_MOTOR_PERCENT = 0.3;
+		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
+		HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
 
 	// High-goal shooter
 	public final int
-		MOTOR_775_ID = 11;
+		MOTOR_775_CAN_ID = -1;
 	
 	public final double
 		TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
 	
 	// ----------------------------------------------------------
 	// Resources
-
-	public boolean inTuningMode;
 	
 	private WPI_TalonSRX lowerConveyorMotor;
 	private WPI_TalonSRX higherConveyorMotor;
@@ -58,8 +56,8 @@ public class Manipulator extends SubsystemBase {
 	// Constructor and actions
 
 	public Manipulator() {
-		lowerConveyorMotor = new WPI_TalonSRX(LOWER_MOTOR_ID);
-		higherConveyorMotor = new WPI_TalonSRX(HIGHER_MOTOR_ID);
+		lowerConveyorMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
+		higherConveyorMotor = new WPI_TalonSRX(LAUNCHER_CAN_ID);
 
 		higherConveyorMotor.setInverted(true);
 	}
@@ -67,14 +65,14 @@ public class Manipulator extends SubsystemBase {
 	public double getLowMotor() { return lowerConveyorMotor.get(); }
 	public double getHighMotor() { return higherConveyorMotor.get(); }
 
-	public void setLowMotor(double percentOutput) { lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setHighMotor(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setLowMotorPercent(double percentOutput) { lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setHighMotorPercent(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
 
 	// ----------------------------------------------------------
 	// Scheduler functions
 
 	@Override
 	public void periodic() {
-		inTuningMode = true;
+		
 	}
 }

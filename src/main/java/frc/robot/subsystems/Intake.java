@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
@@ -13,21 +14,20 @@ public class Intake extends SubsystemBase {
 	// Constants
 
 	// TODO: Set acutal intake motors to have these IDs
-	public static final int
-		MOTOR_0_ID = 21,
-		MOTOR_1_ID = 22,
-		MOTOR_2_ID = 23;
+	public final int
+		ROLLER_CAN_ID = 21,
+		RETRACT_CAN_ID = 22;
 
-	public static final double
-		PERCENT_OUTPUT = 0.5d;
+	public final double
+		ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.5d,
+		RETRACT_MOTOR_DEFAULT_POSITION = 90.d;
 
 	// ----------------------------------------------------------
 	// Resources
 
 	// TODO: Change intake motor names after learning of functionality
-	public WPI_TalonSRX motor0;
-	public WPI_TalonSRX motor1;
-	public WPI_TalonSRX motor2;
+	public WPI_TalonSRX rollerMotor;
+	public WPI_TalonFX retractMotor;
 
 	public NetworkTableEntry intakePercentOutputTextField;
 	
@@ -35,18 +35,15 @@ public class Intake extends SubsystemBase {
 	// Constructor and actions
 	
 	public Intake() {
-		motor0 = new WPI_TalonSRX(MOTOR_0_ID);
-		motor1 = new WPI_TalonSRX(MOTOR_1_ID);
-		motor2 = new WPI_TalonSRX(MOTOR_2_ID);
+		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
+		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
 	}
 
-	public double getMotor0() { return motor0.get(); }
-	public double getMotor1() { return motor1.get(); }
-	public double getMotor2() { return motor2.get(); }
+	public double getRollerMotor() { return rollerMotor.get(); }
+	public double getRetractMotor() { return retractMotor.get(); }
 
-	public void setMotor0(double percentOutput) { motor0.set(ControlMode.PercentOutput, percentOutput); }
-	public void setMotor1(double percentOutput) { motor1.set(ControlMode.PercentOutput, percentOutput); }
-	public void setMotor2(double percentOutput) { motor2.set(ControlMode.PercentOutput, percentOutput); }
+	public void setRollerMotorPercent(double percentOutput) { rollerMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public void setRetractMotorPosition(double position) { retractMotor.set(ControlMode.Position, position); }
 
 	// ----------------------------------------------------------
 	// Scheduler functions

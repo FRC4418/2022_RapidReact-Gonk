@@ -7,13 +7,16 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.TeleopInput;
 // import frc.robot.subsystems.Sensory;
 import frc.robot.subsystems.Telemetry;
-import frc.robot.commands.ConveyerDemo;
+import frc.robot.commands.ManipulatorDemo;
+import frc.robot.commands.IntakeDemo;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 
@@ -28,14 +31,15 @@ public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
 	// Subsystem dependencies
 
+	public static TeleopInput teleopInput = new TeleopInput();
 
 	public static Drivetrain drivetrain = new Drivetrain();
+	public static Intake intake = new Intake();
 	public static Manipulator manipulator = new Manipulator();
 	public static Climber climber = new Climber();
 
-	public static TeleopInput teleopInput = new TeleopInput();
-	public static TeleopInput teleopSensitivity = new TeleopInput();
 	// public static Sensory sensory = new Sensory();
+	public static Autonomous autonomous = new Autonomous();
 	public static Telemetry telemetry = new Telemetry();
 
 
@@ -48,6 +52,12 @@ public class Robot extends TimedRobot {
 	// private UsbCamera m_rightPanelCamera;
 
 	public static Command m_autonomousCommand;
+
+	// TODO: PERSISTENT CONFIG - enable robot's tuning tools or don't
+	public static boolean inTuningMode = true;
+
+	private ManipulatorDemo manipulatorDemo = new ManipulatorDemo();
+	private IntakeDemo intakeDemo = new IntakeDemo();
 
 
 	// ----------------------------------------------------------
@@ -68,6 +78,9 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// autonomous, drive straight and backwards for 30 inches
 		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
+
+		manipulatorDemo = new ManipulatorDemo();
+		intakeDemo = new IntakeDemo();
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
@@ -129,14 +142,25 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-
-		var manipulatorDemo = new ConveyerDemo();
-		manipulatorDemo.schedule();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		
+		if (inTuningMode) {
+			if (!intakeDemo.isScheduled()) {
+				intakeDemo.schedule();
+			}
+			if (!manipulatorDemo.isScheduled()) {
+				manipulatorDemo.schedule();
+			}
+		} else {
+			if (!intakeDemo.isScheduled()) {
+				intakeDemo.cancel();
+			}
+			if (!manipulatorDemo.isScheduled()) {
+				manipulatorDemo.cancel();
+			}
+		}
 	}
 
 

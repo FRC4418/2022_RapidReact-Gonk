@@ -12,7 +12,7 @@ public class Climber extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Constants
 	
-	private final int MOTOR_ID = -1;
+	private final int MOTOR_CAN_ID = -1;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -24,7 +24,7 @@ public class Climber extends SubsystemBase {
 	// Constructor and actions
 
 	public Climber() {
-		climbMotor = new WPI_TalonSRX(MOTOR_ID);
+		climbMotor = new WPI_TalonSRX(MOTOR_CAN_ID);
 	}
 
 	public void setClimbMotor(double motorValue) {

@@ -22,10 +22,10 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public final int
-		FRONT_LEFT_ID = 4,
-		BACK_LEFT_ID = 3,
-		FRONT_RIGHT_ID = 2,
-		BACK_RIGHT_ID = 1;
+		FRONT_LEFT_CAN_ID = 4,
+		BACK_LEFT_CAN_ID = 3,
+		FRONT_RIGHT_CAN_ID = 2,
+		BACK_RIGHT_CAN_ID = 1;
 
 	public final double
 		// 2048 ticks in 1 revolution for Falcon 500s
@@ -87,10 +87,10 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
 
-		frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_ID);
-		backLeftMotor = new WPI_TalonFX(BACK_LEFT_ID);
-		frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_ID);
-		backRightMotor = new WPI_TalonFX(BACK_RIGHT_ID);
+		frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
+		backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+		frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
+		backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
 
 		backLeftMotor.follow(frontLeftMotor);
 		backRightMotor.follow(frontRightMotor);
