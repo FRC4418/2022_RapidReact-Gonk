@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
 	public static Command m_autonomousCommand;
 
 	// TODO: PERSISTENT CONFIG - enable robot's tuning tools or don't
-	public static boolean inTuningMode = true;
+	public static boolean enableTuningTools = true;
 
 	private ManipulatorDemo manipulatorDemo = new ManipulatorDemo();
 	private IntakeDemo intakeDemo = new IntakeDemo();
@@ -76,6 +76,8 @@ public class Robot extends TimedRobot {
 	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
+		teleopInput.configureButtonBindings();
+		
 		// autonomous, drive straight and backwards for 30 inches
 		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
 
@@ -86,6 +88,9 @@ public class Robot extends TimedRobot {
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 
 		telemetry.initializeTelemetry();
+		if (enableTuningTools) {
+			telemetry.initializeTuningTools();
+		}
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -146,7 +151,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		if (inTuningMode) {
+		if (telemetry.tuningModeToggleSwitch.getBoolean(false)) {
 			if (!intakeDemo.isScheduled()) {
 				intakeDemo.schedule();
 			}

@@ -59,7 +59,7 @@ public class Telemetry extends SubsystemBase {
 		telemetryTab
 			.add("Autonomous Routine", sendableAutoRoutineChooser)
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
-			.withPosition(0, 1)
+			.withPosition(1, 1)
 			.withSize(2, 1);
 	}
 
@@ -67,7 +67,7 @@ public class Telemetry extends SubsystemBase {
 		tuningToolsTab = Shuffleboard.getTab("Tuning Tools");
 
 		tuningModeToggleSwitch = tuningToolsTab
-			.add("Motor Tuning Enabled", Robot.inTuningMode)
+			.add("Motor Tuning Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(0, 0)
 			.withSize(2, 1)
@@ -132,6 +132,5 @@ public class Telemetry extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
-		Robot.inTuningMode = tuningModeToggleSwitch.getBoolean(false);
 	}
 }
