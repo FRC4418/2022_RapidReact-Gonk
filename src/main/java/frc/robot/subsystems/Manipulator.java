@@ -25,10 +25,6 @@ public class Manipulator extends SubsystemBase {
 	public final double
 		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
 		HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
-
-	// High-goal shooter
-	public final int
-		MOTOR_775_CAN_ID = -1;
 	
 	public final double
 		TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands

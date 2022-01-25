@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.subsystems.Autonomous;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
@@ -36,7 +35,6 @@ public class Robot extends TimedRobot {
 	public final static Drivetrain drivetrain = new Drivetrain();
 	public final static Intake intake = new Intake();
 	public final static Manipulator manipulator = new Manipulator();
-	public final static Climber climber = new Climber();
 
 	// public static Sensory sensory = new Sensory();
 	public final static Autonomous autonomous = new Autonomous();

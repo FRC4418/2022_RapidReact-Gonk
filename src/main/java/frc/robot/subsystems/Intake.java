@@ -25,7 +25,6 @@ public class Intake extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	// TODO: Change intake motor names after learning of functionality
 	public WPI_TalonSRX rollerMotor;
 	public WPI_TalonFX retractMotor;
 
