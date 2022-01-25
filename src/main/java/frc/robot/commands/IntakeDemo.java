@@ -42,18 +42,18 @@ public class IntakeDemo extends CommandBase {
 			it.setRollerMotorPercent(0.d);
 		}
 
-		if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
-			it.setRetractMotorPosition(tt.retractIntakeMotorPositionTextView.getDouble(it.RETRACT_MOTOR_DEFAULT_POSITION));
-		} else {
-			it.setRetractMotorPosition(0.d);
-		}
+		// if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
+		// 	it.setRetractMotorPosition(tt.retractIntakeMotorPositionTextView.getDouble(it.RETRACT_MOTOR_DEFAULT_POSITION));
+		// } else {
+		// 	it.setRetractMotorPosition(0.d);
+		// }
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		it.setRollerMotorPercent(0.d);
-		it.setRetractMotorPosition(0.d);
+		// it.setRetractMotorPosition(0.d);
 	}
 
 	// Returns true when the command should end.
