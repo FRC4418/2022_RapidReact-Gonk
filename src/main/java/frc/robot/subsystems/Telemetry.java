@@ -20,7 +20,7 @@ public class Telemetry extends SubsystemBase {
 	private Intake it;
 	private Manipulator ms;
 
-	public ShuffleboardTab telemetryTab;
+	public ShuffleboardTab HUDTab;
 
 	public ShuffleboardTab tuningToolsTab;
 
@@ -52,11 +52,11 @@ public class Telemetry extends SubsystemBase {
 	}
 
 	public void initializeTelemetry() {
-		telemetryTab = Shuffleboard.getTab("Telemetry");
+		HUDTab = Shuffleboard.getTab("HUD");
 
 		sendableAutoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
 		sendableAutoRoutineChooser.addOption("Drive Striaght to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
-		telemetryTab
+		HUDTab
 			.add("Autonomous Routine", sendableAutoRoutineChooser)
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
 			.withPosition(1, 1)
@@ -73,6 +73,19 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1)
 			.getEntry();
 
+		retractIntakeMotorToggleSwitch = tuningToolsTab
+			.add("Retract Intake Motor Enabled", false)
+			.withWidget(BuiltInWidgets.kToggleSwitch)
+			.withPosition(1, 1)
+			.withSize(2, 1)
+			.getEntry();
+		retractIntakeMotorPositionTextView = tuningToolsTab
+			.add("Retract Intake Motor Position", it.RETRACT_MOTOR_DEFAULT_POSITION)
+			.withWidget(BuiltInWidgets.kTextView)
+			.withPosition(3, 1)
+			.withSize(2, 1)
+			.getEntry();
+		
 		rollerIntakeMotorToggleSwitch = tuningToolsTab
 			.add("Roller Intake Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
@@ -83,19 +96,6 @@ public class Telemetry extends SubsystemBase {
 			.add("Roller Intake Motor Percent", it.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 2)
-			.withSize(2, 1)
-			.getEntry();
-
-		retractIntakeMotorToggleSwitch = tuningToolsTab
-			.add("Retract Intake Motor Enabled", false)
-			.withWidget(BuiltInWidgets.kToggleSwitch)
-			.withPosition(1, 1)
-			.withSize(2, 1)
-			.getEntry();
-		retractIntakeMotorPositionTextView = tuningToolsTab
-			.add("Retract Intake Motor Percent", it.RETRACT_MOTOR_DEFAULT_POSITION)
-			.withWidget(BuiltInWidgets.kTextView)
-			.withPosition(3, 1)
 			.withSize(2, 1)
 			.getEntry();
 
