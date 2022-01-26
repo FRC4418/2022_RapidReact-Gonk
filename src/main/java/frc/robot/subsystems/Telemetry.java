@@ -95,26 +95,26 @@ public class Telemetry extends SubsystemBase {
 			.getEntry();
 
 		lowerConveyorMotorToggleSwitch = tuningToolsTab
-			.add("Lower Conveyor Motor Enabled", false)
+			.add("Lower Manipulator Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 3)
 			.withSize(2, 1)
 			.getEntry();
 		lowerConveyorMotorPercentTextView = tuningToolsTab
-			.add("Lower Conveyor Motor Percent", Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+			.add("Lower Manipulator Motor Percent", Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 3)
 			.withSize(2, 1)
 			.getEntry();
 		
 		higherConveyorMotorToggleSwitch = tuningToolsTab
-			.add("Higher Conveyor Motor Enabled", false)
+			.add("Higher Manipulator Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 4)
 			.withSize(2, 1)
 			.getEntry();
 		higherConveyorMotorPercentTextView = tuningToolsTab
-			.add("Higher Conveyor Motor Percent", Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+			.add("Higher Manipulator Motor Percent", Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 4)
 			.withSize(2, 1)
