@@ -101,10 +101,22 @@ public class RobotContainer {
 		spotterIsInArcadeMode = !spotterIsInArcadeMode;
 	}
 
+    public double gamepadJoystickMagnitude(boolean isLeftJoystick) {
+		if (isLeftJoystick) {
+			return Math.sqrt(
+				Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.LEFT_X_AXIS), 2)
+				+ Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.LEFT_Y_AXIS), 2));
+		} else {
+			return Math.sqrt(
+				Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.RIGHT_X_AXIS), 2)
+				+ Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.RIGHT_Y_AXIS), 2));
+		}
+	}
+
     public void teleopDrive() {
 		if (spotterIsInArcade()
 		&& (gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
-			arcadeDrive(
+			drivetrain.arcadeDrive(
 				spotterControls.getForwardArcadeDriveAxis(),
 				spotterControls.getAngleArcadeDriveAxis());
 		} else if (!spotterIsInArcade()
