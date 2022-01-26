@@ -14,10 +14,10 @@ public class Intake extends SubsystemBase {
 
 	// TODO: Set acutal intake motors to have these IDs
 	public final int
-		ROLLER_CAN_ID = 21,
-		RETRACT_CAN_ID = 22;
+		ROLLER_CAN_ID = 11,
+		RETRACT_CAN_ID = 12;
 
-	public final double
+	public static final double
 		ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.5d,
 		RETRACT_MOTOR_DEFAULT_POSITION = 90.d;
 

@@ -7,18 +7,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.subsystems.Autonomous;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.TeleopInput;
-// import frc.robot.subsystems.Sensory;
-import frc.robot.subsystems.Telemetry;
-import frc.robot.commands.ManipulatorDemo;
-import frc.robot.commands.IntakeDemo;
-import frc.robot.commands.AutoDriveStraightForDistance;
-import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,34 +16,19 @@ import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
  */
 public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
-	// Subsystem dependencies
-
-	public final static TeleopInput teleopInput = new TeleopInput();
-
-	public final static Drivetrain drivetrain = new Drivetrain();
-	public final static Intake intake = new Intake();
-	public final static Manipulator manipulator = new Manipulator();
-
-	// public static Sensory sensory = new Sensory();
-	public final static Autonomous autonomous = new Autonomous();
-	public final static Telemetry telemetry = new Telemetry();
-
-
-	// ----------------------------------------------------------
 	// Resources
 
+	
+	public RobotContainer robotContainer;
 
 	// TODO: Code cool camera stuff
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 
-	public static Command m_autonomousCommand;
+	private Command defaultAutonomous;
 
-	// TODO: PERSISTENT CONFIG - enable robot's tuning tools or don't
-	public static boolean enableTuningTools = true;
-
-	private ManipulatorDemo manipulatorDemo = new ManipulatorDemo();
-	private IntakeDemo intakeDemo = new IntakeDemo();
+	private Command intakeDemo;
+	private Command manipulatorDemo;
 
 
 	// ----------------------------------------------------------
@@ -74,21 +47,10 @@ public class Robot extends TimedRobot {
 	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
-		teleopInput.configureButtonBindings();
-		
-		// autonomous, drive straight and backwards for 30 inches
-		m_autonomousCommand = new AutoDriveStraightForDistance(60.0d, DriveStraightDirection.BACKWARDS);
-
-		manipulatorDemo = new ManipulatorDemo();
-		intakeDemo = new IntakeDemo();
+		robotContainer = new RobotContainer();
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
-
-		telemetry.initializeTelemetry();
-		if (enableTuningTools) {
-			telemetry.initializeTuningTools();
-		}
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -122,9 +84,11 @@ public class Robot extends TimedRobot {
 	// Runs autonomous command selected by {@link Robot} class
 	@Override
 	public void autonomousInit() {
+		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
+
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.schedule();
+		if (defaultAutonomous != null) {
+			defaultAutonomous.schedule();
 		}
 	}
 
@@ -142,14 +106,17 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		// stops auto before teleop starts running
 		// comment out to continue auto as another command starts
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (defaultAutonomous != null) {
+			defaultAutonomous.cancel();
 		}
+
+		intakeDemo = robotContainer.getIntakeDemo();
+		manipulatorDemo = robotContainer.getManipulatorDemo();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		if (telemetry.tuningModeToggleSwitch.getBoolean(false)) {
+		if (robotContainer.getTuningModeToggleSwitch()) {
 			if (!intakeDemo.isScheduled()) {
 				intakeDemo.schedule();
 			}

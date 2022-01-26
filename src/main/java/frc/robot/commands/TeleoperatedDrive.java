@@ -3,9 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.TeleopInput;
 
 
 public class TeleoperatedDrive extends CommandBase {
@@ -13,14 +11,12 @@ public class TeleoperatedDrive extends CommandBase {
 	// Resources
 
 	private final Drivetrain dt;
-	private final TeleopInput ti;
 
 	// ----------------------------------------------------------
 	// Construtor and actions
 
-	public TeleoperatedDrive() {
-		dt = Robot.drivetrain;
-		ti = Robot.teleopInput;
+	public TeleoperatedDrive(Drivetrain drivetrain) {
+		dt = drivetrain;
 		addRequirements(dt);
 	}
 
@@ -34,7 +30,7 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		ti.teleopDrive();
+		dt.teleopDrive();
 	}
 
 	@Override

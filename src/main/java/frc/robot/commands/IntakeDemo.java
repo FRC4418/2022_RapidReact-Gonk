@@ -3,7 +3,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Telemetry;
 
@@ -18,10 +17,10 @@ public class IntakeDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public IntakeDemo() {
-		it = Robot.intake;
-		tt = Robot.telemetry;
-		addRequirements(Robot.intake);
+	public IntakeDemo(Intake intake, Telemetry telemetry) {
+		it = intake;
+		tt = telemetry;
+		addRequirements(it, tt);
 	}
 
 	// ----------------------------------------------------------
@@ -37,7 +36,7 @@ public class IntakeDemo extends CommandBase {
 	@Override
 	public void execute() {
 		if (tt.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
-			it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(it.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 		} else {
 			it.setRollerMotorPercent(0.d);
 		}

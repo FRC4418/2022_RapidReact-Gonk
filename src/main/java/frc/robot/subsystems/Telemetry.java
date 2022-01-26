@@ -9,16 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class Telemetry extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
-
-	private Intake it;
-	private Manipulator ms;
 
 	public ShuffleboardTab HUDTab;
 
@@ -47,8 +43,7 @@ public class Telemetry extends SubsystemBase {
 	// Constructor and actions
 
 	public Telemetry() {
-		it = Robot.intake;
-		ms = Robot.manipulator;
+
 	}
 
 	public void initializeTelemetry() {
@@ -80,7 +75,7 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1)
 			.getEntry();
 		retractIntakeMotorPositionTextView = tuningToolsTab
-			.add("Retract Intake Motor Position", it.RETRACT_MOTOR_DEFAULT_POSITION)
+			.add("Retract Intake Motor Position", Intake.RETRACT_MOTOR_DEFAULT_POSITION)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 1)
 			.withSize(2, 1)
@@ -93,7 +88,7 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1)
 			.getEntry();
 		rollerIntakeMotorPercentTextView = tuningToolsTab
-			.add("Roller Intake Motor Percent", it.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+			.add("Roller Intake Motor Percent", Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 2)
 			.withSize(2, 1)
@@ -106,7 +101,7 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1)
 			.getEntry();
 		lowerConveyorMotorPercentTextView = tuningToolsTab
-			.add("Lower Conveyor Motor Percent", ms.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+			.add("Lower Conveyor Motor Percent", Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 3)
 			.withSize(2, 1)
@@ -119,7 +114,7 @@ public class Telemetry extends SubsystemBase {
 			.withSize(2, 1)
 			.getEntry();
 		higherConveyorMotorPercentTextView = tuningToolsTab
-			.add("Higher Conveyor Motor Percent", ms.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+			.add("Higher Conveyor Motor Percent", Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 4)
 			.withSize(2, 1)

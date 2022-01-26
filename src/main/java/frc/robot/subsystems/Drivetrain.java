@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -22,10 +23,10 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public final int
-		FRONT_LEFT_CAN_ID = 4,
-		BACK_LEFT_CAN_ID = 3,
-		FRONT_RIGHT_CAN_ID = 2,
-		BACK_RIGHT_CAN_ID = 1;
+		FRONT_LEFT_CAN_ID = 1,
+		BACK_LEFT_CAN_ID = 2,
+		FRONT_RIGHT_CAN_ID = 3,
+		BACK_RIGHT_CAN_ID = 4;
 
 	public final double
 		// 2048 ticks in 1 revolution for Falcon 500s
@@ -78,6 +79,8 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive robotDrive;
 
+	private Command defaultCommand;
+
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -129,6 +132,8 @@ public class Drivetrain extends SubsystemBase {
 		coastOrBrakeMotors(false, false);
 
 		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+
+		defaultCommand = new TeleoperatedDrive(this);
 	}
 
 
@@ -266,7 +271,6 @@ public class Drivetrain extends SubsystemBase {
 	
 	@Override
 	public void periodic() {
-		// Set the default command for a subsystem here.
-		setDefaultCommand(new TeleoperatedDrive());
+		setDefaultCommand(defaultCommand);
 	}
 }

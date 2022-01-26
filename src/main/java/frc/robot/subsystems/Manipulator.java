@@ -19,15 +19,12 @@ public class Manipulator extends SubsystemBase {
 	// Constants
 
 	public final int
-		INDEXER_CAN_ID = 5,
-		LAUNCHER_CAN_ID = 7;
+		INDEXER_CAN_ID = 21,
+		LAUNCHER_CAN_ID = 22;
 
-	public final double
+	public static final double
 		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
 		HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
-	
-	public final double
-		TARGET_PERCENTAGE = 0.8; // high shooter, RPMs are changed to units/100ms in motor commands
 	
 	// ----------------------------------------------------------
 	// Resources

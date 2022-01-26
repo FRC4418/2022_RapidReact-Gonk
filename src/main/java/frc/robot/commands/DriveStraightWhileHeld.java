@@ -3,19 +3,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 
 public class DriveStraightWhileHeld extends CommandBase {
-	private final Drivetrain dt;
+	// ----------------------------------------------------------
+	// Constants
 
 	private final double motorOutputPercent = 0.5d;
 
-	public DriveStraightWhileHeld() {
-		dt = Robot.drivetrain;
+	// ----------------------------------------------------------
+	// Resources
+
+	private final Drivetrain dt;
+
+	// ----------------------------------------------------------
+	// Constructor
+
+	public DriveStraightWhileHeld(Drivetrain drivetrain) {
+		dt = drivetrain;
 		addRequirements(dt);
 	}
+
+	// ----------------------------------------------------------
+	// Scheduler actions
 
 	// Called when the command is initially scheduled.
 	@Override
