@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -19,22 +18,12 @@ public class Sensory extends SubsystemBase {
 	Counter counter = new Counter(limitSwitch);
 	
 	public Sensory() {
-		//Very basic while loop that will run until the switch is pressed.
-		//This is probably impractical because it does not do anything with these values.
-		//But because we do not have the motors for the limit switches programed we will need to wait. 
-		while (limitSwitch.get()) {
-    		Timer.delay(10);
-    	}
-		while (limitSwitch2.get()) {
-			Timer.delay(10);
-		}
+
 	}
 
 	@Override
 	public void periodic() {
 		SmartDashboard.putBoolean("Limit switch value", limitSwitch.get());
-		SmartDashboard.putBoolean("Limit switch value", limitSwitch2.get());
-
-		
+		SmartDashboard.putBoolean("Limit switch value2", limitSwitch2.get());
 	}
 }
