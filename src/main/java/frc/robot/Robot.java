@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
 	// Resources
 
 	
-	public RobotContainer robotContainer;
+	public static RobotContainer robotContainer;
 
 	// TODO: Code cool camera stuff
 	// private UsbCamera m_frontShooterCamera;

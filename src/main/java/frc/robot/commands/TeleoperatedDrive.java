@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -30,7 +30,8 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		dt.teleopDrive();
+		// TODO: Figure out a way to unscuff using a static reference to RobotContainer
+		Robot.robotContainer.teleopDrive();
 	}
 
 	@Override
