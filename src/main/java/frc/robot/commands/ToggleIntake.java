@@ -41,12 +41,13 @@ public class ToggleIntake extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-
+		it.setRollerMotorPercent(0.d);
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return false;
+		// TODO: Figure out adding 1-2 sec (or smth) delay before stopping intake
+		return whiskerSensor.get();	// when whisker sensor is tripped, stop running the intake
 	}
 }

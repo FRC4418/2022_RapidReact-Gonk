@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.Constants.AxisDominanceThresholds;
+import frc.robot.Constants.Gamepad;
+import frc.robot.Constants.X3D;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeDemo;
@@ -144,18 +146,34 @@ public class RobotContainer {
     // Driver controls inner class
 
     public class DriverControls {
+		// ----------------------------------------------------------
+		// Constants
+
+		public static final int
+			// Tank drive axis
+			LEFT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
+			RIGHT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
+
+			// Arcade drive axis
+			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,
+			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.YAW_AXIS,
+
+			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.BUTTON_5_ID,	// does not toggle drive mode for spotter
+			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID,
+			TOGGLE_INTAKE_BUTTON_ID = X3D.BUTTON_3_ID,
+			RUN_LAUNCHER_BUTTON_ID = X3D.TRIGGER_BUTTON_ID;
+
         // ----------------------------------------------------------
 		// Resources
 
         public JoystickButton
-            driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID),
-			toggleIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_INTAKE_BUTTON_ID),
-			runLaunchButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.RUN_LAUNCHER_BUTTON_ID);
+            driveStraightButton = new JoystickButton(X3D_LEFT, DRIVE_STRAIGHT_BUTTON_ID),
+			toggleIntakeButton = new JoystickButton(X3D_LEFT, TOGGLE_INTAKE_BUTTON_ID),
+			runLaunchButton = new JoystickButton(X3D_LEFT, RUN_LAUNCHER_BUTTON_ID);
     
         // ----------------------------------------------------------
 		// Actions
 
-        // TODO: Move driver button bindings to RobotContainer
         public void configButtonBindings() {
             driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
 			toggleIntakeButton.toggleWhenPressed(new ToggleIntake(intake));
@@ -163,19 +181,19 @@ public class RobotContainer {
 
         // Tank drive axes
 		public double getLeftTankDriveAxis() {
-			return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.LEFT_TANK_DRIVE_AXIS_ID);
+			return X3D_LEFT.getRawAxis(LEFT_TANK_DRIVE_AXIS_ID);
 		}
 		public double getRightTankDriveAxis() {
-			return X3D_RIGHT.getRawAxis(Constants.DriverControlIDs.RIGHT_TANK_DRIVE_AXIS_ID);
+			return X3D_RIGHT.getRawAxis(RIGHT_TANK_DRIVE_AXIS_ID);
 		}
 
 		// Arcade drive axes
 		public double getForwardArcadeDriveAxis() {
-			return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.ARCADE_DRIVE_FORWARD_AXIS_ID);
+			return X3D_LEFT.getRawAxis(ARCADE_DRIVE_FORWARD_AXIS_ID);
 		}
 
 		public double getAngleArcadeDriveAxis() {
-			return X3D_LEFT.getRawAxis(Constants.DriverControlIDs.ARCADE_DRIVE_ANGLE_AXIS_ID);
+			return X3D_LEFT.getRawAxis(ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
     }
 
@@ -184,10 +202,30 @@ public class RobotContainer {
 
     public class SpotterControls {
 		// ----------------------------------------------------------
+		// Constants
+
+		public static final int
+			// Tank drive axis
+			LEFT_TANK_DRIVE_AXIS_ID = Gamepad.LEFT_Y_AXIS,
+			RIGHT_TANK_DRIVE_AXIS_ID = Gamepad.RIGHT_Y_AXIS,
+
+			// Arcade drive axis
+			ARCADE_DRIVE_FORWARD_AXIS_ID = Gamepad.LEFT_Y_AXIS,
+			ARCADE_DRIVE_ANGLE_AXIS_ID = Gamepad.LEFT_X_AXIS,
+			
+			// Drive mode function buttons
+			DRIVE_STRAIGHT_POV_ANGLE = Gamepad.ANGLE_UP_POV,
+			TOGGLE_ARCADE_DRIVE_BUTTON_ID = Gamepad.LEFT_JOYSTICK_BUTTON_ID;	// does not toggle drive mode for driver
+
+			// Manipulator buttons
+			// TOGGLE_INTAKE_BUTTON_ID = Gamepad.BUTTON_3_ID,
+			// RUN_LAUNCHER_BUTTON_ID = Gamepad.TRIGGER_BUTTON_ID;
+		
+		// ----------------------------------------------------------
 		// Resources
 		
 		public POVButton
-			driveStraightButton = new POVButton(GAMEPAD, Constants.SpotterControlIDs.DRIVE_STRAIGHT_POV_ANGLE);
+			driveStraightButton = new POVButton(GAMEPAD, DRIVE_STRAIGHT_POV_ANGLE);
 		
 		// public JoystickButton
 		// 	intakeButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.INTAKE_BUTTON_ID),
@@ -198,25 +236,24 @@ public class RobotContainer {
 		// ----------------------------------------------------------
 		// Actions
 
-		// TODO: Move spotter button bindings to RobotContainer
 		public void configureButtonBindings() {
 			spotterControls.driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
 		}
 
 		// Tank drive axes
 		public double getLeftTankDriveAxis() {
-			return GAMEPAD.getRawAxis(Constants.SpotterControlIDs.LEFT_TANK_DRIVE_AXIS_ID);
+			return GAMEPAD.getRawAxis(LEFT_TANK_DRIVE_AXIS_ID);
 		}
 		public double getRightTankDriveAxis() {
-			return GAMEPAD.getRawAxis(Constants.SpotterControlIDs.RIGHT_TANK_DRIVE_AXIS_ID);
+			return GAMEPAD.getRawAxis(RIGHT_TANK_DRIVE_AXIS_ID);
 		}
 
 		// Arcade drive axes
 		public double getForwardArcadeDriveAxis() {
-			return GAMEPAD.getRawAxis(Constants.SpotterControlIDs.ARCADE_DRIVE_FORWARD_AXIS_ID);
+			return GAMEPAD.getRawAxis(ARCADE_DRIVE_FORWARD_AXIS_ID);
 		}
 		public double getAngleArcadeDriveAxis() {
-			return GAMEPAD.getRawAxis(Constants.SpotterControlIDs.ARCADE_DRIVE_ANGLE_AXIS_ID);
+			return GAMEPAD.getRawAxis(ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
 	}
 }

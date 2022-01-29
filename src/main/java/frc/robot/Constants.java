@@ -29,6 +29,7 @@ public final class Constants {
 			BUTTON_12_ID = 12;
 	}
 
+	// TODO: Rename this to XboxController and figure out again the IDs
 	public static class Gamepad {
 		public static final int
 			JOYSTICK_ID = 1,
@@ -61,46 +62,5 @@ public final class Constants {
 			// Drive axis dominance thresholds
 			ARCADE = 0.35,
 			TANK = 0.21;
-	}
-
-	public static class DriverControlIDs {
-		public static final int
-			// Tank drive axis
-			LEFT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
-			RIGHT_TANK_DRIVE_AXIS_ID = X3D.PITCH_AXIS,
-
-			// Arcade drive axis
-			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,
-			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.YAW_AXIS,
-
-			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.BUTTON_5_ID,	// does not toggle drive mode for spotter
-			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID,
-			TOGGLE_INTAKE_BUTTON_ID = X3D.BUTTON_3_ID,
-			RUN_LAUNCHER_BUTTON_ID = X3D.TRIGGER_BUTTON_ID;
-	}
-
-	public static class SpotterControlIDs {
-		public static final int
-			// Tank drive axis
-			LEFT_TANK_DRIVE_AXIS_ID = Gamepad.LEFT_Y_AXIS,
-			RIGHT_TANK_DRIVE_AXIS_ID = Gamepad.RIGHT_Y_AXIS,
-
-			// Arcade drive axis
-			ARCADE_DRIVE_FORWARD_AXIS_ID = Gamepad.LEFT_Y_AXIS,
-			ARCADE_DRIVE_ANGLE_AXIS_ID = Gamepad.LEFT_X_AXIS,
-			
-			// Drive mode function buttons
-			DRIVE_STRAIGHT_POV_ANGLE = Gamepad.ANGLE_UP_POV,
-			TOGGLE_ARCADE_DRIVE_BUTTON_ID = Gamepad.LEFT_JOYSTICK_BUTTON_ID,	// does not toggle drive mode for driver
-			TOGGLE_SENSITIVITY_BUTTON_ID = Gamepad.RIGHT_JOYSTICK_BUTTON_ID,	// does not toggle motor sensitivities for driver
-
-			// Manipulator buttons
-			INTAKE_BUTTON_ID = Gamepad.X_BUTTON_ID,
-			FEEDER_BUTTON_ID = Gamepad.B_BUTTON_ID,
-
-			// Climber buttons
-			EXTEND_CLIMBER_BUTTON_ID = Gamepad.Y_BUTTON_ID,
-			LOWER_CLIMBER_BUTTON_ID = Gamepad.A_BUTTON_ID;
-
 	}
 }

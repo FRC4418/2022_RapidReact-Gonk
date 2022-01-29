@@ -30,7 +30,6 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void execute() {
-		// TODO: Figure out a way to unscuff using a static reference to RobotContainer
 		Robot.robotContainer.teleopDrive();
 	}
 
