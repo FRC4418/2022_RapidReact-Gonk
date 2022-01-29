@@ -21,12 +21,12 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// ID and encoder constants
 	
-
+	
 	public final int
-		FRONT_LEFT_CAN_ID = 1,
-		BACK_LEFT_CAN_ID = 2,
+		FRONT_LEFT_CAN_ID = 4,
+		BACK_LEFT_CAN_ID = 5,
 		FRONT_RIGHT_CAN_ID = 3,
-		BACK_RIGHT_CAN_ID = 4;
+		BACK_RIGHT_CAN_ID = 2;
 
 	public final double
 		// 2048 ticks in 1 revolution for Falcon 500s
@@ -103,8 +103,8 @@ public class Drivetrain extends SubsystemBase {
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
 
-		frontRightMotor.setInverted(true);
-		backRightMotor.setInverted(InvertType.FollowMaster);
+		frontLeftMotor.setInverted(true);
+		backLeftMotor.setInverted(InvertType.FollowMaster);
 
 		// ----------------------------------------------------------
 		// Config closed-loop controls
