@@ -1,22 +1,17 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
 
-public class RunLauncherWhileHeld extends CommandBase {
-	//TODO: Add requirements for run launcher command
-
+public class RunLauncher extends CommandBase {
 	private final double motorOutputPercent = 0.7d;
 	private final Manipulator ms;
 
-	public RunLauncherWhileHeld(Manipulator manipulator) {	
+	public RunLauncher(Manipulator manipulator) {	
 		ms = manipulator; 
-	}	
+	}
 
 	// Called when the command is initially scheduled.
 	@Override

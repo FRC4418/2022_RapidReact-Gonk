@@ -40,11 +40,9 @@ public class IntakeDemo extends CommandBase {
 
 		if (tt.tuningModeToggleSwitch.getBoolean(false)) {
 			if (tt.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
-				SmartDashboard.putString("Yo", "working");
 				it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				it.setRollerMotorPercent(0.d);
-				SmartDashboard.putString("NOT WORKIN", "oops");
 			}
 
 			if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
@@ -52,8 +50,6 @@ public class IntakeDemo extends CommandBase {
 			} else {
 				it.setRetractMotorPosition(0.d);
 			}
-		} else {
-			SmartDashboard.putString("tuning mode not on", "oops");
 		}
 	}
 

@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.Constants.AxisDominanceThresholds;
-import frc.robot.Constants.Gamepad;
+import frc.robot.Constants.XboxController;
 import frc.robot.Constants.X3D;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeDemo;
 import frc.robot.commands.ManipulatorDemo;
 import frc.robot.commands.ToggleIntake;
-import frc.robot.commands.RunLauncherWhileHeld;
+import frc.robot.commands.RunLauncher;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -36,7 +36,7 @@ public class RobotContainer {
     private final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
 		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
-		GAMEPAD = new Joystick(Constants.Gamepad.JOYSTICK_ID);
+		GAMEPAD = new Joystick(Constants.XboxController.JOYSTICK_ID);
 
 	public DriverControls driverControls;
 	public SpotterControls spotterControls;
@@ -73,10 +73,6 @@ public class RobotContainer {
         return new DriveStraightWhileHeld(drivetrain);
     }
 
-	public Command getRunLauncher() {
-        return new RunLauncherWhileHeld(manipulator);
-    }
-
     // ----------------------------------------------------------
     // Constructor and actions
 
@@ -108,12 +104,12 @@ public class RobotContainer {
     public double gamepadJoystickMagnitude(boolean isLeftJoystick) {
 		if (isLeftJoystick) {
 			return Math.sqrt(
-				Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.LEFT_X_AXIS), 2)
-				+ Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.LEFT_Y_AXIS), 2));
+				Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.LEFT_X_AXIS), 2)
+				+ Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.LEFT_Y_AXIS), 2));
 		} else {
 			return Math.sqrt(
-				Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.RIGHT_X_AXIS), 2)
-				+ Math.pow(GAMEPAD.getRawAxis(Constants.Gamepad.RIGHT_Y_AXIS), 2));
+				Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.RIGHT_X_AXIS), 2)
+				+ Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.RIGHT_Y_AXIS), 2));
 		}
 	}
 
@@ -168,15 +164,20 @@ public class RobotContainer {
 
         public JoystickButton
             driveStraightButton = new JoystickButton(X3D_LEFT, DRIVE_STRAIGHT_BUTTON_ID),
+			
 			toggleIntakeButton = new JoystickButton(X3D_LEFT, TOGGLE_INTAKE_BUTTON_ID),
 			runLaunchButton = new JoystickButton(X3D_LEFT, RUN_LAUNCHER_BUTTON_ID);
     
         // ----------------------------------------------------------
 		// Actions
 
-        public void configButtonBindings() {
+        public DriverControls configButtonBindings() {
             driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+			
 			toggleIntakeButton.toggleWhenPressed(new ToggleIntake(intake));
+			runLaunchButton.whenHeld(new RunLauncher(manipulator));
+			
+			return this;
         }
 
         // Tank drive axes
@@ -206,26 +207,31 @@ public class RobotContainer {
 
 		public static final int
 			// Tank drive axis
-			LEFT_TANK_DRIVE_AXIS_ID = Gamepad.LEFT_Y_AXIS,
-			RIGHT_TANK_DRIVE_AXIS_ID = Gamepad.RIGHT_Y_AXIS,
+			LEFT_TANK_DRIVE_AXIS_ID = XboxController.LEFT_Y_AXIS,
+			RIGHT_TANK_DRIVE_AXIS_ID = XboxController.RIGHT_Y_AXIS,
 
 			// Arcade drive axis
-			ARCADE_DRIVE_FORWARD_AXIS_ID = Gamepad.LEFT_Y_AXIS,
-			ARCADE_DRIVE_ANGLE_AXIS_ID = Gamepad.LEFT_X_AXIS,
+			ARCADE_DRIVE_FORWARD_AXIS_ID = XboxController.LEFT_Y_AXIS,
+			ARCADE_DRIVE_ANGLE_AXIS_ID = XboxController.LEFT_X_AXIS,
 			
 			// Drive mode function buttons
-			DRIVE_STRAIGHT_POV_ANGLE = Gamepad.ANGLE_UP_POV,
-			TOGGLE_ARCADE_DRIVE_BUTTON_ID = Gamepad.LEFT_JOYSTICK_BUTTON_ID;	// does not toggle drive mode for driver
+			DRIVE_STRAIGHT_POV_ANGLE = XboxController.ANGLE_UP_POV,
+			TOGGLE_ARCADE_DRIVE_BUTTON_ID = XboxController.LEFT_JOYSTICK_BUTTON_ID,	// does not toggle drive mode for driver
 
 			// Manipulator buttons
-			// TOGGLE_INTAKE_BUTTON_ID = Gamepad.BUTTON_3_ID,
-			// RUN_LAUNCHER_BUTTON_ID = Gamepad.TRIGGER_BUTTON_ID;
+			TOGGLE_INTAKE_BUTTON_ID = XboxController.X_BUTTON_ID,
+			RUN_LAUNCHER_BUTTON_ID = XboxController.Y_BUTTON_ID;
 		
 		// ----------------------------------------------------------
 		// Resources
 		
+		// TODO: Test spotter controls
 		public POVButton
 			driveStraightButton = new POVButton(GAMEPAD, DRIVE_STRAIGHT_POV_ANGLE);
+
+		public JoystickButton
+			toggleIntakeButton = new JoystickButton(GAMEPAD, TOGGLE_INTAKE_BUTTON_ID),
+			runLaunchButton = new JoystickButton(GAMEPAD, RUN_LAUNCHER_BUTTON_ID);
 		
 		// public JoystickButton
 		// 	intakeButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.INTAKE_BUTTON_ID),
@@ -236,8 +242,10 @@ public class RobotContainer {
 		// ----------------------------------------------------------
 		// Actions
 
-		public void configureButtonBindings() {
-			spotterControls.driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+		public SpotterControls configureButtonBindings() {
+			driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+			
+			return this;
 		}
 
 		// Tank drive axes
