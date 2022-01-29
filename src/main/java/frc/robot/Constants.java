@@ -66,11 +66,4 @@ public final class Constants {
 			// ---POV Indices---
 			ANGLE_UP_POV = 0;
 	}
-
-	public static class AxisDominanceThresholds {
-		public static final double
-			// Drive axis dominance thresholds
-			ARCADE = 0.35,
-			TANK = 0.21;
-	}
 }

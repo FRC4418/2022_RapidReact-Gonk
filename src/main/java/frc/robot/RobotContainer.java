@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.Constants.AxisDominanceThresholds;
 import frc.robot.Constants.XboxController;
 import frc.robot.Constants.X3D;
 import frc.robot.commands.AutoDriveStraightForDistance;
@@ -114,14 +113,11 @@ public class RobotContainer {
 	}
 
     public void teleopDrive() {
-		if (spotterIsInArcade()
-		&& (gamepadJoystickMagnitude(true) > AxisDominanceThresholds.ARCADE)) {
+		if (spotterIsInArcade()) {
 			drivetrain.arcadeDrive(
 				spotterControls.getForwardArcadeDriveAxis(),
 				spotterControls.getAngleArcadeDriveAxis());
-		} else if (!spotterIsInArcade()
-		&& (gamepadJoystickMagnitude(true) > AxisDominanceThresholds.TANK
-		|| gamepadJoystickMagnitude(false) > AxisDominanceThresholds.TANK)) {
+		} else if (!spotterIsInArcade()) {
 			drivetrain.tankDrive(
 				spotterControls.getLeftTankDriveAxis(),
 				spotterControls.getRightTankDriveAxis());
