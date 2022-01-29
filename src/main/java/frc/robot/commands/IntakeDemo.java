@@ -13,14 +13,14 @@ public class IntakeDemo extends CommandBase {
 	// Resources
 
 	private final Intake it;
-	private final HUD tt;
+	private final HUD hud;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public IntakeDemo(Intake intake, HUD telemetry) {
+	public IntakeDemo(Intake intake, HUD hud) {
 		it = intake;
-		tt = telemetry;
+		this.hud = hud;
 		addRequirements(it);
 	}
 
@@ -38,15 +38,15 @@ public class IntakeDemo extends CommandBase {
 	public void execute() {
 		SmartDashboard.putString("intake demo execution", "eyeyeyw");
 
-		if (tt.tuningModeToggleSwitch.getBoolean(false)) {
-			if (tt.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+		if (hud.tuningModeToggleSwitch.getBoolean(false)) {
+			if (hud.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
+				it.setRollerMotorPercent(hud.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				it.setRollerMotorPercent(0.d);
 			}
 
-			if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
-				it.setRetractMotorPosition(tt.retractIntakeMotorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
+			if (hud.retractIntakeMotorToggleSwitch.getBoolean(false)) {
+				it.setRetractMotorPosition(hud.retractIntakeMotorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
 			} else {
 				it.setRetractMotorPosition(0.d);
 			}

@@ -11,14 +11,14 @@ public class ManipulatorDemo extends CommandBase {
 	// Resources
 
 	private final Manipulator ms;
-	private final HUD tt;
+	private final HUD hud;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ManipulatorDemo(Manipulator manipulator, HUD telemetry) {
+	public ManipulatorDemo(Manipulator manipulator, HUD hud) {
 		ms = manipulator;
-		tt = telemetry;
+		this.hud = hud;
 		addRequirements(ms);
 	}
 
@@ -34,15 +34,15 @@ public class ManipulatorDemo extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (tt.tuningModeToggleSwitch.getBoolean(false)) {
-			if (tt.lowerConveyorMotorToggleSwitch.getBoolean(false)) {
-				ms.setLowMotorPercent(tt.lowerConveyorMotorPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+		if (hud.tuningModeToggleSwitch.getBoolean(false)) {
+			if (hud.lowerConveyorMotorToggleSwitch.getBoolean(false)) {
+				ms.setLowMotorPercent(hud.lowerConveyorMotorPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				ms.setLowMotorPercent(0.d);
 			}
 
-			if (tt.higherConveyorMotorToggleSwitch.getBoolean(false)) {
-				ms.setHighMotorPercent(tt.higherConveyorMotorPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			if (hud.higherConveyorMotorToggleSwitch.getBoolean(false)) {
+				ms.setHighMotorPercent(hud.higherConveyorMotorPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				ms.setHighMotorPercent(0.d);
 			}
