@@ -5,20 +5,19 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Sensory extends SubsystemBase {
-	// private static final ADIS16448_IMU imu = new ADIS1644s8_IMU();
+	private static final ADIS16448_IMU imu = new ADIS16448_IMU();
 	DigitalInput limitSwitch = new DigitalInput(0);
 	DigitalInput limitSwitch2 = new DigitalInput(1);
 
 	Counter counter = new Counter(limitSwitch);
-
 	
-	/** Creates a new SensorsSubsystem. */
 	public Sensory() {
 		//Very basic while loop that will run until the switch is pressed.
 		//This is probably impractical because it does not do anything with these values.
@@ -35,5 +34,7 @@ public class Sensory extends SubsystemBase {
 	public void periodic() {
 		SmartDashboard.putBoolean("Limit switch value", limitSwitch.get());
 		SmartDashboard.putBoolean("Limit switch value", limitSwitch2.get());
+
+		
 	}
 }
