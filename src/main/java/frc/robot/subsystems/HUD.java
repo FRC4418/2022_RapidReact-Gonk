@@ -56,11 +56,11 @@ public class HUD extends SubsystemBase {
 			.withPosition(1, 1)
 			.withSize(2, 1);
 
-		sendableDriverModeChooser
-		sendableDriverDeviceChooser
+		// sendableDriverModeChooser
+		// sendableDriverDeviceChooser
 
-		sendableSpotterModeChooser
-		sendableSpotterDeviceChooser
+		// sendableSpotterModeChooser
+		// sendableSpotterDeviceChooser
 	}
 
 	public void initializeTuningTools() {
