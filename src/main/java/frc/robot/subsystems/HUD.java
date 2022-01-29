@@ -55,6 +55,12 @@ public class HUD extends SubsystemBase {
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
 			.withPosition(1, 1)
 			.withSize(2, 1);
+
+		sendableDriverModeChooser
+		sendableDriverDeviceChooser
+
+		sendableSpotterModeChooser
+		sendableSpotterDeviceChooser
 	}
 
 	public void initializeTuningTools() {
