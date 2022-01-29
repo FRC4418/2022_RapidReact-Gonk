@@ -2,6 +2,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,12 +31,12 @@ public class RobotContainer {
 	public boolean enableTuningTools = true;
 
     private boolean driverIsInArcadeMode = true;
-	private boolean spotterIsInArcadeMode = false;
+	private boolean spotterIsInArcadeMode = true;
 
     private final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
 		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
-		GAMEPAD = new Joystick(Constants.XboxController.JOYSTICK_ID);
+		xboxController = new Joystick(Constants.XboxController.JOYSTICK_ID);
 
 	public DriverControls driverControls;
 	public SpotterControls spotterControls;
@@ -103,12 +104,12 @@ public class RobotContainer {
     public double gamepadJoystickMagnitude(boolean isLeftJoystick) {
 		if (isLeftJoystick) {
 			return Math.sqrt(
-				Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.LEFT_X_AXIS), 2)
-				+ Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.LEFT_Y_AXIS), 2));
+				Math.pow(xboxController.getRawAxis(Constants.XboxController.LEFT_X_AXIS), 2)
+				+ Math.pow(xboxController.getRawAxis(Constants.XboxController.LEFT_Y_AXIS), 2));
 		} else {
 			return Math.sqrt(
-				Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.RIGHT_X_AXIS), 2)
-				+ Math.pow(GAMEPAD.getRawAxis(Constants.XboxController.RIGHT_Y_AXIS), 2));
+				Math.pow(xboxController.getRawAxis(Constants.XboxController.RIGHT_X_AXIS), 2)
+				+ Math.pow(xboxController.getRawAxis(Constants.XboxController.RIGHT_Y_AXIS), 2));
 		}
 	}
 
@@ -123,15 +124,15 @@ public class RobotContainer {
 				spotterControls.getRightTankDriveAxis());
 		}
 
-		if (driverIsInArcade()) {
-			drivetrain.arcadeDrive(
-				driverControls.getForwardArcadeDriveAxis(),	// forward
-				driverControls.getAngleArcadeDriveAxis());	// angle
-		} else {
-			drivetrain.tankDrive(
-				driverControls.getLeftTankDriveAxis(),		// left
-				driverControls.getRightTankDriveAxis());	// right
-		}
+		// if (driverIsInArcade()) {
+		// 	drivetrain.arcadeDrive(
+		// 		driverControls.getForwardArcadeDriveAxis(),	// forward
+		// 		driverControls.getAngleArcadeDriveAxis());	// angle
+		// } else {
+		// 	drivetrain.tankDrive(
+		// 		driverControls.getLeftTankDriveAxis(),		// left
+		// 		driverControls.getRightTankDriveAxis());	// right
+		// }
 	}
 
     // ----------------------------------------------------------
@@ -223,11 +224,11 @@ public class RobotContainer {
 		
 		// TODO: Test spotter controls
 		public POVButton
-			driveStraightButton = new POVButton(GAMEPAD, DRIVE_STRAIGHT_POV_ANGLE);
+			driveStraightButton = new POVButton(xboxController, DRIVE_STRAIGHT_POV_ANGLE);
 
 		public JoystickButton
-			toggleIntakeButton = new JoystickButton(GAMEPAD, TOGGLE_INTAKE_BUTTON_ID),
-			runLaunchButton = new JoystickButton(GAMEPAD, RUN_LAUNCHER_BUTTON_ID);
+			toggleIntakeButton = new JoystickButton(xboxController, TOGGLE_INTAKE_BUTTON_ID),
+			runLaunchButton = new JoystickButton(xboxController, RUN_LAUNCHER_BUTTON_ID);
 		
 		// public JoystickButton
 		// 	intakeButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.INTAKE_BUTTON_ID),
@@ -246,18 +247,18 @@ public class RobotContainer {
 
 		// Tank drive axes
 		public double getLeftTankDriveAxis() {
-			return GAMEPAD.getRawAxis(LEFT_TANK_DRIVE_AXIS_ID);
+			return xboxController.getRawAxis(LEFT_TANK_DRIVE_AXIS_ID);
 		}
 		public double getRightTankDriveAxis() {
-			return GAMEPAD.getRawAxis(RIGHT_TANK_DRIVE_AXIS_ID);
+			return xboxController.getRawAxis(RIGHT_TANK_DRIVE_AXIS_ID);
 		}
 
 		// Arcade drive axes
 		public double getForwardArcadeDriveAxis() {
-			return GAMEPAD.getRawAxis(ARCADE_DRIVE_FORWARD_AXIS_ID);
+			return xboxController.getRawAxis(ARCADE_DRIVE_FORWARD_AXIS_ID);
 		}
 		public double getAngleArcadeDriveAxis() {
-			return GAMEPAD.getRawAxis(ARCADE_DRIVE_ANGLE_AXIS_ID);
+			return xboxController.getRawAxis(ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
 	}
 }
