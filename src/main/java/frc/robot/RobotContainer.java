@@ -11,6 +11,7 @@ import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeDemo;
 import frc.robot.commands.ManipulatorDemo;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -142,7 +143,8 @@ public class RobotContainer {
 		// Resources
 
         public JoystickButton
-            driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID);
+            driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID),
+			toggleIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_INTAKE_BUTTON_ID);
     
         // ----------------------------------------------------------
 		// Actions
@@ -150,6 +152,7 @@ public class RobotContainer {
         // TODO: Move driver button bindings to RobotContainer
         public void configButtonBindings() {
             driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+			toggleIntakeButton.toggleWhenPressed(new ToggleIntake(intake));
         }
 
         // Tank drive axes

@@ -5,36 +5,44 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
 
 
-public class RollIntakeUntilWhisker extends CommandBase {
+public class ToggleIntake extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
 	private final Intake it;
+	private final DigitalInput whiskerSensor = new DigitalInput(2);
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RollIntakeUntilWhisker(Intake intake) {
+	public ToggleIntake(Intake intake) {
 		it = intake;
 		addRequirements(it);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
+	public void initialize() {
+
+	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
-	public void execute() {}
+	public void execute() {
+
+	}
 
 	// Called once the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+
+	}
 
 	// Returns true when the command should end.
 	@Override

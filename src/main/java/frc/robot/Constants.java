@@ -74,8 +74,10 @@ public final class Constants {
 			// Arcade drive axis
 			ARCADE_DRIVE_FORWARD_AXIS_ID = X3D.PITCH_AXIS,
 			ARCADE_DRIVE_ANGLE_AXIS_ID = X3D.YAW_AXIS,
+
 			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.BUTTON_5_ID,	// does not toggle drive mode for spotter
-			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID;
+			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID,
+			TOGGLE_INTAKE_BUTTON_ID = X3D.BUTTON_3_ID;
 	}
 
 	public static class SpotterControlIDs {
