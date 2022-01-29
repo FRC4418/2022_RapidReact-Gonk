@@ -5,14 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Manipulator;
 
 
-
 public class RunLauncherWhileHeld extends CommandBase {
-	/** Creates a new RunLuancher. */
-	//TODO: Add requirements
+	//TODO: Add requirements for run launcher command
 
 	private final double motorOutputPercent = 0.7d;
 	private final Manipulator ms;
@@ -30,20 +27,22 @@ public class RunLauncherWhileHeld extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		ms.setHighMotorPercent(motorOutputPercent);
-		ms.setLowMotorPercent(motorOutputPercent);
-	}	
+		ms
+			.setHighMotorPercent(motorOutputPercent)
+			.setLowMotorPercent(motorOutputPercent);
+	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		ms.setLowMotorPercent(0.d);
-		ms.setHighMotorPercent(0.d);
+		ms
+			.setLowMotorPercent(0.d)
+			.setHighMotorPercent(0.d);
 	}	
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-	  return false;
+		return false;
 	}
 }
