@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
-public class Telemetry extends SubsystemBase {
+public class HUD extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
 
@@ -42,11 +42,11 @@ public class Telemetry extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Constructor and actions
 
-	public Telemetry() {
+	public HUD() {
 
 	}
 
-	public void initializeTelemetry() {
+	public void initializeHUD() {
 		HUDTab = Shuffleboard.getTab("HUD");
 
 		sendableAutoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
@@ -56,6 +56,12 @@ public class Telemetry extends SubsystemBase {
 			.withWidget(BuiltInWidgets.kComboBoxChooser)
 			.withPosition(1, 1)
 			.withSize(2, 1);
+
+		sendableDriverModeChooser
+		sendableDriverDeviceChooser
+
+		sendableSpotterModeChooser
+		sendableSpotterDeviceChooser
 	}
 
 	public void initializeTuningTools() {
