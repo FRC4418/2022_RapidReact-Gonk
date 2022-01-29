@@ -19,7 +19,7 @@ public class ManipulatorDemo extends CommandBase {
 	public ManipulatorDemo(Manipulator manipulator, Telemetry telemetry) {
 		ms = manipulator;
 		tt = telemetry;
-		addRequirements(ms, tt);
+		addRequirements(ms);
 	}
 
 	// ----------------------------------------------------------
@@ -34,16 +34,18 @@ public class ManipulatorDemo extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (tt.lowerConveyorMotorToggleSwitch.getBoolean(false)) {
-			ms.setLowMotorPercent(tt.lowerConveyorMotorPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
-		} else {
-			ms.setLowMotorPercent(0.d);
-		}
+		if (tt.tuningModeToggleSwitch.getBoolean(false)) {
+			if (tt.lowerConveyorMotorToggleSwitch.getBoolean(false)) {
+				ms.setLowMotorPercent(tt.lowerConveyorMotorPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			} else {
+				ms.setLowMotorPercent(0.d);
+			}
 
-		if (tt.higherConveyorMotorToggleSwitch.getBoolean(false)) {
-			ms.setHighMotorPercent(tt.higherConveyorMotorPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
-		} else {
-			ms.setHighMotorPercent(0.d);
+			if (tt.higherConveyorMotorToggleSwitch.getBoolean(false)) {
+				ms.setHighMotorPercent(tt.higherConveyorMotorPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			} else {
+				ms.setHighMotorPercent(0.d);
+			}
 		}
 	}
 

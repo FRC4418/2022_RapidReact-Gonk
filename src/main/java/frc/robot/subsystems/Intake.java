@@ -12,7 +12,6 @@ public class Intake extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Constants
 
-	// TODO: Set acutal intake motors to have these IDs
 	public final int
 		ROLLER_CAN_ID = 11,
 		RETRACT_CAN_ID = 12;
@@ -33,6 +32,8 @@ public class Intake extends SubsystemBase {
 	public Intake() {
 		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
 		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+
+		rollerMotor.setInverted(true);
 	}
 
 	public double getRollerMotorPercent() { return rollerMotor.get(); }
