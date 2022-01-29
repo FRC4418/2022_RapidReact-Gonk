@@ -3,7 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Telemetry;
+import frc.robot.subsystems.HUD;
 
 
 public class ManipulatorDemo extends CommandBase {
@@ -11,12 +11,12 @@ public class ManipulatorDemo extends CommandBase {
 	// Resources
 
 	private final Manipulator ms;
-	private final Telemetry tt;
+	private final HUD tt;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ManipulatorDemo(Manipulator manipulator, Telemetry telemetry) {
+	public ManipulatorDemo(Manipulator manipulator, HUD telemetry) {
 		ms = manipulator;
 		tt = telemetry;
 		addRequirements(ms);

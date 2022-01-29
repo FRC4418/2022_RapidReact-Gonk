@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Telemetry;
+import frc.robot.subsystems.HUD;
 
 
 public class IntakeDemo extends CommandBase {
@@ -13,12 +13,12 @@ public class IntakeDemo extends CommandBase {
 	// Resources
 
 	private final Intake it;
-	private final Telemetry tt;
+	private final HUD tt;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public IntakeDemo(Intake intake, Telemetry telemetry) {
+	public IntakeDemo(Intake intake, HUD telemetry) {
 		it = intake;
 		tt = telemetry;
 		addRequirements(it);

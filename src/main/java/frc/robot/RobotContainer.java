@@ -19,7 +19,7 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Telemetry;
+import frc.robot.subsystems.HUD;
 
 
 public class RobotContainer {
@@ -51,7 +51,7 @@ public class RobotContainer {
 	// public static Sensory sensory;
 	public final Autonomous autonomous = new Autonomous();
 	
-	public final Telemetry telemetry = new Telemetry();
+	public final HUD hud = new HUD();
 
     // ----------------------------------------------------------
     // Runtime resources for Robot
@@ -61,11 +61,11 @@ public class RobotContainer {
     }
 
     public Command getIntakeDemo() {
-        return new IntakeDemo(intake, telemetry);
+        return new IntakeDemo(intake, hud);
     }
 
     public Command getManipulatorDemo() {
-        return new ManipulatorDemo(manipulator, telemetry);
+        return new ManipulatorDemo(manipulator, hud);
     }
 
     public Command getDriveStraightWhileHeldCommand() {
@@ -82,9 +82,9 @@ public class RobotContainer {
 		spotterControls = new SpotterControls();
         spotterControls.configureButtonBindings();
         
-        telemetry.initializeTelemetry();
+        hud.initializeHUD();
 		if (enableTuningTools) {
-			telemetry.initializeTuningTools();
+			hud.initializeTuningTools();
 		}
     }
 
