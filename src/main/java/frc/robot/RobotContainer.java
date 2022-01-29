@@ -2,7 +2,6 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -222,7 +221,6 @@ public class RobotContainer {
 		// ----------------------------------------------------------
 		// Resources
 		
-		// TODO: Test spotter controls
 		public POVButton
 			driveStraightButton = new POVButton(xboxController, DRIVE_STRAIGHT_POV_ANGLE);
 
