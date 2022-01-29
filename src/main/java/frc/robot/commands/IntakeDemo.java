@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
@@ -20,7 +21,7 @@ public class IntakeDemo extends CommandBase {
 	public IntakeDemo(Intake intake, Telemetry telemetry) {
 		it = intake;
 		tt = telemetry;
-		addRequirements(it, tt);
+		addRequirements(it);
 	}
 
 	// ----------------------------------------------------------
@@ -29,23 +30,31 @@ public class IntakeDemo extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		
+
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (tt.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
-			it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
-		} else {
-			it.setRollerMotorPercent(0.d);
-		}
+		SmartDashboard.putString("intake demo execution", "eyeyeyw");
 
-		// if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
-		// 	it.setRetractMotorPosition(tt.retractIntakeMotorPositionTextView.getDouble(it.RETRACT_MOTOR_DEFAULT_POSITION));
-		// } else {
-		// 	it.setRetractMotorPosition(0.d);
-		// }
+		if (tt.tuningModeToggleSwitch.getBoolean(false)) {
+			if (tt.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
+				SmartDashboard.putString("Yo", "working");
+				it.setRollerMotorPercent(tt.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			} else {
+				it.setRollerMotorPercent(0.d);
+				SmartDashboard.putString("NOT WORKIN", "oops");
+			}
+
+			if (tt.retractIntakeMotorToggleSwitch.getBoolean(false)) {
+				it.setRetractMotorPosition(tt.retractIntakeMotorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
+			} else {
+				it.setRetractMotorPosition(0.d);
+			}
+		} else {
+			SmartDashboard.putString("tuning mode not on", "oops");
+		}
 	}
 
 	// Called once the command ends or is interrupted.

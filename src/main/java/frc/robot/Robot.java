@@ -4,6 +4,7 @@ package frc.robot;
 // import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -49,6 +50,12 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotContainer = new RobotContainer();
 
+		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
+
+		intakeDemo = robotContainer.getIntakeDemo();
+		
+		manipulatorDemo = robotContainer.getManipulatorDemo();
+
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 	}
@@ -59,6 +66,11 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
+
+		intakeDemo.schedule();
+		manipulatorDemo.schedule();
+
+		SmartDashboard.putString("thingie running", "yayaa");
 	}
 
 
@@ -84,12 +96,7 @@ public class Robot extends TimedRobot {
 	// Runs autonomous command selected by {@link Robot} class
 	@Override
 	public void autonomousInit() {
-		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
-
-		// schedule the autonomous command (example)
-		if (defaultAutonomous != null) {
-			defaultAutonomous.schedule();
-		}
+		defaultAutonomous.schedule();
 	}
 
 	@Override
@@ -106,31 +113,12 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		// stops auto before teleop starts running
 		// comment out to continue auto as another command starts
-		if (defaultAutonomous != null) {
-			defaultAutonomous.cancel();
-		}
-
-		intakeDemo = robotContainer.getIntakeDemo();
-		manipulatorDemo = robotContainer.getManipulatorDemo();
+		defaultAutonomous.cancel();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		if (robotContainer.getTuningModeToggleSwitch()) {
-			if (!intakeDemo.isScheduled()) {
-				intakeDemo.schedule();
-			}
-			if (!manipulatorDemo.isScheduled()) {
-				manipulatorDemo.schedule();
-			}
-		} else {
-			if (!intakeDemo.isScheduled()) {
-				intakeDemo.cancel();
-			}
-			if (!manipulatorDemo.isScheduled()) {
-				manipulatorDemo.cancel();
-			}
-		}
+		
 	}
 
 

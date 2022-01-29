@@ -54,10 +54,6 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Runtime resources for Robot
 
-    public boolean getTuningModeToggleSwitch() {
-        return telemetry.tuningModeToggleSwitch.getBoolean(false);
-    }
-
     public Command getDefaultAutonomousCommand() {
         return new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
     }
