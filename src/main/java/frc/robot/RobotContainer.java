@@ -12,6 +12,7 @@ import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeDemo;
 import frc.robot.commands.ManipulatorDemo;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.RunLauncherWhileHeld;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -68,6 +69,10 @@ public class RobotContainer {
 
     public Command getDriveStraightWhileHeldCommand() {
         return new DriveStraightWhileHeld(drivetrain);
+    }
+
+	public Command getRunLauncher() {
+        return new RunLauncherWhileHeld(manipulator);
     }
 
     // ----------------------------------------------------------
@@ -144,7 +149,8 @@ public class RobotContainer {
 
         public JoystickButton
             driveStraightButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.DRIVE_STRAIGHT_BUTTON_ID),
-			toggleIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_INTAKE_BUTTON_ID);
+			toggleIntakeButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.TOGGLE_INTAKE_BUTTON_ID),
+			runLaunchButton = new JoystickButton(X3D_LEFT, Constants.DriverControlIDs.RUN_LAUNCHER_BUTTON_ID);
     
         // ----------------------------------------------------------
 		// Actions

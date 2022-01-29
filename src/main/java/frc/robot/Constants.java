@@ -38,8 +38,6 @@ public final class Constants {
 			LEFT_Y_AXIS = 1,
 			RIGHT_X_AXIS = 4,
 			RIGHT_Y_AXIS = 5,
-			// LEFT_TRIGGER_AXIS = 2,
-			// RIGHT_TRIGGER_AXIS = 3,
 
 			// ---Button IDs---
 			A_BUTTON_ID = 1,
@@ -77,7 +75,8 @@ public final class Constants {
 
 			TOGGLE_ARCADE_DRIVE_BUTTON_ID = X3D.BUTTON_5_ID,	// does not toggle drive mode for spotter
 			DRIVE_STRAIGHT_BUTTON_ID = X3D.GRIP_BUTTON_ID,
-			TOGGLE_INTAKE_BUTTON_ID = X3D.BUTTON_3_ID;
+			TOGGLE_INTAKE_BUTTON_ID = X3D.BUTTON_3_ID,
+			RUN_LAUNCHER_BUTTON_ID = X3D.TRIGGER_BUTTON_ID;
 	}
 
 	public static class SpotterControlIDs {

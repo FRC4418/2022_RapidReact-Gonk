@@ -58,8 +58,14 @@ public class Manipulator extends SubsystemBase {
 	public double getLowMotor() { return lowerConveyorMotor.get(); }
 	public double getHighMotor() { return higherConveyorMotor.get(); }
 
-	public void setLowMotorPercent(double percentOutput) { lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setHighMotorPercent(double percentOutput) { higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput); }
+	public Manipulator setLowMotorPercent(double percentOutput) {
+		lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput);
+		return this;
+	}
+	public Manipulator setHighMotorPercent(double percentOutput) {
+		higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput);
+		return this;
+	}
 
 	// ----------------------------------------------------------
 	// Scheduler functions
