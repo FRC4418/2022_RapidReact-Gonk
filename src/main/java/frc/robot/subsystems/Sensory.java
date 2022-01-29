@@ -23,12 +23,12 @@ public class Sensory extends SubsystemBase {
 		//Very basic while loop that will run until the switch is pressed.
 		//This is probably impractical because it does not do anything with these values.
 		//But because we do not have the motors for the limit switches programed we will need to wait. 
-		 while (limitSwitch.get()) {
-         Timer.delay(10);
-      }
-	  while (limitSwitch2.get()) {
-		Timer.delay(10);
-	 }
+		while (limitSwitch.get()) {
+    		Timer.delay(10);
+    	}
+		while (limitSwitch2.get()) {
+			Timer.delay(10);
+		}
 	}
 
 	@Override
