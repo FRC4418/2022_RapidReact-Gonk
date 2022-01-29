@@ -19,6 +19,7 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Sensory;
 import frc.robot.subsystems.HUD;
 
 
