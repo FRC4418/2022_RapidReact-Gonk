@@ -11,7 +11,7 @@ public class Sensory extends SubsystemBase {
 	// Resources
 
 	
-	private final ADIS16448_IMU imu = new ADIS16448_IMU();
+	// private final ADIS16448_IMU imu = new ADIS16448_IMU();
 
 
 	// ----------------------------------------------------------
@@ -29,7 +29,7 @@ public class Sensory extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("IMU Angle", imu.getAngle());
+		// SmartDashboard.putNumber("IMU Angle", imu.getAngle());
 
 		// SmartDashboard.putNumber("Temperature from IMU", imu.getTemperature());
 			
