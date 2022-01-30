@@ -27,13 +27,26 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Robot-configuration constants
 
-	public boolean enableDiagnostics = true;
 
-    private boolean driverIsInArcadeMode = true;
-	private boolean spotterIsInArcadeMode = true;
+	private boolean enableDiagnostics = true;
+
+
+	// ----------------------------------------------------------
+	// Public constants
+
+
+	public enum JoystickModes {
+		ARCADE,
+		TANK
+	}
+
 
     // ----------------------------------------------------------
     // Resources
+
+
+	private boolean driverIsInArcadeMode = true;
+	private boolean spotterIsInArcadeMode = true;
 
     private final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
@@ -43,9 +56,11 @@ public class RobotContainer {
 	public DriverControls driverControls;
 	public SpotterControls spotterControls;
     
+
     // ----------------------------------------------------------
     // Subsystems
 	
+
 	public final Drivetrain drivetrain = new Drivetrain();
 	
 	public final Intake intake = new Intake();
@@ -56,8 +71,10 @@ public class RobotContainer {
 	
 	public final HUD hud = new HUD();
 
+
     // ----------------------------------------------------------
     // Runtime resources for Robot
+
 
     public Command getDefaultAutonomousCommand() {
         return new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
@@ -75,8 +92,10 @@ public class RobotContainer {
         return new DriveStraightWhileHeld(drivetrain);
     }
 
+
     // ----------------------------------------------------------
     // Constructor and methods
+
 
     public RobotContainer() {
         driverControls = new DriverControls();
@@ -137,8 +156,10 @@ public class RobotContainer {
 		// }
 	}
 
+
     // ----------------------------------------------------------
     // Driver controls inner class
+
 
     public class DriverControls {
 		// ----------------------------------------------------------
@@ -168,7 +189,7 @@ public class RobotContainer {
 			runLaunchButton = new JoystickButton(X3D_LEFT, RUN_LAUNCHER_BUTTON_ID);
     
         // ----------------------------------------------------------
-		// Actions
+		// Methods
 
         public DriverControls configButtonBindings() {
             driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
@@ -197,8 +218,10 @@ public class RobotContainer {
 		}
     }
 
+
     // ----------------------------------------------------------
     // Spotter controls inner class
+
 
     public class SpotterControls {
 		// ----------------------------------------------------------
@@ -230,15 +253,9 @@ public class RobotContainer {
 		public JoystickButton
 			toggleIntakeButton = new JoystickButton(xboxController, TOGGLE_INTAKE_BUTTON_ID),
 			runLaunchButton = new JoystickButton(xboxController, RUN_LAUNCHER_BUTTON_ID);
-		
-		// public JoystickButton
-		// 	intakeButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.INTAKE_BUTTON_ID),
-		// 	feederButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.FEEDER_BUTTON_ID),
-		// 	extendClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.EXTEND_CLIMBER_BUTTON_ID),
-		// 	lowerClimberButton = new JoystickButton(GAMEPAD, Constants.SpotterControlIDs.LOWER_CLIMBER_BUTTON_ID);
 
 		// ----------------------------------------------------------
-		// Actions
+		// Methods
 
 		public SpotterControls configureButtonBindings() {
 			driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));

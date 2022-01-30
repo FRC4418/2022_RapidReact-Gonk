@@ -34,14 +34,14 @@ public class ManipulatorDemo extends CommandBase {
 	@Override
 	public void execute() {
 		if (hud.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (hud.lowerConveyorMotorToggleSwitch.getBoolean(false)) {
-				ms.setLowMotorPercent(hud.lowerConveyorMotorPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			if (hud.manipulatorIndexerToggleSwitch.getBoolean(false)) {
+				ms.setLowMotorPercent(hud.manipulatorIndexerOutputPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				ms.setLowMotorPercent(0.d);
 			}
 
-			if (hud.higherConveyorMotorToggleSwitch.getBoolean(false)) {
-				ms.setHighMotorPercent(hud.higherConveyorMotorPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			if (hud.manipulatorLauncherToggleSwitch.getBoolean(false)) {
+				ms.setHighMotorPercent(hud.manipulatorLauncherOutputPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				ms.setHighMotorPercent(0.d);
 			}

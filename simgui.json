@@ -2,17 +2,26 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Autonomous": "Subsystem",
       "/LiveWindow/Climber": "Subsystem",
       "/LiveWindow/Drivetrain": "Subsystem",
+      "/LiveWindow/HUD": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Manipulator": "Subsystem",
       "/LiveWindow/Sensory": "Subsystem",
       "/LiveWindow/ShuffleboardDisplay": "Subsystem",
       "/LiveWindow/Telemetry": "Subsystem",
       "/LiveWindow/TeleopInput": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/Shuffleboard/4418 Status Display/Autonomous Routine": "String Chooser",
-      "/Shuffleboard/4418 Telemetry/Autonomous Routine": "String Chooser"
+      "/Shuffleboard/4418 Telemetry/Autonomous Routine": "String Chooser",
+      "/Shuffleboard/HUD/Autonomous Routine": "String Chooser",
+      "/Shuffleboard/HUD/Driver Joystick Mode": "String Chooser",
+      "/Shuffleboard/HUD/Spotter Joystick Mode": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/4418 Status Display/Autonomous Routine": {

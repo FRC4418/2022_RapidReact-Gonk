@@ -34,14 +34,14 @@ public class IntakeDemo extends CommandBase {
 	@Override
 	public void execute() {
 		if (hud.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (hud.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(hud.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+			if (hud.intakeRollerToggleSwitch.getBoolean(false)) {
+				it.setRollerMotorPercent(hud.intakeRollerOutputPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				it.setRollerMotorPercent(0.d);
 			}
 
-			if (hud.retractIntakeMotorToggleSwitch.getBoolean(false)) {
-				it.setRetractMotorPosition(hud.retractIntakeMotorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
+			if (hud.intakeRetractorToggleSwitch.getBoolean(false)) {
+				it.setRetractMotorPosition(hud.intakeRetractorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
 			} else {
 				it.setRetractMotorPosition(0.d);
 			}
