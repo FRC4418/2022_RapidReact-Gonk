@@ -1,6 +1,7 @@
 package frc.robot.IO;
 
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.robot.Constants.X3D;
@@ -14,21 +15,47 @@ public class DriverControls {
     // ----------------------------------------------------------
     // Resources
 
+    private Joystick joystick1;
+    private Joystick joystick2;
+
     private JoystickButton
-        driveStraightButton = new JoystickButton(X3D_LEFT, X3D.GRIP_BUTTON_ID),
+        driveStraightButton,
         
-        toggleIntakeButton = new JoystickButton(X3D_LEFT, X3D.BUTTON_3_ID),
-        runLaunchButton = new JoystickButton(X3D_LEFT, X3D.TRIGGER_BUTTON_ID);
+        toggleIntakeButton,
+        runLaunchButton;
 
     // ----------------------------------------------------------
     // Methods
 
-    public DriverControls configButtonBindings() {
+    // if controller2 is null, then configure button bindings for the driver's single controller
+    public DriverControls configureButtonBindings(Joystick joystick1, Joystick joystick2) {
+        this.joystick1 = joystick1;
+        this.joystick2 = joystick2;
+
+        if (joystick1 == null || joystick2 == null) {
+            configureLoneControlsFor(joystick1 == null ? joystick2: joystick1);
+        } else {
+            configureDualControlsFor();
+        }
+        
+        return this;
+    }
+
+    private DriverControls configureLoneControlsFor(Joystick joystick) {
+        driveStraightButton = new JoystickButton(joystick, X3D.GRIP_BUTTON_ID);
         driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
         
+
+        toggleIntakeButton = new JoystickButton(joystick, X3D.BUTTON_3_ID);
         toggleIntakeButton.toggleWhenPressed(new ToggleIntake(intake));
-        runLaunchButton.whenHeld(new RunLauncher(manipulator));
         
+        runLaunchButton = new JoystickButton(joystick, X3D.TRIGGER_BUTTON_ID);
+        runLaunchButton.whenHeld(new RunLauncher(manipulator));
+    }
+
+    private DriverControls configureDualControlsFor() {
+        throw new Exception("Dual controller driver controls not configured");
+
         return this;
     }
 
