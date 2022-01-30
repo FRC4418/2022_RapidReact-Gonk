@@ -196,10 +196,10 @@ public class RobotContainer {
 		double intakeTriggerMagnitude = spotterControls.getRollerIntakeAxis();
 		double disposalTriggerMagnitude = spotterControls.getRollerDisposalAxis();
 		
-		if (intakeTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
+		if (intakeTriggerMagnitude > 0.d) {
 			intake.setRollerMotorPercent(-intakeTriggerMagnitude);
 			manipulator.setIndexerMotorPercent(intakeTriggerMagnitude);
-		} else if (disposalTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
+		} else if (disposalTriggerMagnitude > 0.d) {
 			intake.setRollerMotorPercent(disposalTriggerMagnitude);
 			manipulator.setIndexerMotorPercent(disposalTriggerMagnitude);
 		} else {

@@ -15,10 +15,8 @@ public class Intake extends SubsystemBase {
 
 	public static final double
 		ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.5d,
-		RETRACT_MOTOR_DEFAULT_POSITION = 90.d,
-		
-		ACTIVE_INTAKE_TRIGGER_THRESHOLD = 0.2d;
-
+		RETRACT_MOTOR_DEFAULT_POSITION = 90.d;
+	
 		
 	// ----------------------------------------------------------
 	// Private constants
@@ -27,6 +25,10 @@ public class Intake extends SubsystemBase {
 	private final int
 		ROLLER_CAN_ID = 11,
 		RETRACT_CAN_ID = 12;
+
+	private final double
+		// units in seconds
+		ROLLER_MOTOR_RAMP_TIME = 0.25d;
 
 
 	// ----------------------------------------------------------
@@ -44,6 +46,8 @@ public class Intake extends SubsystemBase {
 	public Intake() {
 		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
 		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+
+		rollerMotor.configOpenloopRamp(ROLLER_MOTOR_RAMP_TIME);
 	}
 
 	public double getRollerMotorPercent() { return rollerMotor.get(); }
