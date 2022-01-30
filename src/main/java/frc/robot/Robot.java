@@ -122,7 +122,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		
+		robotContainer
+			.teleopDrive()
+			.runIntakeRoller();
 	}
 
 

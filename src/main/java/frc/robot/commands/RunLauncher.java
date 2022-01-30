@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
@@ -32,21 +31,14 @@ public class RunLauncher extends CommandBase {
 
 	}
 
-	int counter = 0;
-
 	@Override
 	public void execute() {
-		SmartDashboard.putNumber("manip", counter++);
-		ms
-			.setHighMotorPercent(LAUNCHER_OUTPUT_PERCENT)
-			.setLowMotorPercent(LAUNCHER_OUTPUT_PERCENT);
+		ms.setLauncherMotorPercent(LAUNCHER_OUTPUT_PERCENT);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms
-			.setLowMotorPercent(0.d)
-			.setHighMotorPercent(0.d);
+		ms.setLauncherMotorPercent(0.d);
 	}	
 
 	@Override

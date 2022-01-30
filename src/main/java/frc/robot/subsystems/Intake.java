@@ -15,7 +15,9 @@ public class Intake extends SubsystemBase {
 
 	public static final double
 		ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.5d,
-		RETRACT_MOTOR_DEFAULT_POSITION = 90.d;
+		RETRACT_MOTOR_DEFAULT_POSITION = 90.d,
+		
+		ACTIVE_INTAKE_TRIGGER_THRESHOLD = 0.2d;
 
 		
 	// ----------------------------------------------------------

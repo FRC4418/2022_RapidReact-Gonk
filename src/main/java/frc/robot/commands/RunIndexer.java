@@ -2,22 +2,26 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.Drivetrain;
+
+import frc.robot.subsystems.Manipulator;
 
 
-public class TeleoperatedDrive extends CommandBase {
+public class RunIndexer extends CommandBase {
+	// ----------------------------------------------------------
+	// Private constants
+
+	private final double INDEXER_OUTPUT_PERCENT = 0.7d;
+	
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Drivetrain dt;
+	private final Manipulator ms;
 
 	// ----------------------------------------------------------
-	// Construtor and actions
-
-	public TeleoperatedDrive(Drivetrain drivetrain) {
-		dt = drivetrain;
-		addRequirements(dt);
+	// Constructor
+	
+	public RunIndexer(Manipulator manipulator) {
+		ms = manipulator;
 	}
 
 	// ----------------------------------------------------------
@@ -25,17 +29,17 @@ public class TeleoperatedDrive extends CommandBase {
 
 	@Override
 	public void initialize() {
-		dt.setOpenLoopRampTimes(dt.SHARED_RAMP_TIME);
+
 	}
 
 	@Override
 	public void execute() {
-		Robot.robotContainer.teleopDrive();
+		ms.setIndexerMotorPercent(INDEXER_OUTPUT_PERCENT);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		dt.stopDrive();
+		ms.setIndexerMotorPercent(0.d);
 	}
 
 	@Override

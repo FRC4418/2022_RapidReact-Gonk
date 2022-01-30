@@ -36,23 +36,23 @@ public class ManipulatorTesting extends CommandBase {
 	public void execute() {
 		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
 			if (mt.manipulatorIndexerToggleSwitch.getBoolean(false)) {
-				ms.setLowMotorPercent(mt.manipulatorIndexerOutputPercentTextView.getDouble(Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+				ms.setIndexerMotorPercent(mt.manipulatorIndexerOutputPercentTextView.getDouble(Manipulator.INDEXER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
-				ms.setLowMotorPercent(0.d);
+				ms.setIndexerMotorPercent(0.d);
 			}
 
 			if (mt.manipulatorLauncherToggleSwitch.getBoolean(false)) {
-				ms.setHighMotorPercent(mt.manipulatorLauncherOutputPercentTextView.getDouble(Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+				ms.setLauncherMotorPercent(mt.manipulatorLauncherOutputPercentTextView.getDouble(Manipulator.LAUNCHER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
-				ms.setHighMotorPercent(0.d);
+				ms.setLauncherMotorPercent(0.d);
 			}
 		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms.setLowMotorPercent(0.d);
-		ms.setHighMotorPercent(0.d);
+		ms.setIndexerMotorPercent(0.d);
+		ms.setLauncherMotorPercent(0.d);
 	}
 
 	@Override

@@ -13,9 +13,9 @@ import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeTesting;
 import frc.robot.commands.ManipulatorTesting;
+import frc.robot.commands.RunIndexer;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.RunLauncher;
-import frc.robot.commands.RunRoller;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -30,7 +30,7 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private final boolean usingV2Drivetrain = true;
+	private final boolean usingV2Drivetrain = false;
 
 	private final boolean enableDiagnostics = true;
 	
@@ -101,7 +101,7 @@ public class RobotContainer {
 
 
     // ----------------------------------------------------------
-    // Constructor and methods
+    // Constructor
 
 
     public RobotContainer() {
@@ -119,30 +119,17 @@ public class RobotContainer {
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
 
+
+	// ----------------------------------------------------------
+    // Getters
+
+
 	// TODO: If-joystick-plugged in function here
 	// maybe use boolean array to store states of the joystick ports and to detect boolean flips in the function
 
-	public RobotContainer configureRobotSpecificDrivetrain() {
-		if (usingV2Drivetrain) {
-			// true means flip the left side
-			drivetrain.flipLeftOrRightMotors(true);
-		} else {
-			drivetrain.flipLeftOrRightMotors(false);
-		}
-		return this;
-	}
-
     public boolean driverIsInArcade() { return driverIsInArcadeMode; }
-	
-	public void toggleDriverDriveMode() {
-		driverIsInArcadeMode = !driverIsInArcadeMode;
-	}
 
     public boolean spotterIsInArcade() { return spotterIsInArcadeMode; }
-	
-	public void toggleSpotterDriveMode() {
-		spotterIsInArcadeMode = !spotterIsInArcadeMode;
-	}
 
     public double gamepadJoystickMagnitude(boolean isLeftJoystick) {
 		if (isLeftJoystick) {
@@ -156,7 +143,31 @@ public class RobotContainer {
 		}
 	}
 
-    public void teleopDrive() {
+
+	// ----------------------------------------------------------
+    // Methods
+
+	public RobotContainer toggleDriverDriveMode() {
+		driverIsInArcadeMode = !driverIsInArcadeMode;
+		return this;
+	}
+
+	public RobotContainer toggleSpotterDriveMode() {
+		spotterIsInArcadeMode = !spotterIsInArcadeMode;
+		return this;
+	}
+	
+	public RobotContainer configureRobotSpecificDrivetrain() {
+		if (usingV2Drivetrain) {
+			// true means flip the left side
+			drivetrain.flipLeftOrRightMotors(true);
+		} else {
+			drivetrain.flipLeftOrRightMotors(false);
+		}
+		return this;
+	}
+
+    public RobotContainer teleopDrive() {
 		if (spotterIsInArcade()) {
 			drivetrain.arcadeDrive(
 				spotterControls.getForwardArcadeDriveAxis(),
@@ -178,6 +189,22 @@ public class RobotContainer {
 		// 		driverControls.getLeftTankDriveAxis(),		// left
 		// 		driverControls.getRightTankDriveAxis());	// right
 		// }
+		return this;
+	}
+
+	public RobotContainer runIntakeRoller() {
+		double intakeTriggerMagnitude = spotterControls.getRollerIntakeAxis();
+		double disposalTriggerMagnitude = spotterControls.getRollerDisposalAxis();
+		
+		if (intakeTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
+			intake.setRollerMotorPercent(-intakeTriggerMagnitude);
+		} else if (disposalTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
+			intake.setRollerMotorPercent(disposalTriggerMagnitude);
+		} else {
+			intake.setRollerMotorPercent(0.d);
+		}
+
+		return this;
 	}
 
 
@@ -249,9 +276,9 @@ public class RobotContainer {
 			driveStraightButton = new POVButton(xboxController, XboxController.ANGLE_UP_POV);
 
 		public JoystickButton
-			runRollerButton = new JoystickButton(xboxController, XboxController.X_BUTTON_ID),
 			// toggleIntakeButton = new JoystickButton(xboxController, XboxController.X_BUTTON_ID),
-			runLauncherButton = new JoystickButton(xboxController, XboxController.Y_BUTTON_ID);
+			runIndexerButton = new JoystickButton(xboxController, XboxController.B_BUTTON_ID),
+			runLauncherButton = new JoystickButton(xboxController, XboxController.X_BUTTON_ID);
 
 		// ----------------------------------------------------------
 		// Methods
@@ -259,10 +286,20 @@ public class RobotContainer {
 		public SpotterControls configureButtonBindings() {
 			driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
 			
-			runRollerButton.whenHeld(new RunRoller(intake));
 			// toggleIntakeButton.toggleWhenPressed(new ToggleIntake(intake));
+			runIndexerButton.whenHeld(new RunIndexer(manipulator));
 			runLauncherButton.whenHeld(new RunLauncher(manipulator));
 			return this;
+		}
+
+		// left trigger on Xbox to spin intake in reverse, spitting out a ball, using the trigger's magnitude
+		public double getRollerDisposalAxis() {
+			return xboxController.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
+		}
+
+		// right trigger on Xbox to spin intake, taking in a ball, using the trigger's magnitude
+		public double getRollerIntakeAxis() {
+			return xboxController.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
 		}
 
 		// Tank drive axes

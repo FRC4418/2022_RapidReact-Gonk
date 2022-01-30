@@ -108,7 +108,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						manipulatorIndexerOutputPercentTextView = indexerLayout
-							.add("Percentage", Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+							.add("Percentage", Manipulator.INDEXER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 
@@ -123,7 +123,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						manipulatorLauncherOutputPercentTextView = launcherLayout
-							.add("Percentage", Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+							.add("Percentage", Manipulator.LAUNCHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
     }

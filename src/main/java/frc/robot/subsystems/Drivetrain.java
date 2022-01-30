@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -11,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.commands.TeleoperatedDrive;
 import frc.robot.teamlibraries.DriveInputPipeline;
 import frc.robot.teamlibraries.Gains;
 import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
@@ -25,7 +23,7 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public final double
 		// units in seconds
-		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
+		SHARED_RAMP_TIME = 1.25d;	// TODO: Config open-loop ramp time
 
 
 	// ----------------------------------------------------------
@@ -80,8 +78,6 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive robotDrive;
 
-	private Command defaultCommand;
-
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -103,6 +99,14 @@ public class Drivetrain extends SubsystemBase {
 		backLeftMotor.configFactoryDefault();
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
+
+		// ----------------------------------------------------------
+		// Config open-loop controls
+
+		frontLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		backLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		frontRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		backRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
 
 		// ----------------------------------------------------------
 		// Config closed-loop controls
@@ -130,8 +134,6 @@ public class Drivetrain extends SubsystemBase {
 		coastOrBrakeMotors(false, false);
 
 		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-
-		defaultCommand = new TeleoperatedDrive(this);
 	}
 
 
@@ -279,6 +281,6 @@ public class Drivetrain extends SubsystemBase {
 	
 	@Override
 	public void periodic() {
-		setDefaultCommand(defaultCommand);
+		
 	}
 }

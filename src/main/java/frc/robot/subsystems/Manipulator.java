@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 //import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,8 +19,8 @@ public class Manipulator extends SubsystemBase {
 
 
 	public static final double
-		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
-		HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
+		INDEXER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
+		LAUNCHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
 
 		
 	// ----------------------------------------------------------
@@ -37,12 +36,9 @@ public class Manipulator extends SubsystemBase {
 	// Resources
 	
 
-	private WPI_TalonSRX lowerConveyorMotor;
-	private WPI_TalonSRX higherConveyorMotor;
+	private WPI_TalonSRX indexerMotor;
+	private WPI_TalonSRX launcherMotor;
 	
-
-	public NetworkTableEntry highShooterPercentageTextField;
-
 	/* Encoder.getRate() returns distance per second
 	distance per second * distance per pulse = pulse per second
 	pulse per second * decoding factor = degrees per second
@@ -59,21 +55,21 @@ public class Manipulator extends SubsystemBase {
 
 
 	public Manipulator() {
-		lowerConveyorMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
-		higherConveyorMotor = new WPI_TalonSRX(LAUNCHER_CAN_ID);
+		indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
+		launcherMotor = new WPI_TalonSRX(LAUNCHER_CAN_ID);
 
-		higherConveyorMotor.setInverted(true);
+		launcherMotor.setInverted(true);
 	}
 	
-	public double getLowMotor() { return lowerConveyorMotor.get(); }
-	public double getHighMotor() { return higherConveyorMotor.get(); }
+	public double getIndexerMotor() { return indexerMotor.get(); }
+	public double getLauncherMotor() { return launcherMotor.get(); }
 
-	public Manipulator setLowMotorPercent(double percentOutput) {
-		lowerConveyorMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Manipulator setIndexerMotorPercent(double percentOutput) {
+		indexerMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
-	public Manipulator setHighMotorPercent(double percentOutput) {
-		higherConveyorMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Manipulator setLauncherMotorPercent(double percentOutput) {
+		launcherMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
