@@ -20,8 +20,6 @@ public class ManipulatorTesting extends CommandBase {
 	public ManipulatorTesting(Manipulator manipulator, HUD hud) {
 		ms = manipulator;
 		mt = hud.motorTestingDisplay;
-
-		addRequirements(ms);
 	}
 
 	// ----------------------------------------------------------

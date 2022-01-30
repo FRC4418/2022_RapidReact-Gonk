@@ -21,7 +21,6 @@ public class IntakeTesting extends CommandBase {
 	public IntakeTesting(Intake intake, HUD hud) {
 		it = intake;
 		mt = hud.motorTestingDisplay;
-		addRequirements(it);
 	}
 
 	// ----------------------------------------------------------
