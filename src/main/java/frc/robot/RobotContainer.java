@@ -198,14 +198,14 @@ public class RobotContainer {
 		
 		if (intakeTriggerMagnitude > 0.d) {
 			intake.setRollerMotorPercent(-intakeTriggerMagnitude);
-			manipulator.setIndexerMotorPercent(intakeTriggerMagnitude);
+			manipulator.setIndexerToPercent(intakeTriggerMagnitude);
 		} else if (disposalTriggerMagnitude > 0.d) {
 			intake.setRollerMotorPercent(disposalTriggerMagnitude);
-			manipulator.setIndexerMotorPercent(disposalTriggerMagnitude);
+			manipulator.setIndexerToPercent(disposalTriggerMagnitude);
 		} else {
 			intake.setRollerMotorPercent(0.d);
 			if (!spotterControls.runIndexerButton.get()) {
-				manipulator.setIndexerMotorPercent(0.d);
+				manipulator.stopIndexer();
 			}
 		}
 

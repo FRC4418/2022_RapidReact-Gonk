@@ -8,11 +8,6 @@ import frc.robot.subsystems.Manipulator;
 
 public class RunIndexer extends CommandBase {
 	// ----------------------------------------------------------
-	// Private constants
-
-	private final double INDEXER_OUTPUT_PERCENT = 0.9d;
-	
-	// ----------------------------------------------------------
 	// Resources
 
 	private final Manipulator ms;
@@ -34,12 +29,12 @@ public class RunIndexer extends CommandBase {
 
 	@Override
 	public void execute() {
-		ms.setIndexerMotorPercent(INDEXER_OUTPUT_PERCENT);
+		ms.runIndexer();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms.setIndexerMotorPercent(0.d);
+		ms.stopIndexer();
 	}
 
 	@Override

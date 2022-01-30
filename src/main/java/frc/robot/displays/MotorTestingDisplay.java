@@ -73,7 +73,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						intakeRetractorPositionTextView = retractorLayout
-							.add("Position", Intake.RETRACT_MOTOR_DEFAULT_POSITION)
+							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 
@@ -88,7 +88,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						intakeRollerOutputPercentTextView = rollerLayout
-							.add("Percentage", Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+							.add("Percentage", Intake.DEFAULT_ROLLER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 
@@ -108,7 +108,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						manipulatorIndexerOutputPercentTextView = indexerLayout
-							.add("Percentage", Manipulator.INDEXER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 
@@ -123,7 +123,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						manipulatorLauncherOutputPercentTextView = launcherLayout
-							.add("Percentage", Manipulator.LAUNCHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
+							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
     }

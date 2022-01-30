@@ -37,13 +37,13 @@ public class IntakeTesting extends CommandBase {
 	public void execute() {
 		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
 			if (mt.intakeRollerToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(mt.intakeRollerOutputPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+				it.setRollerMotorPercent(mt.intakeRollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_OUTPUT_PERCENT));
 			} else {
 				it.setRollerMotorPercent(0.d);
 			}
 
 			if (mt.intakeRetractorToggleSwitch.getBoolean(false)) {
-				it.setRetractMotorPosition(mt.intakeRetractorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
+				it.setRetractMotorPosition(mt.intakeRetractorPositionTextView.getDouble(Intake.DEFAULT_RETRACTOR_POSITION));
 			} else {
 				it.setRetractMotorPosition(0.d);
 			}
