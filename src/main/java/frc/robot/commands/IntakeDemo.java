@@ -4,6 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
+import frc.robot.huds.MotorTesting;
 import frc.robot.subsystems.HUD;
 
 
@@ -12,14 +13,14 @@ public class IntakeDemo extends CommandBase {
 	// Resources
 
 	private final Intake it;
-	private final HUD hud;
+	private final MotorTesting mt;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public IntakeDemo(Intake intake, HUD hud) {
 		it = intake;
-		this.hud = hud;
+		mt = hud.motorTesting;
 		addRequirements(it);
 	}
 
@@ -33,15 +34,15 @@ public class IntakeDemo extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (hud.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (hud.intakeRollerToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(hud.intakeRollerOutputPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
+		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
+			if (mt.intakeRollerToggleSwitch.getBoolean(false)) {
+				it.setRollerMotorPercent(mt.intakeRollerOutputPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
 				it.setRollerMotorPercent(0.d);
 			}
 
-			if (hud.intakeRetractorToggleSwitch.getBoolean(false)) {
-				it.setRetractMotorPosition(hud.intakeRetractorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
+			if (mt.intakeRetractorToggleSwitch.getBoolean(false)) {
+				it.setRetractMotorPosition(mt.intakeRetractorPositionTextView.getDouble(Intake.RETRACT_MOTOR_DEFAULT_POSITION));
 			} else {
 				it.setRetractMotorPosition(0.d);
 			}
