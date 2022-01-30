@@ -14,8 +14,8 @@ public class Intake extends SubsystemBase {
 
 
 	public static final double
-		ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.5d,
-		RETRACT_MOTOR_DEFAULT_POSITION = 90.d;
+		DEFAULT_ROLLER_OUTPUT_PERCENT = 0.5d,
+		DEFAULT_RETRACTOR_POSITION = 90.d;
 	
 		
 	// ----------------------------------------------------------
@@ -36,30 +36,63 @@ public class Intake extends SubsystemBase {
 
 
 	public WPI_TalonSRX rollerMotor;
-	public WPI_TalonFX retractMotor;
+	public WPI_TalonFX retractorMotor;
 	
 
 	// ----------------------------------------------------------
-	// Constructor and methods
+	// Constructor
 	
 
 	public Intake() {
 		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
-		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+		retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
 
 		rollerMotor.configOpenloopRamp(ROLLER_MOTOR_RAMP_TIME);
 	}
 
-	public double getRollerMotorPercent() { return rollerMotor.get(); }
-	public double getRetractMotorPercent() { return retractMotor.get(); }
+
+	// ----------------------------------------------------------
+	// Retractor motor
+
+
+	public double getRetractorPosition() { return retractorMotor.getSelectedSensorPosition(); }
+
+	public Intake setRetractMotorPosition(double position) {
+		retractorMotor.set(ControlMode.Position, position);
+		return this;
+	}
+
+	// TODO: Figure out how the intake's retractor is supposed to work
+
+	public Intake retractIntakeArm() {
+		// setRetractMotorPosition(RETRACTED_INTAKE_ARM_RETRACTOR_MOTOR_POSITION);
+		return this;
+	}
+
+	public Intake extendIntakeArm() {
+		// setRetractMotorPosition(EXTENDED_INTAKE_ARM_RETRACTOR_MOTOR_POSITION);
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
+	// Roller motor
+
+
+	public double getRollerSpeed() { return rollerMotor.get(); }
 
 	public Intake setRollerMotorPercent(double percentOutput) {
 		rollerMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
-	public Intake setRetractMotorPosition(double position) {
-		retractMotor.set(ControlMode.Position, position);
+	public Intake runRoller() {
+		setRollerMotorPercent(DEFAULT_ROLLER_OUTPUT_PERCENT);
+		return this;
+	}
+
+	public Intake stopRoller() {
+		setRollerMotorPercent(0.d);
 		return this;
 	}
 
@@ -70,6 +103,6 @@ public class Intake extends SubsystemBase {
 	
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
+		
 	}
 }

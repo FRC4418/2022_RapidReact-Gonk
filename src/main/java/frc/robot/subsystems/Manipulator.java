@@ -19,8 +19,8 @@ public class Manipulator extends SubsystemBase {
 
 
 	public static final double
-		INDEXER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
-		LAUNCHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
+		DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT = 0.3,
+		DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT = 0.3;
 
 		
 	// ----------------------------------------------------------
@@ -51,7 +51,7 @@ public class Manipulator extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Constructor and methods
+	// Constructor
 
 
 	public Manipulator() {
@@ -60,16 +60,50 @@ public class Manipulator extends SubsystemBase {
 
 		launcherMotor.setInverted(true);
 	}
-	
-	public double getIndexerMotor() { return indexerMotor.get(); }
-	public double getLauncherMotor() { return launcherMotor.get(); }
 
-	public Manipulator setIndexerMotorPercent(double percentOutput) {
+
+	// ----------------------------------------------------------
+	// Indexer motor
+	
+
+	public double getIndexerSpeed() { return indexerMotor.get(); }
+
+	public Manipulator setIndexerToPercent(double percentOutput) {
 		indexerMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
-	public Manipulator setLauncherMotorPercent(double percentOutput) {
+
+	// runs the indexer motor at the default output percent
+	public Manipulator runIndexer() {
+		setIndexerToPercent(DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT);
+		return this;
+	}
+
+	public Manipulator stopIndexer() {
+		setIndexerToPercent(0.d);
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
+	// Launcher motor
+
+
+	public double getLauncherSpeed() { return launcherMotor.get(); }
+
+	public Manipulator setLauncherToPercent(double percentOutput) {
 		launcherMotor.set(ControlMode.PercentOutput, percentOutput);
+		return this;
+	}
+
+	// runs the launcher motor at the default output percent
+	public Manipulator runLauncher() {
+		setLauncherToPercent(DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT);
+		return this;
+	}
+
+	public Manipulator stopLauncher() {
+		setLauncherToPercent(0.d);
 		return this;
 	}
 

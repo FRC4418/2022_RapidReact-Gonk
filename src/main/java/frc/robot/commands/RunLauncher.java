@@ -6,14 +6,9 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class RunLauncher extends CommandBase {
-	// ----------------------------------------------------------
-	// Private constants
 
-	private final double LAUNCHER_OUTPUT_PERCENT = 1.d;
-	
 	// ----------------------------------------------------------
 	// Resources
-
 	private final Manipulator ms;
 
 	// ----------------------------------------------------------
@@ -33,12 +28,12 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void execute() {
-		ms.setLauncherMotorPercent(LAUNCHER_OUTPUT_PERCENT);
+		ms.setLauncherToPercent(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms.setLauncherMotorPercent(0.d);
+		ms.setLauncherToPercent(0.d);
 	}	
 
 	@Override
