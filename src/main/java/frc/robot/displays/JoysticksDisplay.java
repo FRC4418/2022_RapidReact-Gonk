@@ -24,6 +24,8 @@ public class JoysticksDisplay {
 
     // ----------------------------------------------------------
     // Constructor
+
+    // TODO: Make the drive mode choosers actually flip the robotContainer drive mode booleans
     
     // TODO: Make the joystick device choosers for the JoysticksDisplay
 

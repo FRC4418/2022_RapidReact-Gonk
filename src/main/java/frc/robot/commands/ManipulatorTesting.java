@@ -32,7 +32,7 @@ public class ManipulatorTesting extends CommandBase {
 
 	}
 
-	// TODO: Use event listeners for manipulator testing
+	// TODO: Event listeners for manipulator testing
 
 	@Override
 	public void execute() {

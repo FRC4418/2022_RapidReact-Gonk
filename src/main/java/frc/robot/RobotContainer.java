@@ -51,7 +51,8 @@ public class RobotContainer {
 	private boolean driverIsInArcadeMode = true;
 	private boolean spotterIsInArcadeMode = true;
 
-    private final Joystick
+    // private Joystick[] joysticks = new Joystick[5];
+	private Joystick 
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
 		X3D_RIGHT = new Joystick(Constants.X3D.RIGHT_JOYSTICK_ID),
 		xboxController = new Joystick(Constants.XboxController.JOYSTICK_ID);
@@ -115,6 +116,9 @@ public class RobotContainer {
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
 
+	// TODO: If-joystick-plugged in function here
+	// maybe use boolean array to store states of the joystick ports and to detect boolean flips in the function
+
     public boolean driverIsInArcade() { return driverIsInArcadeMode; }
 	
 	public void toggleDriverDriveMode() {
@@ -150,6 +154,8 @@ public class RobotContainer {
 				spotterControls.getRightTankDriveAxis());
 		}
 
+		// TODO: Use a toggle to switch between driver or spotter driving the robot
+
 		// if (driverIsInArcade()) {
 		// 	drivetrain.arcadeDrive(
 		// 		driverControls.getForwardArcadeDriveAxis(),	// forward
@@ -165,6 +171,8 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Driver controls inner class
 
+
+	// TODO: Different set of driver controls for tank mode
 
     public class DriverControls {
 		// ----------------------------------------------------------
@@ -187,7 +195,7 @@ public class RobotContainer {
         // ----------------------------------------------------------
 		// Resources
 
-        public JoystickButton
+        private JoystickButton
             driveStraightButton = new JoystickButton(X3D_LEFT, DRIVE_STRAIGHT_BUTTON_ID),
 			
 			toggleIntakeButton = new JoystickButton(X3D_LEFT, TOGGLE_INTAKE_BUTTON_ID),
@@ -206,19 +214,26 @@ public class RobotContainer {
         }
 
         // Tank drive axes
-		public double getLeftTankDriveAxis() {
+
+		@SuppressWarnings("unused")
+		private double getLeftTankDriveAxis() {
 			return X3D_LEFT.getRawAxis(LEFT_TANK_DRIVE_AXIS_ID);
 		}
-		public double getRightTankDriveAxis() {
+
+		@SuppressWarnings("unused")
+		private double getRightTankDriveAxis() {
 			return X3D_RIGHT.getRawAxis(RIGHT_TANK_DRIVE_AXIS_ID);
 		}
 
 		// Arcade drive axes
-		public double getForwardArcadeDriveAxis() {
+
+		@SuppressWarnings("unused")
+		private double getForwardArcadeDriveAxis() {
 			return X3D_LEFT.getRawAxis(ARCADE_DRIVE_FORWARD_AXIS_ID);
 		}
 
-		public double getAngleArcadeDriveAxis() {
+		@SuppressWarnings("unused")
+		private double getAngleArcadeDriveAxis() {
 			return X3D_LEFT.getRawAxis(ARCADE_DRIVE_ANGLE_AXIS_ID);
 		}
     }
@@ -227,6 +242,8 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Spotter controls inner class
 
+
+	// TODO: Different set of spotter controls for tank mode
 
     public class SpotterControls {
 		// ----------------------------------------------------------
