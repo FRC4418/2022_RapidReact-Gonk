@@ -22,7 +22,7 @@ public class HUD extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Motor Output Testing resources
+	// Motor testing resources
 
 
 	public NetworkTableEntry motorTestingModeToggleSwitch;

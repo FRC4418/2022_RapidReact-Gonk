@@ -16,12 +16,17 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Manipulator extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Constants
+	// Private constants
 
 
-	public final int
+	private final int
 		INDEXER_CAN_ID = 21,
 		LAUNCHER_CAN_ID = 22;
+
+
+	// ----------------------------------------------------------
+	// Public constants
+
 
 	public static final double
 		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
