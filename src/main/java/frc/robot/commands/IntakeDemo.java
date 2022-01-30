@@ -4,7 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
-import frc.robot.huds.MotorTesting;
+import frc.robot.displays.MotorTestingDisplay;
 import frc.robot.subsystems.HUD;
 
 
@@ -13,14 +13,14 @@ public class IntakeDemo extends CommandBase {
 	// Resources
 
 	private final Intake it;
-	private final MotorTesting mt;
+	private final MotorTestingDisplay mt;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public IntakeDemo(Intake intake, HUD hud) {
 		it = intake;
-		mt = hud.motorTesting;
+		mt = hud.motorTestingDisplay;
 		addRequirements(it);
 	}
 
