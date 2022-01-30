@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -28,7 +29,9 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private boolean enableDiagnostics = true;
+	private final boolean enableDiagnostics = true;
+	
+	private final boolean enableJoystickConnectionWarnings = false;
 
 
 	// ----------------------------------------------------------
@@ -108,6 +111,8 @@ public class RobotContainer {
 		if (enableDiagnostics) {
 			hud.initializeDiagnostics();
 		}
+
+		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
 
     public boolean driverIsInArcade() { return driverIsInArcadeMode; }

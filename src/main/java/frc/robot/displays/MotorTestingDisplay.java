@@ -45,7 +45,7 @@ public class MotorTestingDisplay {
 
 			// Enable/disable motor testing
 			motorTestingModeToggleSwitch = motorTestingLayout
-				.add("Click me! Red = enabled", false)
+				.add("CLICK ME! Red = enabled", false)
 				.withWidget(BuiltInWidgets.kToggleButton)
 				.getEntry();
 

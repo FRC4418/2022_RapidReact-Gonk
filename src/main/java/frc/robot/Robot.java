@@ -16,12 +16,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
-	// Resources
+	// Public resources
 
 	
 	public static RobotContainer robotContainer;
 
-	// TODO: Code cool camera stuff
+
+	// ----------------------------------------------------------
+	// Private resources
+	
+
+	// TODO: Do camera code
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 

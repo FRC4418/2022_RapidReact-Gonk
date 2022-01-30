@@ -32,7 +32,7 @@ public class IntakeTesting extends CommandBase {
 
 	}
 
-	// TODO: Use event listeners for the intake HUD
+	// TODO: Use event listeners for intake testing
 
 	@Override
 	public void execute() {
