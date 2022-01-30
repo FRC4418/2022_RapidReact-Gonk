@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Robot-mode scheduler actions
+	// Robot-mode scheduler methods
 
 
 	// run when robot is started, put initialization code here
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Disabled-mode scheduler actions
+	// Disabled-mode scheduler methods
 
 
 	@Override
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Autonomous-phase scheduler actions
+	// Autonomous-phase scheduler methods
 
 
 	// Runs autonomous command selected by {@link Robot} class
@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Teleop-phase scheduler actions
+	// Teleop-phase scheduler methods
 
 
 	@Override
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Test-phase scheduler actions
+	// Test-phase scheduler methods
 
 
 	@Override

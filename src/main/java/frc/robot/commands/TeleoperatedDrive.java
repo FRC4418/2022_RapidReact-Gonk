@@ -21,7 +21,7 @@ public class TeleoperatedDrive extends CommandBase {
 	}
 
 	// ----------------------------------------------------------
-	// Scheduler actions
+	// Scheduler methods
 
 	@Override
 	public void initialize() {

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -10,17 +11,26 @@ public class Sensory extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
 
+	
 	private final ADIS16448_IMU imu = new ADIS16448_IMU();
 
+	// use .get() to get back 0 or 1 limit switch output
+	private final DigitalInput limitSwitch1 = new DigitalInput(0);
+	private final DigitalInput limitSwitch2 = new DigitalInput(1);
+
+
 	// ----------------------------------------------------------
-	// Constructor and actions
+	// Constructor and methods
+
 
 	public Sensory() {
 
 	}
 
+
 	// ----------------------------------------------------------
-	// Scheduler functions
+	// Scheduler methods
+
 
 	@Override
 	public void periodic() {

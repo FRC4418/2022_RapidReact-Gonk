@@ -6,20 +6,31 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class RunLauncher extends CommandBase {
+	// ----------------------------------------------------------
+	// Private constants
+
 	private final double motorOutputPercent = 0.7d;
+	
+	// ----------------------------------------------------------
+	// Resources
+
 	private final Manipulator ms;
+
+	// ----------------------------------------------------------
+	// Constructor
 
 	public RunLauncher(Manipulator manipulator) {	
 		ms = manipulator; 
 	}
 
-	// Called when the command is initially scheduled.
+	// ----------------------------------------------------------
+	// Scheduler methods
+
 	@Override
 	public void initialize() {
 
 	}	
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		ms
@@ -27,7 +38,6 @@ public class RunLauncher extends CommandBase {
 			.setLowMotorPercent(motorOutputPercent);
 	}
 
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		ms
@@ -35,7 +45,6 @@ public class RunLauncher extends CommandBase {
 			.setHighMotorPercent(0.d);
 	}	
 
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;
