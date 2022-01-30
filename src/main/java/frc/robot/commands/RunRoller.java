@@ -3,25 +3,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Manipulator;
+
+import frc.robot.subsystems.Intake;
 
 
-public class RunLauncher extends CommandBase {
+public class RunRoller extends CommandBase {
 	// ----------------------------------------------------------
-	// Private constants
-
-	private final double LAUNCHER_OUTPUT_PERCENT = 0.7d;
+	// Constants
 	
+	private final double INTAKE_ROLLER_OUTPUT_PERCENT = 0.6d;
+
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Manipulator ms;
+	private Intake it;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunLauncher(Manipulator manipulator) {	
-		ms = manipulator; 
+	public RunRoller(Intake intake) {
+		it = intake;
+		// addRequirements(it);
 	}
 
 	// ----------------------------------------------------------
@@ -29,25 +31,21 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void initialize() {
-
+		
 	}
 
 	int counter = 0;
 
 	@Override
 	public void execute() {
-		SmartDashboard.putNumber("manip", counter++);
-		ms
-			.setHighMotorPercent(LAUNCHER_OUTPUT_PERCENT)
-			.setLowMotorPercent(LAUNCHER_OUTPUT_PERCENT);
+		it.setRollerMotorPercent(INTAKE_ROLLER_OUTPUT_PERCENT);
+		SmartDashboard.putNumber("intake", counter++);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms
-			.setLowMotorPercent(0.d)
-			.setHighMotorPercent(0.d);
-	}	
+		it.setRollerMotorPercent(0.d);
+	}
 
 	@Override
 	public boolean isFinished() {

@@ -103,8 +103,8 @@ public class Drivetrain extends SubsystemBase {
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
 
-		frontLeftMotor.setInverted(true);
-		backLeftMotor.setInverted(InvertType.FollowMaster);
+		frontRightMotor.setInverted(true);
+		backRightMotor.setInverted(InvertType.FollowMaster);
 
 		// ----------------------------------------------------------
 		// Config closed-loop controls

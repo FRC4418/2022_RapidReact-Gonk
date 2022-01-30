@@ -13,6 +13,7 @@ public class ToggleIntake extends CommandBase {
 	// ----------------------------------------------------------
 	// Constants
 
+	private final double INTAKE_ROLLER_OUTPUT_PERCENT = 0.3d;
 	private final double INTAKE_DELAY_TIME = 2.d;
 	
 	// ----------------------------------------------------------
@@ -30,12 +31,15 @@ public class ToggleIntake extends CommandBase {
 
 	public ToggleIntake(Intake intake) {
 		it = intake;
-		addRequirements(it);
+		// addRequirements(it);
 	}
+
+	// ----------------------------------------------------------
+	// Scheduler methods
 
 	@Override
 	public void initialize() {
-		it.setRollerMotorPercent(0.3d);
+		it.setRollerMotorPercent(INTAKE_ROLLER_OUTPUT_PERCENT);
 	}
 
 	@Override

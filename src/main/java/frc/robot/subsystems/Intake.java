@@ -42,15 +42,20 @@ public class Intake extends SubsystemBase {
 	public Intake() {
 		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
 		retractMotor = new WPI_TalonFX(RETRACT_CAN_ID);
-
-		rollerMotor.setInverted(true);
 	}
 
 	public double getRollerMotorPercent() { return rollerMotor.get(); }
 	public double getRetractMotorPercent() { return retractMotor.get(); }
 
-	public void setRollerMotorPercent(double percentOutput) { rollerMotor.set(ControlMode.PercentOutput, percentOutput); }
-	public void setRetractMotorPosition(double position) { retractMotor.set(ControlMode.Position, position); }
+	public Intake setRollerMotorPercent(double percentOutput) {
+		rollerMotor.set(ControlMode.PercentOutput, percentOutput);
+		return this;
+	}
+
+	public Intake setRetractMotorPosition(double position) {
+		retractMotor.set(ControlMode.Position, position);
+		return this;
+	}
 
 
 	// ----------------------------------------------------------
