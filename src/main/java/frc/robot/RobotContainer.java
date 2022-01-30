@@ -198,10 +198,15 @@ public class RobotContainer {
 		
 		if (intakeTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
 			intake.setRollerMotorPercent(-intakeTriggerMagnitude);
+			manipulator.setIndexerMotorPercent(intakeTriggerMagnitude);
 		} else if (disposalTriggerMagnitude >= Intake.ACTIVE_INTAKE_TRIGGER_THRESHOLD) {
 			intake.setRollerMotorPercent(disposalTriggerMagnitude);
+			manipulator.setIndexerMotorPercent(disposalTriggerMagnitude);
 		} else {
 			intake.setRollerMotorPercent(0.d);
+			if (!spotterControls.runIndexerButton.get()) {
+				manipulator.setIndexerMotorPercent(0.d);
+			}
 		}
 
 		return this;
@@ -278,7 +283,7 @@ public class RobotContainer {
 		public JoystickButton
 			// toggleIntakeButton = new JoystickButton(xboxController, XboxController.X_BUTTON_ID),
 			runIndexerButton = new JoystickButton(xboxController, XboxController.B_BUTTON_ID),
-			runLauncherButton = new JoystickButton(xboxController, XboxController.X_BUTTON_ID);
+			runLauncherButton = new JoystickButton(xboxController, XboxController.RIGHT_BUMPER_BUTTON_ID);
 
 		// ----------------------------------------------------------
 		// Methods

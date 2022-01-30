@@ -23,7 +23,7 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public final double
 		// units in seconds
-		SHARED_RAMP_TIME = 1.25d;	// TODO: Config open-loop ramp time
+		SHARED_RAMP_TIME = 2.d;	// TODO: Config open-loop ramp time
 
 
 	// ----------------------------------------------------------
@@ -231,7 +231,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
 		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
 		pipeline
-			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_LINEAR)	// TODO: Config joystick map functions
+			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_SIGMOID)	// TODO: Config joystick map functions
 			.applyDeadzones();
 		
 		double[] values = pipeline.getValues();
