@@ -9,15 +9,18 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AutoDriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
-	// Constants and custom types
-
-	private final double motorPercentOutput = 0.45d;
-	private final double kP = 0.1d;
+	// Public constants
 
 	public enum DriveStraightDirection {
 		FORWARDS,
 		BACKWARDS
 	}
+
+	// ----------------------------------------------------------
+	// Private constants
+
+	private final double motorPercentOutput = 0.45d;
+	private final double kP = 0.1d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -39,9 +42,8 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	}
 
 	// ----------------------------------------------------------
-	// Scheduler actions
+	// Scheduler methods
 
-	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
 		dt
@@ -50,7 +52,6 @@ public class AutoDriveStraightForDistance extends CommandBase {
 			.resetEncoders();
 	}
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		double error = dt.getLeftDistance() - dt.getRightDistance();
@@ -67,13 +68,11 @@ public class AutoDriveStraightForDistance extends CommandBase {
 		SmartDashboard.putNumber("Right Encoder", dt.getRightDistance());
 	}
 
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		dt.stopDrive();
 	}
 
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		SmartDashboard.putNumber("traveled average distance", dt.getAverageDistance());

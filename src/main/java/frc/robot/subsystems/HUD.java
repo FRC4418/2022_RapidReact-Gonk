@@ -15,14 +15,17 @@ public class HUD extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	public ShuffleboardTab HUDTab;
 
-	public ShuffleboardTab tuningToolsTab;
+	private ShuffleboardTab HUDTab;
+
+	private ShuffleboardTab diagnosticsTab;
+
 
 	// ----------------------------------------------------------
-	// Motor tuning resources
+	// Motor Output Testing resources
 
-	public NetworkTableEntry tuningModeToggleSwitch;
+
+	public NetworkTableEntry motorTestingModeToggleSwitch;
 
 	public NetworkTableEntry lowerConveyorMotorToggleSwitch;
 	public NetworkTableEntry lowerConveyorMotorPercentTextView;
@@ -38,9 +41,11 @@ public class HUD extends SubsystemBase {
 	
 	public SendableChooser<AutonomousRoutine> sendableAutoRoutineChooser = new SendableChooser<>();
 
-	// ----------------------------------------------------------
-	// Constructor and actions
 
+	// ----------------------------------------------------------
+	// Constructor and methods
+
+	
 	public HUD() {
 
 	}
@@ -56,6 +61,7 @@ public class HUD extends SubsystemBase {
 			.withPosition(1, 1)
 			.withSize(2, 1);
 
+		
 		// sendableDriverModeChooser
 		// sendableDriverDeviceChooser
 
@@ -63,62 +69,62 @@ public class HUD extends SubsystemBase {
 		// sendableSpotterDeviceChooser
 	}
 
-	public void initializeTuningTools() {
-		tuningToolsTab = Shuffleboard.getTab("Tuning Tools");
+	public void initializeDiagnostics() {
+		diagnosticsTab = Shuffleboard.getTab("Diagnostics");
 
-		tuningModeToggleSwitch = tuningToolsTab
-			.add("Motor Tuning Enabled", false)
+		motorTestingModeToggleSwitch = diagnosticsTab
+			.add("Motor Testing Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(0, 0)
 			.withSize(2, 1)
 			.getEntry();
 
-		retractIntakeMotorToggleSwitch = tuningToolsTab
+		retractIntakeMotorToggleSwitch = diagnosticsTab
 			.add("Retract Intake Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 1)
 			.withSize(2, 1)
 			.getEntry();
-		retractIntakeMotorPositionTextView = tuningToolsTab
+		retractIntakeMotorPositionTextView = diagnosticsTab
 			.add("Retract Intake Motor Position", Intake.RETRACT_MOTOR_DEFAULT_POSITION)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 1)
 			.withSize(2, 1)
 			.getEntry();
 		
-		rollerIntakeMotorToggleSwitch = tuningToolsTab
+		rollerIntakeMotorToggleSwitch = diagnosticsTab
 			.add("Roller Intake Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 2)
 			.withSize(2, 1)
 			.getEntry();
-		rollerIntakeMotorPercentTextView = tuningToolsTab
+		rollerIntakeMotorPercentTextView = diagnosticsTab
 			.add("Roller Intake Motor Percent", Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 2)
 			.withSize(2, 1)
 			.getEntry();
 
-		lowerConveyorMotorToggleSwitch = tuningToolsTab
+		lowerConveyorMotorToggleSwitch = diagnosticsTab
 			.add("Lower Manipulator Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 3)
 			.withSize(2, 1)
 			.getEntry();
-		lowerConveyorMotorPercentTextView = tuningToolsTab
+		lowerConveyorMotorPercentTextView = diagnosticsTab
 			.add("Lower Manipulator Motor Percent", Manipulator.LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 3)
 			.withSize(2, 1)
 			.getEntry();
 		
-		higherConveyorMotorToggleSwitch = tuningToolsTab
+		higherConveyorMotorToggleSwitch = diagnosticsTab
 			.add("Higher Manipulator Motor Enabled", false)
 			.withWidget(BuiltInWidgets.kToggleSwitch)
 			.withPosition(1, 4)
 			.withSize(2, 1)
 			.getEntry();
-		higherConveyorMotorPercentTextView = tuningToolsTab
+		higherConveyorMotorPercentTextView = diagnosticsTab
 			.add("Higher Manipulator Motor Percent", Manipulator.HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT)
 			.withWidget(BuiltInWidgets.kTextView)
 			.withPosition(3, 4)
@@ -126,9 +132,11 @@ public class HUD extends SubsystemBase {
 			.getEntry();
 	}
 
-	// ----------------------------------------------------------
-	// Scheduler functions
 
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run

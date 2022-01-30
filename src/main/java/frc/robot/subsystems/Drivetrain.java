@@ -19,51 +19,51 @@ import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
+	// Public constants
+
+
+	// Open-loop control constants
+	public final double
+		// units in seconds
+		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
+
+
+	// ----------------------------------------------------------
+	// Private constants
+
+
 	// ID and encoder constants
-	
-	
-	public final int
+	private final int
 		FRONT_LEFT_CAN_ID = 4,
 		BACK_LEFT_CAN_ID = 5,
 		FRONT_RIGHT_CAN_ID = 3,
 		BACK_RIGHT_CAN_ID = 2;
 
-	public final double
+	private final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
 		// 1 to 7.33 gearbox is big to small gear (means more speed)
 		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
-
-
-	// ----------------------------------------------------------
-	// Open-loop control constants
-
-
-	public final double
-		// units in seconds
-		SHARED_RAMP_TIME = 0.75d;	// TODO: Config open-loop ramp time
 	
 
-	// ----------------------------------------------------------
 	// Closed-loop control constants
 
-
 	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
-	public final int kSlotIdx = 0;
+	private final int kSlotIdx = 0;
 
 	// Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
-	public final int kIdx = 0;
+	private final int kIdx = 0;
 
 	// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-	public final int kTimeoutMs = 30;
+	private final int kTimeoutMs = 30;
 
 	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	public final Gains kLeftMotorVelocityGains
+	private final Gains kLeftMotorVelocityGains
 		//			kP		kI		kD		kF				Iz		Peakout
 		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 	
-	public final Gains kRightMotorVelocityGains 
+	private final Gains kRightMotorVelocityGains 
 		//			kP		kI		kD		kF				Iz		Peakout
 		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 
@@ -266,7 +266,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Scheduler actions
+	// Scheduler methods
 
 	
 	@Override

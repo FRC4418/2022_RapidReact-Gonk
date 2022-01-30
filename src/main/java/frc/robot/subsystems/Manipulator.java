@@ -18,6 +18,7 @@ public class Manipulator extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Constants
 
+
 	public final int
 		INDEXER_CAN_ID = 21,
 		LAUNCHER_CAN_ID = 22;
@@ -26,9 +27,11 @@ public class Manipulator extends SubsystemBase {
 		LOWER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3,
 		HIGHER_MOTOR_DEFAULT_PERCENT_OUTPUT = 0.3;
 	
+
 	// ----------------------------------------------------------
 	// Resources
 	
+
 	private WPI_TalonSRX lowerConveyorMotor;
 	private WPI_TalonSRX higherConveyorMotor;
 	
@@ -45,8 +48,10 @@ public class Manipulator extends SubsystemBase {
 	//   * (double) Constants.DRIVE_ENCODER_DECODING_SCALE_FACTOR 
 	//   / 60.0;
 
+
 	// ----------------------------------------------------------
-	// Constructor and actions
+	// Constructor and methods
+
 
 	public Manipulator() {
 		lowerConveyorMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
@@ -67,9 +72,11 @@ public class Manipulator extends SubsystemBase {
 		return this;
 	}
 
-	// ----------------------------------------------------------
-	// Scheduler functions
 
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
 	@Override
 	public void periodic() {
 		

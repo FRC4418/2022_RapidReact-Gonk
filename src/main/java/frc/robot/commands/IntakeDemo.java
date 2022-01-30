@@ -24,18 +24,16 @@ public class IntakeDemo extends CommandBase {
 	}
 
 	// ----------------------------------------------------------
-	// Scheduler actions
+	// Scheduler methods
 
-	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
 
 	}
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (hud.tuningModeToggleSwitch.getBoolean(false)) {
+		if (hud.motorTestingModeToggleSwitch.getBoolean(false)) {
 			if (hud.rollerIntakeMotorToggleSwitch.getBoolean(false)) {
 				it.setRollerMotorPercent(hud.rollerIntakeMotorPercentTextView.getDouble(Intake.ROLLER_MOTOR_DEFAULT_PERCENT_OUTPUT));
 			} else {
@@ -50,14 +48,12 @@ public class IntakeDemo extends CommandBase {
 		}
 	}
 
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		it.setRollerMotorPercent(0.d);
 		// it.setRetractMotorPosition(0.d);
 	}
 
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Sensory extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Resources
+
 	private final ADIS16448_IMU imu = new ADIS16448_IMU();
 
 	// use .get() to get back 0 or 1 limit switch output
@@ -18,15 +19,19 @@ public class Sensory extends SubsystemBase {
 
 	private int counter = 0;
 
+
 	// ----------------------------------------------------------
-	// Constructor and actions
+	// Constructor and methods
+
 
 	public Sensory() {
 
 	}
 
+
 	// ----------------------------------------------------------
-	// Scheduler functions
+	// Scheduler methods
+
 
 	@Override
 	public void periodic() {

@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Autonomous extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Constants
+	// Public constants
+
 
 	// TODO: Config all autonomous strategy options we should have
 	public enum AutonomousRoutine {
@@ -14,16 +15,20 @@ public class Autonomous extends SubsystemBase {
 		DRIVE_STRAIGHT_TO_LOW_HUB
 	}
 
-	// ----------------------------------------------------------
-	// Constructor and actions
 
+	// ----------------------------------------------------------
+	// Constructor and methods
+
+	
 	public Autonomous() {
 		
 	}
 
-	// ----------------------------------------------------------
-	// Scheduler functions
 
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run

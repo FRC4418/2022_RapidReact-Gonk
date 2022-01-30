@@ -24,14 +24,16 @@ import frc.robot.subsystems.HUD;
 
 
 public class RobotContainer {
-    // ----------------------------------------------------------
-    // Resources
+	// ----------------------------------------------------------
+    // Robot-configuration constants
 
-    // TODO: PERSISTENT CONFIG - enable robot's tuning tools or don't
-	public boolean enableTuningTools = true;
+	public boolean enableDiagnostics = true;
 
     private boolean driverIsInArcadeMode = true;
 	private boolean spotterIsInArcadeMode = true;
+
+    // ----------------------------------------------------------
+    // Resources
 
     private final Joystick
 		X3D_LEFT = new Joystick(Constants.X3D.LEFT_JOYSTICK_ID),
@@ -74,7 +76,7 @@ public class RobotContainer {
     }
 
     // ----------------------------------------------------------
-    // Constructor and actions
+    // Constructor and methods
 
     public RobotContainer() {
         driverControls = new DriverControls();
@@ -84,8 +86,8 @@ public class RobotContainer {
         spotterControls.configureButtonBindings();
         
         hud.initializeHUD();
-		if (enableTuningTools) {
-			hud.initializeTuningTools();
+		if (enableDiagnostics) {
+			hud.initializeDiagnostics();
 		}
     }
 

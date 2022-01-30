@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
-	// Constants
+	// Private constants
 
 	private final double motorOutputPercent = 0.5d;
 
@@ -26,9 +26,8 @@ public class DriveStraightWhileHeld extends CommandBase {
 	}
 
 	// ----------------------------------------------------------
-	// Scheduler actions
+	// Scheduler methods
 
-	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
 		dt
@@ -36,7 +35,6 @@ public class DriveStraightWhileHeld extends CommandBase {
 			.setOpenLoopRampTimes(0.d);
 	}
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		dt
@@ -44,13 +42,11 @@ public class DriveStraightWhileHeld extends CommandBase {
 			.setRightMotors(motorOutputPercent);
 	}
 
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
 		dt.stopDrive();
 	}
 
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;
