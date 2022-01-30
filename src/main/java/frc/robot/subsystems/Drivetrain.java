@@ -33,6 +33,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ID and encoder constants
+	// These are how it's SUPPOSED to be on both V1 and V2
 	private final int
 		FRONT_LEFT_CAN_ID = 4,
 		BACK_LEFT_CAN_ID = 5,
@@ -106,6 +107,9 @@ public class Drivetrain extends SubsystemBase {
 		frontLeftMotor.setInverted(true);
 		backLeftMotor.setInverted(InvertType.FollowMaster);
 
+		// frontRightMotor.setInverted(true);
+		// backRightMotor.setInverted(InvertType.FollowMaster);
+
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
@@ -140,6 +144,10 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Low-level drivetrain actions
 
+	public Drivetrain useV2Drivetrain() {
+
+		return this;
+	}
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
 		frontLeftMotor.configOpenloopRamp(timeInSeconds);

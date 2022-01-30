@@ -29,6 +29,7 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Robot-configuration constants
 
+	private final boolean usingV1Drivetrain = true;
 
 	private final boolean enableDiagnostics = true;
 	
