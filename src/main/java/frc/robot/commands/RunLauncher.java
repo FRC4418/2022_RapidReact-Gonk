@@ -9,7 +9,7 @@ public class RunLauncher extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double LAUNCHER_OUTPUT_PERCENT = 0.9d;
+	private final double LAUNCHER_OUTPUT_PERCENT = 1.d;
 	
 	// ----------------------------------------------------------
 	// Resources

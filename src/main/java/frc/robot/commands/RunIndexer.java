@@ -10,7 +10,7 @@ public class RunIndexer extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double INDEXER_OUTPUT_PERCENT = 1.d;
+	private final double INDEXER_OUTPUT_PERCENT = 0.9d;
 	
 	// ----------------------------------------------------------
 	// Resources
