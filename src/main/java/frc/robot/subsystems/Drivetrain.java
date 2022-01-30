@@ -104,12 +104,6 @@ public class Drivetrain extends SubsystemBase {
 		frontRightMotor.configFactoryDefault();
 		backRightMotor.configFactoryDefault();
 
-		frontLeftMotor.setInverted(true);
-		backLeftMotor.setInverted(InvertType.FollowMaster);
-
-		// frontRightMotor.setInverted(true);
-		// backRightMotor.setInverted(InvertType.FollowMaster);
-
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
@@ -144,8 +138,14 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Low-level drivetrain actions
 
-	public Drivetrain useV2Drivetrain() {
-
+	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
+		if (flipLeftMotors) {
+			frontLeftMotor.setInverted(true);
+			backLeftMotor.setInverted(InvertType.FollowMaster);
+		} else {
+			frontRightMotor.setInverted(true);
+			backRightMotor.setInverted(InvertType.FollowMaster);
+		}
 		return this;
 	}
 

@@ -29,7 +29,8 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Robot-configuration constants
 
-	private final boolean usingV1Drivetrain = true;
+
+	private final boolean usingV2Drivetrain = true;
 
 	private final boolean enableDiagnostics = true;
 	
@@ -120,6 +121,16 @@ public class RobotContainer {
 
 	// TODO: If-joystick-plugged in function here
 	// maybe use boolean array to store states of the joystick ports and to detect boolean flips in the function
+
+	public RobotContainer configureRobotSpecificDrivetrain() {
+		if (usingV2Drivetrain) {
+			// true means flip the left side
+			drivetrain.flipLeftOrRightMotors(true);
+		} else {
+			drivetrain.flipLeftOrRightMotors(false);
+		}
+		return this;
+	}
 
     public boolean driverIsInArcade() { return driverIsInArcadeMode; }
 	

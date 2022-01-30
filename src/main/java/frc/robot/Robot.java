@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotContainer = new RobotContainer();
 
+		robotContainer.configureRobotSpecificDrivetrain();
+
 		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
 
 		intakeTesting = robotContainer.getIntakeTesting();
