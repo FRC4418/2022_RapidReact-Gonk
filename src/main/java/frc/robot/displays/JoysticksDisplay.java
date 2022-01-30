@@ -25,6 +25,8 @@ public class JoysticksDisplay {
     // ----------------------------------------------------------
     // Constructor
     
+    // TODO: Make the joystick device choosers for the JoysticksDisplay
+
     public JoysticksDisplay(ShuffleboardTab HUDTab, int column, int row) {
         var joysticksLayout = HUDTab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)

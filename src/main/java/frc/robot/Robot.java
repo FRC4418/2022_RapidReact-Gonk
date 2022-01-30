@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
 
 	private Command defaultAutonomous;
 
-	private Command intakeDemo;
-	private Command manipulatorDemo;
+	private Command intakeTesting;
+	private Command manipulatorTesting;
 
 
 	// ----------------------------------------------------------
@@ -51,9 +51,9 @@ public class Robot extends TimedRobot {
 
 		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
 
-		intakeDemo = robotContainer.getIntakeDemo();
+		intakeTesting = robotContainer.getIntakeTesting();
 		
-		manipulatorDemo = robotContainer.getManipulatorDemo();
+		manipulatorTesting = robotContainer.getManipulatorTesting();
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
@@ -66,8 +66,8 @@ public class Robot extends TimedRobot {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
-		intakeDemo.schedule();
-		manipulatorDemo.schedule();
+		intakeTesting.schedule();
+		manipulatorTesting.schedule();
 	}
 
 

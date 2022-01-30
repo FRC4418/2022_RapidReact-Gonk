@@ -8,7 +8,7 @@ import frc.robot.displays.MotorTestingDisplay;
 import frc.robot.subsystems.HUD;
 
 
-public class IntakeDemo extends CommandBase {
+public class IntakeTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
@@ -18,7 +18,7 @@ public class IntakeDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public IntakeDemo(Intake intake, HUD hud) {
+	public IntakeTesting(Intake intake, HUD hud) {
 		it = intake;
 		mt = hud.motorTestingDisplay;
 		addRequirements(it);
@@ -31,6 +31,8 @@ public class IntakeDemo extends CommandBase {
 	public void initialize() {
 
 	}
+
+	// TODO: Use event listeners for the intake HUD
 
 	@Override
 	public void execute() {

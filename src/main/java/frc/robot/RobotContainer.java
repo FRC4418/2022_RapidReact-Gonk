@@ -10,8 +10,8 @@ import frc.robot.Constants.XboxController;
 import frc.robot.Constants.X3D;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
-import frc.robot.commands.IntakeDemo;
-import frc.robot.commands.ManipulatorDemo;
+import frc.robot.commands.IntakeTesting;
+import frc.robot.commands.ManipulatorTesting;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.RunLauncher;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
@@ -80,12 +80,12 @@ public class RobotContainer {
         return new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
     }
 
-    public Command getIntakeDemo() {
-        return new IntakeDemo(intake, hud);
+    public Command getIntakeTesting() {
+        return new IntakeTesting(intake, hud);
     }
 
-    public Command getManipulatorDemo() {
-        return new ManipulatorDemo(manipulator, hud);
+    public Command getManipulatorTesting() {
+        return new ManipulatorTesting(manipulator, hud);
     }
 
     public Command getDriveStraightWhileHeldCommand() {

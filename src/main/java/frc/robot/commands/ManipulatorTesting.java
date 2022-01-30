@@ -7,7 +7,7 @@ import frc.robot.displays.MotorTestingDisplay;
 import frc.robot.subsystems.HUD;
 
 
-public class ManipulatorDemo extends CommandBase {
+public class ManipulatorTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
@@ -17,7 +17,7 @@ public class ManipulatorDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ManipulatorDemo(Manipulator manipulator, HUD hud) {
+	public ManipulatorTesting(Manipulator manipulator, HUD hud) {
 		ms = manipulator;
 		mt = hud.motorTestingDisplay;
 
@@ -31,6 +31,8 @@ public class ManipulatorDemo extends CommandBase {
 	public void initialize() {
 
 	}
+
+	// TODO: Use event listeners for the manipulator HUD
 
 	@Override
 	public void execute() {
