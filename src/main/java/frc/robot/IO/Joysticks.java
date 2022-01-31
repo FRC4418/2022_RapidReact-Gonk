@@ -1,8 +1,11 @@
-package frc.robot;
+package frc.robot.IO;
 
 
-public final class Constants {
+public final class Joysticks {
 	public static class X3D {
+		public static final String
+			USB_DEVICE_NAME					= "Logitech Extreme 3D";
+
 		public static final int
 			// Joysticks
 			LEFT_JOYSTICK_ID 	= 0,
@@ -29,6 +32,9 @@ public final class Constants {
 	}
 
 	public static class XboxController {
+		public static final String
+			USB_DEVICE_NAME					= "Controller (Xbox One For Windows";
+
 		public static final int
 			JOYSTICK_ID 				= 1,
 

@@ -59,7 +59,6 @@ public class Robot extends TimedRobot {
 		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
 
 		intakeTesting = robotContainer.getIntakeTesting();
-		
 		manipulatorTesting = robotContainer.getManipulatorTesting();
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
@@ -73,8 +72,12 @@ public class Robot extends TimedRobot {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
-		intakeTesting.schedule();
-		manipulatorTesting.schedule();
+		if (intakeTesting != null) {
+			intakeTesting.schedule();
+		}
+		if (manipulatorTesting != null) {
+			manipulatorTesting.schedule();
+		}
 	}
 
 
@@ -100,7 +103,9 @@ public class Robot extends TimedRobot {
 	// Runs autonomous command selected by {@link Robot} class
 	@Override
 	public void autonomousInit() {
-		defaultAutonomous.schedule();
+		if (defaultAutonomous != null) {
+			defaultAutonomous.schedule();
+		}
 	}
 
 	@Override
@@ -122,9 +127,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		robotContainer
-			.teleopDrive()
-			.runIntakeRoller();
+		robotContainer.periodicTeleop();
 	}
 
 

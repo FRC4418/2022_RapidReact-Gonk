@@ -41,7 +41,7 @@ public class JoysticksDisplay {
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 
                 sendableDriverJoystickModeChooser.setDefaultOption("Arcade", JoystickModes.ARCADE);
-                sendableDriverJoystickModeChooser.addOption("Tank", JoystickModes.TANK);
+                sendableDriverJoystickModeChooser.addOption("Tank", JoystickModes.LONE_TANK);
                 driverLayout
                     .add("Mode", sendableDriverJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -56,7 +56,7 @@ public class JoysticksDisplay {
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 
                 sendableSpotterJoystickModeChooser.setDefaultOption("Arcade", JoystickModes.ARCADE);
-                sendableSpotterJoystickModeChooser.addOption("Tank", JoystickModes.TANK);
+                sendableSpotterJoystickModeChooser.addOption("Tank", JoystickModes.LONE_TANK);
                 spotterLayout
                     .add("Mode", sendableSpotterJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
