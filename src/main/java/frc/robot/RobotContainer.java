@@ -2,6 +2,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.IO.DriverControls;
@@ -46,7 +47,7 @@ public class RobotContainer {
     // Resources
 
 
-    private boolean[] connectedJoystickPorts = new boolean[6];
+    private Joystick[] connectedJoysticks = new Joystick[6];
 
 	private DriverControls driverControls;
 	private SpotterControls spotterControls;
@@ -125,9 +126,22 @@ public class RobotContainer {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Scheduler methods
+
+
+	public RobotContainer robotPeriodic() {
+		for (int port = 0; port < connectedJoysticks.length; port++) {
+			// screw you i like using conditional operators. deal with it L bozo ratio
+			connectedJoysticks[port] = DriverStation.isJoystickConnected(port) ? new Joystick(port): null;
+		}
+		return this;
+	}
+
 	// TODO: Figure out a way to switch between the driver and spotter controlling the robot
 
-    public RobotContainer periodicTeleop() {
+    public RobotContainer teleopPeriodic() {
 		driverControls
 			.periodicTeleopDrive()
 			.periodicTeleopIntakeRoller();
