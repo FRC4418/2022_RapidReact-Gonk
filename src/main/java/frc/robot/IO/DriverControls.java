@@ -260,7 +260,6 @@ public class DriverControls {
         
                             runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
                             runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-
                             break;
                     }
                     break;
@@ -309,7 +308,6 @@ public class DriverControls {
 
                             runLauncherButton = new JoystickButton(primaryJoystick, X3D.TRIGGER_BUTTON_ID);
                             runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-
                             break;
                     }
                     break;
