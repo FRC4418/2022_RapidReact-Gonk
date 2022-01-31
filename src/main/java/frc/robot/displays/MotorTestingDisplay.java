@@ -20,17 +20,17 @@ public class MotorTestingDisplay {
 
     public NetworkTableEntry motorTestingModeToggleSwitch;
 
-	public NetworkTableEntry manipulatorIndexerToggleSwitch;
-	public NetworkTableEntry manipulatorIndexerOutputPercentTextView;
+	public NetworkTableEntry indexerToggleSwitch;
+	public NetworkTableEntry indexerOutputPercentTextView;
 
-	public NetworkTableEntry manipulatorLauncherToggleSwitch;
-	public NetworkTableEntry manipulatorLauncherOutputPercentTextView;
+	public NetworkTableEntry launcherToggleSwitch;
+	public NetworkTableEntry launcherOutputPercentTextView;
 
-	public NetworkTableEntry intakeRollerToggleSwitch;
-	public NetworkTableEntry intakeRollerOutputPercentTextView;
+	public NetworkTableEntry rollerToggleSwitch;
+	public NetworkTableEntry rollerOutputPercentTextView;
 
-	public NetworkTableEntry intakeRetractorToggleSwitch;
-	public NetworkTableEntry intakeRetractorPositionTextView;
+	public NetworkTableEntry retractorToggleSwitch;
+	public NetworkTableEntry retractorPositionTextView;
 
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
@@ -68,11 +68,11 @@ public class MotorTestingDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						// I have no fucking clue why the textView entry is always added before (to the 2nd row) the toggleSwitch but it's good enough
-						intakeRetractorToggleSwitch = retractorLayout
+						retractorToggleSwitch = retractorLayout
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
-						intakeRetractorPositionTextView = retractorLayout
+						retractorPositionTextView = retractorLayout
 							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
@@ -83,11 +83,11 @@ public class MotorTestingDisplay {
 						.getLayout("Roller", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-						intakeRollerToggleSwitch = rollerLayout
+						rollerToggleSwitch = rollerLayout
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
-						intakeRollerOutputPercentTextView = rollerLayout
+						rollerOutputPercentTextView = rollerLayout
 							.add("Percentage", Intake.DEFAULT_ROLLER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
@@ -103,11 +103,11 @@ public class MotorTestingDisplay {
 						.getLayout("Indexer", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-						manipulatorIndexerToggleSwitch = indexerLayout
+						indexerToggleSwitch = indexerLayout
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
-						manipulatorIndexerOutputPercentTextView = indexerLayout
+						indexerOutputPercentTextView = indexerLayout
 							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
@@ -118,11 +118,11 @@ public class MotorTestingDisplay {
 						.getLayout("Launcher", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-						manipulatorLauncherToggleSwitch = launcherLayout
+						launcherToggleSwitch = launcherLayout
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
-						manipulatorLauncherOutputPercentTextView = launcherLayout
+						launcherOutputPercentTextView = launcherLayout
 							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();

@@ -23,7 +23,7 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public final double
 		// units in seconds
-		SHARED_RAMP_TIME = 2.d;	// TODO: Config open-loop ramp time
+		SHARED_RAMP_TIME = 2.d;	// TODO: Put drivetrain open-loop ramp time in a diagnostics display
 
 
 	// ----------------------------------------------------------
@@ -231,7 +231,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
 		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
 		pipeline
-			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_SIGMOID)	// TODO: Config joystick map functions
+			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_SIGMOID)	// TODO: If using custom input pipelines, put joystick map functions in a diagnostics display
 			.applyDeadzones();
 		
 		double[] values = pipeline.getValues();

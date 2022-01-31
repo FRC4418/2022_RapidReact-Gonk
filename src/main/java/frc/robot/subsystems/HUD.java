@@ -16,6 +16,9 @@ public class HUD extends SubsystemBase {
 
 
 	public MotorTestingDisplay motorTestingDisplay;
+
+	public AutonomousDisplay autonomousDisplay;
+	public JoysticksDisplay joysticksDisplay;
 	
 
 	// ----------------------------------------------------------
@@ -24,9 +27,6 @@ public class HUD extends SubsystemBase {
 
 	private ShuffleboardTab HUDTab;
 	private ShuffleboardTab diagnosticsTab;
-
-	private AutonomousDisplay autonomousDisplay;
-	private JoysticksDisplay joysticksDisplay;
 
 
 	// ----------------------------------------------------------
@@ -40,8 +40,8 @@ public class HUD extends SubsystemBase {
 	public void initializeHUD() {
 		HUDTab = Shuffleboard.getTab("HUD");
 
-		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 0);
 		joysticksDisplay = new JoysticksDisplay(HUDTab, 2, 0);
+		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 0);
 	}
 
 	public void initializeDiagnostics() {

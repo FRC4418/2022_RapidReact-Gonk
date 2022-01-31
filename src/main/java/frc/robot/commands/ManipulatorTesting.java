@@ -35,14 +35,14 @@ public class ManipulatorTesting extends CommandBase {
 	@Override
 	public void execute() {
 		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (mt.manipulatorIndexerToggleSwitch.getBoolean(false)) {
-				ms.setIndexerToPercent(mt.manipulatorIndexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
+			if (mt.indexerToggleSwitch.getBoolean(false)) {
+				ms.setIndexerToPercent(mt.indexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
 			} else {
 				ms.stopIndexer();
 			}
 
-			if (mt.manipulatorLauncherToggleSwitch.getBoolean(false)) {
-				ms.setLauncherToPercent(mt.manipulatorLauncherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
+			if (mt.launcherToggleSwitch.getBoolean(false)) {
+				ms.setLauncherToPercent(mt.launcherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
 			} else {
 				ms.setLauncherToPercent(0.d);
 			}

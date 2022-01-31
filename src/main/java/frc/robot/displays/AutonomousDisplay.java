@@ -15,7 +15,7 @@ public class AutonomousDisplay {
     // ----------------------------------------------------------
     // Resources
 
-    private SendableChooser<AutonomousRoutine> sendableAutoRoutineChooser = new SendableChooser<>();
+    private SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
 
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
@@ -29,10 +29,10 @@ public class AutonomousDisplay {
 			.withSize(2, 1);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
-			sendableAutoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
-			sendableAutoRoutineChooser.addOption("Drive Straight to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
+			autoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
+			autoRoutineChooser.addOption("Drive Straight to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
 			autonomousLayout
-				.add("Autonomous Routine", sendableAutoRoutineChooser)
+				.add("Autonomous Routine", autoRoutineChooser)
 				.withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 }
