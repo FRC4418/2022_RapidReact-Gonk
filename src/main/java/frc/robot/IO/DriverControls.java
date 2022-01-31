@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.RobotContainer;
-import frc.robot.Joysticks.X3D;
-import frc.robot.Joysticks.XboxController;
+import frc.robot.IO.Joysticks.X3D;
+import frc.robot.IO.Joysticks.XboxController;
 import frc.robot.RobotContainer.JoystickModes;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.RunIndexer;
