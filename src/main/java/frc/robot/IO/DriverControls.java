@@ -3,16 +3,18 @@ package frc.robot.IO;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.RobotContainer;
 import frc.robot.IO.Joysticks.X3D;
 import frc.robot.IO.Joysticks.XboxController;
-import frc.robot.RobotContainer.JoystickModes;
+import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunLauncher;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.displays.JoysticksDisplay;
 
 
 // TODO: Different set of driver controls for tank mode
@@ -22,7 +24,9 @@ public class DriverControls {
 
     private RobotContainer rc;
 
-    private JoystickModes joystickMode;
+    private JoysticksDisplay jd;
+
+    private JoystickMode joystickMode;
 
     private Joystick
         // the primay joystick has the subjective majority of controls for critical robot functions
@@ -50,14 +54,35 @@ public class DriverControls {
     // ----------------------------------------------------------
     // Constructor and methods
 
-    public DriverControls(RobotContainer robotContainer) {
+    public DriverControls(RobotContainer robotContainer, JoysticksDisplay joysticksDisplay) {
         rc = robotContainer;
+        jd = joysticksDisplay;
     }
 
-    public JoystickModes getJoystickMode() { return joystickMode; }
+    public DriverControls listenForJoystickMode() {
+        JoystickMode newJoystickMode = jd.driverJoystickModeChooser.getSelected();
+        if (joystickMode != newJoystickMode) {
+            joystickMode = newJoystickMode;
+
+            leftmostJoystick = new Joystick(0);
+
+            switch (joystickMode) {
+                case ARCADE:
+                case LONE_TANK:
+                    rightmostJoystick = null;
+                    break;
+                case DUAL_TANK:
+                    rightmostJoystick = new Joystick(1);
+                    break;
+            }
+
+            configureButtonBindingsFor(leftmostJoystick, rightmostJoystick);
+        }
+        return this;
+    }
 
     public DriverControls periodicTeleopDrive() {
-        switch (getJoystickMode()) {
+        switch (joystickMode) {
 			case ARCADE:
 				rc.drivetrain.arcadeDrive(
 					getArcadeDriveForwardAxis(),	// forward
@@ -130,9 +155,7 @@ public class DriverControls {
     // Button bindings
 
     // if controller2 is null, then configure button bindings for the driver's single controller
-    public DriverControls configureButtonBindingsFor(JoystickModes joystickMode, Joystick leftmostJoystick, Joystick rightmostJoystick) {
-        this.joystickMode = joystickMode;
-
+    public DriverControls configureButtonBindingsFor(Joystick leftmostJoystick, Joystick rightmostJoystick) {
         if (leftmostJoystick == null && rightmostJoystick == null) {
             DriverStation.reportError("Joystick device references for driver controls are null", true);
         // just one joystick is non-null
@@ -177,7 +200,6 @@ public class DriverControls {
         
                             runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
                             runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-
                             break;
                         // if using a single X3D controller
                         case X3D.USB_DEVICE_NAME:
@@ -203,7 +225,6 @@ public class DriverControls {
         
                             runLauncherButton = new JoystickButton(primaryJoystick, X3D.TRIGGER_BUTTON_ID);
                             runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-
                             break;                
                     }
                     break;

@@ -35,7 +35,7 @@ public class RobotContainer {
 	// Public constants
 
 
-	public enum JoystickModes {
+	public enum JoystickMode {
 		ARCADE,
 		LONE_TANK,	// tank drive that uses just one joystick (ex. Xbox with two thumbsticks)
 		DUAL_TANK	// tank drive that uses two joysticsks (ex. two X3Ds, respectively for the left and right motors)
@@ -97,13 +97,13 @@ public class RobotContainer {
 
 
     public RobotContainer() {
-        driverControls = new DriverControls(this);
-		spotterControls = new SpotterControls();
-        
         hud.initializeHUD();
 		if (enableDiagnostics) {
 			hud.initializeDiagnostics();
 		}
+
+		driverControls = new DriverControls(this, hud.joysticksDisplay);
+		spotterControls = new SpotterControls();
 
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
@@ -134,6 +134,7 @@ public class RobotContainer {
 		// TODO: Create and use spotter controls
 
 		driverControls
+			.listenForJoystickMode()
 			.periodicTeleopDrive()
 			.periodicTeleopIntakeRoller();
 		return this;

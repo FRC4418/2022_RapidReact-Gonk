@@ -33,7 +33,7 @@ public final class Joysticks {
 
 	public static class XboxController {
 		public static final String
-			USB_DEVICE_NAME					= "Controller (Xbox One For Windows";
+			USB_DEVICE_NAME					= "Controller (Xbox One For Windows)";
 
 		public static final int
 			JOYSTICK_ID 				= 1,
