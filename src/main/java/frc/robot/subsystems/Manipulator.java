@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 // import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -37,7 +38,7 @@ public class Manipulator extends SubsystemBase {
 	
 
 	private WPI_TalonSRX indexerMotor;
-	private WPI_TalonSRX launcherMotor;
+	private WPI_TalonFX launcherMotor;
 	
 	/* Encoder.getRate() returns distance per second
 	distance per second * distance per pulse = pulse per second
@@ -56,9 +57,7 @@ public class Manipulator extends SubsystemBase {
 
 	public Manipulator() {
 		indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
-		launcherMotor = new WPI_TalonSRX(LAUNCHER_CAN_ID);
-
-		launcherMotor.setInverted(true);
+		launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
 	}
 
 
