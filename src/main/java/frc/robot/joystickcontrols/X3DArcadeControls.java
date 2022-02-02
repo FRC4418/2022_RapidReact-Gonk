@@ -51,12 +51,12 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Intake axes
 
     @Override
-    public int rollerDisposalAxis() {
+    public int reverseFeederAxis() {
         return -1;
     }
 
     @Override
-    public int rollerIntakeAxis() {
+    public int feederAxis() {
         return -1;
     }
 
@@ -64,12 +64,12 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    public JoystickButton runRollerDisposalButton(Joystick joystick) {
+    public JoystickButton runFeederDisposalButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_11_ID);
     }
 
     @Override
-    public JoystickButton runRollerIntakebutton(Joystick joystick) {
+    public JoystickButton runFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_12_ID);
     }
 

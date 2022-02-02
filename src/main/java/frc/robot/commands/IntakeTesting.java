@@ -12,15 +12,15 @@ public class IntakeTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake intake;
-	private final MotorTestingDisplay motorTestingDisplay;
+	private final Intake m_intake;
+	private final MotorTestingDisplay m_motorTestingDisplay;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public IntakeTesting(Intake intake, HUD hud) {
-		this.intake = intake;
-		this.motorTestingDisplay = hud.motorTestingDisplay;
+		this.m_intake = intake;
+		this.m_motorTestingDisplay = hud.motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------
@@ -35,24 +35,24 @@ public class IntakeTesting extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (motorTestingDisplay.rollerToggleSwitch.getBoolean(false)) {
-				intake.setRollerMotorPercent(motorTestingDisplay.rollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT));
+		if (m_motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
+			if (m_motorTestingDisplay.feederToggleSwitch.getBoolean(false)) {
+				m_intake.setFeederMotorPercent(m_motorTestingDisplay.feederOutputPercentTextView.getDouble(Intake.DEFAULT_FEEDER_OUTPUT_PERCENT));
 			} else {
-				intake.setRollerMotorPercent(0.d);
+				m_intake.setFeederMotorPercent(0.d);
 			}
 
-			if (motorTestingDisplay.retractorToggleSwitch.getBoolean(false)) {
-				intake.setRetractMotorPosition(motorTestingDisplay.retractorPositionTextView.getDouble(Intake.DEFAULT_RETRACTOR_POSITION));
+			if (m_motorTestingDisplay.retractorToggleSwitch.getBoolean(false)) {
+				m_intake.setRetractMotorPosition(m_motorTestingDisplay.retractorPositionTextView.getDouble(Intake.DEFAULT_RETRACTOR_POSITION));
 			} else {
-				intake.setRetractMotorPosition(0.d);
+				m_intake.setRetractMotorPosition(0.d);
 			}
 		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		intake.setRollerMotorPercent(0.d);
+		m_intake.setFeederMotorPercent(0.d);
 		// it.setRetractMotorPosition(0.d);
 	}
 

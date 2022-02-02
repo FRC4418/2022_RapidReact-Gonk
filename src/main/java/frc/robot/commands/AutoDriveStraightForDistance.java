@@ -19,7 +19,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double motorPercentOutput = 0.45d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.45d;
 	private final double kP = 0.1d;
 
 	// ----------------------------------------------------------
@@ -57,10 +57,10 @@ public class AutoDriveStraightForDistance extends CommandBase {
 		double error = drivetrain.getLeftDistance() - drivetrain.getRightDistance();
 
 		if (direction == DriveStraightDirection.FORWARDS) {
-			drivetrain.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
+			drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
 			// dt.tankDrive(motorPercentOutput, motorPercentOutput);
 		} else {
-			drivetrain.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
+			drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
 			// dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
 		}
 

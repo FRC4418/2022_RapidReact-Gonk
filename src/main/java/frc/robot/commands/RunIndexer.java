@@ -10,13 +10,13 @@ public class RunIndexer extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Manipulator manipulator;
+	private final Manipulator m_manipulator;
 
 	// ----------------------------------------------------------
 	// Constructor
 	
 	public RunIndexer(Manipulator manipulator) {
-		this.manipulator = manipulator;
+		this.m_manipulator = manipulator;
 	}
 
 	// ----------------------------------------------------------
@@ -24,7 +24,7 @@ public class RunIndexer extends CommandBase {
 
 	@Override
 	public void initialize() {
-		manipulator.runIndexer();
+		m_manipulator.runIndexer();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class RunIndexer extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		manipulator.stopIndexer();
+		m_manipulator.stopIndexer();
 	}
 
 	@Override

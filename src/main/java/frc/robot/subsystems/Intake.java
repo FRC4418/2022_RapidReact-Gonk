@@ -14,8 +14,8 @@ public class Intake extends SubsystemBase {
 
 
 	public static final double
-		DEFAULT_ROLLER_DISPOSAL_OUTPUT_PERCENT = -0.5d,
-		DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT = 0.5d,
+		DEFAULT_REVERSE_FEEDER_OUTPUT_PERCENT = -0.5d,
+		DEFAULT_FEEDER_OUTPUT_PERCENT = 0.5d,
 		
 		DEFAULT_RETRACTOR_POSITION = 90.d;
 	
@@ -25,19 +25,19 @@ public class Intake extends SubsystemBase {
 
 
 	private final int
-		ROLLER_CAN_ID = 11,
+		FEEDER_CAN_ID = 11,
 		RETRACT_CAN_ID = 12;
 
 	private final double
 		// units in seconds
-		ROLLER_MOTOR_RAMP_TIME = 0.25d;
+		FEEDER_MOTOR_RAMP_TIME = 0.25d;
 
 
 	// ----------------------------------------------------------
 	// Resources
 
 
-	public WPI_TalonSRX rollerMotor;
+	public WPI_TalonSRX feederMotor;
 	public WPI_TalonFX retractorMotor;
 	
 
@@ -46,10 +46,10 @@ public class Intake extends SubsystemBase {
 	
 
 	public Intake() {
-		rollerMotor = new WPI_TalonSRX(ROLLER_CAN_ID);
+		feederMotor = new WPI_TalonSRX(FEEDER_CAN_ID);
 		retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
 
-		rollerMotor.configOpenloopRamp(ROLLER_MOTOR_RAMP_TIME);
+		feederMotor.configOpenloopRamp(FEEDER_MOTOR_RAMP_TIME);
 	}
 
 
@@ -78,28 +78,28 @@ public class Intake extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Roller motor
+	// Feeder motor
 
 
-	public double getRollerSpeed() { return rollerMotor.get(); }
+	public double getFeederSpeed() { return feederMotor.get(); }
 
-	public Intake setRollerMotorPercent(double percentOutput) {
-		rollerMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Intake setFeederMotorPercent(double percentOutput) {
+		feederMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
-	public Intake runRollerDisposal() {
-		setRollerMotorPercent(DEFAULT_ROLLER_DISPOSAL_OUTPUT_PERCENT);
+	public Intake runReverseFeeder() {
+		setFeederMotorPercent(DEFAULT_REVERSE_FEEDER_OUTPUT_PERCENT);
 		return this;
 	}
 
-	public Intake runRollerIntake() {
-		setRollerMotorPercent(DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT);
+	public Intake runFeeder() {
+		setFeederMotorPercent(DEFAULT_FEEDER_OUTPUT_PERCENT);
 		return this;
 	}
 
-	public Intake stopRoller() {
-		setRollerMotorPercent(0.d);
+	public Intake stopFeeder() {
+		setFeederMotorPercent(0.d);
 		return this;
 	}
 

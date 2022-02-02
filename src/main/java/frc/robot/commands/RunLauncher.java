@@ -11,13 +11,13 @@ public class RunLauncher extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
-	private final Manipulator manipulator;
+	private final Manipulator m_manipulator;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public RunLauncher(Manipulator manipulator) {	
-		this.manipulator = manipulator; 
+		this.m_manipulator = manipulator; 
 	}
 
 	// ----------------------------------------------------------
@@ -25,7 +25,7 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void initialize() {
-		manipulator.runLauncher();
+		m_manipulator.runLauncher();
 	}
 
 	int coutner = 0;
@@ -37,7 +37,7 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		manipulator.stopLauncher();
+		m_manipulator.stopLauncher();
 	}	
 
 	@Override

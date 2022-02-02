@@ -38,11 +38,11 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Intake axes
 
-    protected int rollerDisposalAxis;
-    public abstract int rollerDisposalAxis();
+    protected int reverseFeederAxis;
+    public abstract int reverseFeederAxis();
 
-    protected int rollerIntakeAxis;
-    public abstract int rollerIntakeAxis();
+    protected int feederAxis;
+    public abstract int feederAxis();
 
     // ----------------------------------------------------------
     // Intake buttons
@@ -50,11 +50,11 @@ public abstract class JoystickControls {
     protected JoystickButton toggleIntakeButton;
     public abstract JoystickButton toggleIntakeButton(Joystick joystick);
 
-    protected JoystickButton runRollerDisposalButton;
-    public abstract JoystickButton runRollerDisposalButton(Joystick joystick);
+    protected JoystickButton runFeederDisposalButton;
+    public abstract JoystickButton runFeederDisposalButton(Joystick joystick);
 
-    protected JoystickButton runRollerIntakebutton;
-    public abstract JoystickButton runRollerIntakebutton(Joystick joystick);
+    protected JoystickButton runFeederIntakebutton;
+    public abstract JoystickButton runFeederButton(Joystick joystick);
 
     // ----------------------------------------------------------
     // Manipulator buttons

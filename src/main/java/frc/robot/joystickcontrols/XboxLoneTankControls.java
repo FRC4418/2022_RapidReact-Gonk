@@ -51,12 +51,12 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Intake axes
 
     @Override
-    public int rollerDisposalAxis() {
+    public int reverseFeederAxis() {
         return XboxController.LEFT_TRIGGER_AXIS;
     }
 
     @Override
-    public int rollerIntakeAxis() {
+    public int feederAxis() {
         return XboxController.RIGHT_TRIGGER_AXIS;
     }
 
@@ -64,12 +64,12 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    public JoystickButton runRollerDisposalButton(Joystick joystick) {
+    public JoystickButton runFeederDisposalButton(Joystick joystick) {
         return null;
     }
 
     @Override
-    public JoystickButton runRollerIntakebutton(Joystick joystick) {
+    public JoystickButton runFeederButton(Joystick joystick) {
         return null;
     }
 
