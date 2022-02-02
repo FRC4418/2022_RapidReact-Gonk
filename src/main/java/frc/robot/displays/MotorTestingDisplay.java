@@ -26,8 +26,8 @@ public class MotorTestingDisplay {
 	public NetworkTableEntry launcherToggleSwitch;
 	public NetworkTableEntry launcherOutputPercentTextView;
 
-	public NetworkTableEntry rollerToggleSwitch;
-	public NetworkTableEntry rollerOutputPercentTextView;
+	public NetworkTableEntry feederToggleSwitch;
+	public NetworkTableEntry feederOutputPercentTextView;
 
 	public NetworkTableEntry retractorToggleSwitch;
 	public NetworkTableEntry retractorPositionTextView;
@@ -77,18 +77,18 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 
-					// intake roller motor
+					// intake feeder motor
 					
-					var rollerLayout = intakeLayout
-						.getLayout("Roller", BuiltInLayouts.kGrid)
+					var feederLayout = intakeLayout
+						.getLayout("Feeder", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-						rollerToggleSwitch = rollerLayout
+						feederToggleSwitch = feederLayout
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
-						rollerOutputPercentTextView = rollerLayout
-							.add("Percentage", Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT)
+						feederOutputPercentTextView = feederLayout
+							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 

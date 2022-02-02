@@ -6,17 +6,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 
-public class RunRollerIntake extends CommandBase {
+public class RunReverseFeeder extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
-	private final Intake intake;
+	private final Intake m_intake;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunRollerIntake(Intake intake) {
-		this.intake = intake;
+	public RunReverseFeeder(Intake intake) {
+		this.m_intake = intake;
 	}
 
 	// ----------------------------------------------------------
@@ -24,7 +24,7 @@ public class RunRollerIntake extends CommandBase {
 
 	@Override
 	public void initialize() {
-		intake.runRollerIntake();
+		m_intake.runReverseFeeder();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class RunRollerIntake extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		intake.stopRoller();
+		m_intake.stopFeeder();
 	}
 
 	@Override

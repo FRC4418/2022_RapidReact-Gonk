@@ -11,15 +11,15 @@ public class ManipulatorTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Manipulator manipulator;
-	private final MotorTestingDisplay motorTestingDisplay;
+	private final Manipulator m_manipulator;
+	private final MotorTestingDisplay m_motorTestingDisplay;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public ManipulatorTesting(Manipulator manipulator, HUD hud) {
-		this.manipulator = manipulator;
-		this.motorTestingDisplay = hud.motorTestingDisplay;
+		this.m_manipulator = manipulator;
+		this.m_motorTestingDisplay = hud.motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------
@@ -34,25 +34,25 @@ public class ManipulatorTesting extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (motorTestingDisplay.indexerToggleSwitch.getBoolean(false)) {
-				manipulator.setIndexerToPercent(motorTestingDisplay.indexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
+		if (m_motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
+			if (m_motorTestingDisplay.indexerToggleSwitch.getBoolean(false)) {
+				m_manipulator.setIndexerToPercent(m_motorTestingDisplay.indexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
 			} else {
-				manipulator.stopIndexer();
+				m_manipulator.stopIndexer();
 			}
 
-			if (motorTestingDisplay.launcherToggleSwitch.getBoolean(false)) {
-				manipulator.setLauncherToPercent(motorTestingDisplay.launcherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
+			if (m_motorTestingDisplay.launcherToggleSwitch.getBoolean(false)) {
+				m_manipulator.setLauncherToPercent(m_motorTestingDisplay.launcherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
 			} else {
-				manipulator.setLauncherToPercent(0.d);
+				m_manipulator.setLauncherToPercent(0.d);
 			}
 		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		manipulator.stopIndexer();
-		manipulator.stopLauncher();
+		m_manipulator.stopIndexer();
+		m_manipulator.stopLauncher();
 	}
 
 	@Override

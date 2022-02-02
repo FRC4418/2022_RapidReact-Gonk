@@ -8,28 +8,28 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 
-public class ToggleIntake extends CommandBase {
+public class ToggleFeeder extends CommandBase {
 	// ----------------------------------------------------------
 	// Constants
 
-	private final double INTAKE_ROLLER_OUTPUT_PERCENT = 0.3d;
-	private final double INTAKE_DELAY_TIME = 2.d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.3d;
+	private final double DELAY_TIME = 2.d;
 	
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake intake;
+	private final Intake m_intake;
 
-	private final DigitalInput whiskerSensor = new DigitalInput(2);
+	private final DigitalInput m_whiskerSensor = new DigitalInput(2);
 
 	// delay to keep the intake running for a few seconds, even after we trip the whisker sensor
-	private final Timer postWhiskerSensorDelayTimer = new Timer();
+	private final Timer m_postWhiskerSensorDelayTimer = new Timer();
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ToggleIntake(Intake intake) {
-		this.intake = intake;
+	public ToggleFeeder(Intake intake) {
+		this.m_intake = intake;
 		// addRequirements(it);
 	}
 
@@ -38,7 +38,7 @@ public class ToggleIntake extends CommandBase {
 
 	@Override
 	public void initialize() {
-		intake.setRollerMotorPercent(INTAKE_ROLLER_OUTPUT_PERCENT);
+		m_intake.setFeederMotorPercent(MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
@@ -48,18 +48,18 @@ public class ToggleIntake extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		intake.setRollerMotorPercent(0.d);
+		m_intake.setFeederMotorPercent(0.d);
 	}
 
 	@Override
 	public boolean isFinished() {
-		if (whiskerSensor.get() == true) {
-			postWhiskerSensorDelayTimer.start();
+		if (m_whiskerSensor.get() == true) {
+			m_postWhiskerSensorDelayTimer.start();
 		}
 
-		if (postWhiskerSensorDelayTimer.hasElapsed(INTAKE_DELAY_TIME)) {
-			postWhiskerSensorDelayTimer.stop();
-			postWhiskerSensorDelayTimer.reset();
+		if (m_postWhiskerSensorDelayTimer.hasElapsed(DELAY_TIME)) {
+			m_postWhiskerSensorDelayTimer.stop();
+			m_postWhiskerSensorDelayTimer.reset();
 			return true;
 		}
 

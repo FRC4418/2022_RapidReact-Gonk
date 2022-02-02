@@ -10,18 +10,18 @@ public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double motorOutputPercent = 0.5d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.5d;
 
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Drivetrain drivetrain;
+	private final Drivetrain m_drivetrain;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public DriveStraightWhileHeld(Drivetrain drivetrain) {
-		this.drivetrain = drivetrain;
+		this.m_drivetrain = drivetrain;
 		addRequirements(drivetrain);
 	}
 
@@ -30,21 +30,21 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		drivetrain
+		m_drivetrain
 			// .coastOrBrakeMotors(false, false)
 			.setOpenLoopRampTimes(0.d);
 	}
 
 	@Override
 	public void execute() {
-		drivetrain
-			.setLeftMotors(motorOutputPercent)
-			.setRightMotors(motorOutputPercent);
+		m_drivetrain
+			.setLeftMotors(MOTOR_OUTPUT_PERCENT)
+			.setRightMotors(MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		drivetrain.stopDrive();
+		m_drivetrain.stopDrive();
 	}
 
 	@Override
