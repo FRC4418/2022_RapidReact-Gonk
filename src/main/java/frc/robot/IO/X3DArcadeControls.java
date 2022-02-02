@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class X3DArcadeControls extends JoystickControls {
+public class X3DArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
@@ -94,7 +94,7 @@ public class X3DArcadeControls extends JoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public X3DArcadeControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator);
+    public X3DArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+        super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }
