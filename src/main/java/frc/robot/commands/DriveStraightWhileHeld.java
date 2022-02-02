@@ -31,7 +31,7 @@ public class DriveStraightWhileHeld extends CommandBase {
 	@Override
 	public void initialize() {
 		dt
-			.coastOrBrakeMotors(false, false)
+			// .coastOrBrakeMotors(false, false)
 			.setOpenLoopRampTimes(0.d);
 	}
 

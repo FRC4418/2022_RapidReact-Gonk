@@ -8,12 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import frc.robot.teamlibraries.DriveInputPipeline;
-import frc.robot.teamlibraries.Gains;
-import frc.robot.teamlibraries.DriveInputPipeline.InputMapModes;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -22,7 +17,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// Open-loop control constants
-	public final double
+	public static final double
 		// units in seconds
 		SHARED_RAMP_TIME = 2.d;	// TODO: Put drivetrain open-loop ramp time in a diagnostics display
 
@@ -33,13 +28,13 @@ public class Drivetrain extends SubsystemBase {
 
 	// ID and encoder constants
 	// These are how it's SUPPOSED to be on both V1 and V2
-	private final int
+	private static final int
 		FRONT_LEFT_CAN_ID = 4,
 		BACK_LEFT_CAN_ID = 5,
 		FRONT_RIGHT_CAN_ID = 3,
 		BACK_RIGHT_CAN_ID = 2;
 
-	private final double
+	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
 		// 1 to 7.33 gearbox is big to small gear (means more speed)
@@ -48,39 +43,39 @@ public class Drivetrain extends SubsystemBase {
 
 	// Closed-loop control constants
 
-	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
-	private final int kSlotIdx = 0;
+	// // the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
+	// private static final int kSlotIdx = 0;
 
-	// Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
-	private final int kIdx = 0;
+	// // Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
+	// private static final int kIdx = 0;
 
-	// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-	private final int kTimeoutMs = 30;
+	// // Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
+	// private static final int kTimeoutMs = 30;
 
-	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+	// // ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	private final Gains kLeftMotorVelocityGains
-		//			kP		kI		kD		kF				Iz		Peakout
-		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	// private static final Gains kLeftMotorVelocityGains
+	// 	//			kP		kI		kD		kF				Iz		Peakout
+	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 	
-	private final Gains kRightMotorVelocityGains 
-		//			kP		kI		kD		kF				Iz		Peakout
-		= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	// private static final Gains kRightMotorVelocityGains 
+	// 	//			kP		kI		kD		kF				Iz		Peakout
+	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 
 
 	// ----------------------------------------------------------
 	// Resources
 
 
-	private WPI_TalonFX frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
-	private WPI_TalonFX backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
-	private MotorControllerGroup leftGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
+	private WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
+	private WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
-	private WPI_TalonFX frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
-	private WPI_TalonFX backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
-	private MotorControllerGroup rightGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
+	private WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
+	private WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
+	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
-	private DifferentialDrive differentialDrive;
+	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
 
 	// ----------------------------------------------------------
@@ -91,21 +86,21 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
 
-		backLeftMotor.follow(frontLeftMotor);
-		backRightMotor.follow(frontRightMotor);
+		m_frontLeftMotor.configFactoryDefault();
+		m_backLeftMotor.configFactoryDefault();
+		m_frontRightMotor.configFactoryDefault();
+		m_backRightMotor.configFactoryDefault();
 
-		frontLeftMotor.configFactoryDefault();
-		backLeftMotor.configFactoryDefault();
-		frontRightMotor.configFactoryDefault();
-		backRightMotor.configFactoryDefault();
+		m_backLeftMotor.follow(m_frontLeftMotor);
+		m_backRightMotor.follow(m_frontRightMotor);
 
 		// ----------------------------------------------------------
 		// Config open-loop controls
 
-		frontLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		backLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		frontRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		backRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		// m_frontLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		// m_backLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		// m_frontRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
+		// m_backRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
 
 		// ----------------------------------------------------------
 		// Config closed-loop controls
@@ -123,16 +118,14 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config integrated sensors (built-in encoders)
 
-		frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 		resetEncoders();
 
 		// ----------------------------------------------------------
 		// Set up drivetrain
 
-		coastOrBrakeMotors(false, false);
-
-		differentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+		// coastOrBrakeMotors(false, false);
 	}
 
 
@@ -141,102 +134,68 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
 		if (flipLeftMotors) {
-			frontLeftMotor.setInverted(true);
-			backLeftMotor.setInverted(InvertType.FollowMaster);
+			m_frontLeftMotor.setInverted(true);
+			m_backLeftMotor.setInverted(InvertType.FollowMaster);
 		} else {
-			frontRightMotor.setInverted(true);
-			backRightMotor.setInverted(InvertType.FollowMaster);
+			m_frontRightMotor.setInverted(true);
+			m_backRightMotor.setInverted(InvertType.FollowMaster);
 		}
 		return this;
 	}
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
-		frontLeftMotor.configOpenloopRamp(timeInSeconds);
-		frontRightMotor.configOpenloopRamp(timeInSeconds);
+		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
+		m_frontRightMotor.configOpenloopRamp(timeInSeconds);
 		return this;
 	}
 
 	public Drivetrain setLeftMotors(double negToPosPercentage) {
-		frontLeftMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public Drivetrain setRightMotors(double negToPosPercentage) {
-		frontRightMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+		m_frontRightMotor.set(ControlMode.PercentOutput, negToPosPercentage);
 		return this;
 	}
 
 	public double getLeftPercent() {
-		return frontLeftMotor.getMotorOutputPercent();
+		return m_frontLeftMotor.getMotorOutputPercent();
 	}
 
 	public double getRightPercent() {
-		return frontRightMotor.getMotorOutputPercent();
+		return m_frontRightMotor.getMotorOutputPercent();
 	}
 
 	// brake or coast left and right motors (true for braking)
-	public Drivetrain coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
-		if (leftIsBraking) {
-			frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-			backLeftMotor.setNeutralMode(NeutralMode.Brake);
-		} else {
-			frontLeftMotor.setNeutralMode(NeutralMode.Coast);
-			backLeftMotor.setNeutralMode(NeutralMode.Coast);
-		}
+	// public Drivetrain coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
+	// 	if (leftIsBraking) {
+	// 		m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+	// 		m_backLeftMotor.setNeutralMode(NeutralMode.Brake);
+	// 	} else {
+	// 		m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+	// 		m_backLeftMotor.setNeutralMode(NeutralMode.Coast);
+	// 	}
 
-		if (rightIsBraking) {
-			frontRightMotor.setNeutralMode(NeutralMode.Brake);
-			backRightMotor.setNeutralMode(NeutralMode.Brake);
-		} else {
-			frontRightMotor.setNeutralMode(NeutralMode.Coast);
-			backRightMotor.setNeutralMode(NeutralMode.Coast);
-		}
+	// 	if (rightIsBraking) {
+	// 		m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
+	// 		m_backRightMotor.setNeutralMode(NeutralMode.Brake);
+	// 	} else {
+	// 		m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
+	// 		m_backRightMotor.setNeutralMode(NeutralMode.Coast);
+	// 	}
 
-		return this;
-	}
+	// 	return this;
+	// }
 
 
 	// ----------------------------------------------------------
 	// High-level drivetrain actions
 
 
-	// Automatically set the breaks on when the robot is not moving and disables them when the robot is moving
-	public Drivetrain breakTankDriveIfNotMoving(double[] values) {
-		// brake motors if value is 0, else coast
-		coastOrBrakeMotors(values[0] == 0.d, values[1] == 0.d);
-		return this;
-	}
-
 	public Drivetrain stopDrive() {
-		frontLeftMotor.set(ControlMode.PercentOutput, 0.d);
-		frontRightMotor.set(ControlMode.PercentOutput, 0.d);
-		return this;
-	}
-
-	public Drivetrain tankDrive(double leftValue, double rightValue) {
-		var pipeline = new DriveInputPipeline(leftValue, rightValue);
-		pipeline
-			.inputMapWrapper(InputMapModes.IMM_SQUARE)
-			.magnetizeTankDrive()
-			.applyDeadzones();
-		
-		double[] values = pipeline.getValues();
-		breakTankDriveIfNotMoving(values);
-		differentialDrive.tankDrive(values[0], values[1]);
-
-		return this;
-	}
-
-	public Drivetrain arcadeDrive(double forwardValue, double angleValue) {
-		var pipeline = new DriveInputPipeline(forwardValue, angleValue);
-		pipeline
-			.inputMapWrapper(InputMapModes.IMM_LINEAR, InputMapModes.IMM_SIGMOID)	// TODO: If using custom input pipelines, put joystick map functions in a diagnostics display
-			.applyDeadzones();
-		
-		double[] values = pipeline.getValues();
-		breakTankDriveIfNotMoving(pipeline.convertArcadeDriveToTank(values));
-		differentialDrive.arcadeDrive(-values[0], values[1]);
-
+		m_frontLeftMotor.set(ControlMode.PercentOutput, 0.d);
+		m_frontRightMotor.set(ControlMode.PercentOutput, 0.d);
 		return this;
 	}
 
@@ -246,24 +205,20 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistance() {
-		return frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
-	}
-
-	public double getRightDistance() {
-		return frontRightMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
-	}
-
-	public double getAverageDistance() {
-		return (getRightDistance() + getLeftDistance()) / 2.0d;
+		return m_frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
 	}
 
 	public Drivetrain resetLeftEncoder() {
-		frontLeftMotor.setSelectedSensorPosition(0.d);
+		m_frontLeftMotor.setSelectedSensorPosition(0.d);
 		return this;
 	}
 
+	public double getRightDistance() {
+		return m_frontRightMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
+	}
+
 	public Drivetrain resetRightEncoder() {
-		frontRightMotor.setSelectedSensorPosition(0.d);
+		m_frontRightMotor.setSelectedSensorPosition(0.d);
 		return this;
 	}
 
@@ -271,6 +226,10 @@ public class Drivetrain extends SubsystemBase {
 		resetLeftEncoder();
 		resetRightEncoder();
 		return this;
+	}
+
+	public double getAverageDistance() {
+		return (getRightDistance() + getLeftDistance()) / 2.0d;
 	}
 
 
