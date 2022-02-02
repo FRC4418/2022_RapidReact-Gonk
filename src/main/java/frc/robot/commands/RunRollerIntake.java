@@ -10,13 +10,13 @@ public class RunRollerIntake extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
-	private final Intake it;
+	private final Intake intake;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public RunRollerIntake(Intake intake) {
-		it = intake;
+		this.intake = intake;
 	}
 
 	// ----------------------------------------------------------
@@ -24,7 +24,7 @@ public class RunRollerIntake extends CommandBase {
 
 	@Override
 	public void initialize() {
-		it.runRollerIntake();
+		intake.runRollerIntake();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class RunRollerIntake extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		it.stopRoller();
+		intake.stopRoller();
 	}
 
 	@Override

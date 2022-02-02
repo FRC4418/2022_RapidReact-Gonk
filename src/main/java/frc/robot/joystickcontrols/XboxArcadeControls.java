@@ -1,37 +1,37 @@
-package frc.robot.IO;
+package frc.robot.joystickcontrols;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc.robot.IO.Constants.XboxController;
+import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class XboxLoneTankControls extends SingleJoystickControls {
+public class XboxArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
     public int arcadeDriveForwardAxis() {
-        return -1;
-    }
-
-    @Override
-    public int arcadeDriveAngleAxis() {
-        return -1;
-    }
-
-    @Override
-    public int tankDriveLeftAxis() {
         return XboxController.LEFT_Y_AXIS;
     }
 
     @Override
+    public int arcadeDriveAngleAxis() {
+        return XboxController.LEFT_X_AXIS;
+    }
+
+    @Override
+    public int tankDriveLeftAxis() {
+        return -1;
+    }
+
+    @Override
     public int tankDriveRightAxis() {
-        return XboxController.RIGHT_Y_AXIS;
+        return -1;
     }
 
     // ----------------------------------------------------------
@@ -94,7 +94,7 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public XboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public XboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }

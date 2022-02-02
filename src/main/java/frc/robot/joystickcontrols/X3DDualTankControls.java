@@ -1,10 +1,10 @@
-package frc.robot.IO;
+package frc.robot.joystickcontrols;
 
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.IO.Constants.X3D;
+import frc.robot.joystickcontrols.IO.X3D;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;

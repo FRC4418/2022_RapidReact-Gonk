@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.IO.JoystickControls;
-import frc.robot.IO.X3DArcadeControls;
+import frc.robot.joystickcontrols.JoystickControls;
+import frc.robot.joystickcontrols.X3DArcadeControls;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeTesting;
@@ -47,7 +47,6 @@ public class RobotContainer {
     // Resources
 
 
-	// private DriverControls driverControls;
 	private JoystickControls joystickControls;
     
 
@@ -103,7 +102,6 @@ public class RobotContainer {
 			hud.initializeDiagnostics();
 		}
 
-		// driverControls = new DriverControls(this, hud.joysticksDisplay);
 		joystickControls = new X3DArcadeControls(new Joystick(0), drivetrain, intake, manipulator);
 
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);

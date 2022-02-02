@@ -12,15 +12,15 @@ public class IntakeTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake it;
-	private final MotorTestingDisplay mt;
+	private final Intake intake;
+	private final MotorTestingDisplay motorTestingDisplay;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public IntakeTesting(Intake intake, HUD hud) {
-		it = intake;
-		mt = hud.motorTestingDisplay;
+		this.intake = intake;
+		this.motorTestingDisplay = hud.motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------
@@ -35,24 +35,24 @@ public class IntakeTesting extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (mt.rollerToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(mt.rollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT));
+		if (motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
+			if (motorTestingDisplay.rollerToggleSwitch.getBoolean(false)) {
+				intake.setRollerMotorPercent(motorTestingDisplay.rollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT));
 			} else {
-				it.setRollerMotorPercent(0.d);
+				intake.setRollerMotorPercent(0.d);
 			}
 
-			if (mt.retractorToggleSwitch.getBoolean(false)) {
-				it.setRetractMotorPosition(mt.retractorPositionTextView.getDouble(Intake.DEFAULT_RETRACTOR_POSITION));
+			if (motorTestingDisplay.retractorToggleSwitch.getBoolean(false)) {
+				intake.setRetractMotorPosition(motorTestingDisplay.retractorPositionTextView.getDouble(Intake.DEFAULT_RETRACTOR_POSITION));
 			} else {
-				it.setRetractMotorPosition(0.d);
+				intake.setRetractMotorPosition(0.d);
 			}
 		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		it.setRollerMotorPercent(0.d);
+		intake.setRollerMotorPercent(0.d);
 		// it.setRetractMotorPosition(0.d);
 	}
 

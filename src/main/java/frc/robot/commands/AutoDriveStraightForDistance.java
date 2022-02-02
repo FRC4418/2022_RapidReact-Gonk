@@ -25,7 +25,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Drivetrain dt;
+	private final Drivetrain drivetrain;
 
 	private double distanceInInches;
 	private DriveStraightDirection direction;
@@ -36,9 +36,9 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	public AutoDriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
 		this.distanceInInches = distanceInInches;
 		this.direction = direction;
-
-		dt = drivetrain;
-		addRequirements(dt);
+		this.drivetrain = drivetrain;
+		
+		addRequirements(drivetrain);
 	}
 
 	// ----------------------------------------------------------
@@ -46,7 +46,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 	@Override
 	public void initialize() {
-		dt
+		drivetrain
 			// .coastOrBrakeMotors(false, false)
 			.setOpenLoopRampTimes(0.d)
 			.resetEncoders();
@@ -54,29 +54,29 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 	@Override
 	public void execute() {
-		double error = dt.getLeftDistance() - dt.getRightDistance();
+		double error = drivetrain.getLeftDistance() - drivetrain.getRightDistance();
 
 		if (direction == DriveStraightDirection.FORWARDS) {
-			dt.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
+			drivetrain.tankDrive(motorPercentOutput + kP * error, motorPercentOutput - kP * error);
 			// dt.tankDrive(motorPercentOutput, motorPercentOutput);
 		} else {
-			dt.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
+			drivetrain.tankDrive(-(motorPercentOutput + kP * error), -(motorPercentOutput - kP * error));
 			// dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
 		}
 
-		SmartDashboard.putNumber("Left Encoder", dt.getLeftDistance());
-		SmartDashboard.putNumber("Right Encoder", dt.getRightDistance());
+		SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftDistance());
+		SmartDashboard.putNumber("Right Encoder", drivetrain.getRightDistance());
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		dt.stopDrive();
+		drivetrain.stopDrive();
 	}
 
 	@Override
 	public boolean isFinished() {
-		SmartDashboard.putNumber("traveled average distance", dt.getAverageDistance());
+		SmartDashboard.putNumber("traveled average distance", drivetrain.getAverageDistance());
 
-		return Math.abs(dt.getAverageDistance()) >= distanceInInches;
+		return Math.abs(drivetrain.getAverageDistance()) >= distanceInInches;
 	}
 }

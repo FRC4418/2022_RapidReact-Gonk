@@ -15,14 +15,14 @@ public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Drivetrain dt;
+	private final Drivetrain drivetrain;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public DriveStraightWhileHeld(Drivetrain drivetrain) {
-		dt = drivetrain;
-		addRequirements(dt);
+		this.drivetrain = drivetrain;
+		addRequirements(drivetrain);
 	}
 
 	// ----------------------------------------------------------
@@ -30,21 +30,21 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		dt
+		drivetrain
 			// .coastOrBrakeMotors(false, false)
 			.setOpenLoopRampTimes(0.d);
 	}
 
 	@Override
 	public void execute() {
-		dt
+		drivetrain
 			.setLeftMotors(motorOutputPercent)
 			.setRightMotors(motorOutputPercent);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		dt.stopDrive();
+		drivetrain.stopDrive();
 	}
 
 	@Override
