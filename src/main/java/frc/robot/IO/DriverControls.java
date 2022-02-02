@@ -299,7 +299,6 @@ public class DriverControls {
                 ARCADE_DRIVE_ANGLE_AXIS = -1;
 
                 driveStraightPOVButton = new POVButton(primaryJoystick, XboxController.ANGLE_UP_POV);
-                // TODO: Make command-binding for buttons less repetitive for all joystick quantities and modes
                 driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
                 driveStraightJoystickButton = null;
 

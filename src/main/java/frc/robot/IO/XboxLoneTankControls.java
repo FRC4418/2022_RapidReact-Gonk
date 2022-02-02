@@ -10,28 +10,28 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class XboxArcadeControls extends SingleJoystickControls {
+public class XboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
     public int arcadeDriveForwardAxis() {
-        return XboxController.LEFT_Y_AXIS;
+        return -1;
     }
 
     @Override
     public int arcadeDriveAngleAxis() {
-        return XboxController.LEFT_X_AXIS;
+        return -1;
     }
 
     @Override
     public int tankDriveLeftAxis() {
-        return -1;
+        return XboxController.LEFT_Y_AXIS;
     }
 
     @Override
     public int tankDriveRightAxis() {
-        return -1;
+        return XboxController.RIGHT_Y_AXIS;
     }
 
     // ----------------------------------------------------------
@@ -94,7 +94,7 @@ public class XboxArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public XboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public XboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }
