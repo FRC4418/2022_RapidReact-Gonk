@@ -1,4 +1,4 @@
-package frc.robot.IO;
+package frc.robot.joystickcontrols;
 
 
 import edu.wpi.first.wpilibj.Joystick;

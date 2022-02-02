@@ -18,7 +18,7 @@ public class ToggleIntake extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake it;
+	private final Intake intake;
 
 	private final DigitalInput whiskerSensor = new DigitalInput(2);
 
@@ -29,7 +29,7 @@ public class ToggleIntake extends CommandBase {
 	// Constructor
 
 	public ToggleIntake(Intake intake) {
-		it = intake;
+		this.intake = intake;
 		// addRequirements(it);
 	}
 
@@ -38,7 +38,7 @@ public class ToggleIntake extends CommandBase {
 
 	@Override
 	public void initialize() {
-		it.setRollerMotorPercent(INTAKE_ROLLER_OUTPUT_PERCENT);
+		intake.setRollerMotorPercent(INTAKE_ROLLER_OUTPUT_PERCENT);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ToggleIntake extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		it.setRollerMotorPercent(0.d);
+		intake.setRollerMotorPercent(0.d);
 	}
 
 	@Override

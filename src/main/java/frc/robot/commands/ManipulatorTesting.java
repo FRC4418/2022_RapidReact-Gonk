@@ -11,15 +11,15 @@ public class ManipulatorTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Manipulator ms;
-	private final MotorTestingDisplay mt;
+	private final Manipulator manipulator;
+	private final MotorTestingDisplay motorTestingDisplay;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public ManipulatorTesting(Manipulator manipulator, HUD hud) {
-		ms = manipulator;
-		mt = hud.motorTestingDisplay;
+		this.manipulator = manipulator;
+		this.motorTestingDisplay = hud.motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------
@@ -34,25 +34,25 @@ public class ManipulatorTesting extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
-			if (mt.indexerToggleSwitch.getBoolean(false)) {
-				ms.setIndexerToPercent(mt.indexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
+		if (motorTestingDisplay.motorTestingModeToggleSwitch.getBoolean(false)) {
+			if (motorTestingDisplay.indexerToggleSwitch.getBoolean(false)) {
+				manipulator.setIndexerToPercent(motorTestingDisplay.indexerOutputPercentTextView.getDouble(Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT));
 			} else {
-				ms.stopIndexer();
+				manipulator.stopIndexer();
 			}
 
-			if (mt.launcherToggleSwitch.getBoolean(false)) {
-				ms.setLauncherToPercent(mt.launcherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
+			if (motorTestingDisplay.launcherToggleSwitch.getBoolean(false)) {
+				manipulator.setLauncherToPercent(motorTestingDisplay.launcherOutputPercentTextView.getDouble(Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT));
 			} else {
-				ms.setLauncherToPercent(0.d);
+				manipulator.setLauncherToPercent(0.d);
 			}
 		}
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		ms.stopIndexer();
-		ms.stopLauncher();
+		manipulator.stopIndexer();
+		manipulator.stopLauncher();
 	}
 
 	@Override
