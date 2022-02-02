@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.RobotContainer;
-import frc.robot.IO.Joysticks.DeviceType;
-import frc.robot.IO.Joysticks.X3D;
-import frc.robot.IO.Joysticks.XboxController;
+import frc.robot.IO.Constants.DeviceType;
+import frc.robot.IO.Constants.X3D;
+import frc.robot.IO.Constants.XboxController;
 import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.RunIndexer;

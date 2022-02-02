@@ -21,6 +21,8 @@
       "/Shuffleboard/4418 Telemetry/Autonomous Routine": "String Chooser",
       "/Shuffleboard/HUD/Autonomous Routine": "String Chooser",
       "/Shuffleboard/HUD/Driver Joystick Mode": "String Chooser",
+      "/Shuffleboard/HUD/Joysticks/Driver/Mode": "String Chooser",
+      "/Shuffleboard/HUD/Joysticks/Spotter/Mode": "String Chooser",
       "/Shuffleboard/HUD/Spotter Joystick Mode": "String Chooser"
     },
     "windows": {

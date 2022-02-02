@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Manipulator;
@@ -27,9 +28,11 @@ public class RunLauncher extends CommandBase {
 		ms.runLauncher();
 	}
 
+	int coutner = 0;
+
 	@Override
 	public void execute() {
-		
+		SmartDashboard.putNumber("Coutner", coutner++);;
 	}
 
 	@Override

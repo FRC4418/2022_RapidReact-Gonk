@@ -2,11 +2,12 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.IO.DriverControls;
-import frc.robot.IO.SpotterControls;
-import frc.robot.IO.Joysticks.DeviceType;
+import frc.robot.IO.JoystickControls;
+import frc.robot.IO.X3DArcadeControls;
+import frc.robot.IO.XboxArcadeControls;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeTesting;
@@ -47,8 +48,8 @@ public class RobotContainer {
     // Resources
 
 
-	private DriverControls driverControls;
-	private SpotterControls spotterControls;
+	// private DriverControls driverControls;
+	private JoystickControls joystickControls;
     
 
     // ----------------------------------------------------------
@@ -103,8 +104,8 @@ public class RobotContainer {
 			hud.initializeDiagnostics();
 		}
 
-		driverControls = new DriverControls(this, hud.joysticksDisplay);
-		spotterControls = new SpotterControls();
+		// driverControls = new DriverControls(this, hud.joysticksDisplay);
+		joystickControls = new X3DArcadeControls(new Joystick(0), new Joystick(1), drivetrain, intake, manipulator);
 
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
@@ -134,13 +135,13 @@ public class RobotContainer {
     public RobotContainer teleopPeriodic() {
 		// TODO: Create and use spotter controls
 
-		driverControls
-			.listenForJoystickMode()
-			.periodicTeleopDrive();
+		// driverControls
+		// 	.listenForJoystickMode()
+		// 	.periodicTeleopDrive();
 
-		if (driverControls.deviceType == DeviceType.XboxController) {
-			driverControls.periodicTeleopIntakeRoller();
-		}
+		// if (driverControls.deviceType == DeviceType.XboxController) {
+		// 	driverControls.periodicTeleopIntakeRoller();
+		// }
 
 		return this;
 	}
