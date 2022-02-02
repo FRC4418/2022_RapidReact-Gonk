@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.IO.DriverControls;
 import frc.robot.IO.SpotterControls;
+import frc.robot.IO.Joysticks.DeviceType;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeTesting;
@@ -135,8 +136,12 @@ public class RobotContainer {
 
 		driverControls
 			.listenForJoystickMode()
-			.periodicTeleopDrive()
-			.periodicTeleopIntakeRoller();
+			.periodicTeleopDrive();
+
+		if (driverControls.deviceType == DeviceType.XboxController) {
+			driverControls.periodicTeleopIntakeRoller();
+		}
+
 		return this;
 	}
 }

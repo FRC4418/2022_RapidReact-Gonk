@@ -3,6 +3,7 @@ package frc.robot.displays;
 
 import java.util.Map;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -16,8 +17,10 @@ public class JoysticksDisplay {
     // Resources
 
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
+    public NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
 
-    private SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
+    public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
+    public NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
 
     // ----------------------------------------------------------
     // Constructor
@@ -41,6 +44,10 @@ public class JoysticksDisplay {
                 driverLayout
                     .add("Mode", driverJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
+                driverFlipLeftAndRightJoysticksToggleSwitch = driverLayout
+                    .add("Flip Left & Right", false)
+                    .withWidget(BuiltInWidgets.kToggleButton)
+                    .getEntry();
 
             var spotterLayout = joysticksLayout
                 .getLayout("Spotter", BuiltInLayouts.kGrid)
@@ -48,9 +55,13 @@ public class JoysticksDisplay {
 
                 spotterJoystickModeChooser.setDefaultOption("Arcade", JoystickMode.ARCADE);
                 spotterJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
-                driverJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
+                spotterJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 spotterLayout
                     .add("Mode", spotterJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
+                spotterFlipLeftAndRightJoysticksToggleSwitch = spotterLayout
+                    .add("Flip Left & Right", false)
+                    .withWidget(BuiltInWidgets.kToggleButton)
+                    .getEntry();
     }
 }

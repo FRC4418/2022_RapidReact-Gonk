@@ -3,20 +3,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Intake;
 
 
-public class RunLauncher extends CommandBase {
+public class RunRollerDisposal extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
-	private final Manipulator ms;
+	private final Intake it;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunLauncher(Manipulator manipulator) {	
-		ms = manipulator; 
+	public RunRollerDisposal(Intake intake) {
+		it = intake;
 	}
 
 	// ----------------------------------------------------------
@@ -24,7 +24,7 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void initialize() {
-		ms.runLauncher();
+		it.runRollerDisposal();
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		ms.stopLauncher();
-	}	
+		it.stopRoller();
+	}
 
 	@Override
 	public boolean isFinished() {

@@ -88,7 +88,7 @@ public class MotorTestingDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						rollerOutputPercentTextView = rollerLayout
-							.add("Percentage", Intake.DEFAULT_ROLLER_OUTPUT_PERCENT)
+							.add("Percentage", Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kTextView)
 							.getEntry();
 

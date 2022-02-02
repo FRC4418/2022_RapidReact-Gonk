@@ -1,17 +1,23 @@
 package frc.robot.IO;
 
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.RobotContainer;
+import frc.robot.IO.Joysticks.DeviceType;
 import frc.robot.IO.Joysticks.X3D;
 import frc.robot.IO.Joysticks.XboxController;
 import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunLauncher;
+import frc.robot.commands.RunRollerDisposal;
+import frc.robot.commands.RunRollerIntake;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.displays.JoysticksDisplay;
 
@@ -19,7 +25,19 @@ import frc.robot.displays.JoysticksDisplay;
 // TODO: Different set of driver controls for tank mode
 public class DriverControls {
     // ----------------------------------------------------------
-    // Resources
+    // Constants
+
+    private final int driverReservedPrimaryJoystickPort = 0;
+    private final int driverReservedSecondaryJoystickPort = 1;
+
+    // ----------------------------------------------------------
+    // Public resources
+
+    // (ex. Xbox uses trigger axes for roller disposal/intake while X3D uses buttons)
+    public DeviceType deviceType;
+
+    // ----------------------------------------------------------
+    // Private resources
 
     private RobotContainer rc;
 
@@ -43,10 +61,16 @@ public class DriverControls {
         TANK_DRIVE_LEFT_AXIS,
         TANK_DRIVE_RIGHT_AXIS;
 
-    private JoystickButton
-        driveStraightButton,
+    private POVButton
+        driveStraightPOVButton;
         
+    private JoystickButton
+        driveStraightJoystickButton,
+
         toggleIntakeButton,
+        runRollerDisposalButton,
+        runRollerIntakebutton,
+
         runIndexerButton,
         runLauncherButton;
 
@@ -56,6 +80,20 @@ public class DriverControls {
     public DriverControls(RobotContainer robotContainer, JoysticksDisplay joysticksDisplay) {
         rc = robotContainer;
         jd = joysticksDisplay;
+        addLeftRightJoystickFlipEventListener();
+    }
+
+    private DriverControls addLeftRightJoystickFlipEventListener() {
+        jd.driverFlipLeftAndRightJoysticksToggleSwitch.addListener(event -> {            
+            int tempLeftJoystickPort = leftmostJoystick.getPort();
+            leftmostJoystick = new Joystick(rightmostJoystick.getPort());
+            rightmostJoystick = new Joystick(tempLeftJoystickPort);
+
+            SmartDashboard.putString("rahhhh", leftmostJoystick.getPort() + " " + rightmostJoystick.getPort());
+
+            configureButtonBindingsFor(leftmostJoystick, rightmostJoystick);
+        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        return this;
     }
 
     public DriverControls listenForJoystickMode() {
@@ -63,17 +101,8 @@ public class DriverControls {
         if (joystickMode != newJoystickMode) {
             joystickMode = newJoystickMode;
 
-            leftmostJoystick = new Joystick(0);
-
-            switch (joystickMode) {
-                case ARCADE:
-                case LONE_TANK:
-                    rightmostJoystick = null;
-                    break;
-                case DUAL_TANK:
-                    rightmostJoystick = new Joystick(1);
-                    break;
-            }
+            leftmostJoystick = new Joystick(driverReservedPrimaryJoystickPort);
+            rightmostJoystick = new Joystick(driverReservedSecondaryJoystickPort);
 
             configureButtonBindingsFor(leftmostJoystick, rightmostJoystick);
         }
@@ -131,11 +160,27 @@ public class DriverControls {
     // Tank drive axes
 
     public double getTankDriveLeftAxis() {
-        return leftmostJoystick.getRawAxis(TANK_DRIVE_LEFT_AXIS);
+        switch (deviceType) {
+            default:
+                DriverStation.reportError("Unknown device type when reading tank drive left axis", true);
+                return 0.d;
+            case XboxController:
+                return leftmostJoystick.getRawAxis(TANK_DRIVE_LEFT_AXIS);
+            case X3D:
+                return -1.d * leftmostJoystick.getRawAxis(TANK_DRIVE_LEFT_AXIS);
+        }
     }
 
     public double getTankDriveRightAxis() {
-        return rightmostJoystick.getRawAxis(TANK_DRIVE_RIGHT_AXIS);
+        switch (deviceType) {
+            default:
+                DriverStation.reportError("Unknown device type when reading tank drive right axis", true);
+                return 0.d;
+            case XboxController:
+                return rightmostJoystick.getRawAxis(TANK_DRIVE_RIGHT_AXIS);
+            case X3D:
+                return -1.d * rightmostJoystick.getRawAxis(TANK_DRIVE_RIGHT_AXIS);
+        }
     }
     
     // Roller axes
@@ -153,8 +198,134 @@ public class DriverControls {
     // ----------------------------------------------------------
     // Button bindings
 
+    int counter = 0;
+
+    private DriverControls configureArcadeButtonBindings() {
+        switch (primaryJoystick.getName()) {
+            default:                        
+                DriverStation.reportError("Only Xbox controllers and X3D joysticks are supported for single-joystick ARCADE mode", true);
+                break;
+            // if using a single Xbox controller
+            case XboxController.USB_DEVICE_NAME:
+                // Device set-up
+
+                deviceType = DeviceType.XboxController;
+
+                // Drivetrain
+
+                ARCADE_DRIVE_FORWARD_AXIS = XboxController.LEFT_Y_AXIS;
+                ARCADE_DRIVE_ANGLE_AXIS = XboxController.LEFT_X_AXIS;
+                TANK_DRIVE_LEFT_AXIS = -1;
+                TANK_DRIVE_RIGHT_AXIS = -1;
+
+                driveStraightPOVButton = new POVButton(primaryJoystick, XboxController.ANGLE_UP_POV);
+                driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
+                driveStraightJoystickButton = null;
+
+                // Intake
+
+                runRollerDisposalButton = null;
+                runRollerIntakebutton = null;
+
+                toggleIntakeButton = new JoystickButton(primaryJoystick, XboxController.A_BUTTON_ID);
+                toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
+                
+                // Manipulator
+
+                runIndexerButton = new JoystickButton(primaryJoystick, XboxController.B_BUTTON_ID);
+                runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
+
+                runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
+                runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
+                break;
+            // if using a single X3D controller
+            case X3D.USB_DEVICE_NAME:
+                // Device set-up
+
+                SmartDashboard.putNumber("HEY IT WOKRS", counter++);
+
+                deviceType = DeviceType.X3D;
+
+                // Drivetrain
+
+                ARCADE_DRIVE_FORWARD_AXIS = X3D.PITCH_AXIS;
+                ARCADE_DRIVE_ANGLE_AXIS = X3D.ROLL_AXIS;
+                TANK_DRIVE_LEFT_AXIS = -1;
+                TANK_DRIVE_RIGHT_AXIS = -1;
+
+                driveStraightJoystickButton = new JoystickButton(primaryJoystick, X3D.GRIP_BUTTON_ID);
+                driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
+                driveStraightPOVButton = null;
+
+                // Intake
+
+                runRollerDisposalButton = new JoystickButton(primaryJoystick, X3D.BUTTON_11_ID);
+                runRollerDisposalButton.whenHeld(new RunRollerDisposal(rc.intake));
+
+                runRollerIntakebutton = new JoystickButton(primaryJoystick, X3D.BUTTON_12_ID);
+                runRollerIntakebutton.whenHeld(new RunRollerIntake(rc.intake));
+
+                toggleIntakeButton = new JoystickButton(primaryJoystick, X3D.BUTTON_4_ID);
+                toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
+                
+                // Manipulator
+
+                runIndexerButton = new JoystickButton(primaryJoystick, X3D.BUTTON_3_ID);
+                runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
+
+                runLauncherButton = new JoystickButton(primaryJoystick, X3D.TRIGGER_BUTTON_ID);
+                runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
+                break;                
+        }
+        return this;
+    }
+
+    private DriverControls configureLoneTankButtonBindings() {
+        // since we use a single joystick for both the left and right tank drive axes, doesn't matter which joystick ref we get the name from
+        switch (primaryJoystick.getName()) {
+            default:                        
+                DriverStation.reportError("Only Xbox controllers are supported for single-joystick TANK mode", true);
+                break;
+            // if using a single Xbox controller
+            case XboxController.USB_DEVICE_NAME:
+                // Device set-up
+
+                deviceType = DeviceType.XboxController;
+
+                // Drivetrain
+
+                TANK_DRIVE_LEFT_AXIS = XboxController.LEFT_Y_AXIS;
+                TANK_DRIVE_RIGHT_AXIS = XboxController.RIGHT_Y_AXIS;
+                ARCADE_DRIVE_FORWARD_AXIS = -1;
+                ARCADE_DRIVE_ANGLE_AXIS = -1;
+
+                driveStraightPOVButton = new POVButton(primaryJoystick, XboxController.ANGLE_UP_POV);
+                // TODO: Make command-binding for buttons less repetitive for all joystick quantities and modes
+                driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
+                driveStraightJoystickButton = null;
+
+                // Intake
+
+                runRollerDisposalButton = null;
+                runRollerDisposalButton = null;
+
+                toggleIntakeButton = new JoystickButton(primaryJoystick, XboxController.A_BUTTON_ID);
+                toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
+                
+                // Manipulator
+
+                runIndexerButton = new JoystickButton(primaryJoystick, XboxController.B_BUTTON_ID);
+                runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
+
+                runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
+                runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
+                break;
+        }
+        return this;
+    }
+
     // if controller2 is null, then configure button bindings for the driver's single controller
-    public DriverControls configureButtonBindingsFor(Joystick leftmostJoystick, Joystick rightmostJoystick) {
+    private DriverControls configureButtonBindingsFor(Joystick leftmostJoystick, Joystick rightmostJoystick) {
         if (leftmostJoystick == null && rightmostJoystick == null) {
             DriverStation.reportError("Joystick device references for driver controls are null", true);
         // just one joystick is non-null
@@ -171,111 +342,38 @@ public class DriverControls {
                     break;
                 // arcade mode using one joystick
                 case ARCADE:
-                    switch (primaryJoystick.getName()) {
-                        default:                        
-                            DriverStation.reportError("Only Xbox controllers and X3D joysticks are supported for single-joystick ARCADE mode", true);
-                            break;
-                        // if using a single Xbox controller
-                        case XboxController.USB_DEVICE_NAME:       
-                            // Drivetrain
-
-                            ARCADE_DRIVE_FORWARD_AXIS = XboxController.LEFT_Y_AXIS;
-                            ARCADE_DRIVE_ANGLE_AXIS = XboxController.LEFT_X_AXIS;
-                            TANK_DRIVE_LEFT_AXIS = -1;
-                            TANK_DRIVE_RIGHT_AXIS = -1;
-        
-                            driveStraightButton = new JoystickButton(primaryJoystick, XboxController.ANGLE_UP_POV);
-                            driveStraightButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
-        
-                            // Intake
-        
-                            toggleIntakeButton = new JoystickButton(primaryJoystick, XboxController.A_BUTTON_ID);
-                            toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
-                            
-                            // Manipulator
-
-                            runIndexerButton = new JoystickButton(primaryJoystick, XboxController.B_BUTTON_ID);
-                            runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
-        
-                            runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
-                            runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-                            break;
-                        // if using a single X3D controller
-                        case X3D.USB_DEVICE_NAME:
-                            // Drivetrain
-
-                            ARCADE_DRIVE_FORWARD_AXIS = X3D.PITCH_AXIS;
-                            ARCADE_DRIVE_ANGLE_AXIS = X3D.ROLL_AXIS;
-                            TANK_DRIVE_LEFT_AXIS = -1;
-                            TANK_DRIVE_RIGHT_AXIS = -1;
-        
-                            driveStraightButton = new JoystickButton(primaryJoystick, X3D.GRIP_BUTTON_ID);
-                            driveStraightButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
-        
-                            // Intake
-        
-                            toggleIntakeButton = new JoystickButton(primaryJoystick, X3D.BUTTON_4_ID);
-                            toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
-                            
-                            // Manipulator
-
-                            runIndexerButton = new JoystickButton(primaryJoystick, X3D.BUTTON_3_ID);
-                            runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
-        
-                            runLauncherButton = new JoystickButton(primaryJoystick, X3D.TRIGGER_BUTTON_ID);
-                            runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-                            break;                
-                    }
+                    configureArcadeButtonBindings();
                     break;
                 // tank mode using one joystick
                 case LONE_TANK:
-                    // since we use a single joystick for both the left and right tank drive axes, doesn't matter which joystick ref we get the name from
-                    switch (primaryJoystick.getName()) {
-                        default:                        
-                            DriverStation.reportError("Only Xbox controllers are supported for single-joystick TANK mode", true);
-                            break;
-                        // if using a single Xbox controller
-                        case XboxController.USB_DEVICE_NAME:
-                            // Drivetrain
-
-                            TANK_DRIVE_LEFT_AXIS = XboxController.LEFT_Y_AXIS;
-                            TANK_DRIVE_RIGHT_AXIS = XboxController.RIGHT_Y_AXIS;
-                            ARCADE_DRIVE_FORWARD_AXIS = -1;
-                            ARCADE_DRIVE_ANGLE_AXIS = -1;
-        
-                            driveStraightButton = new JoystickButton(primaryJoystick, XboxController.ANGLE_UP_POV);
-                            // TODO: Make command-binding for buttons less repetitive for all joystick quantities and modes
-                            driveStraightButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
-        
-                            // Intake
-        
-                            toggleIntakeButton = new JoystickButton(primaryJoystick, XboxController.A_BUTTON_ID);
-                            toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));
-                            
-                            // Manipulator
-
-                            runIndexerButton = new JoystickButton(primaryJoystick, XboxController.B_BUTTON_ID);
-                            runIndexerButton.whenHeld(new RunIndexer(rc.manipulator));
-        
-                            runLauncherButton = new JoystickButton(primaryJoystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
-                            runLauncherButton.whenHeld(new RunLauncher(rc.manipulator));
-                            break;
-                    }
+                    configureLoneTankButtonBindings();
                     break;
             }
         // both joysticks are non-null
         } else {
+            SmartDashboard.putNumber("both joysticks are not null", counter++);
+
             primaryJoystick = rightmostJoystick;
             secondaryJoystick = leftmostJoystick;
 
             switch (joystickMode) {
                 default:
-                    DriverStation.reportError("Only the DUAL_TANK mode is supported for dual-joystick driver controls", true);
+                    DriverStation.reportError("Only the ARCADE, LONE_TANK, and DUAL_TANK modes are supported for dual-joystick driver controls", true);
+                    break;
+                // arcade mode that uses just one of the two available joysticks (we use the primary joystick)
+                case ARCADE:
+                    SmartDashboard.putNumber("went into arcade mode", counter++);
+
+                    configureArcadeButtonBindings();
+                    break;
+                // lone tank mode that uses just one of the two available joysticks (we use the primary joystick)
+                case LONE_TANK:
+                    configureLoneTankButtonBindings();
                     break;
                 // tank mode using two joysticks
                 case DUAL_TANK:
                     // if you don't know why we do .equals() instead of == for string comparison, you're just bad lol
-                    if (primaryJoystick.getName().equals(secondaryJoystick.getName())) {
+                    if (!(primaryJoystick.getName().equals(secondaryJoystick.getName()))) {
                         DriverStation.reportError("Only same-device-type joysticks (ex. two X3Ds) are supported for dual-joystick TANK mode", true);
                     }
 
@@ -285,6 +383,10 @@ public class DriverControls {
                             DriverStation.reportError("Only X3D joysticks are supported for dual-joystick TANK mode", true);
                             break;
                         case X3D.USB_DEVICE_NAME:
+                            // Device set-up
+
+                            deviceType = DeviceType.X3D;
+
                             // Drivetrain
 
                             TANK_DRIVE_LEFT_AXIS = X3D.PITCH_AXIS;
@@ -292,10 +394,17 @@ public class DriverControls {
                             ARCADE_DRIVE_FORWARD_AXIS = -1;
                             ARCADE_DRIVE_ANGLE_AXIS = -1;
 
-                            driveStraightButton = new JoystickButton(primaryJoystick, X3D.GRIP_BUTTON_ID);
-                            driveStraightButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
+                            driveStraightJoystickButton = new JoystickButton(primaryJoystick, X3D.GRIP_BUTTON_ID);
+                            driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(rc.drivetrain));
+                            driveStraightPOVButton = null;
 
                             // Intake
+
+                            runRollerDisposalButton = new JoystickButton(primaryJoystick, X3D.BUTTON_11_ID);
+                            runRollerDisposalButton.whenHeld(new RunRollerDisposal(rc.intake));
+
+                            runRollerIntakebutton = new JoystickButton(primaryJoystick, X3D.BUTTON_12_ID);
+                            runRollerIntakebutton.whenHeld(new RunRollerIntake(rc.intake));
 
                             toggleIntakeButton = new JoystickButton(primaryJoystick, X3D.BUTTON_3_ID);
                             toggleIntakeButton.toggleWhenPressed(new ToggleIntake(rc.intake));

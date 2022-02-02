@@ -37,7 +37,7 @@ public class IntakeTesting extends CommandBase {
 	public void execute() {
 		if (mt.motorTestingModeToggleSwitch.getBoolean(false)) {
 			if (mt.rollerToggleSwitch.getBoolean(false)) {
-				it.setRollerMotorPercent(mt.rollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_OUTPUT_PERCENT));
+				it.setRollerMotorPercent(mt.rollerOutputPercentTextView.getDouble(Intake.DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT));
 			} else {
 				it.setRollerMotorPercent(0.d);
 			}

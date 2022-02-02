@@ -24,12 +24,12 @@ public class RunIndexer extends CommandBase {
 
 	@Override
 	public void initialize() {
-
+		ms.runIndexer();
 	}
 
 	@Override
 	public void execute() {
-		ms.runIndexer();
+		
 	}
 
 	@Override

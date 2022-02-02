@@ -2,6 +2,11 @@ package frc.robot.IO;
 
 
 public final class Joysticks {
+	public enum DeviceType {
+		XboxController,
+		X3D
+	}
+
 	public static class X3D {
 		public static final String
 			USB_DEVICE_NAME					= "Logitech Extreme 3D";
@@ -15,6 +20,7 @@ public final class Joysticks {
 			ROLL_AXIS 			= 0, 
 			PITCH_AXIS 			= 1,
 			YAW_AXIS 			= 2,
+			SLIDER_AXIS			= 3,
 
 			// Buttons
 			TRIGGER_BUTTON_ID 	= 1,

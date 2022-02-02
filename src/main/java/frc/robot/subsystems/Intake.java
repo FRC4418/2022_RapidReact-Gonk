@@ -14,7 +14,9 @@ public class Intake extends SubsystemBase {
 
 
 	public static final double
-		DEFAULT_ROLLER_OUTPUT_PERCENT = 0.5d,
+		DEFAULT_ROLLER_DISPOSAL_OUTPUT_PERCENT = -0.5d,
+		DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT = 0.5d,
+		
 		DEFAULT_RETRACTOR_POSITION = 90.d;
 	
 		
@@ -86,8 +88,13 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	public Intake runRoller() {
-		setRollerMotorPercent(DEFAULT_ROLLER_OUTPUT_PERCENT);
+	public Intake runRollerDisposal() {
+		setRollerMotorPercent(DEFAULT_ROLLER_DISPOSAL_OUTPUT_PERCENT);
+		return this;
+	}
+
+	public Intake runRollerIntake() {
+		setRollerMotorPercent(DEFAULT_ROLLER_INTAKE_OUTPUT_PERCENT);
 		return this;
 	}
 
