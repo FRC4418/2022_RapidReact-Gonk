@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -73,8 +74,11 @@ public class Drivetrain extends SubsystemBase {
 
 	private WPI_TalonFX frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
 	private WPI_TalonFX backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private MotorControllerGroup leftGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
+
 	private WPI_TalonFX frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
 	private WPI_TalonFX backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
+	private MotorControllerGroup rightGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
 
 	private DifferentialDrive differentialDrive;
 
