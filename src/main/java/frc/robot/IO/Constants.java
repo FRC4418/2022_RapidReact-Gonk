@@ -1,7 +1,7 @@
 package frc.robot.IO;
 
 
-public final class Joysticks {
+public final class Constants {
 	public enum DeviceType {
 		XboxController,
 		X3D

@@ -167,36 +167,25 @@ public class Drivetrain extends SubsystemBase {
 		return m_frontRightMotor.getMotorOutputPercent();
 	}
 
-	// brake or coast left and right motors (true for braking)
-	// public Drivetrain coastOrBrakeMotors(boolean leftIsBraking, boolean rightIsBraking) {
-	// 	if (leftIsBraking) {
-	// 		m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-	// 		m_backLeftMotor.setNeutralMode(NeutralMode.Brake);
-	// 	} else {
-	// 		m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
-	// 		m_backLeftMotor.setNeutralMode(NeutralMode.Coast);
-	// 	}
-
-	// 	if (rightIsBraking) {
-	// 		m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
-	// 		m_backRightMotor.setNeutralMode(NeutralMode.Brake);
-	// 	} else {
-	// 		m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
-	// 		m_backRightMotor.setNeutralMode(NeutralMode.Coast);
-	// 	}
-
-	// 	return this;
-	// }
-
 
 	// ----------------------------------------------------------
 	// High-level drivetrain actions
 
+	
+	public void arcadeDrive(double xSpeed, double zRotation) {
+		m_differentialDrive.arcadeDrive(xSpeed, zRotation);
+	}
 
-	public Drivetrain stopDrive() {
-		m_frontLeftMotor.set(ControlMode.PercentOutput, 0.d);
-		m_frontRightMotor.set(ControlMode.PercentOutput, 0.d);
-		return this;
+	public void tankDrive(double leftSpeed, double rightSpeed) {
+		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+	}
+
+	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
+		m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
+	}
+
+	public void stopDrive() {
+		tankDrive(0.d, 0.d);
 	}
 
 
