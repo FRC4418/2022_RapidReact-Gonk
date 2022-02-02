@@ -89,7 +89,8 @@ public class DriverControls {
             leftmostJoystick = new Joystick(rightmostJoystick.getPort());
             rightmostJoystick = new Joystick(tempLeftJoystickPort);
 
-            SmartDashboard.putString("rahhhh", leftmostJoystick.getPort() + " " + rightmostJoystick.getPort());
+            // SmartDashboard.putString("New L R ports", leftmostJoystick.getPort() + " " + rightmostJoystick.getPort());
+            SmartDashboard.putNumber("Event listener called", counter++);
 
             configureButtonBindingsFor(leftmostJoystick, rightmostJoystick);
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -203,7 +204,7 @@ public class DriverControls {
     private DriverControls configureArcadeButtonBindings() {
         switch (primaryJoystick.getName()) {
             default:                        
-                DriverStation.reportError("Only Xbox controllers and X3D joysticks are supported for single-joystick ARCADE mode", true);
+                DriverStation.reportError("Only Xbox controllers and X3D joysticks are supported for ARCADE mode", true);
                 break;
             // if using a single Xbox controller
             case XboxController.USB_DEVICE_NAME:
@@ -241,8 +242,6 @@ public class DriverControls {
             // if using a single X3D controller
             case X3D.USB_DEVICE_NAME:
                 // Device set-up
-
-                SmartDashboard.putNumber("HEY IT WOKRS", counter++);
 
                 deviceType = DeviceType.X3D;
 
@@ -284,7 +283,7 @@ public class DriverControls {
         // since we use a single joystick for both the left and right tank drive axes, doesn't matter which joystick ref we get the name from
         switch (primaryJoystick.getName()) {
             default:                        
-                DriverStation.reportError("Only Xbox controllers are supported for single-joystick TANK mode", true);
+                DriverStation.reportError("Only Xbox controllers are supported for LONE_TANK mode", true);
                 break;
             // if using a single Xbox controller
             case XboxController.USB_DEVICE_NAME:
@@ -351,8 +350,6 @@ public class DriverControls {
             }
         // both joysticks are non-null
         } else {
-            SmartDashboard.putNumber("both joysticks are not null", counter++);
-
             primaryJoystick = rightmostJoystick;
             secondaryJoystick = leftmostJoystick;
 
@@ -362,7 +359,7 @@ public class DriverControls {
                     break;
                 // arcade mode that uses just one of the two available joysticks (we use the primary joystick)
                 case ARCADE:
-                    SmartDashboard.putNumber("went into arcade mode", counter++);
+                    SmartDashboard.putNumber("L and R non-null and in ARCADE", counter++);
 
                     configureArcadeButtonBindings();
                     break;
@@ -380,7 +377,7 @@ public class DriverControls {
                     // we've established that the left and right joysticks are the same device-type, so we can just arbitrarily choose one of them to know the device-type
                     switch (primaryJoystick.getName()) {
                         default:                            
-                            DriverStation.reportError("Only X3D joysticks are supported for dual-joystick TANK mode", true);
+                            DriverStation.reportError("Only X3D joysticks are supported for dual-joystick DUAL_TANK mode", true);
                             break;
                         case X3D.USB_DEVICE_NAME:
                             // Device set-up

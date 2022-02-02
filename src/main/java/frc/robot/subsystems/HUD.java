@@ -17,8 +17,8 @@ public class HUD extends SubsystemBase {
 
 	public MotorTestingDisplay motorTestingDisplay;
 
-	public AutonomousDisplay autonomousDisplay;
 	public JoysticksDisplay joysticksDisplay;
+	public AutonomousDisplay autonomousDisplay;
 	
 
 	// ----------------------------------------------------------

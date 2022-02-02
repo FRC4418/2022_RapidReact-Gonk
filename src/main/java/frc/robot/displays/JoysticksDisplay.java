@@ -32,7 +32,7 @@ public class JoysticksDisplay {
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(3, 1);
+			.withSize(3, 2);
 
             var driverLayout = joysticksLayout
                 .getLayout("Driver", BuiltInLayouts.kGrid)

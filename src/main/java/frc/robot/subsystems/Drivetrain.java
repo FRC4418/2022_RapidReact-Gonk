@@ -71,12 +71,12 @@ public class Drivetrain extends SubsystemBase {
 	// Resources
 
 
-	private WPI_TalonFX frontLeftMotor;
-	private WPI_TalonFX backLeftMotor;
-	private WPI_TalonFX frontRightMotor;
-	private WPI_TalonFX backRightMotor;
+	private WPI_TalonFX frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
+	private WPI_TalonFX backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private WPI_TalonFX frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
+	private WPI_TalonFX backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
 
-	private DifferentialDrive robotDrive;
+	private DifferentialDrive differentialDrive;
 
 
 	// ----------------------------------------------------------
@@ -86,11 +86,6 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain() {
 		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
-
-		frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
-		backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
-		frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
-		backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
 
 		backLeftMotor.follow(frontLeftMotor);
 		backRightMotor.follow(frontRightMotor);
@@ -133,7 +128,7 @@ public class Drivetrain extends SubsystemBase {
 
 		coastOrBrakeMotors(false, false);
 
-		robotDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+		differentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 	}
 
 
@@ -223,7 +218,7 @@ public class Drivetrain extends SubsystemBase {
 		
 		double[] values = pipeline.getValues();
 		breakTankDriveIfNotMoving(values);
-		robotDrive.tankDrive(values[0], values[1]);
+		differentialDrive.tankDrive(values[0], values[1]);
 
 		return this;
 	}
@@ -236,7 +231,7 @@ public class Drivetrain extends SubsystemBase {
 		
 		double[] values = pipeline.getValues();
 		breakTankDriveIfNotMoving(pipeline.convertArcadeDriveToTank(values));
-		robotDrive.arcadeDrive(-values[0], values[1]);
+		differentialDrive.arcadeDrive(-values[0], values[1]);
 
 		return this;
 	}
