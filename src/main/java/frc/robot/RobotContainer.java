@@ -55,27 +55,22 @@ public class RobotContainer {
 	
 
 	public final Drivetrain drivetrain = new Drivetrain();
+	private final DriveStraightWhileHeld driveStraightWhileHeld = new DriveStraightWhileHeld(drivetrain);
 	
 	public final Intake intake = new Intake();
+	
 	public final Manipulator manipulator = new Manipulator();
 	
 	public final Sensory sensory = new Sensory();
+
 	public final Autonomous autonomous = new Autonomous();
+	private final AutoDriveStraightForDistance autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 	
 	public final HUD hud = new HUD();
 
 
     // ----------------------------------------------------------
     // Runtime resources for Robot
-
-
-    public Command getDefaultAutonomousCommand() {
-        return new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
-    }
-
-	public Command getDriveStraightWhileHeldCommand() {
-		return new DriveStraightWhileHeld(drivetrain);
-	}
 
     public Command getIntakeTesting() {
 		if (enableDiagnostics) {
