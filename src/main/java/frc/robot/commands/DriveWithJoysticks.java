@@ -26,6 +26,8 @@ public class DriveWithJoysticks extends CommandBase {
 		this.m_joystickControls = joystickControls;
 		this.m_drivetrain = drivetrain;
 		this.m_joysticksDisplay = joysticksDisplay;
+
+		addRequirements(drivetrain);
 	}
 
 	// ----------------------------------------------------------
