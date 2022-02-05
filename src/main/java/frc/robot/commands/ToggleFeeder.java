@@ -4,6 +4,7 @@ package frc.robot.commands;
 // import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.DigitalSource
 
 import frc.robot.subsystems.Intake;
 
@@ -14,6 +15,8 @@ public class ToggleFeeder extends CommandBase {
 
 	private final double MOTOR_OUTPUT_PERCENT = 0.3d;
 	private final double DELAY_TIME = 2.d;
+	DigitalInput toplimitSwitch = new DigitalInput(0);
+	DigitalInput bottomlimitSwitch = new DigitalInput(1);
 	
 	// ----------------------------------------------------------
 	// Resources
@@ -42,7 +45,13 @@ public class ToggleFeeder extends CommandBase {
 
 	@Override
 	public void execute() {
-
+		private int counter = 0;
+		if (toplimitSwitch.get()){
+			counter --;
+		}
+		if (bottoklimitSwitch.get()){
+			counter ++;
+		}
 	}
 
 	@Override
