@@ -52,13 +52,13 @@ public class XboxArcadeControls extends SingleJoystickControls {
     // Intake axes
 
     @Override
-    public int reverseFeederAxis() {
-        return XboxController.LEFT_TRIGGER_AXIS;
+    public double reverseFeederAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
     }
 
     @Override
-    public int feederAxis() {
-        return XboxController.RIGHT_TRIGGER_AXIS;
+    public double feederAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
     }
 
     // ----------------------------------------------------------
