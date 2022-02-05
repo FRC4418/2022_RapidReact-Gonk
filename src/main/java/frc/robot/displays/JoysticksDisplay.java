@@ -27,7 +27,7 @@ public class JoysticksDisplay {
 
     // TODO: Make the drive mode choosers actually flip the IO controls class' joystick modes
     
-    public JoysticksDisplay(ShuffleboardTab HUDTab, int column, int row) {        
+    public JoysticksDisplay(ShuffleboardTab HUDTab, int column, int row) {
         var joysticksLayout = HUDTab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))

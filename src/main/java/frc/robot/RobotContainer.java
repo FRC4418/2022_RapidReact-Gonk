@@ -62,7 +62,6 @@ public class RobotContainer {
 	
 
 	public final Drivetrain drivetrain = new Drivetrain();
-	private final DriveStraightWhileHeld driveStraightWhileHeld;
 	
 	public final Intake intake = new Intake();
 	private final IntakeTesting intakeTesting;
@@ -92,7 +91,6 @@ public class RobotContainer {
 
 		joystickControls = new X3DArcadeControls(new Joystick(0), drivetrain, intake, manipulator);
 
-		driveStraightWhileHeld = new DriveStraightWhileHeld(drivetrain);
 		autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
