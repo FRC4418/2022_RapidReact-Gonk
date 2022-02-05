@@ -3,8 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.RobotContainer.JoystickMode;
-import frc.robot.displays.JoysticksDisplay;
+import frc.robot.RobotContainer;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Drivetrain;
 
@@ -16,16 +15,13 @@ public class DriveWithJoysticks extends CommandBase {
 	private final Drivetrain m_drivetrain;
 
 	private final JoystickControls m_joystickControls;
-	private final JoysticksDisplay m_joysticksDisplay;
-	private JoystickMode m_joystickMode;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls joystickControls, JoysticksDisplay joysticksDisplay) {
+	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls joystickControls) {
 		this.m_joystickControls = joystickControls;
 		this.m_drivetrain = drivetrain;
-		this.m_joysticksDisplay = joysticksDisplay;
 
 		addRequirements(drivetrain);
 	}
@@ -38,9 +34,7 @@ public class DriveWithJoysticks extends CommandBase {
 
 	@Override
 	public void execute() {
-		m_joystickMode = m_joysticksDisplay.driverJoystickModeChooser.getSelected();
-		
-		switch (m_joystickMode) {
+		switch (RobotContainer.driverJoystickMode) {
 			case ARCADE:
 				m_drivetrain.arcadeDrive(
 					m_joystickControls.arcadeDriveForwardAxis(),
@@ -56,7 +50,9 @@ public class DriveWithJoysticks extends CommandBase {
 	}
 
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		
+	}
 
 	@Override
 	public boolean isFinished() {

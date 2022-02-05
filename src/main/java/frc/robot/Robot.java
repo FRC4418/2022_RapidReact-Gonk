@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+
 // import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -19,7 +20,7 @@ public class Robot extends TimedRobot {
 	// Private resources
 	
 
-	// TODO: Do camera code
+	// TODO: P1 Do camera code
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
 
@@ -54,6 +55,10 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
+
+		robotContainer
+			.listenForJoystickModes()
+			.listenForJoystickDevices();
 	}
 
 
@@ -100,7 +105,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		robotContainer.teleopPeriodic();
+		
 	}
 
 

@@ -22,6 +22,7 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	public DriveStraightWhileHeld(Drivetrain drivetrain) {
 		this.m_drivetrain = drivetrain;
+		
 		addRequirements(drivetrain);
 	}
 

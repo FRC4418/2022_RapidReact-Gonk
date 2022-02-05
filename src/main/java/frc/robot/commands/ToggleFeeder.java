@@ -30,7 +30,6 @@ public class ToggleFeeder extends CommandBase {
 
 	public ToggleFeeder(Intake intake) {
 		this.m_intake = intake;
-		// addRequirements(it);
 	}
 
 	// ----------------------------------------------------------

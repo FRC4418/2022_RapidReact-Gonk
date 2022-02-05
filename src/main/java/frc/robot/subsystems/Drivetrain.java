@@ -19,7 +19,8 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public static final double
 		// units in seconds
-		SHARED_RAMP_TIME = 2.d;	// TODO: Put drivetrain open-loop ramp time in a diagnostics display
+		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
+		SHARED_RAMP_TIME = 2.d;
 
 
 	// ----------------------------------------------------------

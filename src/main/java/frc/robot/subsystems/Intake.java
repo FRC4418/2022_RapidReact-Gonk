@@ -64,7 +64,7 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	// TODO: Figure out how the intake's retractor is supposed to work
+	// TODO: P1 Figure out how the intake's retractor is supposed to work
 
 	public Intake retractIntakeArm() {
 		// setRetractMotorPosition(RETRACTED_INTAKE_ARM_RETRACTOR_MOTOR_POSITION);

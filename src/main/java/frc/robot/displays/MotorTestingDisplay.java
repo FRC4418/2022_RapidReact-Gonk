@@ -16,7 +16,7 @@ public class MotorTestingDisplay {
     // ----------------------------------------------------------
 	// Resources
 
-	// TODO: If using event listeners, make motor testing resources private
+	// TODO: P3 If using event listeners, make motor testing resources private
 
     public NetworkTableEntry motorTestingModeToggleSwitch;
 
