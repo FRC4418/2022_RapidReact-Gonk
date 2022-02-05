@@ -53,13 +53,13 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Intake axes
 
     @Override
-    public int reverseFeederAxis() {
-        return -1;
+    public double reverseFeederAxis() {
+        return 0.d;
     }
 
     @Override
-    public int feederAxis() {
-        return -1;
+    public double feederAxis() {
+        return 0.d;
     }
 
     // ----------------------------------------------------------
