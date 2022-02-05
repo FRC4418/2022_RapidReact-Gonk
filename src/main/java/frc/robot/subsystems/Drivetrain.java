@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 
@@ -30,10 +29,10 @@ public class Drivetrain extends SubsystemBase {
 	// ID and encoder constants
 	// These are how it's SUPPOSED to be on both V1 and V2
 	private static final int
-		FRONT_LEFT_CAN_ID = 4,
-		BACK_LEFT_CAN_ID = 5,
-		FRONT_RIGHT_CAN_ID = 3,
-		BACK_RIGHT_CAN_ID = 2;
+		FRONT_LEFT_CAN_ID = 3,
+		BACK_LEFT_CAN_ID = 2,
+		FRONT_RIGHT_CAN_ID = 4,
+		BACK_RIGHT_CAN_ID = 5;
 
 	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
@@ -134,12 +133,12 @@ public class Drivetrain extends SubsystemBase {
 	// Low-level drivetrain actions
 
 	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
-		if (flipLeftMotors) {
-			m_frontLeftMotor.setInverted(true);
-			m_backLeftMotor.setInverted(InvertType.FollowMaster);
-		} else {
-			m_frontRightMotor.setInverted(true);
-			m_backRightMotor.setInverted(InvertType.FollowMaster);
+		if (flipLeftMotors) {	// for V2
+			m_leftGroup.setInverted(true);
+			m_rightGroup.setInverted(false);
+		} else {	// for V1
+			m_leftGroup.setInverted(false);
+			m_rightGroup.setInverted(true);
 		}
 		return this;
 	}

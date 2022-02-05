@@ -14,17 +14,13 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
-    protected int arcadeDriveForwardAxis;
-    public abstract int arcadeDriveForwardAxis();
+    public abstract double getArcadeDriveForwardAxis();
 
-    protected int arcadeDriveAngleAxis;
-    public abstract int arcadeDriveAngleAxis();
+    public abstract double getArcadeDriveAngleAxis();
 
-    protected int tankDriveLeftAxis;
-    public abstract int tankDriveLeftAxis();
+    public abstract double getTankDriveLeftAxis();
 
-    protected int tankDriveRightAxis;
-    public abstract int tankDriveRightAxis();
+    public abstract double getTankDriveRightAxis();
 
     // ----------------------------------------------------------
     // Drivetrain buttons
@@ -69,9 +65,6 @@ public abstract class JoystickControls {
     // Constructor
 
     public JoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        arcadeDriveForwardAxis = arcadeDriveForwardAxis();
-        arcadeDriveAngleAxis = arcadeDriveAngleAxis();
-        tankDriveLeftAxis = tankDriveLeftAxis();
-        tankDriveRightAxis = tankDriveRightAxis();
+        
     }
 }

@@ -16,10 +16,19 @@ import frc.robot.subsystems.Manipulator;
 
 public abstract class DualJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
+    // Joysticks
+
+    protected final Joystick m_primaryJoystick;
+    protected final Joystick m_secondaryJoystick;
+
+    // ----------------------------------------------------------
     // Constructor
 
     public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
+
+        m_primaryJoystick = primaryJoystick;
+        m_secondaryJoystick = secondaryJoystick;
 
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));

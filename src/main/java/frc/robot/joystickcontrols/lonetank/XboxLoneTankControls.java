@@ -1,5 +1,6 @@
 package frc.robot.joystickcontrols.lonetank;
 
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -16,23 +17,23 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Drivetrain axes
 
     @Override
-    public int arcadeDriveForwardAxis() {
-        return -1;
+    public double getArcadeDriveForwardAxis() {
+        return 0.d;
     }
 
     @Override
-    public int arcadeDriveAngleAxis() {
-        return -1;
+    public double getArcadeDriveAngleAxis() {
+        return 0.d;
     }
 
     @Override
-    public int tankDriveLeftAxis() {
-        return XboxController.LEFT_Y_AXIS;
+    public double getTankDriveLeftAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
-    public int tankDriveRightAxis() {
-        return XboxController.RIGHT_Y_AXIS;
+    public double getTankDriveRightAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }
 
     // ----------------------------------------------------------

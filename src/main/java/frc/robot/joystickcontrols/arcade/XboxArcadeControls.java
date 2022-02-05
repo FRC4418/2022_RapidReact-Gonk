@@ -16,23 +16,23 @@ public class XboxArcadeControls extends SingleJoystickControls {
     // Drivetrain axes
 
     @Override
-    public int arcadeDriveForwardAxis() {
-        return XboxController.LEFT_Y_AXIS;
+    public double getArcadeDriveForwardAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
-    public int arcadeDriveAngleAxis() {
-        return XboxController.LEFT_X_AXIS;
+    public double getArcadeDriveAngleAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
     }
 
     @Override
-    public int tankDriveLeftAxis() {
-        return -1;
+    public double getTankDriveLeftAxis() {
+        return 0.d;
     }
 
     @Override
-    public int tankDriveRightAxis() {
-        return -1;
+    public double getTankDriveRightAxis() {
+        return 0.d;
     }
 
     // ----------------------------------------------------------
