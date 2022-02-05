@@ -76,7 +76,7 @@ public class X3DArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    public JoystickButton toggleIntakeButton(Joystick joystick) {
+    public JoystickButton toggleFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_4_ID);
     }
 

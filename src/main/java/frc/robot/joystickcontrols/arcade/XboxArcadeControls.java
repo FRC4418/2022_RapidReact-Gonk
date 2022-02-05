@@ -75,7 +75,7 @@ public class XboxArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    public JoystickButton toggleIntakeButton(Joystick joystick) {
+    public JoystickButton toggleFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
     }
 

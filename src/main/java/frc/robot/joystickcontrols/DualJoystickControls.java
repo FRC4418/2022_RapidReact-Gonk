@@ -39,8 +39,8 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
-        toggleIntakeButton = toggleIntakeButton(secondaryJoystick);
-        if (toggleIntakeButton != null) toggleIntakeButton.toggleWhenPressed(new ToggleFeeder(intake));
+        toggleFeederButton = toggleFeederButton(secondaryJoystick);
+        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleFeeder(intake));
 
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));

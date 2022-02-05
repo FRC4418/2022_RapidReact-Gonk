@@ -41,8 +41,8 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Intake buttons
 
-    protected JoystickButton toggleIntakeButton;
-    public abstract JoystickButton toggleIntakeButton(Joystick joystick);
+    protected JoystickButton toggleFeederButton;
+    public abstract JoystickButton toggleFeederButton(Joystick joystick);
 
     protected JoystickButton runFeederDisposalButton;
     public abstract JoystickButton runFeederDisposalButton(Joystick joystick);
