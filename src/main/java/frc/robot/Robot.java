@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
 
 	public Robot() {
-
+		
 	}
 
 
@@ -42,8 +42,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
-
-		robotContainer.configureRobotSpecificDrivetrain();
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);

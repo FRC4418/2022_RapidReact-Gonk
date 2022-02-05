@@ -22,6 +22,7 @@ import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.displays.AutonomousDisplay;
 import frc.robot.displays.JoysticksDisplay;
 import frc.robot.displays.MotorTestingDisplay;
+import frc.robot.displays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -34,8 +35,6 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private final boolean usingV2Drivetrain = false;
-
 	private final boolean enableDiagnostics = true;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
@@ -44,6 +43,10 @@ public class RobotContainer {
 	// ----------------------------------------------------------
 	// Public constants
 
+	public enum TeamRobot {
+		VERSACHASSIS_ONE,
+		VERSACHASSIS_TWO
+	}
 
 	public enum JoystickMode {
 		ARCADE,
@@ -67,6 +70,8 @@ public class RobotContainer {
     // Public resources
 
 
+	public static TeamRobot teamRobot;
+
 	public static JoystickMode driverJoystickMode;
 	public static JoystickMode spotterJoystickMode;
 
@@ -78,7 +83,9 @@ public class RobotContainer {
 	private final ShuffleboardTab HUDTab = Shuffleboard.getTab("HUD");
 	private final ShuffleboardTab diagnosticsTab = enableDiagnostics ? Shuffleboard.getTab("Diagnostics"): null;
 
+	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
+	private final AutonomousDisplay autonomousDisplay;
 
 	private JoystickDeviceType driverJoystickDeviceType;
 	private JoystickDeviceType spotterJoystickDeviceType;
@@ -112,8 +119,9 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
+		robotChooserDisplay = new RobotChooserDisplay(HUDTab, 0, 0);
 		joysticksDisplay = new JoysticksDisplay(HUDTab, 2, 0);
-		new AutonomousDisplay(HUDTab, 0, 0);
+		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 1);
 
 		if (enableDiagnostics) {
 			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
@@ -150,13 +158,28 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Methods
 
+
+	public RobotContainer listenForRobotSelection() {
+		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
+		if (teamRobot != newRobotSelection) {
+			teamRobot = newRobotSelection;
+			configureRobotSpecificDrivetrain();
+		}
+		return this;
+	}
 	
-	public void configureRobotSpecificDrivetrain() {
-		if (usingV2Drivetrain) {
-			// true means flip the left side
-			drivetrain.flipLeftOrRightMotors(true);
-		} else {
-			drivetrain.flipLeftOrRightMotors(false);
+	private void configureRobotSpecificDrivetrain() {
+		switch (teamRobot) {
+			default:
+				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
+				break;
+			case VERSACHASSIS_TWO:
+				// true means flip the left side
+				drivetrain.flipLeftOrRightMotors(true);
+				break;
+			case VERSACHASSIS_ONE:
+				drivetrain.flipLeftOrRightMotors(false);
+				break;
 		}
 	}
 
