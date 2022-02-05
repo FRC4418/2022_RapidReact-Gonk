@@ -5,11 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.joystickcontrols.JoystickControls;
+import frc.robot.subsystems.Intake;
 
 public class RunFeederWithTrigger extends CommandBase {
+
+  private final Intake m_intake;
+  private final JoystickControls m_joystickControls;
+
   /** Creates a new RunFeederWithTrigger. */
-  public RunFeederWithTrigger() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public RunFeederWithTrigger(Intake intake, JoystickControls joystickControls) {
+    this.m_intake = intake;
+    this.m_joystickControls = joystickControls;
+
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +27,9 @@ public class RunFeederWithTrigger extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_intake.setFeederMotorPercent(m_joystickControls.feederAxis());
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -19,6 +19,7 @@ import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.IntakeTesting;
 import frc.robot.commands.ManipulatorTesting;
+import frc.robot.commands.RunFeederWithTrigger;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.displays.AutonomousDisplay;
 import frc.robot.displays.JoysticksDisplay;
@@ -137,6 +138,7 @@ public class RobotContainer {
 		autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls));
     }
 
 
