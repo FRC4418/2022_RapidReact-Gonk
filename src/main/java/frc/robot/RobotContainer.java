@@ -3,6 +3,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.joystickcontrols.JoystickControls;
@@ -12,12 +14,14 @@ import frc.robot.commands.DriveStraightWhileHeld;
 import frc.robot.commands.IntakeTesting;
 import frc.robot.commands.ManipulatorTesting;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
+import frc.robot.displays.AutonomousDisplay;
+import frc.robot.displays.JoysticksDisplay;
+import frc.robot.displays.MotorTestingDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Sensory;
-import frc.robot.subsystems.HUD;
 
 
 public class RobotContainer {
@@ -47,6 +51,9 @@ public class RobotContainer {
     // Resources
 
 
+	private final ShuffleboardTab HUDTab = Shuffleboard.getTab("HUD");
+	private final ShuffleboardTab diagnosticsTab = enableDiagnostics ? Shuffleboard.getTab("Diagnostics"): null;
+
 	private JoystickControls joystickControls;
     
 
@@ -55,36 +62,18 @@ public class RobotContainer {
 	
 
 	public final Drivetrain drivetrain = new Drivetrain();
-	private final DriveStraightWhileHeld driveStraightWhileHeld = new DriveStraightWhileHeld(drivetrain);
+	private final DriveStraightWhileHeld driveStraightWhileHeld;
 	
 	public final Intake intake = new Intake();
+	private final IntakeTesting intakeTesting;
 	
 	public final Manipulator manipulator = new Manipulator();
+	private final ManipulatorTesting manipulatorTesting;
 	
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final AutoDriveStraightForDistance autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
-	
-	public final HUD hud = new HUD();
-
-
-    // ----------------------------------------------------------
-    // Runtime resources for Robot
-
-    public Command getIntakeTesting() {
-		if (enableDiagnostics) {
-			return new IntakeTesting(intake, hud);
-		}
-		return null;
-    }
-
-    public Command getManipulatorTesting() {
-		if (enableDiagnostics) {
-			return new ManipulatorTesting(manipulator, hud);
-		}
-		return null;
-    }
+	private final AutoDriveStraightForDistance autoDriveStraightForDistance;
 
 
     // ----------------------------------------------------------
@@ -92,15 +81,39 @@ public class RobotContainer {
 
 
     public RobotContainer() {
-        hud.initializeHUD();
+		new JoysticksDisplay(HUDTab, 2, 0);
+		new AutonomousDisplay(HUDTab, 0, 0);
+
 		if (enableDiagnostics) {
-			hud.initializeDiagnostics();
+			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
+			intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
+			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
 		}
 
 		joystickControls = new X3DArcadeControls(new Joystick(0), drivetrain, intake, manipulator);
 
+		driveStraightWhileHeld = new DriveStraightWhileHeld(drivetrain);
+		autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
+
 		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
     }
+
+
+	// ----------------------------------------------------------
+    // Command getters
+
+
+	public IntakeTesting intakeTestingCommand() {
+		return intakeTesting;
+	}
+
+	public ManipulatorTesting manipulatorTestingCommand() {
+		return manipulatorTesting;
+	}
+
+	public Command defaultAutoCommand() {
+		return autoDriveStraightForDistance;
+	}
 
 
 	// ----------------------------------------------------------
