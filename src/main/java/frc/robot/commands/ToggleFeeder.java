@@ -22,6 +22,9 @@ public class ToggleFeeder extends CommandBase {
 	// Resources
 
 	private final Intake m_intake;
+	private int counter;
+	
+
 
 	// private final DigitalInput m_whiskerSensor = new DigitalInput(2);
 
@@ -45,7 +48,6 @@ public class ToggleFeeder extends CommandBase {
 
 	@Override
 	public void execute() {
-		private int counter = 0;
 		if (toplimitSwitch.get()){
 			counter --;
 		}
