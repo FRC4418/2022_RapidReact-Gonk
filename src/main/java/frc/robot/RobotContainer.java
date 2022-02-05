@@ -72,8 +72,8 @@ public class RobotContainer {
 
 	public static TeamRobot teamRobot;
 
-	public static JoystickMode driverJoystickMode;
-	public static JoystickMode spotterJoystickMode;
+	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
+	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
 
 
     // ----------------------------------------------------------
