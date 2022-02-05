@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.joystickcontrols.JoystickControls;
@@ -177,8 +178,10 @@ public class RobotContainer {
 			case VERSACHASSIS_TWO:
 				// true means flip the left side
 				drivetrain.flipLeftOrRightMotors(true);
+				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA TWO");
 				break;
 			case VERSACHASSIS_ONE:
+				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA ONE");
 				drivetrain.flipLeftOrRightMotors(false);
 				break;
 		}
