@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.displays.MotorTestingDisplay;
-import frc.robot.subsystems.HUD;
 
 
 public class IntakeTesting extends CommandBase {
@@ -18,9 +17,9 @@ public class IntakeTesting extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public IntakeTesting(Intake intake, HUD hud) {
+	public IntakeTesting(Intake intake, MotorTestingDisplay motorTestingDisplay) {
 		this.m_intake = intake;
-		this.m_motorTestingDisplay = hud.motorTestingDisplay;
+		this.m_motorTestingDisplay = motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------

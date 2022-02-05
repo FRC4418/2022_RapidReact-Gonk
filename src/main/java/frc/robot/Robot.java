@@ -4,7 +4,6 @@ package frc.robot;
 // import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -23,11 +22,6 @@ public class Robot extends TimedRobot {
 	// TODO: Do camera code
 	// private UsbCamera m_frontShooterCamera;
 	// private UsbCamera m_rightPanelCamera;
-
-	private Command defaultAutonomous;
-
-	private Command intakeTesting;
-	private Command manipulatorTesting;
 
 
 	// ----------------------------------------------------------
@@ -50,11 +44,6 @@ public class Robot extends TimedRobot {
 
 		robotContainer.configureRobotSpecificDrivetrain();
 
-		defaultAutonomous = robotContainer.getDefaultAutonomousCommand();
-
-		intakeTesting = robotContainer.getIntakeTesting();
-		manipulatorTesting = robotContainer.getManipulatorTesting();
-
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
 	}
@@ -65,13 +54,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
-
-		if (intakeTesting != null) {
-			intakeTesting.schedule();
-		}
-		if (manipulatorTesting != null) {
-			manipulatorTesting.schedule();
-		}
 	}
 
 
@@ -96,9 +78,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		if (defaultAutonomous != null) {
-			defaultAutonomous.schedule();
-		}
+		robotContainer.defaultAutoCommand().schedule();
 	}
 
 	@Override
@@ -115,7 +95,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		// stops auto before teleop starts running
 		// comment out to continue auto as another command starts
-		defaultAutonomous.cancel();
+		robotContainer.defaultAutoCommand().cancel();
 	}
 
 	@Override
@@ -132,6 +112,9 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		// Cancels all running commands at the start of test mode.
 		CommandScheduler.getInstance().cancelAll();
+
+		robotContainer.intakeTestingCommand().schedule();
+		robotContainer.manipulatorTestingCommand().schedule();
 	}
 
 	@Override
