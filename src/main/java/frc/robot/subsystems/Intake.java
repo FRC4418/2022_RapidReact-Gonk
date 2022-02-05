@@ -50,6 +50,7 @@ public class Intake extends SubsystemBase {
 		retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
 
 		feederMotor.configOpenloopRamp(FEEDER_MOTOR_RAMP_TIME);
+		feederMotor.setInverted(true);
 	}
 
 

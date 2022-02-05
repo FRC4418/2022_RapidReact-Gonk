@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 
 public class RunFeeder extends CommandBase {
 	// ----------------------------------------------------------
-	// Resource
+	// Resources
 
 	private final Intake m_intake;
 

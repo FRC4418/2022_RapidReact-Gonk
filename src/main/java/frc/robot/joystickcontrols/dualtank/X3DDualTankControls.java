@@ -53,12 +53,12 @@ public class X3DDualTankControls extends DualJoystickControls {
     // Intake axes
 
     @Override
-    public double reverseFeederAxis() {
+    public double getReverseFeederAxis() {
         return 0.d;
     }
 
     @Override
-    public double feederAxis() {
+    public double getFeederAxis() {
         return 0.d;
     }
 

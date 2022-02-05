@@ -53,12 +53,12 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Intake axes
 
     @Override
-    public double reverseFeederAxis() {
+    public double getReverseFeederAxis() {
         return m_primaryJoystick.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
     }
 
     @Override
-    public double feederAxis() {
+    public double getFeederAxis() {
         return m_primaryJoystick.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
     }
 

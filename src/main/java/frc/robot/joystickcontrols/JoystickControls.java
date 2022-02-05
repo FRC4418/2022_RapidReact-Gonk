@@ -34,9 +34,9 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Intake axes
 
-    public abstract double reverseFeederAxis();
+    public abstract double getReverseFeederAxis();
 
-    public abstract double feederAxis();
+    public abstract double getFeederAxis();
 
     // ----------------------------------------------------------
     // Intake buttons
