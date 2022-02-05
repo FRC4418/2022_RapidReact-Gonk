@@ -3,6 +3,7 @@ package frc.robot.joystickcontrols;
 
 public final class IO {
 	public enum JoystickDeviceType {
+		NULL,
 		XboxController,
 		X3D
 	}

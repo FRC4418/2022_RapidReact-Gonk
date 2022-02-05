@@ -87,8 +87,9 @@ public class RobotContainer {
 	private final JoysticksDisplay joysticksDisplay;
 	private final AutonomousDisplay autonomousDisplay;
 
-	private JoystickDeviceType driverJoystickDeviceType;
-	private JoystickDeviceType spotterJoystickDeviceType;
+	// has default USB values
+	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
+	private JoystickDeviceType spotterJoystickDeviceType = JoystickDeviceType.XboxController;
 
 	private JoystickControls driverJoystickControls;
 	private JoystickControls spotterJoystickControls;
@@ -199,13 +200,13 @@ public class RobotContainer {
 	}
 
 	private JoystickDeviceType getJoystickDeviceTypeFor(int port) {
-		if (DriverStation.getJoystickIsXbox(driverJoystickPorts[0])) {
+		if (DriverStation.getJoystickIsXbox(port)) {
 			return JoystickDeviceType.XboxController;
 		} else {
-			switch (DriverStation.getJoystickName(driverJoystickPorts[0])) {
+			switch (DriverStation.getJoystickName(port)) {
 				default:
-					DriverStation.reportError("Scanning for joystick device changes found an unrecognized device type", true);
-					return null;
+					// DriverStation.reportWarning("Scanning for joystick device changes found an unrecognized device type", true);
+					return JoystickDeviceType.NULL;
 				case X3D.USB_DEVICE_NAME:
 					return JoystickDeviceType.X3D;
 			}
@@ -217,13 +218,13 @@ public class RobotContainer {
 		// only same-type dual controls are supported, so here we are just looking at the first port for the driver's and spotter's port ranges
 
 		var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
-		if (driverJoystickDeviceType != newDriverJoystickDeviceType) {
+		if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
 			driverJoystickDeviceType = newDriverJoystickDeviceType;
 			setupDriverJoystickControls();
 		}
 
 		var newSpotterJoystickDeviceType = getJoystickDeviceTypeFor(spotterJoystickPorts[0]);
-		if (spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
+		if (newSpotterJoystickDeviceType != JoystickDeviceType.NULL && spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
 			spotterJoystickDeviceType = newSpotterJoystickDeviceType;
 			setupSpotterJoystickControls();
 		}
