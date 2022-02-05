@@ -33,7 +33,7 @@ public class RobotContainer {
 
 	private final boolean enableDiagnostics = true;
 	
-	private final boolean enableJoystickConnectionWarnings = false;
+	private final boolean disableJoystickConnectionWarnings = true;
 
 
 	// ----------------------------------------------------------
@@ -95,7 +95,7 @@ public class RobotContainer {
 		driveStraightWhileHeld = new DriveStraightWhileHeld(drivetrain);
 		autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
-		DriverStation.silenceJoystickConnectionWarning(!enableJoystickConnectionWarnings);
+		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
     }
 
 
