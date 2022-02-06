@@ -1,4 +1,4 @@
-package frc.robot.joystickcontrols;
+package frc.robot.joystickcontrols.singlejoystickcontrols;
 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -9,6 +9,7 @@ import frc.robot.commands.RunLauncher;
 import frc.robot.commands.RunReverseFeeder;
 import frc.robot.commands.RunFeeder;
 import frc.robot.commands.ToggleFeeder;
+import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;

@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.joystickcontrols.JoystickControls;
-import frc.robot.joystickcontrols.arcade.X3DArcadeControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
-import frc.robot.joystickcontrols.arcade.XboxArcadeControls;
-import frc.robot.joystickcontrols.dualtank.X3DDualTankControls;
-import frc.robot.joystickcontrols.lonetank.XboxLoneTankControls;
+import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.X3DDualTankControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.X3DArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.XboxArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.XboxLoneTankControls;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunFeederWithTrigger;

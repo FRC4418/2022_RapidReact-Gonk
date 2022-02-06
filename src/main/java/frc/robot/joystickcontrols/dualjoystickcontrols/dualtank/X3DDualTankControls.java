@@ -1,51 +1,51 @@
-package frc.robot.joystickcontrols.arcade;
+package frc.robot.joystickcontrols.dualjoystickcontrols.dualtank;
+
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-
-import frc.robot.joystickcontrols.SingleJoystickControls;
-import frc.robot.joystickcontrols.IO.XboxController;
+import frc.robot.joystickcontrols.IO.X3D;
+import frc.robot.joystickcontrols.dualjoystickcontrols.DualJoystickControls;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class XboxArcadeControls extends SingleJoystickControls {
+public class X3DDualTankControls extends DualJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
+        return 0.d;
     }
 
     @Override
     public double getArcadeDriveTurnAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
+        return 0.d;
     }
 
     
     @Override
     public double getTankDriveLeftAxis() {
-        return 0.d;
+        return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 
     @Override
     public double getTankDriveRightAxis() {
-        return 0.d;
+        return m_secondaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 
     // ----------------------------------------------------------
     // Drivetrain buttons
 
     @Override
-    public POVButton driveStraightPOVButton(Joystick joystick) {
-        return new POVButton(joystick, XboxController.ANGLE_UP_POV);
+    public JoystickButton driveStraightJoystickButton(Joystick joystick) {
+        return new JoystickButton(joystick, X3D.GRIP_BUTTON_ID);
     }
 
     @Override
-    public JoystickButton driveStraightJoystickButton(Joystick joystick) {
+    public POVButton driveStraightPOVButton(Joystick joystick) {
         return null;
     }
 
@@ -54,12 +54,12 @@ public class XboxArcadeControls extends SingleJoystickControls {
 
     @Override
     public double getReverseFeederAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
+        return 0.d;
     }
 
     @Override
     public double getFeederAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
+        return 0.d;
     }
 
     // ----------------------------------------------------------
@@ -67,17 +67,17 @@ public class XboxArcadeControls extends SingleJoystickControls {
 
     @Override
     public JoystickButton runFeederDisposalButton(Joystick joystick) {
-        return null;
+        return new JoystickButton(joystick, X3D.BUTTON_11_ID);
     }
 
     @Override
     public JoystickButton runFeederButton(Joystick joystick) {
-        return null;
+        return new JoystickButton(joystick, X3D.BUTTON_12_ID);
     }
 
     @Override
     public JoystickButton toggleFeederButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
+        return new JoystickButton(joystick, X3D.BUTTON_4_ID);
     }
 
     // ----------------------------------------------------------
@@ -85,18 +85,18 @@ public class XboxArcadeControls extends SingleJoystickControls {
 
     @Override
     public JoystickButton runIndexerButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.B_BUTTON_ID);
+        return new JoystickButton(joystick, X3D.BUTTON_3_ID);
     }
 
     @Override
     public JoystickButton runLauncherButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
+        return new JoystickButton(joystick, X3D.TRIGGER_BUTTON_ID);
     }
 
     // ----------------------------------------------------------
     // Constructor
 
-    public XboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, drivetrain, intake, manipulator);
+    public X3DDualTankControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+        super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator);
     }
 }
