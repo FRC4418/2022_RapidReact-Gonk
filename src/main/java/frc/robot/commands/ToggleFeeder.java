@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,17 +12,13 @@ public class ToggleFeeder extends CommandBase {
 	// ----------------------------------------------------------
 	// Constants
 
-	private final int WHISKER_SENSOR_DIO_PORT = 0;
 	private final double MOTOR_OUTPUT_PERCENT = 0.3d;
 	private final double DELAY_TIME = 2.d;
 	
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake m_intake;	
-
-
-	private final DigitalInput m_whiskerSensor = new DigitalInput(WHISKER_SENSOR_DIO_PORT);
+	private final Intake m_intake;
 
 	// delay to keep the intake running for a few seconds, even after we trip the whisker sensor
 	private final Timer m_postWhiskerSensorDelayTimer = new Timer();
@@ -61,7 +56,7 @@ public class ToggleFeeder extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		if (m_whiskerSensor.get() == true) {
+		if (m_intake.whiskerSensorIsActive()) {
 			m_postWhiskerSensorDelayTimer.start();
 		}
 

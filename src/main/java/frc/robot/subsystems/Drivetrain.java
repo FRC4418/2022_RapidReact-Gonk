@@ -6,8 +6,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
-import javax.management.loading.MLet;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -138,7 +136,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Low-level drivetrain methods
+	// Low-level methods
 
 
 	public Drivetrain invertLeftOrRightMotors(boolean flipLeftMotors) {
@@ -189,7 +187,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// High-level drivetrain methods
+	// High-level methods
 
 	
 	public void arcadeDrive(double xSpeed, double zRotation) {
@@ -210,7 +208,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Slew rate limiter methods
+	// Slew rate limiters
 
 
 	// Arcade-drive limiters

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -28,6 +29,8 @@ public class Intake extends SubsystemBase {
 		FEEDER_CAN_ID = 11,
 		RETRACT_CAN_ID = 12;
 
+	private final int WHISKER_SENSOR_DIO_PORT = 0;
+
 	private final double
 		// units in seconds
 		FEEDER_MOTOR_RAMP_TIME = 0.25d;
@@ -37,20 +40,28 @@ public class Intake extends SubsystemBase {
 	// Resources
 
 
-	public WPI_TalonSRX feederMotor;
-	public WPI_TalonFX retractorMotor;
-	
+	private final DigitalInput m_whiskerSensor = new DigitalInput(WHISKER_SENSOR_DIO_PORT);
+
+	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(FEEDER_CAN_ID);
+	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+
 
 	// ----------------------------------------------------------
 	// Constructor
 	
 
 	public Intake() {
-		feederMotor = new WPI_TalonSRX(FEEDER_CAN_ID);
-		retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+		m_feederMotor.configOpenloopRamp(FEEDER_MOTOR_RAMP_TIME);
+		m_feederMotor.setInverted(true);
+	}
 
-		feederMotor.configOpenloopRamp(FEEDER_MOTOR_RAMP_TIME);
-		feederMotor.setInverted(true);
+
+	// ----------------------------------------------------------
+	// Ball-intake whisker sensor
+
+
+	public boolean whiskerSensorIsActive() {
+		return m_whiskerSensor.get();
 	}
 
 
@@ -58,10 +69,10 @@ public class Intake extends SubsystemBase {
 	// Retractor motor
 
 
-	public double getRetractorPosition() { return retractorMotor.getSelectedSensorPosition(); }
+	public double getRetractorPosition() { return m_retractorMotor.getSelectedSensorPosition(); }
 
 	public Intake setRetractMotorPosition(double position) {
-		retractorMotor.set(ControlMode.Position, position);
+		m_retractorMotor.set(ControlMode.Position, position);
 		return this;
 	}
 
@@ -82,10 +93,10 @@ public class Intake extends SubsystemBase {
 	// Feeder motor
 
 
-	public double getFeederSpeed() { return feederMotor.get(); }
+	public double getFeederSpeed() { return m_feederMotor.get(); }
 
 	public Intake setFeederMotorPercent(double percentOutput) {
-		feederMotor.set(ControlMode.PercentOutput, percentOutput);
+		m_feederMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
