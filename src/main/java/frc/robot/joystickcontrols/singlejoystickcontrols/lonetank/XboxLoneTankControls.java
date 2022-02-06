@@ -1,43 +1,48 @@
-package frc.robot.joystickcontrols.arcade;
+package frc.robot.joystickcontrols.singlejoystickcontrols.lonetank;
+
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-
-import frc.robot.joystickcontrols.SingleJoystickControls;
 import frc.robot.joystickcontrols.IO.XboxController;
+import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class XboxArcadeControls extends SingleJoystickControls {
+public class XboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
+        return 0.d;
     }
 
     @Override
-    public double getArcadeDriveAngleAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
+    public double getArcadeDriveTurnAxis() {
+        return 0.d;
     }
 
     
     @Override
     public double getTankDriveLeftAxis() {
-        return 0.d;
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
     public double getTankDriveRightAxis() {
-        return 0.d;
+        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }
 
     // ----------------------------------------------------------
     // Drivetrain buttons
+
+    @Override
+    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
+    }
 
     @Override
     public POVButton driveStraightPOVButton(Joystick joystick) {
@@ -96,7 +101,7 @@ public class XboxArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public XboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public XboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }

@@ -2,8 +2,11 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
+import javax.management.loading.MLet;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -67,15 +70,20 @@ public class Drivetrain extends SubsystemBase {
 	// Resources
 
 
-	private WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
-	private WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private final WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
+	private final WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
-	private WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
-	private WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
+	private final WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
+	private final WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
+
+	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
+	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
+
+	private SlewRateLimiter m_tankDriveForwardLimiter = new SlewRateLimiter(0.d);
 
 
 	// ----------------------------------------------------------
@@ -130,9 +138,10 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Low-level drivetrain actions
+	// Low-level drivetrain methods
 
-	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
+
+	public Drivetrain invertLeftOrRightMotors(boolean flipLeftMotors) {
 		if (flipLeftMotors) {	// for V2
 			m_leftGroup.setInverted(true);
 			m_rightGroup.setInverted(false);
@@ -140,6 +149,17 @@ public class Drivetrain extends SubsystemBase {
 			m_leftGroup.setInverted(false);
 			m_rightGroup.setInverted(true);
 		}
+		return this;
+	}
+
+	public Drivetrain invertAndFlipBothMotorSides() {
+		m_leftGroup.setInverted(!m_leftGroup.getInverted());
+		m_rightGroup.setInverted(!m_rightGroup.getInverted());
+
+		var tempLeftGroup = m_leftGroup;
+		m_leftGroup = m_rightGroup;
+		m_rightGroup = tempLeftGroup;
+		m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 		return this;
 	}
 
@@ -169,7 +189,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// High-level drivetrain actions
+	// High-level drivetrain methods
 
 	
 	public void arcadeDrive(double xSpeed, double zRotation) {
@@ -190,7 +210,38 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Encoder actions
+	// Slew rate limiter methods
+
+
+	// Arcade-drive limiters
+
+	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
+	public void setArcadeDriveForwardLimiterRate(double rate) {
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterArcadeDriveForward(double inputSpeed) {
+		return m_arcadeDriveForwardLimiter.calculate(inputSpeed);
+	}
+
+	public void setArcadeDriveTurnLimiterRate(double rate) {
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterArcadeDriveTurn(double inputSpeed) {
+		return m_arcadeDriveTurnLimiter.calculate(inputSpeed);
+	}
+
+	// Tank-drive limiters
+
+	public void setTankDriveForwardLimiterRate(double rate) {
+		m_tankDriveForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterTankDriveForward(double inputSpeed) {
+		return m_tankDriveForwardLimiter.calculate(inputSpeed);
+	}
+
+
+	// ----------------------------------------------------------
+	// Encoder methods
 	
 
 	public double getLeftDistance() {

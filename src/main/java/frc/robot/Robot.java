@@ -5,6 +5,7 @@ package frc.robot;
 // import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -117,12 +118,17 @@ public class Robot extends TimedRobot {
 		// Cancels all running commands at the start of test mode.
 		CommandScheduler.getInstance().cancelAll();
 
-		robotContainer.intakeTestingCommand().schedule();
-		robotContainer.manipulatorTestingCommand().schedule();
+		robotContainer.addDiagnosticsEntryListeners();
 	}
 
 	@Override
 	public void testPeriodic() {
 
+	}
+
+	@Override
+	public void testExit() {
+		robotContainer.removeDiagnosticsEntryListeners();
+		SmartDashboard.putString("AHHH", "hello");
 	}
 }

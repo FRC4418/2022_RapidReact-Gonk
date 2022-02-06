@@ -1,17 +1,10 @@
 package frc.robot.commands;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.Drivetrain;
 
-
-public class DriveStraightWhileHeld extends CommandBase {
-	// ----------------------------------------------------------
-	// Private constants
-
-	private final double MOTOR_OUTPUT_PERCENT = 0.5d;
-
+public class ReverseDrivetrainWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
@@ -20,10 +13,8 @@ public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraightWhileHeld(Drivetrain drivetrain) {
+	public ReverseDrivetrainWhileHeld(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
-		
-		addRequirements(drivetrain);
 	}
 
 	// ----------------------------------------------------------
@@ -31,21 +22,19 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d);
+		m_drivetrain.invertAndFlipBothMotorSides();
 	}
+
+	int counter = 0;
 
 	@Override
 	public void execute() {
-		m_drivetrain
-			.setLeftMotors(MOTOR_OUTPUT_PERCENT)
-			.setRightMotors(MOTOR_OUTPUT_PERCENT);
+		SmartDashboard.putNumber("REVERSING", counter++);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.stopDrive();
+		m_drivetrain.invertAndFlipBothMotorSides();
 	}
 
 	@Override

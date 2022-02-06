@@ -20,8 +20,8 @@ public class DriveWithJoysticks extends CommandBase {
 	// Constructor
 
 	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls joystickControls) {
-		this.m_joystickControls = joystickControls;
-		this.m_drivetrain = drivetrain;
+		m_joystickControls = joystickControls;
+		m_drivetrain = drivetrain;
 
 		addRequirements(drivetrain);
 	}
@@ -30,21 +30,23 @@ public class DriveWithJoysticks extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public void initialize() {}
+	public void initialize() {
+		
+	}
 
 	@Override
 	public void execute() {
 		switch (RobotContainer.driverJoystickMode) {
 			case ARCADE:
 				m_drivetrain.arcadeDrive(
-					m_joystickControls.getArcadeDriveForwardAxis(),
-					m_joystickControls.getArcadeDriveAngleAxis());
+					m_drivetrain.filterArcadeDriveForward(m_joystickControls.getArcadeDriveForwardAxis()),
+					m_drivetrain.filterArcadeDriveTurn(m_joystickControls.getArcadeDriveTurnAxis()));
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
 				m_drivetrain.tankDrive(
-					m_joystickControls.getTankDriveLeftAxis(),
-					m_joystickControls.getTankDriveRightAxis());
+					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveLeftAxis()),
+					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveRightAxis()));
 				break;
 		}
 	}

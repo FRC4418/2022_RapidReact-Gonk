@@ -1,4 +1,4 @@
-package frc.robot.displays;
+package frc.robot.displays.huddisplays;
 
 
 import java.util.Map;

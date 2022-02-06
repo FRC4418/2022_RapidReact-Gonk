@@ -16,7 +16,7 @@ public class RunReverseFeeder extends CommandBase {
 	// Constructor
 
 	public RunReverseFeeder(Intake intake) {
-		this.m_intake = intake;
+		m_intake = intake;
 	}
 
 	// ----------------------------------------------------------

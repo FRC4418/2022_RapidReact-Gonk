@@ -1,6 +1,9 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -9,22 +12,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.joystickcontrols.JoystickControls;
-import frc.robot.joystickcontrols.arcade.X3DArcadeControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
-import frc.robot.joystickcontrols.arcade.XboxArcadeControls;
-import frc.robot.joystickcontrols.dualtank.X3DDualTankControls;
-import frc.robot.joystickcontrols.lonetank.XboxLoneTankControls;
+import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.X3DDualTankControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.X3DArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.XboxArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.XboxLoneTankControls;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.IntakeTesting;
-import frc.robot.commands.ManipulatorTesting;
 import frc.robot.commands.RunFeederWithTrigger;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
-import frc.robot.displays.AutonomousDisplay;
-import frc.robot.displays.JoysticksDisplay;
-import frc.robot.displays.MotorTestingDisplay;
-import frc.robot.displays.RobotChooserDisplay;
+import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
+import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
+import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -83,11 +86,11 @@ public class RobotContainer {
 
 
 	private final ShuffleboardTab HUDTab = Shuffleboard.getTab("HUD");
-	private final ShuffleboardTab diagnosticsTab = enableDiagnostics ? Shuffleboard.getTab("Diagnostics"): null;
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
-	private final AutonomousDisplay autonomousDisplay;
+
+	private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
 
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
@@ -104,10 +107,8 @@ public class RobotContainer {
 	public final Drivetrain drivetrain = new Drivetrain();
 	
 	public final Intake intake = new Intake();
-	private final IntakeTesting m_intakeTesting;
 	
 	public final Manipulator manipulator = new Manipulator();
-	private final ManipulatorTesting manipulatorTesting;
 	
 	public final Sensory sensory = new Sensory();
 
@@ -124,12 +125,13 @@ public class RobotContainer {
 
 		robotChooserDisplay = new RobotChooserDisplay(HUDTab, 0, 0);
 		joysticksDisplay = new JoysticksDisplay(HUDTab, 2, 0);
-		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 1);
+		new AutonomousDisplay(HUDTab, 0, 1);
 
 		if (enableDiagnostics) {
-			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
-			m_intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
-			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
+			diagnosticsDisplays.addAll(Arrays.asList(
+				new MotorTestingDisplay(intake, manipulator, 0, 0),
+				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
+			));
 		}
 
 		setupDriverJoystickControls();
@@ -146,22 +148,28 @@ public class RobotContainer {
     // Command getters
 
 
-	public IntakeTesting intakeTestingCommand() {
-		return m_intakeTesting;
-	}
-
-	public ManipulatorTesting manipulatorTestingCommand() {
-		return manipulatorTesting;
-	}
-
 	public Command defaultAutoCommand() {
 		return autoDriveStraightForDistance;
 	}
 
-
+	
 	// ----------------------------------------------------------
     // Methods
 
+
+	public RobotContainer addDiagnosticsEntryListeners() {
+		for (var display: diagnosticsDisplays) {
+			display.addEntryListeners();
+		}
+		return this;
+	}
+
+	public RobotContainer removeDiagnosticsEntryListeners() {
+		for (var display: diagnosticsDisplays) {
+			display.removeEntryListeners();
+		}
+		return this;
+	} 
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
@@ -179,12 +187,10 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				// true means flip the left side
-				drivetrain.flipLeftOrRightMotors(true);
-				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA TWO");
+				drivetrain.invertLeftOrRightMotors(true);
 				break;
 			case VERSACHASSIS_ONE:
-				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA ONE");
-				drivetrain.flipLeftOrRightMotors(false);
+				drivetrain.invertLeftOrRightMotors(false);
 				break;
 		}
 	}

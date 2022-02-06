@@ -12,7 +12,7 @@ public abstract class JoystickControls {
 
     public abstract double getArcadeDriveForwardAxis();
 
-    public abstract double getArcadeDriveAngleAxis();
+    public abstract double getArcadeDriveTurnAxis();
 
     
     public abstract double getTankDriveLeftAxis();
@@ -21,6 +21,9 @@ public abstract class JoystickControls {
 
     // ----------------------------------------------------------
     // Drivetrain buttons
+
+    protected JoystickButton reverseDrivetrainButton;
+    public abstract JoystickButton reverseDrivetrainButton(Joystick joystick);
 
     protected POVButton driveStraightPOVButton;
     public abstract POVButton driveStraightPOVButton(Joystick joystick);
