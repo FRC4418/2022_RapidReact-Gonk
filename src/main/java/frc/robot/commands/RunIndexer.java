@@ -16,7 +16,7 @@ public class RunIndexer extends CommandBase {
 	// Constructor
 	
 	public RunIndexer(Manipulator manipulator) {
-		this.m_manipulator = manipulator;
+		m_manipulator = manipulator;
 	}
 
 	// ----------------------------------------------------------

@@ -18,8 +18,8 @@ public class ManipulatorTesting extends CommandBase {
 	// Constructor
 
 	public ManipulatorTesting(Manipulator manipulator, MotorTestingDisplay motorTestingDisplay) {
-		this.m_manipulator = manipulator;
-		this.m_motorTestingDisplay = motorTestingDisplay;
+		m_manipulator = manipulator;
+		m_motorTestingDisplay = motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------

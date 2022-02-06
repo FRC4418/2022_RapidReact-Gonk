@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
+import javax.management.loading.MLet;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -140,6 +142,12 @@ public class Drivetrain extends SubsystemBase {
 			m_leftGroup.setInverted(false);
 			m_rightGroup.setInverted(true);
 		}
+		return this;
+	}
+
+	public Drivetrain flipBothMotorSides() {
+		m_leftGroup.setInverted(!m_leftGroup.getInverted());
+		m_rightGroup.setInverted(!m_rightGroup.getInverted());
 		return this;
 	}
 

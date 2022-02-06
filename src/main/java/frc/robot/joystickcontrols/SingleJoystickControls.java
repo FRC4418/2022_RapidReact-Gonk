@@ -26,6 +26,8 @@ public abstract class SingleJoystickControls extends JoystickControls {
     public SingleJoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         m_primaryJoystick = primaryJoystick;
 
+        reverseDrivetrainButton = reverseDrivetrain(primaryJoystick);
+        if (reverseDrivetrainButton != null) reverseDrivetrainButton = reverseDrivetrain(primaryJoystick);
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
