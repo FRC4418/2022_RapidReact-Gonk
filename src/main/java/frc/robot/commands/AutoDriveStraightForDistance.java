@@ -58,10 +58,10 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 		if (direction == DriveStraightDirection.FORWARDS) {
 			drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
-			// dt.tankDrive(motorPercentOutput, motorPercentOutput);
+			// dt.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
 		} else {
 			drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
-			// dt.tankDrive(-motorPercentOutput, -motorPercentOutput);
+			// dt.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 		}
 
 		SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftDistance());

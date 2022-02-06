@@ -3,6 +3,7 @@ package frc.robot.displays;
 
 import java.util.Map;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -16,27 +17,31 @@ public class MotorTestingDisplay {
     // ----------------------------------------------------------
 	// Resources
 
-	// TODO: P3 If using event listeners, make motor testing resources private
+	private final Intake m_intake;
+	private final Manipulator m_manipulator;
 
-    public NetworkTableEntry motorTestingModeToggleSwitch;
+    private NetworkTableEntry motorTestingModeToggleSwitch;
 
-	public NetworkTableEntry indexerToggleSwitch;
-	public NetworkTableEntry indexerOutputPercentTextView;
+	private NetworkTableEntry indexerToggleSwitch;
+	private NetworkTableEntry indexerOutputPercentTextView;
 
-	public NetworkTableEntry launcherToggleSwitch;
-	public NetworkTableEntry launcherOutputPercentTextView;
+	private NetworkTableEntry launcherToggleSwitch;
+	private NetworkTableEntry launcherOutputPercentTextView;
 
-	public NetworkTableEntry feederToggleSwitch;
-	public NetworkTableEntry feederOutputPercentTextView;
+	private NetworkTableEntry feederToggleSwitch;
+	private NetworkTableEntry feederOutputPercentTextView;
 
-	public NetworkTableEntry retractorToggleSwitch;
-	public NetworkTableEntry retractorPositionTextView;
+	private NetworkTableEntry retractorToggleSwitch;
+	private NetworkTableEntry retractorPositionTextView;
 
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public MotorTestingDisplay(ShuffleboardTab diagnosticsTab, int column, int row) {
-        var motorTestingLayout = diagnosticsTab
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, ShuffleboardTab diagnosticsTab, int column, int row) {
+		m_intake = intake;
+		m_manipulator = manipulator;
+
+        { var motorTestingLayout = diagnosticsTab
 			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
@@ -50,20 +55,20 @@ public class MotorTestingDisplay {
 				.getEntry();
 
 			// put into the 2nd slot of motorTestingLayout's vertical stack
-			var horizontalStack = motorTestingLayout
+			{ var horizontalStack = motorTestingLayout
 				.getLayout("Horizontal Stack", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
 
 				// ----------------------------------------------------------
 				// Testing the intake motors
 
-				var intakeLayout = horizontalStack
+				{ var intakeLayout = horizontalStack
 					.getLayout("Intake", BuiltInLayouts.kGrid)
 					.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
 
 					// Intake retractor motor
 
-					var retractorLayout = intakeLayout
+					{ var retractorLayout = intakeLayout
 						.getLayout("Retractor", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -72,15 +77,17 @@ public class MotorTestingDisplay {
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
+						
 						retractorPositionTextView = retractorLayout
 							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
+					}
 
 					// intake feeder motor
 					
-					var feederLayout = intakeLayout
+					{ var feederLayout = intakeLayout
 						.getLayout("Feeder", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -88,20 +95,23 @@ public class MotorTestingDisplay {
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
+						
 						feederOutputPercentTextView = feederLayout
 							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
+					}
+				}
 
 				// ----------------------------------------------------------
 				// Testing the conveyor-shooter motors
 
-				var manipulatorLayout = horizontalStack
+				{ var manipulatorLayout = horizontalStack
 					.getLayout("Manipulator", BuiltInLayouts.kGrid)
 					.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
 
-					var indexerLayout = manipulatorLayout
+					{ var indexerLayout = manipulatorLayout
 						.getLayout("Indexer", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -109,15 +119,17 @@ public class MotorTestingDisplay {
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
+
 						indexerOutputPercentTextView = indexerLayout
 							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
+					}
 
 					// Manipulator launcher motor
 					
-					var launcherLayout = manipulatorLayout
+					{ var launcherLayout = manipulatorLayout
 						.getLayout("Launcher", BuiltInLayouts.kGrid)
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -125,10 +137,107 @@ public class MotorTestingDisplay {
 							.add(" ", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
+
 						launcherOutputPercentTextView = launcherLayout
 							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
+					}
+				}
+			}
+		}
     }
+
+	public MotorTestingDisplay addEntryListeners() {
+		motorTestingModeToggleSwitch.addListener(event -> {
+			// means if the toggle switch's boolean is false (AKA disabled)
+			if (!event.value.getBoolean()) {
+				m_intake.retractIntakeArm();
+				m_intake.stopFeeder();
+
+				m_manipulator.stopIndexer();
+				m_manipulator.stopLauncher();
+			}
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		
+		{ // Intake
+			{ // Retractor motor
+				retractorToggleSwitch.addListener(event -> {
+					if (!event.value.getBoolean()) {
+						m_intake.retractIntakeArm();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+	
+				retractorPositionTextView.addListener(event -> {
+					// if the retractor toggle switch is enabled. The false that we pass in is the default value of the switch if we can't get the entry's value
+					if (retractorToggleSwitch.getBoolean(false)) {
+						m_intake.setRetractMotorPosition(event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+			{ // Feeder motor
+				feederToggleSwitch.addListener(event -> {
+					if (!event.value.getBoolean()) {
+						m_intake.stopFeeder();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+				feederOutputPercentTextView.addListener(event -> {
+					if (feederToggleSwitch.getBoolean(false)) {
+						m_intake.setFeederMotorPercent(event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+		}
+		
+		{ // Manipulator
+			{ // Indexer motor
+				indexerToggleSwitch.addListener(event -> {
+					if (!event.value.getBoolean()) {
+						m_manipulator.stopIndexer();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+				indexerOutputPercentTextView.addListener(event -> {
+					if (indexerToggleSwitch.getBoolean(false)) {
+						m_manipulator.setIndexerToPercent(event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+			{ // Launcher motor
+				launcherToggleSwitch.addListener(event -> {
+					if (!event.value.getBoolean()) {
+						m_manipulator.stopLauncher();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+				launcherOutputPercentTextView.addListener(event -> {
+					if (launcherToggleSwitch.getBoolean(false)) {
+						m_manipulator.setLauncherToPercent(event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+		}
+		return this;
+	}
+
+	public MotorTestingDisplay removeEntryListeners() {
+		for (var entry: new NetworkTableEntry[] {
+			indexerToggleSwitch,
+			indexerOutputPercentTextView,
+
+			launcherToggleSwitch,
+			launcherOutputPercentTextView,
+
+			feederToggleSwitch,
+			feederOutputPercentTextView,
+
+			retractorToggleSwitch,
+			retractorPositionTextView
+		}) {
+			entry.removeListener(0);
+		}
+		return this;
+	}
 }

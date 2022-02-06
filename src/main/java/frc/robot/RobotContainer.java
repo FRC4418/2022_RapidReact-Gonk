@@ -17,8 +17,6 @@ import frc.robot.joystickcontrols.dualtank.X3DDualTankControls;
 import frc.robot.joystickcontrols.lonetank.XboxLoneTankControls;
 import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.IntakeTesting;
-import frc.robot.commands.ManipulatorTesting;
 import frc.robot.commands.RunFeederWithTrigger;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
 import frc.robot.displays.AutonomousDisplay;
@@ -106,10 +104,8 @@ public class RobotContainer {
 	public final Drivetrain drivetrain = new Drivetrain();
 	
 	public final Intake intake = new Intake();
-	private final IntakeTesting m_intakeTesting;
 	
 	public final Manipulator manipulator = new Manipulator();
-	private final ManipulatorTesting manipulatorTesting;
 	
 	public final Sensory sensory = new Sensory();
 
@@ -129,9 +125,7 @@ public class RobotContainer {
 		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 1);
 
 		if (enableDiagnostics) {
-			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
-			m_intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
-			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
+			new MotorTestingDisplay(intake, manipulator, diagnosticsTab, 0, 0);
 
 			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 7, 0);
 		}
@@ -150,19 +144,11 @@ public class RobotContainer {
     // Command getters
 
 
-	public IntakeTesting intakeTestingCommand() {
-		return m_intakeTesting;
-	}
-
-	public ManipulatorTesting manipulatorTestingCommand() {
-		return manipulatorTesting;
-	}
-
 	public Command defaultAutoCommand() {
 		return autoDriveStraightForDistance;
 	}
 
-
+	
 	// ----------------------------------------------------------
     // Methods
 
