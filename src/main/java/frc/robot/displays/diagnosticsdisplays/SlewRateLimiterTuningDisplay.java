@@ -1,6 +1,8 @@
 package frc.robot.displays.diagnosticsdisplays;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -29,7 +31,21 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 		super(column, row);
 
 		m_drivetrain = drivetrain;
+
+		this.column = column;
+		this.row = row;
     }
+
+	@Override
+	protected DiagnosticsDisplay initializeEntriesArray() {
+		entries = new ArrayList<NetworkTableEntry>(Arrays.asList(
+			arcadeDriveForwardLimiterTextField,
+			arcadeDriveTurnLimiterTextField,
+
+			tankDriveForwardLimiterTextField
+		));
+		return this;
+	}
 
 	@Override
 	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
@@ -87,19 +103,6 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 			tankDriveForwardLimiterTextField.addListener(event -> {
 				m_drivetrain.setTankDriveForwardLimiterRate(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		}
-		return this;
-	}
-
-	@Override
-	public DiagnosticsDisplay removeEntryListeners() {
-		for (var entry: new NetworkTableEntry[] {
-			arcadeDriveForwardLimiterTextField,
-			arcadeDriveTurnLimiterTextField,
-
-			tankDriveForwardLimiterTextField
-		}) {
-			entry.removeListener(0);
 		}
 		return this;
 	}

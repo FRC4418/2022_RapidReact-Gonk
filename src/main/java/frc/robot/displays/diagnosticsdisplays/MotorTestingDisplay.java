@@ -1,6 +1,8 @@
 package frc.robot.displays.diagnosticsdisplays;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -44,8 +46,25 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 		this.column = column;
 		this.row = row;
-		addEntryListeners();
     }
+
+	@Override
+	protected DiagnosticsDisplay initializeEntriesArray() {
+		entries = new ArrayList<NetworkTableEntry>(Arrays.asList(
+			indexerToggleSwitch,
+			indexerOutputPercentTextView,
+
+			launcherToggleSwitch,
+			launcherOutputPercentTextView,
+
+			feederToggleSwitch,
+			feederOutputPercentTextView,
+
+			retractorToggleSwitch,
+			retractorPositionTextView
+		));
+		return this;
+	}
 
 	@Override
 	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
@@ -228,26 +247,6 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
-		}
-		return this;
-	}
-
-	@Override
-	public MotorTestingDisplay removeEntryListeners() {
-		for (var entry: new NetworkTableEntry[] {
-			indexerToggleSwitch,
-			indexerOutputPercentTextView,
-
-			launcherToggleSwitch,
-			launcherOutputPercentTextView,
-
-			feederToggleSwitch,
-			feederOutputPercentTextView,
-
-			retractorToggleSwitch,
-			retractorPositionTextView
-		}) {
-			entry.removeListener(0);
 		}
 		return this;
 	}
