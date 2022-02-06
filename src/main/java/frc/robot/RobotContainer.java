@@ -1,6 +1,9 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -19,11 +22,12 @@ import frc.robot.commands.AutoDriveStraightForDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunFeederWithTrigger;
 import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
-import frc.robot.displays.AutonomousDisplay;
-import frc.robot.displays.JoysticksDisplay;
-import frc.robot.displays.MotorTestingDisplay;
-import frc.robot.displays.RobotChooserDisplay;
-import frc.robot.displays.SlewRateLimiterTuningDisplay;
+import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
+import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
+import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -82,10 +86,11 @@ public class RobotContainer {
 
 
 	private final ShuffleboardTab HUDTab = Shuffleboard.getTab("HUD");
-	private final ShuffleboardTab diagnosticsTab = enableDiagnostics ? Shuffleboard.getTab("Diagnostics"): null;
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
+
+	private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
 
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
@@ -123,8 +128,10 @@ public class RobotContainer {
 		new AutonomousDisplay(HUDTab, 0, 1);
 
 		if (enableDiagnostics) {
-			new MotorTestingDisplay(intake, manipulator, diagnosticsTab, 0, 0);
-			new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 7, 0);
+			diagnosticsDisplays.addAll(Arrays.asList(
+				new MotorTestingDisplay(intake, manipulator, 0, 0),
+				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
+			));
 		}
 
 		setupDriverJoystickControls();
@@ -149,6 +156,20 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Methods
 
+
+	public RobotContainer addDiagnosticsEntryListeners() {
+		for (var display: diagnosticsDisplays) {
+			display.addEntryListeners();
+		}
+		return this;
+	}
+
+	public RobotContainer removeDiagnosticsEntryListeners() {
+		for (var display: diagnosticsDisplays) {
+			display.removeEntryListeners();
+		}
+		return this;
+	} 
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();

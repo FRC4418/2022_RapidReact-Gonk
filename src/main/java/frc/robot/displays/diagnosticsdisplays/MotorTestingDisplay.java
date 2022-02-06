@@ -1,4 +1,4 @@
-package frc.robot.displays;
+package frc.robot.displays.diagnosticsdisplays;
 
 
 import java.util.Map;
@@ -7,13 +7,12 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class MotorTestingDisplay {
+public class MotorTestingDisplay extends DiagnosticsDisplay {
     // ----------------------------------------------------------
 	// Resources
 
@@ -37,10 +36,19 @@ public class MotorTestingDisplay {
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, ShuffleboardTab diagnosticsTab, int column, int row) {
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row) {
+		super(column, row);
+
 		m_intake = intake;
 		m_manipulator = manipulator;
 
+		this.column = column;
+		this.row = row;
+		addEntryListeners();
+    }
+
+	@Override
+	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
         { var motorTestingLayout = diagnosticsTab
 			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
@@ -147,10 +155,10 @@ public class MotorTestingDisplay {
 				}
 			}
 		}
+		return this;
+	}
 
-		addEntryListeners();
-    }
-
+	@Override
 	public MotorTestingDisplay addEntryListeners() {
 		motorTestingModeToggleSwitch.addListener(event -> {
 			// means if the toggle switch's boolean is false (AKA disabled)
@@ -224,6 +232,7 @@ public class MotorTestingDisplay {
 		return this;
 	}
 
+	@Override
 	public MotorTestingDisplay removeEntryListeners() {
 		for (var entry: new NetworkTableEntry[] {
 			indexerToggleSwitch,
