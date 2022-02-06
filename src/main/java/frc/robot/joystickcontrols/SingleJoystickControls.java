@@ -24,8 +24,6 @@ public abstract class SingleJoystickControls extends JoystickControls {
     // Constructor
 
     public SingleJoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, drivetrain, intake, manipulator);
-        
         m_primaryJoystick = primaryJoystick;
 
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);

@@ -5,10 +5,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Manipulator;
-
 
 public abstract class JoystickControls {
     // ----------------------------------------------------------
@@ -18,6 +14,7 @@ public abstract class JoystickControls {
 
     public abstract double getArcadeDriveAngleAxis();
 
+    
     public abstract double getTankDriveLeftAxis();
 
     public abstract double getTankDriveRightAxis();
@@ -58,11 +55,4 @@ public abstract class JoystickControls {
 
     protected JoystickButton runLauncherButton;
     public abstract JoystickButton runLauncherButton(Joystick joystick);
-
-    // ----------------------------------------------------------
-    // Constructor
-
-    public JoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        
-    }
 }

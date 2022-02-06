@@ -26,6 +26,7 @@ public class X3DDualTankControls extends DualJoystickControls {
         return 0.d;
     }
 
+    
     @Override
     public double getTankDriveLeftAxis() {
         return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);

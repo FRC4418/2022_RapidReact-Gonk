@@ -25,8 +25,6 @@ public abstract class DualJoystickControls extends JoystickControls {
     // Constructor
 
     public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, drivetrain, intake, manipulator);
-
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
 

@@ -26,6 +26,7 @@ public class X3DArcadeControls extends SingleJoystickControls {
         return m_primaryJoystick.getRawAxis(X3D.ROLL_AXIS);
     }
 
+    
     @Override
     public double getTankDriveLeftAxis() {
         return 0.d;
