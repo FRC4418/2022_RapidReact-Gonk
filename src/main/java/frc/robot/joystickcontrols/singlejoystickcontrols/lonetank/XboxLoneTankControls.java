@@ -40,6 +40,11 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Drivetrain buttons
 
     @Override
+    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
+    }
+
+    @Override
     public POVButton driveStraightPOVButton(Joystick joystick) {
         return new POVButton(joystick, XboxController.ANGLE_UP_POV);
     }

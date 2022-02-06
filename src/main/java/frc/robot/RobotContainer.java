@@ -187,10 +187,10 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				// true means flip the left side
-				drivetrain.flipLeftOrRightMotors(true);
+				drivetrain.invertLeftOrRightMotors(true);
 				break;
 			case VERSACHASSIS_ONE:
-				drivetrain.flipLeftOrRightMotors(false);
+				drivetrain.invertLeftOrRightMotors(false);
 				break;
 		}
 	}

@@ -17,8 +17,8 @@ public class RunFeederWithTrigger extends CommandBase {
 	// Constructor
 
 	public RunFeederWithTrigger(Intake intake, JoystickControls joystickControls) {
-		this.m_intake = intake;
-		this.m_joystickControls = joystickControls;
+		m_intake = intake;
+		m_joystickControls = joystickControls;
 
 		addRequirements(intake);
 	}
@@ -34,7 +34,7 @@ public class RunFeederWithTrigger extends CommandBase {
 		if (m_joystickControls.getReverseFeederAxis() <= 0.1) {
 			m_intake.setFeederMotorPercent(m_joystickControls.getFeederAxis());
 		} else {
-			m_intake.setFeederMotorPercent(m_joystickControls.getReverseFeederAxis());
+			m_intake.setFeederMotorPercent(-m_joystickControls.getReverseFeederAxis());
 		}
 	}
 

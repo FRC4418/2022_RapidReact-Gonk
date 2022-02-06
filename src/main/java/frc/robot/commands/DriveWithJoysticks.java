@@ -20,8 +20,8 @@ public class DriveWithJoysticks extends CommandBase {
 	// Constructor
 
 	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls joystickControls) {
-		this.m_joystickControls = joystickControls;
-		this.m_drivetrain = drivetrain;
+		m_joystickControls = joystickControls;
+		m_drivetrain = drivetrain;
 
 		addRequirements(drivetrain);
 	}

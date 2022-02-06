@@ -4,6 +4,7 @@ package frc.robot.joystickcontrols.dualjoystickcontrols;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.DriveStraightWhileHeld;
+import frc.robot.commands.ReverseDrivetrainWhileHeld;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunLauncher;
 import frc.robot.commands.RunReverseFeeder;
@@ -28,7 +29,9 @@ public abstract class DualJoystickControls extends JoystickControls {
     public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
-
+        
+        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
+        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrainWhileHeld(drivetrain));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);

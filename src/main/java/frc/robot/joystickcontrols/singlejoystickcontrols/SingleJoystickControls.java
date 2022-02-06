@@ -4,6 +4,7 @@ package frc.robot.joystickcontrols.singlejoystickcontrols;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.DriveStraightWhileHeld;
+import frc.robot.commands.ReverseDrivetrainWhileHeld;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunLauncher;
 import frc.robot.commands.RunReverseFeeder;
@@ -27,10 +28,18 @@ public abstract class SingleJoystickControls extends JoystickControls {
     public SingleJoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         m_primaryJoystick = primaryJoystick;
 
+        // ----------------------------------------------------------
+        // Drivetrain
+
+        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
+        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrainWhileHeld(drivetrain));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
         if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+
+        // ----------------------------------------------------------
+        // Intake
 
         runFeederDisposalButton = runFeederDisposalButton(primaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
@@ -38,6 +47,9 @@ public abstract class SingleJoystickControls extends JoystickControls {
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
         toggleFeederButton = toggleFeederButton(primaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleFeeder(intake));
+
+        // ----------------------------------------------------------
+        // Manipulator
 
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));

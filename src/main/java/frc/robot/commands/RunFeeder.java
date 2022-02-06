@@ -16,7 +16,7 @@ public class RunFeeder extends CommandBase {
 	// Constructor
 
 	public RunFeeder(Intake intake) {
-		this.m_intake = intake;
+		m_intake = intake;
 	}
 
 	// ----------------------------------------------------------

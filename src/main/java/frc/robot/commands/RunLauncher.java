@@ -17,7 +17,7 @@ public class RunLauncher extends CommandBase {
 	// Constructor
 
 	public RunLauncher(Manipulator manipulator) {	
-		this.m_manipulator = manipulator; 
+		m_manipulator = manipulator; 
 	}
 
 	// ----------------------------------------------------------

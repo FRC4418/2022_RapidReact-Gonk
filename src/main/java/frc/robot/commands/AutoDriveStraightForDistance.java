@@ -25,18 +25,18 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Drivetrain drivetrain;
+	private final Drivetrain m_drivetrain;
 
-	private double distanceInInches;
-	private DriveStraightDirection direction;
+	private final double m_distanceInInches;
+	private final DriveStraightDirection m_direction;
 
 	// ----------------------------------------------------------
 	// Constructor
 
 	public AutoDriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
-		this.distanceInInches = distanceInInches;
-		this.direction = direction;
-		this.drivetrain = drivetrain;
+		m_distanceInInches = distanceInInches;
+		m_direction = direction;
+		m_drivetrain = drivetrain;
 		
 		addRequirements(drivetrain);
 	}
@@ -46,7 +46,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 	@Override
 	public void initialize() {
-		drivetrain
+		m_drivetrain
 			// .coastOrBrakeMotors(false, false)
 			.setOpenLoopRampTimes(0.d)
 			.resetEncoders();
@@ -54,29 +54,29 @@ public class AutoDriveStraightForDistance extends CommandBase {
 
 	@Override
 	public void execute() {
-		double error = drivetrain.getLeftDistance() - drivetrain.getRightDistance();
+		double error = m_drivetrain.getLeftDistance() - m_drivetrain.getRightDistance();
 
-		if (direction == DriveStraightDirection.FORWARDS) {
-			drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
-			// dt.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
+		if (m_direction == DriveStraightDirection.FORWARDS) {
+			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
+			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
 		} else {
-			drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
-			// dt.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
+			m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
+			// m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 		}
 
-		SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftDistance());
-		SmartDashboard.putNumber("Right Encoder", drivetrain.getRightDistance());
+		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistance());
+		SmartDashboard.putNumber("Right Encoder", m_drivetrain.getRightDistance());
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		drivetrain.stopDrive();
+		m_drivetrain.stopDrive();
 	}
 
 	@Override
 	public boolean isFinished() {
-		SmartDashboard.putNumber("traveled average distance", drivetrain.getAverageDistance());
+		SmartDashboard.putNumber("traveled average distance", m_drivetrain.getAverageDistance());
 
-		return Math.abs(drivetrain.getAverageDistance()) >= distanceInInches;
+		return Math.abs(m_drivetrain.getAverageDistance()) >= m_distanceInInches;
 	}
 }
