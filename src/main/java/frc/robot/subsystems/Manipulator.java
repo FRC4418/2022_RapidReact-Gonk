@@ -20,8 +20,8 @@ public class Manipulator extends SubsystemBase {
 
 
 	public static final double
-		DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT = 0.3,
-		DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT = 0.3;
+		DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT = 1.0d,
+		DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT = 1.0d;
 
 		
 	// ----------------------------------------------------------
