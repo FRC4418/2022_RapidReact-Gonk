@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
@@ -44,6 +45,9 @@ public class DriveWithJoysticks extends CommandBase {
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
+				SmartDashboard.putNumber("LEFT AXIS", m_joystickControls.getTankDriveLeftAxis());
+				SmartDashboard.putNumber("RIGHT AXIS", m_joystickControls.getTankDriveRightAxis());
+
 				m_drivetrain.tankDrive(
 					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveLeftAxis()),
 					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveRightAxis()));

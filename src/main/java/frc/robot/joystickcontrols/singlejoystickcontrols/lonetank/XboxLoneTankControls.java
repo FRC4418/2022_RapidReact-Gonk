@@ -40,17 +40,17 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Drivetrain buttons
 
     @Override
-    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
+    protected JoystickButton reverseDrivetrainButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
     }
 
     @Override
-    public POVButton driveStraightPOVButton(Joystick joystick) {
+    protected POVButton driveStraightPOVButton(Joystick joystick) {
         return new POVButton(joystick, XboxController.ANGLE_UP_POV);
     }
 
     @Override
-    public JoystickButton driveStraightJoystickButton(Joystick joystick) {
+    protected JoystickButton driveStraightJoystickButton(Joystick joystick) {
         return null;
     }
 
@@ -71,17 +71,17 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    public JoystickButton runFeederDisposalButton(Joystick joystick) {
+    protected JoystickButton runFeederDisposalButton(Joystick joystick) {
         return null;
     }
 
     @Override
-    public JoystickButton runFeederButton(Joystick joystick) {
+    protected JoystickButton runFeederButton(Joystick joystick) {
         return null;
     }
 
     @Override
-    public JoystickButton toggleFeederButton(Joystick joystick) {
+    protected JoystickButton toggleFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
     }
 
@@ -89,12 +89,12 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // Manipulator buttons
 
     @Override
-    public JoystickButton runIndexerButton(Joystick joystick) {
+    protected JoystickButton runIndexerButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.B_BUTTON_ID);
     }
 
     @Override
-    public JoystickButton runLauncherButton(Joystick joystick) {
+    protected JoystickButton runLauncherButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
     }
 

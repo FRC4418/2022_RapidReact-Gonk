@@ -23,13 +23,13 @@ public abstract class JoystickControls {
     // Drivetrain buttons
 
     protected JoystickButton reverseDrivetrainButton;
-    public abstract JoystickButton reverseDrivetrainButton(Joystick joystick);
+    protected abstract JoystickButton reverseDrivetrainButton(Joystick joystick);
 
     protected POVButton driveStraightPOVButton;
-    public abstract POVButton driveStraightPOVButton(Joystick joystick);
+    protected abstract POVButton driveStraightPOVButton(Joystick joystick);
 
     protected JoystickButton driveStraightJoystickButton;
-    public abstract JoystickButton driveStraightJoystickButton(Joystick joystick);
+    protected abstract JoystickButton driveStraightJoystickButton(Joystick joystick);
 
     // ----------------------------------------------------------
     // Intake axes
@@ -42,20 +42,20 @@ public abstract class JoystickControls {
     // Intake buttons
 
     protected JoystickButton toggleFeederButton;
-    public abstract JoystickButton toggleFeederButton(Joystick joystick);
+    protected abstract JoystickButton toggleFeederButton(Joystick joystick);
 
     protected JoystickButton runFeederDisposalButton;
-    public abstract JoystickButton runFeederDisposalButton(Joystick joystick);
+    protected abstract JoystickButton runFeederDisposalButton(Joystick joystick);
 
     protected JoystickButton runFeederIntakebutton;
-    public abstract JoystickButton runFeederButton(Joystick joystick);
+    protected abstract JoystickButton runFeederButton(Joystick joystick);
 
     // ----------------------------------------------------------
     // Manipulator buttons
 
     protected JoystickButton runIndexerButton;
-    public abstract JoystickButton runIndexerButton(Joystick joystick);
+    protected abstract JoystickButton runIndexerButton(Joystick joystick);
 
     protected JoystickButton runLauncherButton;
-    public abstract JoystickButton runLauncherButton(Joystick joystick);
+    protected abstract JoystickButton runLauncherButton(Joystick joystick);
 }

@@ -40,17 +40,17 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Drivetrain buttons
 
     @Override
-    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
+    protected JoystickButton reverseDrivetrainButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_6_ID);
     }
 
     @Override
-    public JoystickButton driveStraightJoystickButton(Joystick joystick) {
+    protected JoystickButton driveStraightJoystickButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.GRIP_BUTTON_ID);
     }
 
     @Override
-    public POVButton driveStraightPOVButton(Joystick joystick) {
+    protected POVButton driveStraightPOVButton(Joystick joystick) {
         return null;
     }
 
@@ -71,17 +71,17 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    public JoystickButton runFeederDisposalButton(Joystick joystick) {
+    protected JoystickButton runFeederDisposalButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_11_ID);
     }
 
     @Override
-    public JoystickButton runFeederButton(Joystick joystick) {
+    protected JoystickButton runFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_12_ID);
     }
 
     @Override
-    public JoystickButton toggleFeederButton(Joystick joystick) {
+    protected JoystickButton toggleFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_4_ID);
     }
 
@@ -89,12 +89,12 @@ public class X3DArcadeControls extends SingleJoystickControls {
     // Manipulator buttons
 
     @Override
-    public JoystickButton runIndexerButton(Joystick joystick) {
+    protected JoystickButton runIndexerButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_3_ID);
     }
 
     @Override
-    public JoystickButton runLauncherButton(Joystick joystick) {
+    protected JoystickButton runLauncherButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.TRIGGER_BUTTON_ID);
     }
 
