@@ -86,8 +86,6 @@ public class RobotContainer {
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
-	private final AutonomousDisplay autonomousDisplay;
-	private final SlewRateLimiterTuningDisplay slewRateLimiterTuningDisplay;
 
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
@@ -122,12 +120,11 @@ public class RobotContainer {
 
 		robotChooserDisplay = new RobotChooserDisplay(HUDTab, 0, 0);
 		joysticksDisplay = new JoysticksDisplay(HUDTab, 2, 0);
-		autonomousDisplay = new AutonomousDisplay(HUDTab, 0, 1);
+		new AutonomousDisplay(HUDTab, 0, 1);
 
 		if (enableDiagnostics) {
 			new MotorTestingDisplay(intake, manipulator, diagnosticsTab, 0, 0);
-
-			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 7, 0);
+			new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 7, 0);
 		}
 
 		setupDriverJoystickControls();
