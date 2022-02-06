@@ -23,7 +23,7 @@ public abstract class JoystickControls {
     // Drivetrain buttons
 
     protected JoystickButton reverseDrivetrainButton;
-    public abstract JoystickButton reverseDrivetrain(Joystick joystick);
+    public abstract JoystickButton reverseDrivetrainButton(Joystick joystick);
 
     protected POVButton driveStraightPOVButton;
     public abstract POVButton driveStraightPOVButton(Joystick joystick);

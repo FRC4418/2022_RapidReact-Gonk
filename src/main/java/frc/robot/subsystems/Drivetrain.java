@@ -69,12 +69,12 @@ public class Drivetrain extends SubsystemBase {
 	// Resources
 
 
-	private WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
-	private WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private final WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
+	private final WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
-	private WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
-	private WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
+	private final WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
+	private final WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -134,7 +134,7 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Low-level drivetrain actions
 
-	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
+	public Drivetrain invertLeftOrRightMotors(boolean flipLeftMotors) {
 		if (flipLeftMotors) {	// for V2
 			m_leftGroup.setInverted(true);
 			m_rightGroup.setInverted(false);
@@ -145,9 +145,14 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain flipBothMotorSides() {
+	public Drivetrain invertAndFlipBothMotorSides() {
 		m_leftGroup.setInverted(!m_leftGroup.getInverted());
 		m_rightGroup.setInverted(!m_rightGroup.getInverted());
+
+		var tempLeftGroup = m_leftGroup;
+		m_leftGroup = m_rightGroup;
+		m_rightGroup = tempLeftGroup;
+		m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 		return this;
 	}
 

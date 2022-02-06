@@ -41,7 +41,7 @@ public class X3DDualTankControls extends DualJoystickControls {
     // Drivetrain buttons
 
     @Override
-    public JoystickButton reverseDrivetrain(Joystick joystick) {
+    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_6_ID);
     }
 

@@ -179,12 +179,12 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				// true means flip the left side
-				drivetrain.flipLeftOrRightMotors(true);
+				drivetrain.invertLeftOrRightMotors(true);
 				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA TWO");
 				break;
 			case VERSACHASSIS_ONE:
 				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA ONE");
-				drivetrain.flipLeftOrRightMotors(false);
+				drivetrain.invertLeftOrRightMotors(false);
 				break;
 		}
 	}

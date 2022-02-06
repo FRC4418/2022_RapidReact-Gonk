@@ -40,7 +40,7 @@ public class XboxArcadeControls extends SingleJoystickControls {
     // Drivetrain buttons
 
     @Override
-    public JoystickButton reverseDrivetrain(Joystick joystick) {
+    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
     }
 

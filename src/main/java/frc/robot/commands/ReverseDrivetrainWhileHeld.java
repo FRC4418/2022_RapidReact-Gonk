@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -21,17 +22,19 @@ public class ReverseDrivetrainWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain.flipBothMotorSides();
+		m_drivetrain.invertAndFlipBothMotorSides();
 	}
+
+	int counter = 0;
 
 	@Override
 	public void execute() {
-
+		SmartDashboard.putNumber("REVERSING", counter++);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.flipBothMotorSides();
+		m_drivetrain.invertAndFlipBothMotorSides();
 	}
 
 	@Override

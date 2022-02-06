@@ -29,7 +29,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
         
-        reverseDrivetrainButton = reverseDrivetrain(primaryJoystick);
+        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
         if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrainWhileHeld(drivetrain));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
