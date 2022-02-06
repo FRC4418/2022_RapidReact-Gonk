@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -15,13 +14,10 @@ public class DriveWithJoysticks extends CommandBase {
 
 	private final Drivetrain m_drivetrain;
 
-	private final JoystickControls m_joystickControls;
-
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls joystickControls) {
-		m_joystickControls = joystickControls;
+	public DriveWithJoysticks(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
 
 		addRequirements(drivetrain);
@@ -40,17 +36,20 @@ public class DriveWithJoysticks extends CommandBase {
 		switch (RobotContainer.driverJoystickMode) {
 			case ARCADE:
 				m_drivetrain.arcadeDrive(
-					m_drivetrain.filterArcadeDriveForward(m_joystickControls.getArcadeDriveForwardAxis()),
-					m_drivetrain.filterArcadeDriveTurn(m_joystickControls.getArcadeDriveTurnAxis()));
+					m_drivetrain.filterArcadeDriveForward(RobotContainer.driverJoystickControls.getArcadeDriveForwardAxis()),
+					m_drivetrain.filterArcadeDriveTurn(RobotContainer.driverJoystickControls.getArcadeDriveTurnAxis()));
 				break;
 			case LONE_TANK:
-			case DUAL_TANK:
-				SmartDashboard.putNumber("LEFT AXIS", m_joystickControls.getTankDriveLeftAxis());
-				SmartDashboard.putNumber("RIGHT AXIS", m_joystickControls.getTankDriveRightAxis());
+				SmartDashboard.putNumber("LEFT AXIS", RobotContainer.driverJoystickControls.getTankDriveLeftAxis());
+				SmartDashboard.putNumber("RIGHT AXIS", RobotContainer.driverJoystickControls.getTankDriveRightAxis());
 
 				m_drivetrain.tankDrive(
-					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveLeftAxis()),
-					m_drivetrain.filterTankDriveForward(m_joystickControls.getTankDriveRightAxis()));
+					RobotContainer.driverJoystickControls.getTankDriveLeftAxis(),
+					RobotContainer.driverJoystickControls.getTankDriveRightAxis());
+					// m_drivetrain.filterTankDriveForward(RobotContainer.driverJoystickControls.getTankDriveLeftAxis()),
+					// m_drivetrain.filterTankDriveForward(RobotContainer.driverJoystickControls.getTankDriveRightAxis()));
+				break;
+			case DUAL_TANK:
 				break;
 		}
 	}

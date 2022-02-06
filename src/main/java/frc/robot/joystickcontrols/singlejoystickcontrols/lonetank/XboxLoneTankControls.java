@@ -15,6 +15,8 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
+    // Arcade drive
+
     @Override
     public double getArcadeDriveForwardAxis() {
         return 0.d;
@@ -25,6 +27,7 @@ public class XboxLoneTankControls extends SingleJoystickControls {
         return 0.d;
     }
 
+    // Tank drive
     
     @Override
     public double getTankDriveLeftAxis() {

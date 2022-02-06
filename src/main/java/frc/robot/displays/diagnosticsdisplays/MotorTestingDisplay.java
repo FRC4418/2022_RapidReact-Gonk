@@ -50,7 +50,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 	@Override
 	protected DiagnosticsDisplay initializeEntriesArray() {
-		entries = new ArrayList<NetworkTableEntry>(Arrays.asList(
+		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
 			indexerOutputPercentTextView,
 

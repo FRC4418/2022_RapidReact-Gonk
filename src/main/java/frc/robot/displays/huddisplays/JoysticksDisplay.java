@@ -1,18 +1,21 @@
 package frc.robot.displays.huddisplays;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.JoystickMode;
+import frc.robot.displays.Display;
 
 
-public class JoysticksDisplay {
+public class JoysticksDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Resources
 
@@ -25,14 +28,29 @@ public class JoysticksDisplay {
     // ----------------------------------------------------------
     // Constructor
     
-    public JoysticksDisplay(ShuffleboardTab HUDTab, int column, int row) {
-        var joysticksLayout = HUDTab
+    public JoysticksDisplay(int column, int row) {
+        super(column, row);
+    }
+
+    @Override
+    protected Display initializeEntriesArray() {
+        entries = new ArrayList<>(Arrays.asList(
+            driverFlipLeftAndRightJoysticksToggleSwitch,
+
+            spotterFlipLeftAndRightJoysticksToggleSwitch
+        ));
+        return this;
+    }
+
+    @Override
+    protected Display createDisplayAt(int column, int row) {
+        { var joysticksLayout = hudTab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(3, 2);
 
-            var driverLayout = joysticksLayout
+            { var driverLayout = joysticksLayout
                 .getLayout("Driver", BuiltInLayouts.kGrid)
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 
@@ -46,8 +64,9 @@ public class JoysticksDisplay {
                     .add("Flip Left & Right", false)
                     .withWidget(BuiltInWidgets.kToggleButton)
                     .getEntry();
+            }
 
-            var spotterLayout = joysticksLayout
+            { var spotterLayout = joysticksLayout
                 .getLayout("Spotter", BuiltInLayouts.kGrid)
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 
@@ -61,5 +80,14 @@ public class JoysticksDisplay {
                     .add("Flip Left & Right", false)
                     .withWidget(BuiltInWidgets.kToggleButton)
                     .getEntry();
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public Display addEntryListeners() {
+        // TODO: P1 Add entry listeners for flipping the left and right joysticks
+        return this;
     }
 }

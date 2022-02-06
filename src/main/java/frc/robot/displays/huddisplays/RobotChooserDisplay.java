@@ -5,13 +5,13 @@ import java.util.Map;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.RobotContainer.TeamRobot;
+import frc.robot.displays.Display;
 
 
-public class RobotChooserDisplay {
+public class RobotChooserDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Resources
 
@@ -20,8 +20,19 @@ public class RobotChooserDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public RobotChooserDisplay(ShuffleboardTab HUDTab, int column, int row) {
-        var robotSelectionLayout = HUDTab
+    public RobotChooserDisplay(int column, int row) {
+		super(column, row);
+    }
+
+	@Override
+	protected Display initializeEntriesArray() {
+
+		return this;
+	}
+
+	@Override
+	protected Display createDisplayAt(int column, int row) {
+		{ var robotSelectionLayout = hudTab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
@@ -34,5 +45,13 @@ public class RobotChooserDisplay {
 			robotSelectionLayout
 				.add("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);
-    }
+		}
+		return this;
+	}
+
+	@Override
+	public Display addEntryListeners() {
+
+		return this;
+	}
 }
