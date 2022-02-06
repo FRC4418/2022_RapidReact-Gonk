@@ -21,7 +21,7 @@ public class XboxArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    public double getArcadeDriveAngleAxis() {
+    public double getArcadeDriveTurnAxis() {
         return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
     }
 

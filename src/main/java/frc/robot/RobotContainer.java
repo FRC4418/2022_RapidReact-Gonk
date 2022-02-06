@@ -25,6 +25,7 @@ import frc.robot.displays.AutonomousDisplay;
 import frc.robot.displays.JoysticksDisplay;
 import frc.robot.displays.MotorTestingDisplay;
 import frc.robot.displays.RobotChooserDisplay;
+import frc.robot.displays.SlewRateLimiterTuningDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -88,6 +89,7 @@ public class RobotContainer {
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 	private final AutonomousDisplay autonomousDisplay;
+	private final SlewRateLimiterTuningDisplay slewRateLimiterTuningDisplay;
 
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
@@ -130,6 +132,8 @@ public class RobotContainer {
 			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
 			m_intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
 			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
+			
+			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 4, 0);
 		}
 
 		setupDriverJoystickControls();

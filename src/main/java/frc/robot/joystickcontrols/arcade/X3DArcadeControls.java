@@ -22,7 +22,7 @@ public class X3DArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    public double getArcadeDriveAngleAxis() {
+    public double getArcadeDriveTurnAxis() {
         return m_primaryJoystick.getRawAxis(X3D.ROLL_AXIS);
     }
 

@@ -22,7 +22,7 @@ public class X3DDualTankControls extends DualJoystickControls {
     }
 
     @Override
-    public double getArcadeDriveAngleAxis() {
+    public double getArcadeDriveTurnAxis() {
         return 0.d;
     }
 

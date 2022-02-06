@@ -22,7 +22,7 @@ public class XboxLoneTankControls extends SingleJoystickControls {
     }
 
     @Override
-    public double getArcadeDriveAngleAxis() {
+    public double getArcadeDriveTurnAxis() {
         return 0.d;
     }
 

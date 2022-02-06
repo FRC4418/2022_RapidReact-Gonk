@@ -18,8 +18,8 @@ public class IntakeTesting extends CommandBase {
 	// Constructor
 
 	public IntakeTesting(Intake intake, MotorTestingDisplay motorTestingDisplay) {
-		this.m_intake = intake;
-		this.m_motorTestingDisplay = motorTestingDisplay;
+		m_intake = intake;
+		m_motorTestingDisplay = motorTestingDisplay;
 	}
 
 	// ----------------------------------------------------------

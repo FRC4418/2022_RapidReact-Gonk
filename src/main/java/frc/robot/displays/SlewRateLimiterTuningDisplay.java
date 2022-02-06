@@ -3,26 +3,31 @@ package frc.robot.displays;
 
 import java.util.Map;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
+import frc.robot.subsystems.Drivetrain;
 
 
 public class SlewRateLimiterTuningDisplay {
     // ----------------------------------------------------------
 	// Resources
 
-	// TODO: P3 If using event listeners, make slew rate limiter tuning resources private
+	private final Drivetrain m_drivetrain;
 
-    public NetworkTableEntry arcadeDriveForwardLimiterTextField;
-	public NetworkTableEntry arcadeDriveTurnLimiterTextField;
-	public NetworkTableEntry tankDriveForwardLimiterTextField;
+    private NetworkTableEntry arcadeDriveForwardLimiterTextField;
+	private NetworkTableEntry arcadeDriveTurnLimiterTextField;
+	private NetworkTableEntry tankDriveForwardLimiterTextField;
 
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public SlewRateLimiterTuningDisplay(ShuffleboardTab diagnosticsTab, int column, int row) {
+    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, ShuffleboardTab diagnosticsTab, int column, int row) {
+		m_drivetrain = drivetrain;
+
         var slewRateLimiterLayout = diagnosticsTab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
@@ -38,10 +43,17 @@ public class SlewRateLimiterTuningDisplay {
 					.add("Forward", 0.5d)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
+				arcadeDriveForwardLimiterTextField.addListener(event -> {
+					m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
 				arcadeDriveTurnLimiterTextField = arcadeDriveLayout
 					.add("Turn", 0.5d)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
+				arcadeDriveTurnLimiterTextField.addListener(event -> {
+					m_drivetrain.setArcadeDriveTurnLimiterRate(event.value.getDouble());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			var tankDriveLayout = slewRateLimiterLayout
 				.getLayout("Tank Drive", BuiltInLayouts.kGrid)
@@ -51,5 +63,8 @@ public class SlewRateLimiterTuningDisplay {
 					.add("Forward", 0.d)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
+				tankDriveForwardLimiterTextField.addListener(event -> {
+					m_drivetrain.setTankDriveForwardLimiterRate(event.value.getDouble());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     }
 }

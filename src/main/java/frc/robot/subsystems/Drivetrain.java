@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
@@ -77,6 +78,11 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
+	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
+	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
+
+	private SlewRateLimiter m_tankDriveForwardLimiter = new SlewRateLimiter(0.d);
+
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -130,7 +136,8 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Low-level drivetrain actions
+	// Low-level drivetrain methods
+
 
 	public Drivetrain flipLeftOrRightMotors(boolean flipLeftMotors) {
 		if (flipLeftMotors) {	// for V2
@@ -169,7 +176,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// High-level drivetrain actions
+	// High-level drivetrain methods
 
 	
 	public void arcadeDrive(double xSpeed, double zRotation) {
@@ -190,7 +197,38 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Encoder actions
+	// Slew rate limiter methods
+
+
+	// Arcade-drive limiters
+
+	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
+	public void setArcadeDriveForwardLimiterRate(double rate) {
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterArcadeDriveForward(double inputSpeed) {
+		return m_arcadeDriveForwardLimiter.calculate(inputSpeed);
+	}
+
+	public void setArcadeDriveTurnLimiterRate(double rate) {
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterArcadeDriveTurn(double inputSpeed) {
+		return m_arcadeDriveTurnLimiter.calculate(inputSpeed);
+	}
+
+	// Tank-drive limiters
+
+	public void setTankDriveForwardLimiterRate(double rate) {
+		m_tankDriveForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterTankDriveForward(double inputSpeed) {
+		return m_tankDriveForwardLimiter.calculate(inputSpeed);
+	}
+
+
+	// ----------------------------------------------------------
+	// Encoder methods
 	
 
 	public double getLeftDistance() {

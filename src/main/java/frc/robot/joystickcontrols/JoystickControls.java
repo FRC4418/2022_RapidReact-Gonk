@@ -12,7 +12,7 @@ public abstract class JoystickControls {
 
     public abstract double getArcadeDriveForwardAxis();
 
-    public abstract double getArcadeDriveAngleAxis();
+    public abstract double getArcadeDriveTurnAxis();
 
     
     public abstract double getTankDriveLeftAxis();
