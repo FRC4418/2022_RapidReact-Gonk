@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
@@ -16,6 +17,11 @@ public class DriveWithJoysticks extends CommandBase {
 
 	private final JoystickControls m_joystickControls;
 
+	private final SlewRateLimiter arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
+	private final SlewRateLimiter arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
+
+	private final SlewRateLimiter tankDriveForwardLimiter = new SlewRateLimiter(0.d);
+
 	// ----------------------------------------------------------
 	// Constructor
 
@@ -30,21 +36,23 @@ public class DriveWithJoysticks extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public void initialize() {}
+	public void initialize() {
+		
+	}
 
 	@Override
 	public void execute() {
 		switch (RobotContainer.driverJoystickMode) {
 			case ARCADE:
 				m_drivetrain.arcadeDrive(
-					m_joystickControls.getArcadeDriveForwardAxis(),
-					m_joystickControls.getArcadeDriveAngleAxis());
+					arcadeDriveForwardLimiter.calculate(m_joystickControls.getArcadeDriveForwardAxis()),
+					arcadeDriveTurnLimiter.calculate(m_joystickControls.getArcadeDriveAngleAxis()));
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
 				m_drivetrain.tankDrive(
-					m_joystickControls.getTankDriveLeftAxis(),
-					m_joystickControls.getTankDriveRightAxis());
+					tankDriveForwardLimiter.calculate(m_joystickControls.getTankDriveLeftAxis()),
+					tankDriveForwardLimiter.calculate(m_joystickControls.getTankDriveRightAxis()));
 				break;
 		}
 	}

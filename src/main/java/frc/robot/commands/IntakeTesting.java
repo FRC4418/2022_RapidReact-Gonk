@@ -27,7 +27,7 @@ public class IntakeTesting extends CommandBase {
 
 	@Override
 	public void initialize() {
-
+		
 	}
 
 	// TODO: P3 Event listeners for intake testing
