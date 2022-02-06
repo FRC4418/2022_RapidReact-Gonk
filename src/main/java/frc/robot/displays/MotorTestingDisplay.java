@@ -151,7 +151,7 @@ public class MotorTestingDisplay {
 		addEntryListeners();
     }
 
-	private MotorTestingDisplay addEntryListeners() {
+	public MotorTestingDisplay addEntryListeners() {
 		motorTestingModeToggleSwitch.addListener(event -> {
 			// means if the toggle switch's boolean is false (AKA disabled)
 			if (!event.value.getBoolean()) {
