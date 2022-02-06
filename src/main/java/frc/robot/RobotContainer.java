@@ -265,6 +265,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
+						SmartDashboard.putString("Reached Lone Tank", "Xbox");
 						driverJoystickControls = new XboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 				}
