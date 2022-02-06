@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,7 +19,8 @@ public class ToggleFeeder extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake m_intake;
+	private final Intake m_intake;	
+
 
 	private final DigitalInput m_whiskerSensor = new DigitalInput(0);
 
@@ -60,7 +60,6 @@ public class ToggleFeeder extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		// TODO: P1 Fix this timer!!!!
 		if (m_whiskerSensor.get() == true) {
 			m_postWhiskerSensorDelayTimer.start();
 		}
