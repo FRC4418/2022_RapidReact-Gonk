@@ -41,7 +41,7 @@ public class MotorTestingDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(4, 3);
+			.withSize(7, 3);
 
 			// Enable/disable motor testing
 			motorTestingModeToggleSwitch = motorTestingLayout
@@ -74,7 +74,8 @@ public class MotorTestingDisplay {
 							.getEntry();
 						retractorPositionTextView = retractorLayout
 							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
-							.withWidget(BuiltInWidgets.kTextView)
+							.withWidget(BuiltInWidgets.kNumberSlider)
+							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
 
 					// intake feeder motor
@@ -89,7 +90,8 @@ public class MotorTestingDisplay {
 							.getEntry();
 						feederOutputPercentTextView = feederLayout
 							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
-							.withWidget(BuiltInWidgets.kTextView)
+							.withWidget(BuiltInWidgets.kNumberSlider)
+							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
 
 				// ----------------------------------------------------------
@@ -109,7 +111,8 @@ public class MotorTestingDisplay {
 							.getEntry();
 						indexerOutputPercentTextView = indexerLayout
 							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
-							.withWidget(BuiltInWidgets.kTextView)
+							.withWidget(BuiltInWidgets.kNumberSlider)
+							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
 
 					// Manipulator launcher motor
@@ -124,7 +127,8 @@ public class MotorTestingDisplay {
 							.getEntry();
 						launcherOutputPercentTextView = launcherLayout
 							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
-							.withWidget(BuiltInWidgets.kTextView)
+							.withWidget(BuiltInWidgets.kNumberSlider)
+							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
     }
 }

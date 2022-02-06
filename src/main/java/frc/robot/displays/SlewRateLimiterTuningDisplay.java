@@ -31,25 +31,27 @@ public class SlewRateLimiterTuningDisplay {
         var slewRateLimiterLayout = diagnosticsTab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "HIDDEN"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(1, 3);
+			.withSize(2, 3);
 
 			var arcadeDriveLayout = slewRateLimiterLayout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeDriveForwardLimiterTextField = arcadeDriveLayout
-					.add("Forward", 0.5d)
-					.withWidget(BuiltInWidgets.kTextView)
+					.add("Forward", 1.5d)
+					.withWidget(BuiltInWidgets.kNumberSlider)
+					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
 					.getEntry();
 				arcadeDriveForwardLimiterTextField.addListener(event -> {
 					m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				arcadeDriveTurnLimiterTextField = arcadeDriveLayout
-					.add("Turn", 0.5d)
-					.withWidget(BuiltInWidgets.kTextView)
+					.add("Turn", 1.25d)
+					.withWidget(BuiltInWidgets.kNumberSlider)
+					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
 					.getEntry();
 				arcadeDriveTurnLimiterTextField.addListener(event -> {
 					m_drivetrain.setArcadeDriveTurnLimiterRate(event.value.getDouble());
@@ -60,8 +62,9 @@ public class SlewRateLimiterTuningDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
 			
 				tankDriveForwardLimiterTextField = tankDriveLayout
-					.add("Forward", 0.d)
-					.withWidget(BuiltInWidgets.kTextView)
+					.add("Forward", 1.0d)
+					.withWidget(BuiltInWidgets.kNumberSlider)
+					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
 					.getEntry();
 				tankDriveForwardLimiterTextField.addListener(event -> {
 					m_drivetrain.setTankDriveForwardLimiterRate(event.value.getDouble());

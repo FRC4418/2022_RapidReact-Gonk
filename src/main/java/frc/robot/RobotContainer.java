@@ -133,7 +133,7 @@ public class RobotContainer {
 			m_intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
 			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
 
-			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 4, 0);
+			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 7, 0);
 		}
 
 		setupDriverJoystickControls();
