@@ -132,7 +132,7 @@ public class RobotContainer {
 			var motorTestingDisplay = new MotorTestingDisplay(diagnosticsTab, 0, 0);
 			m_intakeTesting = new IntakeTesting(intake, motorTestingDisplay);
 			manipulatorTesting = new ManipulatorTesting(manipulator, motorTestingDisplay);
-			
+
 			slewRateLimiterTuningDisplay = new SlewRateLimiterTuningDisplay(drivetrain, diagnosticsTab, 4, 0);
 		}
 
@@ -184,10 +184,8 @@ public class RobotContainer {
 			case VERSACHASSIS_TWO:
 				// true means flip the left side
 				drivetrain.flipLeftOrRightMotors(true);
-				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA TWO");
 				break;
 			case VERSACHASSIS_ONE:
-				SmartDashboard.putString("CONFIGURED ROBOT", "USING VERSA ONE");
 				drivetrain.flipLeftOrRightMotors(false);
 				break;
 		}
