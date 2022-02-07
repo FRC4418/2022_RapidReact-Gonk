@@ -142,7 +142,7 @@ public class RobotContainer {
 		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls, spotterJoystickControls));
     }
 
 
