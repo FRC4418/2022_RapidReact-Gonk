@@ -1,22 +1,22 @@
-package frc.robot.commands;
+package frc.robot.commands.manipulator;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
 
 
-public class RunFeeder extends CommandBase {
+public class RunIndexer extends CommandBase {
 	// ----------------------------------------------------------
 	// Resources
 
-	private final Intake m_intake;
+	private final Manipulator m_manipulator;
 
 	// ----------------------------------------------------------
 	// Constructor
-
-	public RunFeeder(Intake intake) {
-		m_intake = intake;
+	
+	public RunIndexer(Manipulator manipulator) {
+		m_manipulator = manipulator;
 	}
 
 	// ----------------------------------------------------------
@@ -24,7 +24,7 @@ public class RunFeeder extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_intake.runFeeder();
+		m_manipulator.runIndexer();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class RunFeeder extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_intake.stopFeeder();
+		m_manipulator.stopIndexer();
 	}
 
 	@Override

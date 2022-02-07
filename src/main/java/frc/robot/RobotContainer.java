@@ -14,14 +14,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
-import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.X3DDualTankControls;
-import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.X3DArcadeControls;
-import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.XboxArcadeControls;
-import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.XboxLoneTankControls;
-import frc.robot.commands.AutoDriveStraightForDistance;
-import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.RunFeederWithTrigger;
-import frc.robot.commands.AutoDriveStraightForDistance.DriveStraightDirection;
+import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.DriverX3DDualTankControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
+import frc.robot.commands.drivetrain.DriveStraightForDistance;
+import frc.robot.commands.drivetrain.DriveWithJoysticks;
+import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
+import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
@@ -113,7 +114,7 @@ public class RobotContainer {
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final AutoDriveStraightForDistance autoDriveStraightForDistance;
+	private final DriveStraightForDistance autoDriveStraightForDistance;
 
 
     // ----------------------------------------------------------
@@ -137,7 +138,7 @@ public class RobotContainer {
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 
-		autoDriveStraightForDistance = new AutoDriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
+		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls));
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls));
@@ -258,10 +259,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new XboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 					case X3D:
-						driverJoystickControls = new X3DArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverX3DArcadeControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -272,7 +273,7 @@ public class RobotContainer {
 						break;
 					case XboxController:
 						SmartDashboard.putString("Reached Lone Tank", "Xbox");
-						driverJoystickControls = new XboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -282,7 +283,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-						driverJoystickControls = new X3DDualTankControls(firstJoystick, secondJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverX3DDualTankControls(firstJoystick, secondJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -295,6 +296,9 @@ public class RobotContainer {
 		var firstJoystick = new Joystick(spotterJoystickPorts[0]);
 		var secondJoystick = new Joystick(spotterJoystickPorts[1]);
 
+		spotterJoystickControls = new SpotterXboxControls(firstJoystick, drivetrain, intake, manipulator);
+
+		// TODO: P1 If spotter should be allowed to drive, implement setup switch cases for spotter joystick modes
 		switch (spotterJoystickMode) {
 			default:
 				DriverStation.reportError("Unsupported joystick mode detected while setting up spotter joystick controls", true);
@@ -305,10 +309,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						spotterJoystickControls = new XboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						
 						break;
 					case X3D:
-						spotterJoystickControls = new X3DArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						
 						break;
 				}
 				break;
@@ -319,7 +323,7 @@ public class RobotContainer {
 						break;
 					case XboxController:
 						SmartDashboard.putString("Reached Lone Tank", "Xbox");
-						spotterJoystickControls = new XboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
+						
 						break;
 				}
 				break;
@@ -329,7 +333,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-					spotterJoystickControls = new X3DDualTankControls(firstJoystick, secondJoystick, drivetrain, intake, manipulator);
+
 						break;
 				}
 				break;

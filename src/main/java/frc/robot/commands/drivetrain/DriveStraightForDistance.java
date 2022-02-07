@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class AutoDriveStraightForDistance extends CommandBase {
+public class DriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Public constants
 
@@ -33,7 +33,7 @@ public class AutoDriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public AutoDriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
 		m_distanceInInches = distanceInInches;
 		m_direction = direction;
 		m_drivetrain = drivetrain;

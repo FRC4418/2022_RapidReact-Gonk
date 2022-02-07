@@ -1,20 +1,23 @@
-package frc.robot.commands;
+package frc.robot.commands.manipulator;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
 
-public class ReverseDrivetrainWhileHeld extends CommandBase {
+import frc.robot.subsystems.Manipulator;
+
+
+public class RunLauncher extends CommandBase {
 	// ----------------------------------------------------------
-	// Resources
+	// Resource
 
-	private final Drivetrain m_drivetrain;
+	private final Manipulator m_manipulator;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ReverseDrivetrainWhileHeld(Drivetrain drivetrain) {
-		m_drivetrain = drivetrain;
+	public RunLauncher(Manipulator manipulator) {	
+		m_manipulator = manipulator; 
 	}
 
 	// ----------------------------------------------------------
@@ -22,20 +25,20 @@ public class ReverseDrivetrainWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain.invertAndFlipBothMotorSides();
+		m_manipulator.runLauncher();
 	}
 
-	int counter = 0;
+	int coutner = 0;
 
 	@Override
 	public void execute() {
-		SmartDashboard.putNumber("REVERSING", counter++);
+		SmartDashboard.putNumber("Coutner", coutner++);;
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.invertAndFlipBothMotorSides();
-	}
+		m_manipulator.stopLauncher();
+	}	
 
 	@Override
 	public boolean isFinished() {

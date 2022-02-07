@@ -1,39 +1,39 @@
-package frc.robot.joystickcontrols.dualjoystickcontrols.dualtank;
+package frc.robot.joystickcontrols.singlejoystickcontrols.arcade;
 
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.joystickcontrols.IO.X3D;
-import frc.robot.joystickcontrols.dualjoystickcontrols.DualJoystickControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class X3DDualTankControls extends DualJoystickControls {
+public class DriverX3DArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return 0.d;
+        return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 
     @Override
     public double getArcadeDriveTurnAxis() {
-        return 0.d;
+        return m_primaryJoystick.getRawAxis(X3D.ROLL_AXIS);
     }
 
     
     @Override
     public double getTankDriveLeftAxis() {
-        return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);
+        return 0.d;
     }
 
     @Override
     public double getTankDriveRightAxis() {
-        return m_secondaryJoystick.getRawAxis(X3D.PITCH_AXIS);
+        return 0.d;
     }
 
     // ----------------------------------------------------------
@@ -101,7 +101,7 @@ public class X3DDualTankControls extends DualJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public X3DDualTankControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator);
+    public DriverX3DArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+        super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }

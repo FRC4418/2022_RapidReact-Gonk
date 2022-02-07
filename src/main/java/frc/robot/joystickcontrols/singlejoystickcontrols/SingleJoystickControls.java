@@ -2,14 +2,13 @@ package frc.robot.joystickcontrols.singlejoystickcontrols;
 
 
 import edu.wpi.first.wpilibj.Joystick;
-
-import frc.robot.commands.DriveStraightWhileHeld;
-import frc.robot.commands.ReverseDrivetrainWhileHeld;
-import frc.robot.commands.RunIndexer;
-import frc.robot.commands.RunLauncher;
-import frc.robot.commands.RunReverseFeeder;
-import frc.robot.commands.RunFeeder;
-import frc.robot.commands.ToggleFeeder;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
+import frc.robot.commands.drivetrain.ReverseDrivetrainWhileHeld;
+import frc.robot.commands.intake.RunFeeder;
+import frc.robot.commands.intake.RunReverseFeeder;
+import frc.robot.commands.intake.ToggleFeeder;
+import frc.robot.commands.manipulator.RunIndexer;
+import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
