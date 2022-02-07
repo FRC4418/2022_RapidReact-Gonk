@@ -28,7 +28,7 @@ public abstract class DualJoystickControls extends JoystickControls {
 
     @Override
     public boolean isActivelyDriving() {
-        return (m_primaryJoystick.getY() + m_secondaryJoystick.getY()) / 2.d > DEADBAND;
+        return (Math.abs(m_primaryJoystick.getY()) + Math.abs(m_secondaryJoystick.getY())) / 2.d > (DEADBAND * 2.d);
     }
 
     // ----------------------------------------------------------
