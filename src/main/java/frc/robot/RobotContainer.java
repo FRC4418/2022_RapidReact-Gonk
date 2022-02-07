@@ -28,6 +28,7 @@ import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
 import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -134,6 +135,7 @@ public class RobotContainer {
 		hudDisplays.addAll(Arrays.asList(
 			robotChooserDisplay = new RobotChooserDisplay(0, 0),
 			joysticksDisplay = new JoysticksDisplay(2, 0),
+			new KidsSafetyDisplay(drivetrain, 5, 0),
 			new AutonomousDisplay(0, 1)
 		));
 		for (var display: hudDisplays) {

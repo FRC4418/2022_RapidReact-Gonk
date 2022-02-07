@@ -98,7 +98,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 						// I have no fucking clue why the textView entry is always added before (to the 2nd row) the toggleSwitch but it's good enough
 						retractorToggleSwitch = retractorLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
@@ -116,7 +116,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						feederToggleSwitch = feederLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
@@ -140,7 +140,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						indexerToggleSwitch = indexerLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
@@ -158,7 +158,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						launcherToggleSwitch = launcherLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 

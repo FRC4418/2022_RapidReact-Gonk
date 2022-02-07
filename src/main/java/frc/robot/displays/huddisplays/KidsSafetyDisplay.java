@@ -49,7 +49,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 			.withSize(2, 2);
 			
 			kidsSafetyModeToggleSwitch = kidsSafetyLayout
-				.add(" ", false)
+				.add("On-Off", false)
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();
 			
