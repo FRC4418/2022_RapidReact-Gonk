@@ -13,6 +13,14 @@ import frc.robot.subsystems.Manipulator;
 
 public class DriverXboxArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
+    // Joystick helpers
+
+    @Override
+    protected double deadband() {
+        return XboxController.JOYSTICK_DEADBAND;
+    }
+    
+    // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override
@@ -103,5 +111,8 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
 
     public DriverXboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
+        
+        primaryJoystick.setXChannel(XboxController.LEFT_X_AXIS);
+        primaryJoystick.setYChannel(XboxController.LEFT_Y_AXIS);
     }
 }

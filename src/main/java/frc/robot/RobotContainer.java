@@ -141,7 +141,7 @@ public class RobotContainer {
 
 		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
-		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls));
+		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls, spotterJoystickControls));
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls, spotterJoystickControls));
     }
 
@@ -170,8 +170,11 @@ public class RobotContainer {
 	public RobotContainer printJoystickValues() {
 		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
 		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
+
 		SmartDashboard.putNumber("Raw Left Trigger", m_printOutjoystick.getRawAxis(2));
 		SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
+
+		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
 		return this;
 	}
 

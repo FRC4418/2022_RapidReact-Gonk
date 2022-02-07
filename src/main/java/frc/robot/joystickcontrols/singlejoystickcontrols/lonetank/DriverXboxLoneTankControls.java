@@ -14,6 +14,14 @@ import frc.robot.subsystems.Manipulator;
 
 public class DriverXboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
+    // Joystick helpers
+
+    @Override
+    protected double deadband() {
+        return XboxController.JOYSTICK_DEADBAND;
+    }
+
+    // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override

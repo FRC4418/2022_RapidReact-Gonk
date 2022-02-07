@@ -14,6 +14,14 @@ import frc.robot.subsystems.Manipulator;
 
 public class DriverX3DDualTankControls extends DualJoystickControls {
     // ----------------------------------------------------------
+    // Joystick helpers
+
+    @Override
+    protected double deadband() {
+        return X3D.JOYSTICK_DEADBAND;
+    }
+
+    // ----------------------------------------------------------
     // Drivetrain axes
 
     @Override

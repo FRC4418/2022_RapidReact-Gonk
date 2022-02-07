@@ -19,8 +19,16 @@ import frc.robot.subsystems.Manipulator;
 public abstract class SingleJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
     // Joysticks
-
+    
     protected final Joystick m_primaryJoystick;
+
+    // ----------------------------------------------------------
+    // Joystick helpers
+
+    @Override
+    public boolean isActivelyDriving() {
+        return m_primaryJoystick.getMagnitude() > DEADBAND;
+    }
 
     // ----------------------------------------------------------
     // Constructor

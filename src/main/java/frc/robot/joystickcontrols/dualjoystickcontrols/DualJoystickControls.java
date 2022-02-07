@@ -24,6 +24,14 @@ public abstract class DualJoystickControls extends JoystickControls {
     protected final Joystick m_secondaryJoystick;
 
     // ----------------------------------------------------------
+    // Joystick helpers
+
+    @Override
+    public boolean isActivelyDriving() {
+        return (m_primaryJoystick.getY() + m_secondaryJoystick.getY()) / 2.d > DEADBAND;
+    }
+
+    // ----------------------------------------------------------
     // Constructor
 
     public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {

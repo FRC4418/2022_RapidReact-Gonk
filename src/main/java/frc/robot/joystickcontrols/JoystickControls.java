@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 public abstract class JoystickControls {
     // ----------------------------------------------------------
+    // Joystick helpers
+
+    protected double DEADBAND;
+    protected abstract double deadband();
+
+    public abstract boolean isActivelyDriving();
+
+    // ----------------------------------------------------------
     // Drivetrain axes
 
     public abstract double getArcadeDriveForwardAxis();
@@ -58,4 +66,11 @@ public abstract class JoystickControls {
 
     protected JoystickButton runLauncherButton;
     public abstract JoystickButton runLauncherButton(Joystick joystick);
+
+    // ----------------------------------------------------------
+    // Constructor
+
+    public JoystickControls() {
+        DEADBAND = deadband();
+    }
 }
