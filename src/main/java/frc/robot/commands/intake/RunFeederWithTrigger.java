@@ -19,8 +19,6 @@ public class RunFeederWithTrigger extends CommandBase {
 	public RunFeederWithTrigger(Intake intake, JoystickControls joystickControls) {
 		m_intake = intake;
 		m_joystickControls = joystickControls;
-
-		addRequirements(intake);
 	}
 
 	// ----------------------------------------------------------
