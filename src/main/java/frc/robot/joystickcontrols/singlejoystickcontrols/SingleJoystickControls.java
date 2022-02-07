@@ -2,8 +2,8 @@ package frc.robot.joystickcontrols.singlejoystickcontrols;
 
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
-import frc.robot.commands.drivetrain.ReverseDrivetrainWhileHeld;
+import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.intake.RunFeeder;
 import frc.robot.commands.intake.RunReverseFeeder;
 import frc.robot.commands.intake.ToggleFeeder;
@@ -31,11 +31,11 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // Drivetrain
 
         reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrainWhileHeld(drivetrain));
+        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrain(drivetrain));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(drivetrain));
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain));
 
         // ----------------------------------------------------------
         // Intake

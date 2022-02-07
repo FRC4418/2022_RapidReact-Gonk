@@ -170,7 +170,8 @@ public class RobotContainer {
 	public RobotContainer printJoystickValues() {
 		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
 		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
-		SmartDashboard.putNumber("Raw Trigger Axis", driverJoystickControls.getFeederAxis());
+		SmartDashboard.putNumber("Raw Left Trigger", m_printOutjoystick.getRawAxis(2));
+		SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 		return this;
 	}
 

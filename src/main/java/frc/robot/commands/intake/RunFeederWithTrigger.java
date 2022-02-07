@@ -31,7 +31,7 @@ public class RunFeederWithTrigger extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (m_joystickControls.getReverseFeederAxis() <= 0.1) {
+		if (m_joystickControls.getReverseFeederAxis() == 0.d) {
 			m_intake.setFeederMotorPercent(m_joystickControls.getFeederAxis());
 		} else {
 			m_intake.setFeederMotorPercent(-m_joystickControls.getReverseFeederAxis());
