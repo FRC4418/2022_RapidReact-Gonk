@@ -41,29 +41,21 @@ public class RunFeederWithTrigger extends CommandBase {
 		double spotterFeederAxis = m_spotterJoystickControls.getFeederAxis();
 		double spotterReverseFeederAxis = m_spotterJoystickControls.getReverseFeederAxis();
 
-		double output;
-
 		// driver's triggers take priority over the spotter's triggers
 		if (driverFeederAxis == 0.d && driverReverseFeederAxis == 0.d) {
 			if (spotterFeederAxis == 0.d) {
 				m_intake.setFeederMotorPercent(-spotterReverseFeederAxis);
-				output = -spotterReverseFeederAxis;
 			} else {
 				m_intake.setFeederMotorPercent(spotterFeederAxis);
-				output = spotterFeederAxis;
 			}
 		} else {
 			// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
 			if (driverFeederAxis == 0.d) {
 				m_intake.setFeederMotorPercent(-driverReverseFeederAxis);
-				output = -driverReverseFeederAxis;
 			} else {
 				m_intake.setFeederMotorPercent(driverFeederAxis);
-				output = driverFeederAxis;
 			}
 		}
-
-		SmartDashboard.putNumber("Feeder Output", output);
 	}
 
 	@Override
