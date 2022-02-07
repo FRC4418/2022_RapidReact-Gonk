@@ -112,5 +112,8 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
 
     public DriverX3DDualTankControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator);
+
+        m_primaryJoystick.setYChannel(X3D.PITCH_AXIS);
+        m_secondaryJoystick.setYChannel(X3D.PITCH_AXIS);
     }
 }
