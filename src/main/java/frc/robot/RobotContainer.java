@@ -158,6 +158,12 @@ public class RobotContainer {
     // Methods
 
 
+	// just a print-out function to help with joystick controls debugging
+	public RobotContainer printJoystickValues() {
+		SmartDashboard.putNumber("Joystick Axis", driverJoystickControls.getFeederAxis());
+		return this;
+	}
+
 	public RobotContainer addDiagnosticsEntryListeners() {
 		for (var display: diagnosticsDisplays) {
 			display.addEntryListeners();
