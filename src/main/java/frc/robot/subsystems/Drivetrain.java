@@ -139,6 +139,11 @@ public class Drivetrain extends SubsystemBase {
 	// Low-level drivetrain methods
 
 
+	public Drivetrain setDeadband(double deadband) {
+		m_differentialDrive.setDeadband(deadband);
+		return this;
+	}
+
 	public Drivetrain invertLeftOrRightMotors(boolean flipLeftMotors) {
 		if (flipLeftMotors) {	// for V2
 			m_leftGroup.setInverted(true);

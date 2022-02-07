@@ -12,6 +12,11 @@ public final class IO {
 		public static final String
 			USB_DEVICE_NAME					= "Logitech Extreme 3D";
 
+		public static final double
+			// we use max(left-axis deadband, right-axis deadband)
+			// TODO: P3 Figure out the maximum X3D joystick deadband
+			JOYSTICK_DEADBAND	= 0.02d;
+
 		public static final int
 			// Joysticks
 			LEFT_JOYSTICK_ID 	= 0,
@@ -41,6 +46,10 @@ public final class IO {
 	public static class XboxController {
 		public static final String
 			USB_DEVICE_NAME					= "Controller (Xbox One For Windows)";
+
+		public static final double
+			// we use max(left-axis deadband, right-axis deadband)
+			JOYSTICK_DEADBAND			= 0.056d;
 
 		public static final int
 			JOYSTICK_ID 				= 1,

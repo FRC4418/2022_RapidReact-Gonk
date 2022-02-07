@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
+import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.DriverX3DDualTankControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
@@ -157,11 +158,19 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Methods
 
+	
+	private final Joystick m_printOutjoystick = new Joystick(0);
+	public RobotContainer initializeJoystickValues() {
+		m_printOutjoystick.setXChannel(0);
+		m_printOutjoystick.setYChannel(1);
+		return this;
+	}
 
 	// just a print-out function to help with joystick controls debugging
 	public RobotContainer printJoystickValues() {
-		SmartDashboard.putNumber("Trigger Axis", driverJoystickControls.getFeederAxis());
-		SmartDashboard.putNumber("Joystick Axis", driverJoystickControls.getArcadeDriveForwardAxis());
+		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
+		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
+		SmartDashboard.putNumber("Raw Trigger Axis", driverJoystickControls.getFeederAxis());
 		return this;
 	}
 
@@ -239,6 +248,20 @@ public class RobotContainer {
 		var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
 		if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
 			driverJoystickDeviceType = newDriverJoystickDeviceType;
+
+			// sets up the joystick-input deadbands depending on which type of joystick device we're using
+			switch (driverJoystickDeviceType) {
+				default:
+					DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
+					break;
+				case XboxController:
+					drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
+					break;
+				case X3D:
+					drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
+					break;
+			}
+
 			setupDriverJoystickControls();
 		}
 
