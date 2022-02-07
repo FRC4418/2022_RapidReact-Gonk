@@ -16,6 +16,11 @@ public class Drivetrain extends SubsystemBase {
 	// Public constants
 
 
+	public enum MotorGroup {
+		LEFT,
+		RIGHT
+	}
+
 	// Open-loop control constants
 	public static final double
 		// units in seconds
@@ -136,7 +141,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Low-level drivetrain methods
+	// Low-level methods
 
 
 	public Drivetrain setDeadband(double deadband) {
@@ -144,25 +149,29 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain invertLeftOrRightMotors(boolean flipLeftMotors) {
-		if (flipLeftMotors) {	// for V2
+	public Drivetrain setOnlyMotorGroupToInverted(MotorGroup motorGroup) {
+		if (motorGroup == MotorGroup.LEFT) {	// for V2
 			m_leftGroup.setInverted(true);
 			m_rightGroup.setInverted(false);
-		} else {	// for V1
+		} else {								// for V1
 			m_leftGroup.setInverted(false);
 			m_rightGroup.setInverted(true);
 		}
 		return this;
 	}
 
-	public Drivetrain invertAndFlipBothMotorSides() {
-		m_leftGroup.setInverted(!m_leftGroup.getInverted());
-		m_rightGroup.setInverted(!m_rightGroup.getInverted());
-
+	public Drivetrain swapMotorGroups() {
 		var tempLeftGroup = m_leftGroup;
 		m_leftGroup = m_rightGroup;
 		m_rightGroup = tempLeftGroup;
+
 		m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
+		return this;
+	}
+
+	public Drivetrain invertLeftAndRightMotorGroups() {
+		m_leftGroup.setInverted(!m_leftGroup.getInverted());
+		m_rightGroup.setInverted(!m_rightGroup.getInverted());
 		return this;
 	}
 
@@ -192,7 +201,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// High-level drivetrain methods
+	// High-level methods
 
 	
 	public void arcadeDrive(double xSpeed, double zRotation) {
@@ -213,7 +222,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Slew rate limiter methods
+	// Slew rate limiters
 
 
 	// Arcade-drive limiters

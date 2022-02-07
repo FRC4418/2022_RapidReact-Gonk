@@ -31,8 +31,8 @@ public class Manipulator extends SubsystemBase {
 	// Resources
 	
 
-	private WPI_TalonSRX indexerMotor;
-	private WPI_TalonFX launcherMotor;
+	private final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
+	private final WPI_TalonFX launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
 	
 	/* Encoder.getRate() returns distance per second
 	distance per second * distance per pulse = pulse per second
@@ -50,8 +50,7 @@ public class Manipulator extends SubsystemBase {
 
 
 	public Manipulator() {
-		indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
-		launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
+
 	}
 
 

@@ -6,8 +6,6 @@ import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -35,6 +33,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
 public class RobotContainer {
@@ -61,9 +60,6 @@ public class RobotContainer {
 		DUAL_TANK	// tank drive that uses two joysticsks (ex. two X3Ds, respectively for the left and right motors)
 	}
 
-	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
-	public static final JoystickMode defaultSpotterJoystickMode = JoystickMode.ARCADE;
-
 
 	// ----------------------------------------------------------
 	// Private constants
@@ -71,6 +67,19 @@ public class RobotContainer {
 
 	private final int[] driverJoystickPorts = new int[] {0, 1};
 	private final int[] spotterJoystickPorts = new int[] {2, 3};
+
+
+	// ----------------------------------------------------------
+    // Publicly static resources
+
+
+	// joystick control resources are publicly static because 
+
+	public static JoystickControls driverJoystickControls;
+	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
+	
+	public static JoystickControls spotterJoystickControls;
+	public static final JoystickMode defaultSpotterJoystickMode = JoystickMode.ARCADE;
 
 
 	// ----------------------------------------------------------
@@ -87,8 +96,6 @@ public class RobotContainer {
     // Private resources
 
 
-	private final ShuffleboardTab HUDTab = Shuffleboard.getTab("HUD");
-
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 
@@ -97,9 +104,6 @@ public class RobotContainer {
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
 	private JoystickDeviceType spotterJoystickDeviceType = JoystickDeviceType.XboxController;
-
-	private JoystickControls driverJoystickControls;
-	private JoystickControls spotterJoystickControls;
     
 
     // ----------------------------------------------------------
@@ -125,9 +129,9 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
-		robotChooserDisplay = new RobotChooserDisplay(HUDTab, 0, 0);
-		joysticksDisplay = new JoysticksDisplay(HUDTab, 2, 0);
-		new AutonomousDisplay(HUDTab, 0, 1);
+		robotChooserDisplay = new RobotChooserDisplay(0, 0);
+		joysticksDisplay = new JoysticksDisplay(2, 0);
+		new AutonomousDisplay(0, 1);
 
 		if (enableDiagnostics) {
 			diagnosticsDisplays.addAll(Arrays.asList(
@@ -207,11 +211,10 @@ public class RobotContainer {
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
 				break;
 			case VERSACHASSIS_TWO:
-				// true means flip the left side
-				drivetrain.invertLeftOrRightMotors(true);
+				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
 				break;
 			case VERSACHASSIS_ONE:
-				drivetrain.invertLeftOrRightMotors(false);
+				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
 				break;
 		}
 	}
@@ -279,6 +282,8 @@ public class RobotContainer {
 
 	// using a different setup function for the driver and the spotter allows special switch cases for each person, meaning that there can be a unique driver and spotter configuration for each joystick setup (ex. one Xbox controller, two X3Ds, etc)
 	
+	int counter = 0;
+
 	private void setupDriverJoystickControls() {
 		var firstJoystick = new Joystick(driverJoystickPorts[0]);
 		var secondJoystick = new Joystick(driverJoystickPorts[1]);
@@ -306,7 +311,6 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						SmartDashboard.putString("Reached Lone Tank", "Xbox");
 						driverJoystickControls = new DriverXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 				}

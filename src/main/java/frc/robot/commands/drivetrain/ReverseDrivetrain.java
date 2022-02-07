@@ -24,7 +24,8 @@ public class ReverseDrivetrain extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain.invertAndFlipBothMotorSides();
+		m_drivetrain.invertLeftAndRightMotorGroups();
+		m_drivetrain.swapMotorGroups();
 	}
 
 	@Override
@@ -34,7 +35,8 @@ public class ReverseDrivetrain extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.invertAndFlipBothMotorSides();
+		m_drivetrain.invertLeftAndRightMotorGroups();
+		m_drivetrain.swapMotorGroups();
 	}
 
 	@Override

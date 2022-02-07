@@ -5,13 +5,13 @@ import java.util.Map;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
+import frc.robot.displays.Display;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
-public class AutonomousDisplay {
+public class AutonomousDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Resources
 
@@ -20,8 +20,19 @@ public class AutonomousDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public AutonomousDisplay(ShuffleboardTab HUDTab, int column, int row) {
-        var autonomousLayout = HUDTab
+    public AutonomousDisplay(int column, int row) {
+		super(column, row);
+    }
+
+	@Override
+	protected Display initializeEntriesArray() {
+		
+		return this;
+	}
+
+	@Override
+	protected Display createDisplayAt(int column, int row) {
+		{ var autonomousLayout = hudTab
 			.getLayout("Autonomous", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
@@ -33,5 +44,13 @@ public class AutonomousDisplay {
 			autonomousLayout
 				.add("Autonomous Routine", autoRoutineChooser)
 				.withWidget(BuiltInWidgets.kComboBoxChooser);
-    }
+		}
+		return this;
+	}
+
+	@Override
+	public Display addEntryListeners() {
+		
+		return this;
+	}
 }
