@@ -160,7 +160,8 @@ public class RobotContainer {
 
 	// just a print-out function to help with joystick controls debugging
 	public RobotContainer printJoystickValues() {
-		SmartDashboard.putNumber("Joystick Axis", driverJoystickControls.getFeederAxis());
+		SmartDashboard.putNumber("Trigger Axis", driverJoystickControls.getFeederAxis());
+		SmartDashboard.putNumber("Joystick Axis", driverJoystickControls.getArcadeDriveForwardAxis());
 		return this;
 	}
 

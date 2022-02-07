@@ -129,6 +129,5 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testExit() {
 		robotContainer.removeDiagnosticsEntryListeners();
-		SmartDashboard.putString("AHHH", "hello");
 	}
 }
