@@ -31,9 +31,6 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 		super(column, row);
 
 		m_drivetrain = drivetrain;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override

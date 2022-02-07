@@ -25,7 +25,11 @@ public class Drivetrain extends SubsystemBase {
 	public static final double
 		// units in seconds
 		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
-		SHARED_RAMP_TIME = 2.d;
+		DEFAULT_SHARED_RAMP_TIME = 2.d;
+
+	public static final double
+		DEFAULT_NORMAL_MAXIMUM_OUTPUT = 1.d,
+		DEFAULT_KIDS_SAFETY_MAXIMUM_OUTPUT = 0.1d;
 
 
 	// ----------------------------------------------------------
@@ -44,8 +48,7 @@ public class Drivetrain extends SubsystemBase {
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
 		// 1 to 7.33 gearbox is big to small gear (means more speed)
-		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
-	
+		TICKS_TO_INCHES_CONVERSION = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
 
 	// Closed-loop control constants
 
@@ -146,6 +149,16 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain setDeadband(double deadband) {
 		m_differentialDrive.setDeadband(deadband);
+		return this;
+	}
+
+	public Drivetrain useNormalMaximumOutput() {
+		m_differentialDrive.setMaxOutput(DEFAULT_NORMAL_MAXIMUM_OUTPUT);
+		return this;
+	}
+
+	public Drivetrain setMaximumOutput(double maxOutput) {
+		m_differentialDrive.setMaxOutput(maxOutput);
 		return this;
 	}
 

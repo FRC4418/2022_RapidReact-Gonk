@@ -20,10 +20,10 @@ public class JoysticksDisplay extends HUDDisplay {
     // Resources
 
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
-    public NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
 
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
-    public NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
 
     // ----------------------------------------------------------
     // Constructor
