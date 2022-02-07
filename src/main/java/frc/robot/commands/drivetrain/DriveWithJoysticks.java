@@ -15,16 +15,12 @@ public class DriveWithJoysticks extends CommandBase {
 	// Resources
 
 	private final Drivetrain m_drivetrain;
-	private final JoystickControls m_driverJoystickControls;
-	private final JoystickControls m_spotterJoystickControls;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveWithJoysticks(Drivetrain drivetrain, JoystickControls driverJoystickControls, JoystickControls spotterControls) {
+	public DriveWithJoysticks(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
-		m_driverJoystickControls = driverJoystickControls;
-		m_spotterJoystickControls = spotterControls;
 
 		addRequirements(drivetrain);
 	}
@@ -43,14 +39,14 @@ public class DriveWithJoysticks extends CommandBase {
 		JoystickControls activePilotJoystickControls;
 
 		// driver's driving takes priority over the spotter's driving
-		if (!m_driverJoystickControls.isActivelyDriving()) {
+		if (!RobotContainer.driverJoystickControls.isActivelyDriving()) {
 			SmartDashboard.putString("ACTIVE", "spotter");
 			activePilotJoystickMode = RobotContainer.spotterJoystickMode;
-			activePilotJoystickControls = m_spotterJoystickControls;
+			activePilotJoystickControls = RobotContainer.spotterJoystickControls;
 		} else {
 			SmartDashboard.putString("ACTIVE", "driver");
 			activePilotJoystickMode = RobotContainer.driverJoystickMode;
-			activePilotJoystickControls = m_driverJoystickControls;
+			activePilotJoystickControls = RobotContainer.driverJoystickControls;
 		}
 
 		switch (activePilotJoystickMode) {

@@ -112,7 +112,7 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
     public DriverXboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
         
-        primaryJoystick.setXChannel(XboxController.LEFT_X_AXIS);
-        primaryJoystick.setYChannel(XboxController.LEFT_Y_AXIS);
+        m_primaryJoystick.setXChannel(XboxController.LEFT_X_AXIS);
+        m_primaryJoystick.setYChannel(XboxController.LEFT_Y_AXIS);
     }
 }

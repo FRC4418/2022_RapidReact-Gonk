@@ -26,6 +26,7 @@ import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
@@ -99,6 +100,7 @@ public class RobotContainer {
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 
+	private final ArrayList<HUDDisplay> hudDisplays = new ArrayList<>();
 	private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
 
 	// has default USB values
@@ -129,15 +131,24 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
-		robotChooserDisplay = new RobotChooserDisplay(0, 0);
-		joysticksDisplay = new JoysticksDisplay(2, 0);
-		new AutonomousDisplay(0, 1);
+		hudDisplays.addAll(Arrays.asList(
+			robotChooserDisplay = new RobotChooserDisplay(0, 0),
+			joysticksDisplay = new JoysticksDisplay(2, 0),
+			new AutonomousDisplay(0, 1)
+		));
+		for (var display: hudDisplays) {
+			display.initialize();
+			display.addEntryListeners();
+		}
 
 		if (enableDiagnostics) {
 			diagnosticsDisplays.addAll(Arrays.asList(
 				new MotorTestingDisplay(intake, manipulator, 0, 0),
 				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
 			));
+			for (var display: diagnosticsDisplays) {
+				display.initialize();
+			}
 		}
 
 		setupDriverJoystickControls();
@@ -145,8 +156,8 @@ public class RobotContainer {
 
 		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
 
-		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain, driverJoystickControls, spotterJoystickControls));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake, driverJoystickControls, spotterJoystickControls));
+		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake));
     }
 
 
@@ -194,7 +205,7 @@ public class RobotContainer {
 			display.removeEntryListeners();
 		}
 		return this;
-	} 
+	}
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();

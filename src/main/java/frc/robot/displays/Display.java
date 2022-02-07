@@ -15,12 +15,15 @@ public abstract class Display {
     public Display(int column, int row) {
         this.column = column;
         this.row = row;
-
-        createDisplayAt(column, row);
-        initializeEntriesArray();
     }
 
-    protected abstract Display initializeEntriesArray();
+    public Display initialize() {
+        createDisplayAt(column, row);
+        createEntriesArray();
+        return this;
+    }
+
+    protected abstract Display createEntriesArray();
 
     protected abstract Display createDisplayAt(int column, int row);
 

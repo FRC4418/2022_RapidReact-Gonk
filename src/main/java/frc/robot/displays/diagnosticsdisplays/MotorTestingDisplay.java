@@ -49,7 +49,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
     }
 
 	@Override
-	protected DiagnosticsDisplay initializeEntriesArray() {
+	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
 			indexerOutputPercentTextView,

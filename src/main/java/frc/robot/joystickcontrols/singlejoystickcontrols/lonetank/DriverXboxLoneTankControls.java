@@ -115,5 +115,8 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
 
     public DriverXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
+
+        m_primaryJoystick.setXChannel(XboxController.LEFT_Y_AXIS);
+        m_primaryJoystick.setYChannel(XboxController.RIGHT_Y_AXIS);
     }
 }

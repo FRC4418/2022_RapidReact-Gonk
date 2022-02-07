@@ -37,7 +37,7 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
     }
 
 	@Override
-	protected DiagnosticsDisplay initializeEntriesArray() {
+	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			arcadeDriveForwardLimiterTextField,
 			arcadeDriveTurnLimiterTextField,

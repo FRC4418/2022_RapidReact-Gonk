@@ -3,7 +3,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.joystickcontrols.JoystickControls;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 
 
@@ -12,16 +12,12 @@ public class RunFeederWithTrigger extends CommandBase {
 	// Resource
 
 	private final Intake m_intake;
-	private final JoystickControls m_driverJoystickControls;
-	private final JoystickControls m_spotterJoystickControls;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunFeederWithTrigger(Intake intake, JoystickControls driverJoystickControls, JoystickControls spotterJoystickControls) {
+	public RunFeederWithTrigger(Intake intake) {
 		m_intake = intake;
-		m_driverJoystickControls = driverJoystickControls;
-		m_spotterJoystickControls = spotterJoystickControls;
 
 		addRequirements(intake);
 	}
@@ -34,11 +30,11 @@ public class RunFeederWithTrigger extends CommandBase {
 
 	@Override
 	public void execute() {
-		double driverFeederAxis = m_driverJoystickControls.getFeederAxis();
-		double driverReverseFeederAxis = m_driverJoystickControls.getReverseFeederAxis();
+		double driverFeederAxis = RobotContainer.driverJoystickControls.getFeederAxis();
+		double driverReverseFeederAxis = RobotContainer.driverJoystickControls.getReverseFeederAxis();
 		
-		double spotterFeederAxis = m_spotterJoystickControls.getFeederAxis();
-		double spotterReverseFeederAxis = m_spotterJoystickControls.getReverseFeederAxis();
+		double spotterFeederAxis = RobotContainer.spotterJoystickControls.getFeederAxis();
+		double spotterReverseFeederAxis = RobotContainer.spotterJoystickControls.getReverseFeederAxis();
 
 		// driver's triggers take priority over the spotter's triggers
 		if (driverFeederAxis == 0.d && driverReverseFeederAxis == 0.d) {

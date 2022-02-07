@@ -8,7 +8,7 @@ import frc.robot.displays.Display;
 
 
 public abstract class HUDDisplay extends Display {
-    protected final ShuffleboardTab hudTab = Shuffleboard.getTab("HUD");
+    protected static final ShuffleboardTab hudTab = Shuffleboard.getTab("HUD");
 
     public HUDDisplay(int column, int row) {
         super(column, row);

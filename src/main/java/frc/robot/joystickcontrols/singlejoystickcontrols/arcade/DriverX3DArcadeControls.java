@@ -112,5 +112,8 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
 
     public DriverX3DArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
+        
+        m_primaryJoystick.setXChannel(X3D.ROLL_AXIS);
+        m_primaryJoystick.setYChannel(X3D.PITCH_AXIS);
     }
 }

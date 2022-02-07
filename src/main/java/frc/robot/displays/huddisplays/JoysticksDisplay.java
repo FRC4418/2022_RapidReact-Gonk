@@ -33,7 +33,7 @@ public class JoysticksDisplay extends HUDDisplay {
     }
 
     @Override
-    protected Display initializeEntriesArray() {
+    protected Display createEntriesArray() {
         entries = new ArrayList<>(Arrays.asList(
             driverFlipLeftAndRightJoysticksToggleSwitch,
 
@@ -88,6 +88,7 @@ public class JoysticksDisplay extends HUDDisplay {
     @Override
     public Display addEntryListeners() {
         // TODO: P1 Add entry listeners for flipping the left and right joysticks
+        
         return this;
     }
 }

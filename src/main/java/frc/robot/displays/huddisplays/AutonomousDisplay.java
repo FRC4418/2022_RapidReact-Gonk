@@ -25,7 +25,7 @@ public class AutonomousDisplay extends HUDDisplay {
     }
 
 	@Override
-	protected Display initializeEntriesArray() {
+	protected Display createEntriesArray() {
 		
 		return this;
 	}
