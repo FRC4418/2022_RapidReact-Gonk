@@ -44,8 +44,8 @@ public final class IO {
 	}
 
 	public static class XboxController {
-		public static final String
-			USB_DEVICE_NAME					= "Controller (Xbox One For Windows)";
+		public static final String[]
+			USB_DEVICE_NAME				= new String[] {"Controller (Xbox One For Windows)", "Bluetooth XINPUT compatible input device"};
 
 		public static final double
 			// we use max(left-axis deadband, right-axis deadband)
