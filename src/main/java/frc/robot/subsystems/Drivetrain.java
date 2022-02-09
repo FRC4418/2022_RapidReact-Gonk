@@ -27,22 +27,45 @@ public class Drivetrain extends SubsystemBase {
 		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
 		DEFAULT_SHARED_RAMP_TIME = 2.d;
 
-	public static final double
-		DEFAULT_NORMAL_MAXIMUM_OUTPUT = 1.d,
-		DEFAULT_KIDS_SAFETY_MAXIMUM_OUTPUT = 0.1d;
+	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
+
+	public static class NormalOutputMode {
+		public static final double DEFAULT_MAXIMUM_OUTPUT = 1.d;
+
+		public static class SlewRates {
+			public static final double
+				DEFAULT_ARCADE_DRIVE_FORWARD = 1.5d,
+				DEFAULT_ARCADE_DRIVE_TURN = 1.25d,
+	
+				DEFAULT_TANK_DRIVE_FORWARD = 1.0d;
+		}
+	}
+
+	public static class KidsSafetyOutputMode {
+		public static final double DEFAULT_MAXIMUM_OUTPUT = 0.1d;
+
+		public static class SlewRates {
+			public static final double
+				DEFAULT_ARCADE_DRIVE_FORWARD = 2.d,
+				DEFAULT_ARCADE_DRIVE_TURN = 2.d,
+
+				DEFAULT_TANK_DRIVE_FORWARD = 2.d;
+		}
+	}
 
 
 	// ----------------------------------------------------------
 	// Private constants
 
 
-	// ID and encoder constants
-	// These are how it's SUPPOSED to be on both V1 and V2
-	private static final int
-		FRONT_LEFT_CAN_ID = 3,
-		BACK_LEFT_CAN_ID = 2,
-		FRONT_RIGHT_CAN_ID = 4,
-		BACK_RIGHT_CAN_ID = 5;
+	private static class CAN_IDs {
+		// These are how it's SUPPOSED to be on both V1 and V2
+		private static final int
+			FRONT_LEFT = 3,
+			BACK_LEFT = 2,
+			FRONT_RIGHT = 4,
+			BACK_RIGHT = 5;
+	}
 
 	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
@@ -76,12 +99,12 @@ public class Drivetrain extends SubsystemBase {
 	// Resources
 
 
-	private final WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(FRONT_LEFT_CAN_ID);
-	private final WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(BACK_LEFT_CAN_ID);
+	private final WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.FRONT_LEFT);
+	private final WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(CAN_IDs.BACK_LEFT);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
-	private final WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(FRONT_RIGHT_CAN_ID);
-	private final WPI_TalonFX m_backRightMotor = new WPI_TalonFX(BACK_RIGHT_CAN_ID);
+	private final WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(CAN_IDs.FRONT_RIGHT);
+	private final WPI_TalonFX m_backRightMotor = new WPI_TalonFX(CAN_IDs.BACK_RIGHT);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -153,7 +176,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useNormalMaximumOutput() {
-		m_differentialDrive.setMaxOutput(DEFAULT_NORMAL_MAXIMUM_OUTPUT);
+		m_differentialDrive.setMaxOutput(Drivetrain.NormalOutputMode.DEFAULT_MAXIMUM_OUTPUT);
 		return this;
 	}
 
@@ -238,18 +261,38 @@ public class Drivetrain extends SubsystemBase {
 	// Slew rate limiters
 
 
+	// Output-mode configurations
+
+	public Drivetrain useNormalOutputModeSlewRates() {
+		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
+		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+
+		setTankDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		return this;
+	}
+
+	public Drivetrain useKidsSafetyModeSlewRates() {
+		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
+		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+
+		setTankDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		return this;
+	}
+
 	// Arcade-drive limiters
 
 	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
-	public void setArcadeDriveForwardLimiterRate(double rate) {
+	public Drivetrain setArcadeDriveForwardLimiterRate(double rate) {
 		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+		return this;
 	}
 	public double filterArcadeDriveForward(double inputSpeed) {
 		return m_arcadeDriveForwardLimiter.calculate(inputSpeed);
 	}
 
-	public void setArcadeDriveTurnLimiterRate(double rate) {
+	public Drivetrain setArcadeDriveTurnLimiterRate(double rate) {
 		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
+		return this;
 	}
 	public double filterArcadeDriveTurn(double inputSpeed) {
 		return m_arcadeDriveTurnLimiter.calculate(inputSpeed);
@@ -257,8 +300,9 @@ public class Drivetrain extends SubsystemBase {
 
 	// Tank-drive limiters
 
-	public void setTankDriveForwardLimiterRate(double rate) {
+	public Drivetrain setTankDriveForwardLimiterRate(double rate) {
 		m_tankDriveForwardLimiter = new SlewRateLimiter(rate);
+		return this;
 	}
 	public double filterTankDriveForward(double inputSpeed) {
 		return m_tankDriveForwardLimiter.calculate(inputSpeed);

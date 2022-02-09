@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Drivetrain;
 
@@ -54,7 +54,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 				.getEntry();
 			
 			kidsSafetyMaxOutputTextField = kidsSafetyLayout
-				.add("Max Output", Drivetrain.DEFAULT_KIDS_SAFETY_MAXIMUM_OUTPUT)
+				.add("Max Output", Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 				.getEntry();
@@ -62,19 +62,26 @@ public class KidsSafetyDisplay extends HUDDisplay {
 		return this;
 	}
 
+	int counter = 0;
+
 	@Override
 	public Display addEntryListeners() {
 		kidsSafetyModeToggleSwitch.addListener(event -> {
 			if (event.value.getBoolean()) {
-				m_drivetrain.setMaximumOutput(kidsSafetyMaxOutputTextField.getDouble(Drivetrain.DEFAULT_KIDS_SAFETY_MAXIMUM_OUTPUT));
+				m_drivetrain
+					.setMaximumOutput(kidsSafetyMaxOutputTextField.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
+					.useKidsSafetyModeSlewRates();
 			} else {
-				m_drivetrain.useNormalMaximumOutput();
+				m_drivetrain
+					.useNormalMaximumOutput()
+					.useNormalOutputModeSlewRates();
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		kidsSafetyMaxOutputTextField.addListener(event -> {
 			if (kidsSafetyModeToggleSwitch.getBoolean(false)) {
 				m_drivetrain.setMaximumOutput(event.value.getDouble());
+				SmartDashboard.putNumber("DOING THING", counter++);
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		return this;

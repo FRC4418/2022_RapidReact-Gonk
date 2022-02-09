@@ -44,6 +44,12 @@ public class Robot extends TimedRobot {
 
 		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
 		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+
+		if (RobotContainer.enableDiagnostics) {
+			robotContainer
+				.addDiagnosticsEntryListeners()
+				.initializeJoystickValues();
+		}
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -57,6 +63,11 @@ public class Robot extends TimedRobot {
 			.listenForRobotSelection()
 			.listenForJoystickModes()
 			.listenForJoystickDevices();
+		
+		if (RobotContainer.enableDiagnostics) {
+			robotContainer
+				.printJoystickValues();
+		}
 	}
 
 
@@ -115,19 +126,11 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		// Cancels all running commands at the start of test mode.
 		CommandScheduler.getInstance().cancelAll();
-
-		robotContainer
-			.addDiagnosticsEntryListeners()
-			.initializeJoystickValues();
 	}
 
 	@Override
 	public void testPeriodic() {
-		robotContainer.printJoystickValues();
+		
 	}
 
-	@Override
-	public void testExit() {
-		robotContainer.removeDiagnosticsEntryListeners();
-	}
 }

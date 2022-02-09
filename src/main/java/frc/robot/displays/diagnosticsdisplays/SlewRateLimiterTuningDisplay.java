@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -56,17 +56,21 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 			{ var arcadeDriveLayout = slewRateLimiterLayout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
-
+				
 				arcadeDriveForwardLimiterTextField = arcadeDriveLayout
-					.add("Forward", 1.5d)
+					.add("Forward", RobotContainer.usingKidsSafetyMode ?
+						Drivetrain.KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD:
+						Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 
 				arcadeDriveTurnLimiterTextField = arcadeDriveLayout
-					.add("Turn", 1.25d)
+					.add("Turn", RobotContainer.usingKidsSafetyMode ?
+						Drivetrain.KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN:
+						Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 			}
 
@@ -75,9 +79,11 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
 			
 				tankDriveForwardLimiterTextField = tankDriveLayout
-					.add("Forward", 1.0d)
+					.add("Forward", RobotContainer.usingKidsSafetyMode ?
+						Drivetrain.KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD:
+						Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 			}
 		}
