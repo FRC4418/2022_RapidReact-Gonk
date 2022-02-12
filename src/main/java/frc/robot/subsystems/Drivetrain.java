@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -210,7 +211,13 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		// TODO: P1 Why are the V1 motor groups swapped???
+
+		if (RobotContainer.usingV1Drivetrain) {
+			m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
+		} else {
+			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		}
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {

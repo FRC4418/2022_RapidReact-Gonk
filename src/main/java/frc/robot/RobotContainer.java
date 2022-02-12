@@ -74,6 +74,8 @@ public class RobotContainer {
     // Publicly static resources
 
 
+	public static boolean usingV1Drivetrain = false;
+
 	// joystick control resources are publicly static because 
 
 	public static JoystickControls driverJoystickControls;
@@ -212,20 +214,23 @@ public class RobotContainer {
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
 			configureRobotSpecificDrivetrain();
+			usingV1Drivetrain = true;
 		}
 		return this;
 	}
 	
-	private void configureRobotSpecificDrivetrain() {
+	private void configureRobotSpecificDrivetrain() {			
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
 				break;
 			case VERSACHASSIS_TWO:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
+				usingV1Drivetrain = false;
 				break;
 			case VERSACHASSIS_ONE:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
+				usingV1Drivetrain = true;
 				break;
 		}
 	}
