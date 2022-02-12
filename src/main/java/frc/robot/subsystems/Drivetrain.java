@@ -86,7 +86,8 @@ public class Drivetrain extends SubsystemBase {
 	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
 	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
 
-	private SlewRateLimiter m_tankDriveForwardLimiter = new SlewRateLimiter(0.d);
+	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(0.5d);
+	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(0.5d);
 
 
 	// ----------------------------------------------------------
@@ -244,11 +245,18 @@ public class Drivetrain extends SubsystemBase {
 
 	// Tank-drive limiters
 
-	public void setTankDriveForwardLimiterRate(double rate) {
-		m_tankDriveForwardLimiter = new SlewRateLimiter(rate);
+	public void setTankDriveLeftForwardLimiterRate(double rate) {
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(rate);
 	}
-	public double filterTankDriveForward(double inputSpeed) {
-		return m_tankDriveForwardLimiter.calculate(inputSpeed);
+	public double filterTankDriveLeftForward(double inputSpeed) {
+		return m_tankDriveLeftForwardLimiter.calculate(inputSpeed);
+	}
+
+	public void setTankDriveRightForwardLimiterRate(double rate) {
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterTankDriveRightForward(double inputSpeed) {
+		return m_tankDriveRightForwardLimiter.calculate(inputSpeed);
 	}
 
 

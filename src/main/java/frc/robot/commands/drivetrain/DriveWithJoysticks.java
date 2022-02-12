@@ -58,8 +58,8 @@ public class DriveWithJoysticks extends CommandBase {
 			case LONE_TANK:
 			case DUAL_TANK:
 				m_drivetrain.tankDrive(
-					m_drivetrain.filterTankDriveForward(activePilotJoystickControls.getTankDriveLeftAxis()),
-					m_drivetrain.filterTankDriveForward(activePilotJoystickControls.getTankDriveRightAxis()));
+					m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
+					m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));
 				break;
 		}
 	}
