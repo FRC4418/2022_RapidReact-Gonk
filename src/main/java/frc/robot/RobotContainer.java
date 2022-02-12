@@ -350,7 +350,7 @@ public class RobotContainer {
 		int originalPrimaryJoystickPort = joystickControls.getPrimaryJoystickPort();
 		int otherJoystickPort = originalPrimaryJoystickPort == joystickPorts[0] ? joystickPorts[1]: joystickPorts[0];
 		
-		// TODO: Figure out how to use non-static RobotContainer resources from static call
+		// TODO: P3 Figure out how to use non-static RobotContainer resources from static call
 
 		switch (joystickMode) {
 			default:

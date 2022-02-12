@@ -91,13 +91,17 @@ public class JoysticksDisplay extends HUDDisplay {
     public Display addEntryListeners() {
         // TODO: P1 Add entry listeners for flipping the left and right joysticks
         
-        driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
-            RobotContainer.swapJoysticksFor(Pilot.DRIVER);
-        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        {   // Driver
+            driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+                RobotContainer.swapJoysticksFor(Pilot.DRIVER);
+            }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        }
 
-        spotterSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
-            RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
-        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        {   // Spotter
+            spotterSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+                RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
+            }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        }
 
         return this;
     }
