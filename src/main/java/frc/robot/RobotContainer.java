@@ -415,8 +415,6 @@ public class RobotContainer {
 		return this;
 	}
 
-	// TODO: P1 Figure out a way to switch between the driver and spotter controlling the robot
-
 	private RobotContainer setupSpotterJoystickControls() {
 		return setupSpotterJoystickControls(new Joystick(spotterJoystickPorts[0]), new Joystick(spotterJoystickPorts[1]));
 	}
