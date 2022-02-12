@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -20,10 +21,10 @@ public class JoysticksDisplay extends HUDDisplay {
     // Resources
 
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
-    public NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
 
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
-    public NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
 
     // ----------------------------------------------------------
     // Constructor
@@ -89,6 +90,10 @@ public class JoysticksDisplay extends HUDDisplay {
     public Display addEntryListeners() {
         // TODO: P1 Add entry listeners for flipping the left and right joysticks
         
+        driverFlipLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+            
+        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
         return this;
     }
 }

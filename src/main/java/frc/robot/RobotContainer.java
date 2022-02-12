@@ -171,7 +171,7 @@ public class RobotContainer {
 
 	
 	// ----------------------------------------------------------
-    // Methods
+    // Print-out joystick for debugging
 
 	
 	private final Joystick m_printOutjoystick = new Joystick(0);
@@ -193,6 +193,11 @@ public class RobotContainer {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Diagnostic-entry listeners
+
+
 	public RobotContainer addDiagnosticsEntryListeners() {
 		for (var display: diagnosticsDisplays) {
 			display.addEntryListeners();
@@ -206,6 +211,11 @@ public class RobotContainer {
 		}
 		return this;
 	}
+
+
+	// ----------------------------------------------------------
+    // Robot-drivetrain listeners
+
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
@@ -229,6 +239,11 @@ public class RobotContainer {
 				break;
 		}
 	}
+
+
+	// ----------------------------------------------------------
+    // Joystick-mode (ex. arcade, lone tank, etc) listeners
+
 
 	public RobotContainer listenForJoystickModes() {
 		var newDriverJoystickMode = joysticksDisplay.driverJoystickModeChooser.getSelected();
@@ -258,6 +273,11 @@ public class RobotContainer {
 			}
 		}
 	}
+
+
+	// ----------------------------------------------------------
+    // Joystick-device (ex. Xbox, X3D, etc) listeners
+
 	
 	public RobotContainer listenForJoystickDevices() {
 		// code is repetitive for driver and spotter, but this is on purpose so that we can use the different setup functions
@@ -291,9 +311,12 @@ public class RobotContainer {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Joystick mode and device setups
+
+
 	// using a different setup function for the driver and the spotter allows special switch cases for each person, meaning that there can be a unique driver and spotter configuration for each joystick setup (ex. one Xbox controller, two X3Ds, etc)
-	
-	int counter = 0;
 
 	private void setupDriverJoystickControls() {
 		var firstJoystick = new Joystick(driverJoystickPorts[0]);
