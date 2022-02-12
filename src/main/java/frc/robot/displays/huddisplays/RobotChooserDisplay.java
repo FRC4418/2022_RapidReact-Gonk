@@ -20,8 +20,8 @@ public class RobotChooserDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public RobotChooserDisplay(int column, int row) {
-		super(column, row);
+    public RobotChooserDisplay(int column, int row, int width, int height) {
+		super(column, row, width, height);
     }
 
 	@Override
@@ -37,7 +37,7 @@ public class RobotChooserDisplay extends HUDDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
 			teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);

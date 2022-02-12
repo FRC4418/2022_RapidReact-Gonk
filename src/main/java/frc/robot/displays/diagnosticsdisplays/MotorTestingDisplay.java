@@ -38,14 +38,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row) {
-		super(column, row);
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row, int width, int height) {
+		super(column, row, width, height);
 
 		m_intake = intake;
 		m_manipulator = manipulator;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override
@@ -73,7 +70,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(7, 3);
+			.withSize(width, height);
 
 			// Enable/disable motor testing
 			motorTestingModeToggleSwitch = motorTestingLayout

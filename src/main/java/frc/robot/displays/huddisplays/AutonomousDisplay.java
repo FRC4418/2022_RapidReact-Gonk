@@ -20,8 +20,8 @@ public class AutonomousDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public AutonomousDisplay(int column, int row) {
-		super(column, row);
+    public AutonomousDisplay(int column, int row, int width, int height) {
+		super(column, row, width, height);
     }
 
 	@Override
@@ -36,7 +36,7 @@ public class AutonomousDisplay extends HUDDisplay {
 			.getLayout("Autonomous", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
 			autoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);

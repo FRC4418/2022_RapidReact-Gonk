@@ -4,6 +4,7 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,7 @@ import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
+import frc.robot.displays.Display;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
@@ -42,13 +44,17 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private final boolean enableDiagnostics = true;
+	// initial value is the start-up configuration
+	public static final boolean usingKidsSafetyMode = false;
+
+	public static final boolean enableDiagnostics = true;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
 
 
 	// ----------------------------------------------------------
 	// Public constants
+
 
 	public enum TeamRobot {
 		VERSACHASSIS_ONE,
@@ -68,6 +74,11 @@ public class RobotContainer {
 
 	private final int[] driverJoystickPorts = new int[] {0, 1};
 	private final int[] spotterJoystickPorts = new int[] {2, 3};
+
+	private enum DisplayType {
+		HUD,
+		DIAGNOSTICS
+	}
 
 
 	// ----------------------------------------------------------
@@ -101,7 +112,10 @@ public class RobotContainer {
 	private final JoysticksDisplay joysticksDisplay;
 
 	private final ArrayList<HUDDisplay> hudDisplays = new ArrayList<>();
+	private ArrayList<ArrayList<Display>> hudDisplaysGrid = new ArrayList<>();
+
 	private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
+	private ArrayList<ArrayList<Display>> diagnosticDisplaysGrid = new ArrayList<>();
 
 	// has default USB values
 	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
@@ -125,16 +139,16 @@ public class RobotContainer {
 
 
     // ----------------------------------------------------------
-    // Constructor
+    // Constructor and display helpers
 
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
 		hudDisplays.addAll(Arrays.asList(
-			robotChooserDisplay = new RobotChooserDisplay(0, 0),
-			joysticksDisplay = new JoysticksDisplay(2, 0),
-			new AutonomousDisplay(0, 1)
+			robotChooserDisplay = new RobotChooserDisplay(0, 0, 2, 1),
+			joysticksDisplay = new JoysticksDisplay(2, 0, 3, 2),
+			new AutonomousDisplay(0, 1, 2, 1)
 		));
 		for (var display: hudDisplays) {
 			display.initialize();
@@ -143,8 +157,8 @@ public class RobotContainer {
 
 		if (enableDiagnostics) {
 			diagnosticsDisplays.addAll(Arrays.asList(
-				new MotorTestingDisplay(intake, manipulator, 0, 0),
-				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
+				new MotorTestingDisplay(intake, manipulator, 0, 0, 7, 3),
+				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0, 2, 3)
 			));
 			for (var display: diagnosticsDisplays) {
 				display.initialize();
@@ -159,6 +173,85 @@ public class RobotContainer {
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake));
     }
+
+	// reserves the relative grid coordinate AND returns the ABSOLUTE coordinates for the newly-reserved display
+
+	public Pair<Integer, Integer> reserveAndGetNextColumnAtRow(int row, Display display, DisplayType displayType) {
+		var displayGrid = displayType == DisplayType.HUD ? hudDisplaysGrid: diagnosticDisplaysGrid;
+		
+		Display previousDisplay = null;
+		var firstRow = displayGrid.get(row);
+		for (int iii = 0; iii < firstRow.size(); iii++) {
+			var nextDisplayInRow = firstRow.get(iii);
+			if (nextDisplayInRow == null) {
+				previousDisplay = nextDisplayInRow;
+			}
+		}
+
+		if (previousDisplay == null) {
+			DriverStation.reportError("Previous display found null when reserving and getting the next display grid column at given row", true);
+		}
+		
+		int maxRowIndex = displayGrid.size() - 1;
+		if (row < 0) {
+			DriverStation.reportError("Negative indexes not supported for reserving next-column-at-row for relative display coordinates", true);
+		} else if (row > maxRowIndex) {
+			for (int iii = 0; iii <= maxRowIndex - row; iii++) {
+				displayGrid.add(new ArrayList<Display>(firstRow.size()));
+			}
+		}
+
+		displayGrid.get(row).add(display);
+
+		return new Pair<>(
+			previousDisplay.getColumn() + previousDisplay.getWidth(),
+			previousDisplay.getRow()
+		);
+	}
+
+	// reserves the relative grid coordinate AND returns the ABSOLUTE coordinates for the newly-reserved display
+
+	public Pair<Integer, Integer> reserveAndGetNextRowAtColumn(int column, Display display, DisplayType displayType) {
+		var displayGrid = displayType == DisplayType.HUD ? hudDisplaysGrid: diagnosticDisplaysGrid;
+		
+		Display previousDisplay = null;
+		for (int iii = 0; iii < displayGrid.size(); iii++) {
+			var nextDisplayInColumn = displayGrid.get(iii).get(column);
+			if (nextDisplayInColumn == null) {
+				previousDisplay = nextDisplayInColumn;
+			}
+		}
+
+		if (previousDisplay == null) {
+			DriverStation.reportError("Previous display found null when reserving and getting the next display grid row at given column", true);
+		}
+
+		int maxColumnIndex = displayGrid.get(0).size() - 1;
+		if (column < 0) {
+			DriverStation.reportError("Negative indexes not supported for reserving next-column-at-row for relative display coordinates", true);
+		} else if (column > maxColumnIndex) {
+			for (int row = 0; row < displayGrid.size(); row++) {
+				var rowArray = displayGrid.get(row);
+				for (int iii = 0; iii <= maxColumnIndex - column; iii++) {
+					rowArray.add(null);
+				}
+			}
+		}
+
+		for (int row = 0; row < displayGrid.size(); row++) {
+			var rowArray = displayGrid.get(row);
+			if (rowArray.get(column) == null) {
+				rowArray.set(column, display);
+				return new Pair<>(
+					previousDisplay.getColumn(),
+					previousDisplay.getRow() + previousDisplay.getHeight()
+				);
+			}
+		}
+
+		DriverStation.reportError("Could not find non-null next row at given column to reserve", true);
+		return null;
+	}
 
 
 	// ----------------------------------------------------------

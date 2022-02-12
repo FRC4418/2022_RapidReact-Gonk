@@ -27,13 +27,10 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int column, int row) {
-		super(column, row);
+    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
+		super(column, row, width, height);
 
 		m_drivetrain = drivetrain;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override
@@ -54,7 +51,7 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(2, 3);
+			.withSize(width, height);
 
 			{ var arcadeDriveLayout = slewRateLimiterLayout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
