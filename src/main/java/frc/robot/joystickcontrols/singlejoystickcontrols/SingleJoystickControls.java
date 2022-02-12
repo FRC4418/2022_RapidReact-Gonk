@@ -30,6 +30,17 @@ public abstract class SingleJoystickControls extends JoystickControls {
         return m_primaryJoystick.getMagnitude() > Math.sqrt(DEADBAND * 2.d);
     }
 
+    @Override
+    public int getPrimaryJoystickPort() {
+        return m_primaryJoystick.getPort();
+    }
+
+    @Override
+    public int getSecondaryJoystickPort() {
+        // it's weird, but this obviously erroneous implementation is needed by the driver to override, since the base JoystickControls class is the common type used for our polymorphic code
+        return -1;
+    }
+
     // ----------------------------------------------------------
     // Constructor
 

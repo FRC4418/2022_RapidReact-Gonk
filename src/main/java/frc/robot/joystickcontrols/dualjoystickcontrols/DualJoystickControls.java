@@ -31,6 +31,16 @@ public abstract class DualJoystickControls extends JoystickControls {
         return (Math.abs(m_primaryJoystick.getY()) + Math.abs(m_secondaryJoystick.getY())) / 2.d > (DEADBAND * 2.d);
     }
 
+    @Override
+    public int getPrimaryJoystickPort() {
+        return m_primaryJoystick.getPort();
+    }
+
+    @Override
+    public int getSecondaryJoystickPort() {
+        return m_secondaryJoystick.getPort();
+    }
+
     // ----------------------------------------------------------
     // Constructor
 

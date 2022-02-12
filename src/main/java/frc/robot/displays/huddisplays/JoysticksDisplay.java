@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.JoystickMode;
+import frc.robot.RobotContainer.Pilot;
 import frc.robot.displays.Display;
 
 
@@ -21,10 +22,10 @@ public class JoysticksDisplay extends HUDDisplay {
     // Resources
 
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
-    private NetworkTableEntry driverFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry driverSwapLeftAndRightJoysticksToggleSwitch;
 
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
-    private NetworkTableEntry spotterFlipLeftAndRightJoysticksToggleSwitch;
+    private NetworkTableEntry spotterSwapLeftAndRightJoysticksToggleSwitch;
 
     // ----------------------------------------------------------
     // Constructor
@@ -36,9 +37,9 @@ public class JoysticksDisplay extends HUDDisplay {
     @Override
     protected Display createEntriesArray() {
         entries = new ArrayList<>(Arrays.asList(
-            driverFlipLeftAndRightJoysticksToggleSwitch,
+            driverSwapLeftAndRightJoysticksToggleSwitch,
 
-            spotterFlipLeftAndRightJoysticksToggleSwitch
+            spotterSwapLeftAndRightJoysticksToggleSwitch
         ));
         return this;
     }
@@ -61,8 +62,8 @@ public class JoysticksDisplay extends HUDDisplay {
                 driverLayout
                     .add("Mode", driverJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
-                driverFlipLeftAndRightJoysticksToggleSwitch = driverLayout
-                    .add("Flip Left & Right", false)
+                driverSwapLeftAndRightJoysticksToggleSwitch = driverLayout
+                    .add("Swap Left & Right", false)
                     .withWidget(BuiltInWidgets.kToggleButton)
                     .getEntry();
             }
@@ -77,8 +78,8 @@ public class JoysticksDisplay extends HUDDisplay {
                 spotterLayout
                     .add("Mode", spotterJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
-                spotterFlipLeftAndRightJoysticksToggleSwitch = spotterLayout
-                    .add("Flip Left & Right", false)
+                spotterSwapLeftAndRightJoysticksToggleSwitch = spotterLayout
+                    .add("Swap Left & Right", false)
                     .withWidget(BuiltInWidgets.kToggleButton)
                     .getEntry();
             }
@@ -90,8 +91,12 @@ public class JoysticksDisplay extends HUDDisplay {
     public Display addEntryListeners() {
         // TODO: P1 Add entry listeners for flipping the left and right joysticks
         
-        driverFlipLeftAndRightJoysticksToggleSwitch.addListener(event -> {
-            
+        driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+            RobotContainer.swapJoysticksFor(Pilot.DRIVER);
+        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+        spotterSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+            RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         return this;
