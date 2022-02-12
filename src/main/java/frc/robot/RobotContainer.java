@@ -23,6 +23,7 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
@@ -144,7 +145,8 @@ public class RobotContainer {
 		if (enableDiagnostics) {
 			diagnosticsDisplays.addAll(Arrays.asList(
 				new MotorTestingDisplay(intake, manipulator, 0, 0),
-				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
+				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),
+				new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 0, 3)
 			));
 			for (var display: diagnosticsDisplays) {
 				display.initialize();

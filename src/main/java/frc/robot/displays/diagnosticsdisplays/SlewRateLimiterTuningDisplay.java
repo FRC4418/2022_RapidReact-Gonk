@@ -51,7 +51,6 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
 		{ var slewRateLimiterLayout = diagnosticsTab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
-			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(2, 3);

@@ -30,7 +30,7 @@ public class DriveWithJoysticks extends CommandBase {
 
 	@Override
 	public void initialize() {
-		
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

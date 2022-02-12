@@ -25,7 +25,7 @@ public class Drivetrain extends SubsystemBase {
 	public static final double
 		// units in seconds
 		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
-		SHARED_RAMP_TIME = 2.d;
+		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 2.d;
 
 
 	// ----------------------------------------------------------
@@ -106,14 +106,6 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor.follow(m_frontRightMotor);
 
 		// ----------------------------------------------------------
-		// Config open-loop controls
-
-		// m_frontLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_backLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_frontRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_backRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-
-		// ----------------------------------------------------------
 		// Config closed-loop controls
 
 		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
@@ -172,6 +164,16 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain invertLeftAndRightMotorGroups() {
 		m_leftGroup.setInverted(!m_leftGroup.getInverted());
 		m_rightGroup.setInverted(!m_rightGroup.getInverted());
+		return this;
+	}
+
+	public Drivetrain useJoystickDrivingOpenLoopRamp() {
+		setOpenLoopRampTimes(JOYSTICK_DRIVING_OPEN_LOOP_TIME);
+		return this;
+	}
+
+	public Drivetrain disableOpenLoopRamp() {
+		setOpenLoopRampTimes(0.d);
 		return this;
 	}
 

@@ -31,9 +31,7 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d);
+		m_drivetrain.disableOpenLoopRamp();
 	}
 
 	@Override
@@ -46,6 +44,7 @@ public class DriveStraight extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override
