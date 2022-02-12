@@ -21,7 +21,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 	private final Drivetrain m_drivetrain;
 
     private NetworkTableEntry kidsSafetyModeToggleSwitch;
-	private NetworkTableEntry kidsSafetyMaxOutputTextField;
+	private NetworkTableEntry kidsSafetyMaxOutputNumberSlider;
 
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
@@ -53,7 +53,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();
 			
-			kidsSafetyMaxOutputTextField = kidsSafetyLayout
+			kidsSafetyMaxOutputNumberSlider = kidsSafetyLayout
 				.add("Max Output", Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -69,7 +69,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 		kidsSafetyModeToggleSwitch.addListener(event -> {
 			if (event.value.getBoolean()) {
 				m_drivetrain
-					.setMaximumOutput(kidsSafetyMaxOutputTextField.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
+					.setMaximumOutput(kidsSafetyMaxOutputNumberSlider.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
 					.useKidsSafetyModeSlewRates();
 			} else {
 				m_drivetrain
@@ -78,7 +78,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-		kidsSafetyMaxOutputTextField.addListener(event -> {
+		kidsSafetyMaxOutputNumberSlider.addListener(event -> {
 			if (kidsSafetyModeToggleSwitch.getBoolean(false)) {
 				m_drivetrain.setMaximumOutput(event.value.getDouble());
 				SmartDashboard.putNumber("DOING THING", counter++);
