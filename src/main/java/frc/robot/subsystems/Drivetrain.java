@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -112,7 +113,8 @@ public class Drivetrain extends SubsystemBase {
 	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
 	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
 
-	private SlewRateLimiter m_tankDriveForwardLimiter = new SlewRateLimiter(0.d);
+	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(0.5d);
+	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(0.5d);
 
 
 	// ----------------------------------------------------------
@@ -245,7 +247,13 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		// TODO: P1 Why are the V1 motor groups swapped???
+
+		if (RobotContainer.usingV1Drivetrain) {
+			m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
+		} else {
+			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		}
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
@@ -267,7 +275,8 @@ public class Drivetrain extends SubsystemBase {
 		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
 		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
 
-		setTankDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveRightForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
 		return this;
 	}
 
@@ -275,7 +284,8 @@ public class Drivetrain extends SubsystemBase {
 		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
 		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
 
-		setTankDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveRightForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
 		return this;
 	}
 
@@ -300,12 +310,18 @@ public class Drivetrain extends SubsystemBase {
 
 	// Tank-drive limiters
 
-	public Drivetrain setTankDriveForwardLimiterRate(double rate) {
-		m_tankDriveForwardLimiter = new SlewRateLimiter(rate);
-		return this;
+	public void setTankDriveLeftForwardLimiterRate(double rate) {
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(rate);
 	}
-	public double filterTankDriveForward(double inputSpeed) {
-		return m_tankDriveForwardLimiter.calculate(inputSpeed);
+	public double filterTankDriveLeftForward(double inputSpeed) {
+		return m_tankDriveLeftForwardLimiter.calculate(inputSpeed);
+	}
+
+	public void setTankDriveRightForwardLimiterRate(double rate) {
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(rate);
+	}
+	public double filterTankDriveRightForward(double inputSpeed) {
+		return m_tankDriveRightForwardLimiter.calculate(inputSpeed);
 	}
 
 
