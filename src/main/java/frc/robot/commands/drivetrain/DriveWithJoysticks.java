@@ -22,7 +22,7 @@ public class DriveWithJoysticks extends CommandBase {
 	public DriveWithJoysticks(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
 
-		addRequirements(drivetrain);
+		addRequirements(m_drivetrain);
 	}
 
 	// ----------------------------------------------------------
