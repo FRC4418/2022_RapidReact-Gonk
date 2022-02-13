@@ -19,7 +19,7 @@ public class RunFeederWithTrigger extends CommandBase {
 	public RunFeederWithTrigger(Intake intake) {
 		m_intake = intake;
 
-		addRequirements(intake);
+		addRequirements(m_intake);
 	}
 
 	// ----------------------------------------------------------

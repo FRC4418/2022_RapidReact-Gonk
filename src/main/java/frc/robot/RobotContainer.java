@@ -339,8 +339,6 @@ public class RobotContainer {
 		}
 	}
 
-	// TODO: P1 Figure out a way to switch between the driver and spotter controlling the robot
-
 	private void setupSpotterJoystickControls() {
 		var firstJoystick = new Joystick(spotterJoystickPorts[0]);
 		var secondJoystick = new Joystick(spotterJoystickPorts[1]);

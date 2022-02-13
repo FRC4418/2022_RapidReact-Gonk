@@ -7,7 +7,7 @@ import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.intake.RunFeeder;
 import frc.robot.commands.intake.RunReverseFeeder;
-import frc.robot.commands.intake.ToggleFeeder;
+import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
@@ -50,7 +50,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
         toggleFeederButton = toggleFeederButton(secondaryJoystick);
-        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleFeeder(intake));
+        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
 
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
