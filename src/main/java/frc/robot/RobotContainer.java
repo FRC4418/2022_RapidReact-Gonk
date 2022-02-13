@@ -127,7 +127,6 @@ public class RobotContainer {
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final DriveStraightForDistance autoDriveStraightForDistance;
 
 
     // ----------------------------------------------------------
@@ -161,8 +160,6 @@ public class RobotContainer {
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 
-		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
-
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
@@ -173,7 +170,7 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return autoDriveStraightForDistance;
+		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
 	}
 
 	
