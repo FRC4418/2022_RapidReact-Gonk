@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -35,8 +36,8 @@ public class Drivetrain extends SubsystemBase {
 
 		public static class SlewRates {
 			public static final double
-				DEFAULT_ARCADE_DRIVE_FORWARD = 1.5d,
-				DEFAULT_ARCADE_DRIVE_TURN = 1.25d,
+				DEFAULT_ARCADE_DRIVE_FORWARD = 1.58d,
+				DEFAULT_ARCADE_DRIVE_TURN = 2.08d,
 	
 				DEFAULT_TANK_DRIVE_FORWARD = 1.0d;
 		}
@@ -110,8 +111,10 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
+	// private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
 	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
+	private MedianFilter m_arcadeDriveForwardLimiter = new MedianFilter(10);
+	// private MedianFilter m_arcadeDriveTurnLimiter = new MedianFilter(30);
 
 	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(0.5d);
 	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(0.5d);
@@ -262,6 +265,8 @@ public class Drivetrain extends SubsystemBase {
 
 	public void stopDrive() {
 		tankDrive(0.d, 0.d);
+		m_leftGroup.stopMotor();
+		m_rightGroup.stopMotor();
 	}
 
 
@@ -293,7 +298,8 @@ public class Drivetrain extends SubsystemBase {
 
 	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
 	public Drivetrain setArcadeDriveForwardLimiterRate(double rate) {
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+		// m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+		// m_arcadeDriveForwardLimiter = new MedianFilter(10);
 		return this;
 	}
 	public double filterArcadeDriveForward(double inputSpeed) {
@@ -302,6 +308,7 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain setArcadeDriveTurnLimiterRate(double rate) {
 		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
+		// m_arcadeDriveTurnLimiter = new MedianFilter(10);
 		return this;
 	}
 	public double filterArcadeDriveTurn(double inputSpeed) {
