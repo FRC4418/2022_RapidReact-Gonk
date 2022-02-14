@@ -20,7 +20,7 @@ public class Sensory extends SubsystemBase {
 
 
 	public Sensory() {
-
+		imu.calibrate();
 	}
 
 
@@ -31,15 +31,14 @@ public class Sensory extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("IMU Angle", imu.getAngle());
-
 		SmartDashboard.putNumber("Temperature from IMU", imu.getTemperature());
 			
 		SmartDashboard.putNumber("Accel X", imu.getAccelX());
 		SmartDashboard.putNumber("Accel Y", imu.getAccelY());
 		SmartDashboard.putNumber("Accel Z", imu.getAccelZ());
 
-		SmartDashboard.putNumber("Gyro X", imu.getGyroAngleX());
-		SmartDashboard.putNumber("Gyro Y", imu.getGyroAngleY());
-		SmartDashboard.putNumber("Gyro Z", imu.getGyroAngleZ());
+		SmartDashboard.putNumber("Gyro X", Math.round(imu.getGyroAngleX()*100.0) / 100.0);
+		SmartDashboard.putNumber("Gyro Y", Math.round(imu.getGyroAngleY()*100.0) / 100.0);
+		SmartDashboard.putNumber("Gyro Z", Math.round(imu.getGyroAngleZ()*100.0) / 100.0);
 	}
 }
