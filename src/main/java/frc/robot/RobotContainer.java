@@ -4,6 +4,8 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -293,34 +295,57 @@ public class RobotContainer {
 
 	
 	public RobotContainer listenForJoystickDevices() {
-		// code is repetitive for driver and spotter, but this is on purpose so that we can use the different setup functions
-		// only same-type dual controls are supported, so here we are just looking at the first port for the driver's and spotter's port ranges
+		var pilotPrimaryPorts = new int[] {driverJoystickPorts[0], spotterJoystickPorts[0]};
+		var pilotJoystickTypes = new JoystickDeviceType[] {driverJoystickDeviceType, spotterJoystickDeviceType};
+		Runnable[] setupPilotJoystickControls = new Runnable[] {() -> setupDriverJoystickControls(), () -> setupSpotterJoystickControls()};
 
-		var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
-		if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
-			driverJoystickDeviceType = newDriverJoystickDeviceType;
+		for (int pilotIndex: new int[] {0, 1}) {
+			var newJoystickDeviceType = getJoystickDeviceTypeFor(pilotPrimaryPorts[pilotIndex]);
+			if (newJoystickDeviceType != JoystickDeviceType.NULL && pilotJoystickTypes[pilotIndex] != newJoystickDeviceType) {
+				pilotJoystickTypes[pilotIndex] = newJoystickDeviceType;
 
-			// sets up the joystick-input deadbands depending on which type of joystick device we're using
-			switch (driverJoystickDeviceType) {
-				default:
-					DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
-					break;
-				case XboxController:
-					drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
-					break;
-				case X3D:
-					drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
-					break;
+				switch (pilotJoystickTypes[pilotIndex]) {
+					default:
+						DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
+						break;
+					case XboxController:
+						drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
+						break;
+					case X3D:
+						drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
+						break;
+				}
+
+				setupPilotJoystickControls[pilotIndex].run();
 			}
-
-			setupDriverJoystickControls();
 		}
+		
+		// // only same-type dual controls are supported, so here we are just looking at the first port for the driver's and spotter's port ranges
+		// var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
+		// if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
+		// 	driverJoystickDeviceType = newDriverJoystickDeviceType;
 
-		var newSpotterJoystickDeviceType = getJoystickDeviceTypeFor(spotterJoystickPorts[0]);
-		if (newSpotterJoystickDeviceType != JoystickDeviceType.NULL && spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
-			spotterJoystickDeviceType = newSpotterJoystickDeviceType;
-			setupSpotterJoystickControls();
-		}
+		// 	// sets up the joystick-input deadbands depending on which type of joystick device we're using
+		// 	switch (driverJoystickDeviceType) {
+		// 		default:
+		// 			DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
+		// 			break;
+		// 		case XboxController:
+		// 			drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
+		// 			break;
+		// 		case X3D:
+		// 			drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
+		// 			break;
+		// 	}
+
+		// 	setupDriverJoystickControls();
+		// }
+
+		// var newSpotterJoystickDeviceType = getJoystickDeviceTypeFor(spotterJoystickPorts[0]);
+		// if (newSpotterJoystickDeviceType != JoystickDeviceType.NULL && spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
+		// 	spotterJoystickDeviceType = newSpotterJoystickDeviceType;
+		// 	setupSpotterJoystickControls();
+		// }
 		return this;
 	}
 
