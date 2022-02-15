@@ -43,7 +43,8 @@ public class Drivetrain extends SubsystemBase {
 	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
-		// 1 to 7.33 gearbox is big to small gear (means more speed)
+		// wheel diameter is 6 inches
+		// 7.33 to 1 gearbox is big to small gear (means more torque)
 		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
 	
 

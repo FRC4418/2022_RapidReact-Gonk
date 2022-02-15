@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.RobotContainer.Pilot;
@@ -87,12 +87,13 @@ public class JoysticksDisplay extends HUDDisplay {
         return this;
     }
 
+    int counter = 0;
+
     @Override
-    public Display addEntryListeners() {
-        // TODO: P1 Add entry listeners for flipping the left and right joysticks
-        
+    public Display addEntryListeners() {        
         {   // Driver
             driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
+                SmartDashboard.putNumber("Swapped", counter++);
                 RobotContainer.swapJoysticksFor(Pilot.DRIVER);
             }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
         }
