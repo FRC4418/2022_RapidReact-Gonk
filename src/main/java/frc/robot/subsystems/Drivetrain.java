@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -111,10 +112,8 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-	// private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(0.5d);
-	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(0.5d);
-	private MedianFilter m_arcadeDriveForwardLimiter = new MedianFilter(10);
-	// private MedianFilter m_arcadeDriveTurnLimiter = new MedianFilter(30);
+	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
+	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
 
 	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(0.5d);
 	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(0.5d);
