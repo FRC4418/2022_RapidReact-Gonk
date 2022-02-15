@@ -29,6 +29,7 @@ import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
 import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -43,7 +44,10 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private final boolean enableDiagnostics = true;
+	// initial value is the start-up configuration
+	public static final boolean usingKidsSafetyMode = false;
+
+	public static final boolean enableDiagnostics = true;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
 
@@ -80,6 +84,8 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Publicly static resources
 
+
+	public static boolean usingV1Drivetrain = false;
 
 	// joystick control resources are publicly static because 
 
@@ -128,7 +134,6 @@ public class RobotContainer {
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final DriveStraightForDistance autoDriveStraightForDistance;
 
 
     // ----------------------------------------------------------
@@ -141,6 +146,7 @@ public class RobotContainer {
 		hudDisplays.addAll(Arrays.asList(
 			robotChooserDisplay = new RobotChooserDisplay(0, 0),
 			joysticksDisplay = new JoysticksDisplay(2, 0),
+			new KidsSafetyDisplay(drivetrain, 5, 0),
 			new AutonomousDisplay(0, 1)
 		));
 		for (var display: hudDisplays) {
@@ -161,10 +167,8 @@ public class RobotContainer {
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 
-		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
-
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
 
 
@@ -173,7 +177,7 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return autoDriveStraightForDistance;
+		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
 	}
 
 	
@@ -229,6 +233,7 @@ public class RobotContainer {
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
 			configureRobotSpecificDrivetrain();
+			usingV1Drivetrain = true;
 		}
 		return this;
 	}
@@ -240,9 +245,11 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
+				usingV1Drivetrain = false;
 				break;
 			case VERSACHASSIS_ONE:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
+				usingV1Drivetrain = true;
 				break;
 		}
 	}
