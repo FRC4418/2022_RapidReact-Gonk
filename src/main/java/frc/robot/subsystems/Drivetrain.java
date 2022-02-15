@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.Gains;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
@@ -81,24 +82,26 @@ public class Drivetrain extends SubsystemBase {
 
 	// Closed-loop control constants
 
-	// // the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
-	// private static final int kSlotIdx = 0;
+	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
+	private static final int kSlotIdx = 0;
 
-	// // Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
-	// private static final int kIdx = 0;
+	// Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
+	private static final int kIdx = 0;
 
-	// // Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-	// private static final int kTimeoutMs = 30;
+	// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
+	private static final int kTimeoutMs = 30;
 
-	// // ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	// private static final Gains kLeftMotorVelocityGains
-	// 	//			kP		kI		kD		kF				Iz		Peakout
-	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	private static final Gains kLeftMotorVelocityGains
+		//			kP		kI		kD		kF				Iz		Peakout
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
-	// private static final Gains kRightMotorVelocityGains 
-	// 	//			kP		kI		kD		kF				Iz		Peakout
-	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	private static final Gains kRightMotorVelocityGains 
+		//			kP		kI		kD		kF				Iz		Peakout
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 
 	// ----------------------------------------------------------
@@ -149,15 +152,15 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
-		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
-		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
-		// frontLeftDriveMotor.config_kI(PID.kIdx, PID.kLeftMotorVelocityGains.kI, PID.kTimeoutMs);
-        // frontLeftDriveMotor.config_kD(PID.kIdx, PID.kLeftMotorVelocityGains.kD, PID.kTimeoutMs);
+		// m_frontLeftMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
+		m_frontLeftMotor.config_kP(kIdx, kLeftMotorVelocityGains.kP, kTimeoutMs);
+		// m_frontLeftMotor.config_kI(PID.kIdx, PID.kLeftMotorVelocityGains.kI, PID.kTimeoutMs);
+        // m_frontLeftMotor.config_kD(PID.kIdx, PID.kLeftMotorVelocityGains.kD, PID.kTimeoutMs);
 
-		// frontRightDriveMotor.config_kF(PID.kIdx, PID.kRightMotorVelocityGains.kF, PID.kTimeoutMs);
-		// frontRightDriveMotor.config_kP(PID.kIdx, PID.kRightMotorVelocityGains.kP, PID.kTimeoutMs);
-		// frontRightDriveMotor.config_kI(PID.kIdx, PID.kRightMotorVelocityGains.kI, PID.kTimeoutMs);
-        // frontRightDriveMotor.config_kD(PID.kIdx, PID.kRightMotorVelocityGains.kD, PID.kTimeoutMs);
+		// m_frontRightMotor.config_kF(PID.kIdx, PID.kRightMotorVelocityGains.kF, PID.kTimeoutMs);
+		m_frontRightMotor.config_kP(kIdx, kRightMotorVelocityGains.kP, kTimeoutMs);
+		// m_frontRightMotor.config_kI(PID.kIdx, PID.kRightMotorVelocityGains.kI, PID.kTimeoutMs);
+        // m_frontRightMotor.config_kD(PID.kIdx, PID.kRightMotorVelocityGains.kD, PID.kTimeoutMs);
 
 		// ----------------------------------------------------------
 		// Config integrated sensors (built-in encoders)
@@ -224,13 +227,13 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setLeftMotors(double negToPosPercentage) {
-		m_frontLeftMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+	public Drivetrain setLeftMotors(double velocity) {
+		m_frontLeftMotor.set(ControlMode.Velocity, velocity);
 		return this;
 	}
 
-	public Drivetrain setRightMotors(double negToPosPercentage) {
-		m_frontRightMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+	public Drivetrain setRightMotors(double velocity) {
+		m_frontRightMotor.set(ControlMode.Velocity, velocity);
 		return this;
 	}
 
