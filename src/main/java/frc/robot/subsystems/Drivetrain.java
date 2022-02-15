@@ -297,8 +297,7 @@ public class Drivetrain extends SubsystemBase {
 
 	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
 	public Drivetrain setArcadeDriveForwardLimiterRate(double rate) {
-		// m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
-		// m_arcadeDriveForwardLimiter = new MedianFilter(10);
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
 		return this;
 	}
 	public double filterArcadeDriveForward(double inputSpeed) {
@@ -307,7 +306,6 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain setArcadeDriveTurnLimiterRate(double rate) {
 		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
-		// m_arcadeDriveTurnLimiter = new MedianFilter(10);
 		return this;
 	}
 	public double filterArcadeDriveTurn(double inputSpeed) {
