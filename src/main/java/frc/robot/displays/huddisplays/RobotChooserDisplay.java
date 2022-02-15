@@ -34,7 +34,6 @@ public class RobotChooserDisplay extends HUDDisplay {
 	protected Display createDisplayAt(int column, int row) {
 		{ var robotSelectionLayout = hudTab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
-			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
 			.withSize(2, 1);
