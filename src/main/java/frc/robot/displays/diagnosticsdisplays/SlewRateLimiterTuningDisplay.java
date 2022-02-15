@@ -59,13 +59,13 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeDriveForwardLimiterNumberSlider = arcadeDriveLayout
-					.add("Forward", 1.5d)
+					.add("Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 
 				arcadeDriveTurnLimiterNumberSlider = arcadeDriveLayout
-					.add("Turn", 1.25d)
+					.add("Turn", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
@@ -76,13 +76,13 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			
 				tankDriveLeftForwardLimiterNumberSlider = tankDriveLayout
-					.add("Left Forward", 1.0d)
+					.add("Left Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
 					.getEntry();
 
 				tankDriveRightForwardLimiterNumberSlider = tankDriveLayout
-					.add("Right Forward", 1.0d)
+					.add("Right Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();

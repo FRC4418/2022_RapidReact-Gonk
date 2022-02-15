@@ -100,6 +100,11 @@ public class Robot extends TimedRobot {
 
 	}
 
+	@Override
+	public void autonomousExit() {
+		robotContainer.defaultAutoCommand().cancel();
+	}
+
 
 	// ----------------------------------------------------------
 	// Teleop-phase scheduler methods

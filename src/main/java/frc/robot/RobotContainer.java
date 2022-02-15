@@ -127,7 +127,6 @@ public class RobotContainer {
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final DriveStraightForDistance autoDriveStraightForDistance;
 
 
     // ----------------------------------------------------------
@@ -161,10 +160,8 @@ public class RobotContainer {
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 
-		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
-
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
 
 
@@ -173,7 +170,7 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return autoDriveStraightForDistance;
+		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
 	}
 
 	
@@ -224,7 +221,7 @@ public class RobotContainer {
 		return this;
 	}
 	
-	private void configureRobotSpecificDrivetrain() {			
+	private void configureRobotSpecificDrivetrain() {
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
