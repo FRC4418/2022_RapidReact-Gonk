@@ -4,8 +4,6 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -319,33 +317,6 @@ public class RobotContainer {
 				setupPilotJoystickControls[pilotIndex].run();
 			}
 		}
-		
-		// // only same-type dual controls are supported, so here we are just looking at the first port for the driver's and spotter's port ranges
-		// var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
-		// if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
-		// 	driverJoystickDeviceType = newDriverJoystickDeviceType;
-
-		// 	// sets up the joystick-input deadbands depending on which type of joystick device we're using
-		// 	switch (driverJoystickDeviceType) {
-		// 		default:
-		// 			DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
-		// 			break;
-		// 		case XboxController:
-		// 			drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
-		// 			break;
-		// 		case X3D:
-		// 			drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
-		// 			break;
-		// 	}
-
-		// 	setupDriverJoystickControls();
-		// }
-
-		// var newSpotterJoystickDeviceType = getJoystickDeviceTypeFor(spotterJoystickPorts[0]);
-		// if (newSpotterJoystickDeviceType != JoystickDeviceType.NULL && spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
-		// 	spotterJoystickDeviceType = newSpotterJoystickDeviceType;
-		// 	setupSpotterJoystickControls();
-		// }
 		return this;
 	}
 
