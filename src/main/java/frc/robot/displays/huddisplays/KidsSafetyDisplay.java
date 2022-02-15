@@ -26,8 +26,8 @@ public class KidsSafetyDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public KidsSafetyDisplay(Drivetrain drivetrain, int column, int row) {
-		super(column, row);
+    public KidsSafetyDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
+		super(column, row, width, height);
 
 		m_drivetrain = drivetrain;
     }
