@@ -98,7 +98,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 						// I have no fucking clue why the textView entry is always added before (to the 2nd row) the toggleSwitch but it's good enough
 						retractorToggleSwitch = retractorLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
@@ -116,7 +116,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						feederToggleSwitch = feederLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
@@ -140,7 +140,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						indexerToggleSwitch = indexerLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
@@ -158,7 +158,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						launcherToggleSwitch = launcherLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
@@ -190,27 +190,30 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 		{ // Intake
 			{ // Retractor motor
 				retractorToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_intake.retractIntakeArm();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 				retractorPositionTextView.addListener(event -> {
-					// if the retractor toggle switch is enabled. The false that we pass in is the default value of the switch if we can't get the entry's value
-					if (retractorToggleSwitch.getBoolean(false)) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractMotorPosition(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			{ // Feeder motor
 				feederToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_intake.stopFeeder();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				feederOutputPercentTextView.addListener(event -> {
-					if (feederToggleSwitch.getBoolean(false)) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& feederToggleSwitch.getBoolean(false)) {
 						m_intake.setFeederMotorPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -220,26 +223,31 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 		{ // Manipulator
 			{ // Indexer motor
 				indexerToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_manipulator.stopIndexer();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				indexerOutputPercentTextView.addListener(event -> {
-					if (indexerToggleSwitch.getBoolean(false)) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& indexerToggleSwitch.getBoolean(false)
+					&& indexerToggleSwitch.getBoolean(false)) {
 						m_manipulator.setIndexerToPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			{ // Launcher motor
 				launcherToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_manipulator.stopLauncher();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				launcherOutputPercentTextView.addListener(event -> {
-					if (launcherToggleSwitch.getBoolean(false)) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& launcherToggleSwitch.getBoolean(false)) {
 						m_manipulator.setLauncherToPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);

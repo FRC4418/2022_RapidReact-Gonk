@@ -15,6 +15,11 @@ public abstract class JoystickControls {
 
     public abstract boolean isActivelyDriving();
 
+
+    public abstract int getPrimaryJoystickPort();
+    
+    public abstract int getSecondaryJoystickPort();
+
     // ----------------------------------------------------------
     // Drivetrain axes
 
