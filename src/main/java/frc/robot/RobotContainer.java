@@ -88,7 +88,6 @@ public class RobotContainer {
 	public static boolean usingV1Drivetrain = false;
 
 	// joystick control resources are publicly static because 
-
 	public static JoystickControls driverJoystickControls;
 	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
 	
@@ -336,7 +335,6 @@ public class RobotContainer {
 		int[] joystickPorts;
 		BiConsumer<Joystick, Joystick> setupJoystickControls;
 
-
 		if (pilot == Pilot.DRIVER) {
 			joystickControls = driverJoystickControls;
 			joystickMode = driverJoystickMode;
@@ -354,9 +352,10 @@ public class RobotContainer {
 			return;
 		}
 
-		int originalPrimaryJoystickPort = joystickControls.getPrimaryJoystickPort();
-		int otherJoystickPort = originalPrimaryJoystickPort == joystickPorts[0] ? joystickPorts[1]: joystickPorts[0];
-		
+		int tempPrimaryJoystickPort = joystickPorts[0];
+		joystickPorts[0] = joystickPorts[1];
+		joystickPorts[1] = tempPrimaryJoystickPort;
+
 		// TODO: P3 Figure out how to use non-static RobotContainer resources from static call
 
 		switch (joystickMode) {
@@ -366,10 +365,10 @@ public class RobotContainer {
 			case ARCADE:
 			case LONE_TANK:
 				// the arcade and lone-tank modes only need one joystick
-				setupJoystickControls.accept(new Joystick(otherJoystickPort), null);
+				setupJoystickControls.accept(new Joystick(joystickPorts[0]), null);
 				break;
 			case DUAL_TANK:
-			setupJoystickControls.accept(new Joystick(otherJoystickPort), new Joystick(originalPrimaryJoystickPort));
+				setupJoystickControls.accept(new Joystick(joystickPorts[0]), new Joystick(joystickPorts[1]));
 				break;
 		}
 	}

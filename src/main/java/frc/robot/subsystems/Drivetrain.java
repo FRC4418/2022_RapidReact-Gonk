@@ -2,9 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
-import edu.wpi.first.math.filter.MedianFilter;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -12,6 +10,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
 public class Drivetrain extends SubsystemBase {
