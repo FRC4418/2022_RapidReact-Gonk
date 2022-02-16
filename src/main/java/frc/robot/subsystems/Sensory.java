@@ -23,6 +23,11 @@ public class Sensory extends SubsystemBase {
 		imu.calibrate();
 	}
 
+	// rounds to two decimals
+	public double getRounded(double input) {
+		return Math.round(input * 100.0d) / 100.0d;
+	}
+
 
 	// ----------------------------------------------------------
 	// Scheduler methods
@@ -30,15 +35,15 @@ public class Sensory extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("IMU Angle", imu.getAngle());
-		SmartDashboard.putNumber("Temperature from IMU", imu.getTemperature());
+		SmartDashboard.putNumber("IMU Angle", getRounded(imu.getAngle()));
+		SmartDashboard.putNumber("Temperature from IMU", getRounded(imu.getTemperature()));
 			
-		SmartDashboard.putNumber("Accel X", imu.getAccelX());
-		SmartDashboard.putNumber("Accel Y", imu.getAccelY());
-		SmartDashboard.putNumber("Accel Z", imu.getAccelZ());
+		SmartDashboard.putNumber("Accel X", getRounded(imu.getAccelX()));
+		SmartDashboard.putNumber("Accel Y", getRounded(imu.getAccelY()));
+		SmartDashboard.putNumber("Accel Z", getRounded(imu.getAccelZ()));
 
-		SmartDashboard.putNumber("Gyro X", Math.round(imu.getGyroAngleX()*100.0) / 100.0);
-		SmartDashboard.putNumber("Gyro Y", Math.round(imu.getGyroAngleY()*100.0) / 100.0);
-		SmartDashboard.putNumber("Gyro Z", Math.round(imu.getGyroAngleZ()*100.0) / 100.0);
+		SmartDashboard.putNumber("Gyro X", getRounded(imu.getGyroAngleX()));
+		SmartDashboard.putNumber("Gyro Y", getRounded(imu.getGyroAngleY()));
+		SmartDashboard.putNumber("Gyro Z", getRounded(imu.getGyroAngleZ()));
 	}
 }
