@@ -94,13 +94,13 @@ public class Drivetrain extends SubsystemBase {
 	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
 	private static final Gains kLeftMotorVelocityGains
-		//
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
 		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 	private static final Gains kRightMotorVelocityGains 
-		//			kP		kI		kD		kF				Iz		Peakout
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
 		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 
