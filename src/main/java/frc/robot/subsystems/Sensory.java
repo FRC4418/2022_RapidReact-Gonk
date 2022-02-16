@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,7 +21,9 @@ public class Sensory extends SubsystemBase {
 
 
 	public Sensory() {
-		imu.calibrate();
+		imu.calibrate();	// just filters out noise (robot must be still)
+		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		imu.setYawAxis(IMUAxis.kZ);
 	}
 
 	// rounds to two decimals
@@ -35,12 +38,11 @@ public class Sensory extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("IMU Angle", getRounded(imu.getAngle()));
+		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
 		SmartDashboard.putNumber("Temperature from IMU", getRounded(imu.getTemperature()));
 			
-		SmartDashboard.putNumber("Accel X", getRounded(imu.getAccelX()));
-		SmartDashboard.putNumber("Accel Y", getRounded(imu.getAccelY()));
-		SmartDashboard.putNumber("Accel Z", getRounded(imu.getAccelZ()));
+		SmartDashboard.putNumber("Filtered Accel X", getRounded(imu.getXFilteredAccelAngle()));
+		SmartDashboard.putNumber("Filtered Accel Y", getRounded(imu.getYFilteredAccelAngle()));
 
 		SmartDashboard.putNumber("Gyro X", getRounded(imu.getGyroAngleX()));
 		SmartDashboard.putNumber("Gyro Y", getRounded(imu.getGyroAngleY()));
