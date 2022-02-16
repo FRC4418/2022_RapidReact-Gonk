@@ -218,7 +218,10 @@ public class Drivetrain extends SubsystemBase {
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
 		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
+		m_backLeftMotor.configOpenloopRamp(timeInSeconds);
+
 		m_frontRightMotor.configOpenloopRamp(timeInSeconds);
+		m_backRightMotor.configOpenloopRamp(timeInSeconds);
 		return this;
 	}
 
