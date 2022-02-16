@@ -10,7 +10,7 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double MOTOR_OUTPUT_PERCENT = 0.5d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.8d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -36,9 +36,7 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void execute() {
-		m_drivetrain
-			.setLeftMotors(MOTOR_OUTPUT_PERCENT)
-			.setRightMotors(MOTOR_OUTPUT_PERCENT);
+		m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
