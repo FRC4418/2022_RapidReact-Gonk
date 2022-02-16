@@ -75,15 +75,18 @@ public class Drivetrain extends SubsystemBase {
 	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
-		// wheel diameter is 6 inches
+		// wheel diameter is 6 inches (which is 0.1524 meters)
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
+		TICKS_TO_METERS_CONVERSION  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d;
+
+	private static final double
+		METERS_PER_SECOND_TO_TICKS_PER_100MS = 427.7550177d;
 	
 
 	// Closed-loop control constants
 
-	// // the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
-	// private static final int kSlotIdx = 0;
+	// the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
+	private static final int kSlotIdx = 0;
 
 	// Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
 	private static final int kIdx = 0;
@@ -96,12 +99,12 @@ public class Drivetrain extends SubsystemBase {
 	private static final Gains kLeftMotorVelocityGains
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 	private static final Gains kRightMotorVelocityGains 
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(1.0629d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 
 	// ----------------------------------------------------------
@@ -141,6 +144,8 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_backRightMotor.follow(m_frontRightMotor);
 
+		m_frontLeftMotor.setInverted(true);
+
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
@@ -157,8 +162,8 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config integrated sensors (built-in encoders)
 
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kSlotIdx, 10);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kSlotIdx, 10);
 		resetEncoders();
 	}
 
@@ -273,7 +278,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		// TODO: P1 Why are the V1 motor groups swapped???
+		// TODO: P1 Why do the V1 motor groups need to be swapped???
 
 		if (RobotContainer.usingV1Drivetrain) {
 			m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
@@ -358,7 +363,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistance() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
+		return m_frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_METERS_CONVERSION;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -367,7 +372,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistance() {
-		return m_frontRightMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
+		return m_frontRightMotor.getSelectedSensorPosition() * TICKS_TO_METERS_CONVERSION;
 	}
 
 	public Drivetrain resetRightEncoder() {

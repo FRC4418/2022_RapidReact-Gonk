@@ -27,14 +27,14 @@ public class DriveStraightForDistance extends CommandBase {
 
 	private final Drivetrain m_drivetrain;
 
-	private final double m_distanceInInches;
+	private final double m_distanceInMeters;
 	private final DriveStraightDirection m_direction;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
-		m_distanceInInches = distanceInInches;
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
+		m_distanceInMeters = distanceInMeters;
 		m_direction = direction;
 		m_drivetrain = drivetrain;
 		
@@ -77,6 +77,6 @@ public class DriveStraightForDistance extends CommandBase {
 	public boolean isFinished() {
 		SmartDashboard.putNumber("traveled average distance", m_drivetrain.getAverageDistance());
 
-		return Math.abs(m_drivetrain.getAverageDistance()) >= m_distanceInInches;
+		return Math.abs(m_drivetrain.getAverageDistance()) >= m_distanceInMeters;
 	}
 }

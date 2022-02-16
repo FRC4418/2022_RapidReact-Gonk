@@ -45,6 +45,8 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
+	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_ONE;
+
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
 
@@ -178,7 +180,7 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
+		return new DriveStraightForDistance(drivetrain, 0.6096d, DriveStraightDirection.BACKWARDS);
 	}
 
 	
@@ -238,8 +240,12 @@ public class RobotContainer {
 		}
 		return this;
 	}
+
+	int counter = 0;
 	
 	private void configureRobotSpecificDrivetrain() {
+		SmartDashboard.putNumber("Configured Drivetrain", counter++);
+
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
