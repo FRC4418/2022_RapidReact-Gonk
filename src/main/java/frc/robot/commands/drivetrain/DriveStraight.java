@@ -11,7 +11,7 @@ public class DriveStraight extends CommandBase {
 	// Private constants
 
 	// in meters per second
-	private final double MOTOR_OUTPUT_VELOCITY = 2.d;
+	private final double MOTOR_SPEED = 0.8d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -32,21 +32,19 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d);
+		m_drivetrain.disableOpenLoopRamp();
 	}
 
 	@Override
 	public void execute() {
-		m_drivetrain
-			.setLeftMotors(MOTOR_OUTPUT_VELOCITY)
-			.setRightMotors(MOTOR_OUTPUT_VELOCITY);
+		// TODO: P3 Figure out why these values have to be flipped
+		m_drivetrain.tankDrive(-MOTOR_SPEED, -MOTOR_SPEED);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

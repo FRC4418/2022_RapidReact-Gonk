@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Gains;
@@ -29,8 +30,7 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public static final double
 		// units in seconds
-		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
-		DEFAULT_SHARED_RAMP_TIME = 2.d;
+		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
 
 	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
 
@@ -121,8 +121,8 @@ public class Drivetrain extends SubsystemBase {
 	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
 	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
 
-	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(0.5d);
-	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(0.5d);
+	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
 
 
 	// ----------------------------------------------------------
@@ -140,14 +140,6 @@ public class Drivetrain extends SubsystemBase {
 
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_backRightMotor.follow(m_frontRightMotor);
-
-		// ----------------------------------------------------------
-		// Config open-loop controls
-
-		// m_frontLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_backLeftMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_frontRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
-		// m_backRightMotor.configOpenloopRamp(SHARED_RAMP_TIME);
 
 		// ----------------------------------------------------------
 		// Config closed-loop controls
@@ -168,16 +160,11 @@ public class Drivetrain extends SubsystemBase {
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 		resetEncoders();
-
-		// ----------------------------------------------------------
-		// Set up drivetrain
-
-		// coastOrBrakeMotors(false, false);
 	}
 
 
 	// ----------------------------------------------------------
-	// Low-level methods
+	// Motor methods
 
 
 	public Drivetrain setDeadband(double deadband) {
@@ -221,9 +208,22 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
+	public Drivetrain useJoystickDrivingOpenLoopRamp() {
+		setOpenLoopRampTimes(JOYSTICK_DRIVING_OPEN_LOOP_TIME);
+		return this;
+	}
+
+	public Drivetrain disableOpenLoopRamp() {
+		setOpenLoopRampTimes(0.d);
+		return this;
+	}
+
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
 		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
+		m_backLeftMotor.configOpenloopRamp(timeInSeconds);
+
 		m_frontRightMotor.configOpenloopRamp(timeInSeconds);
+		m_backRightMotor.configOpenloopRamp(timeInSeconds);
 		return this;
 	}
 
@@ -245,9 +245,27 @@ public class Drivetrain extends SubsystemBase {
 		return m_frontRightMotor.getMotorOutputPercent();
 	}
 
+	public Drivetrain brakeMotors() {
+		m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+		m_backLeftMotor.setNeutralMode(NeutralMode.Brake);
+
+		m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
+		m_backRightMotor.setNeutralMode(NeutralMode.Brake);
+		return this;
+	}
+
+	public Drivetrain coastMotors() {
+		m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+		m_backLeftMotor.setNeutralMode(NeutralMode.Coast);
+
+		m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
+		m_backRightMotor.setNeutralMode(NeutralMode.Coast);
+		return this;
+	}
+
 
 	// ----------------------------------------------------------
-	// High-level methods
+	// Drive methods
 
 	
 	public void arcadeDrive(double xSpeed, double zRotation) {
