@@ -29,8 +29,7 @@ public class Drivetrain extends SubsystemBase {
 	// Open-loop control constants
 	public static final double
 		// units in seconds
-		// TODO: P1 Put drivetrain open-loop ramp time in a diagnostics display
-		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 2.d;
+		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
 
 	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
 

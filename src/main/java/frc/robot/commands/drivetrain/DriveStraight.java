@@ -36,7 +36,8 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void execute() {
-		m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
+		// TODO: P3 Figure out why these values have to be flipped
+		m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
