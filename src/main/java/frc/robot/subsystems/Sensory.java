@@ -21,14 +21,22 @@ public class Sensory extends SubsystemBase {
 
 
 	public Sensory() {
-		imu.calibrate();	// just filters out noise (robot must be still)
-		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
 		imu.setYawAxis(IMUAxis.kZ);
 	}
 
 	// rounds to two decimals
-	public double getRounded(double input) {
+	private double getRounded(double input) {
 		return Math.round(input * 100.0d) / 100.0d;
+	}
+
+	public Sensory calibrateIMU() {
+		imu.calibrate();	// just filters out noise (robot must be still)
+		return this;
+	}
+
+	public Sensory resetIMU() {
+		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		return this;
 	}
 
 
