@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 
 import frc.robot.displays.Display;
+import frc.robot.subsystems.Vision;
 
 
 public class CamerasDisplay extends HUDDisplay {
@@ -31,13 +32,12 @@ public class CamerasDisplay extends HUDDisplay {
 	protected Display createDisplayAt(int column, int row) {
 		{ var camerasLayout = hudTab
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(3, 4);
 			
-			camerasLayout
-				.add("Autonomous Routine", autoRoutineChooser)
-				.withWidget(BuiltInWidgets.kComboBoxChooser);
+			camerasLayout.add("Front-Center", Vision.frontCenterCamera);
+			camerasLayout.add("Back-Center", Vision.backCenterCamera);
 		}
 		return this;
 	}

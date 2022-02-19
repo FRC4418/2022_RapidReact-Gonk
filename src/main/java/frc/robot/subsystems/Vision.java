@@ -18,11 +18,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Resources
+	// Public static resources
 
 
-	private UsbCamera frontCenterCamera;
-	private UsbCamera backCenterCamera;
+	public static UsbCamera frontCenterCamera;
+	public static UsbCamera backCenterCamera;
+
+
+	// ----------------------------------------------------------
+	// Private resources
+
 
 	private ArrayList<String> cameraNames = new ArrayList<>();
 	private ArrayList<UsbCamera> cameras = new ArrayList<>();
