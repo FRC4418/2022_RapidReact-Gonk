@@ -19,8 +19,8 @@ public class CamerasDisplay extends HUDDisplay {
     // ----------------------------------------------------------
     // Constructor (initializes the display the same time)
     
-    public CamerasDisplay(int column, int row) {
-		super(column, row);
+    public CamerasDisplay(int column, int row, int width, int height) {
+		super(column, row, width, height);
     }
 
 	@Override
@@ -35,7 +35,7 @@ public class CamerasDisplay extends HUDDisplay {
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(6, 2);
+			.withSize(width, height);
 			
 			camerasLayout
 				.add("Front-Center", Vision.frontCenterCameraServer.getSource())

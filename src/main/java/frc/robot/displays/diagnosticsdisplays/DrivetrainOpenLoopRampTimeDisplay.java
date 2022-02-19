@@ -24,8 +24,8 @@ public class DrivetrainOpenLoopRampTimeDisplay extends DiagnosticsDisplay {
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
 
-    public DrivetrainOpenLoopRampTimeDisplay(Drivetrain drivetrain, int column, int row) {
-		super(column, row);
+    public DrivetrainOpenLoopRampTimeDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
+		super(column, row, width, height);
 
 		m_drivetrain = drivetrain;
 
