@@ -260,7 +260,7 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setMaximumOutput(double maxOutput) {
+	public Drivetrain setMaxOutput(double maxOutput) {
 		m_differentialDrive.setMaxOutput(maxOutput);
 		return this;
 	}
@@ -371,8 +371,14 @@ public class Drivetrain extends SubsystemBase {
 	// Drive methods
 
 	
-	public void arcadeDrive(double xSpeed, double zRotation) {
-		m_differentialDrive.arcadeDrive(xSpeed, zRotation);
+	public void arcadeDrive(double forward, double rotation) {
+		m_differentialDrive.arcadeDrive(forward, rotation);
+	}
+
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		m_leftGroup.setVoltage(leftVolts);
+		m_rightGroup.setVoltage(rightVolts);
+		m_differentialDrive.feed();
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
