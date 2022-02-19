@@ -4,11 +4,8 @@ package frc.robot.displays.huddisplays;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.displays.Display;
-import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class CamerasDisplay extends HUDDisplay {
