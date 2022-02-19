@@ -41,6 +41,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
+
+		robotContainer.drivetrain.brakeMotors();
+
+		// the robot should not be moving while the IMU is calibrating
 		robotContainer.sensory
 			.calibrateIMU()
 			.resetIMU();
@@ -68,8 +72,8 @@ public class Robot extends TimedRobot {
 			.listenForJoystickDevices();
 		
 		if (RobotContainer.enableDiagnostics) {
-			robotContainer
-				.printJoystickValues();
+			// robotContainer
+			// 	.printJoystickValues();
 		}
 	}
 
@@ -80,12 +84,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		
+		robotContainer.drivetrain.coastMotors();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 
+	}
+
+	@Override
+	public void disabledExit() {
+		robotContainer.drivetrain.brakeMotors();
 	}
 
 
