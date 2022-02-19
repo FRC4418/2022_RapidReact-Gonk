@@ -95,18 +95,18 @@ public class Drivetrain extends SubsystemBase {
 
 	// horizontal distance between the left and right-side wheels
 	private static final double kTrackWidthMeters = 0.62484;
-	private static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-
-	private static final double
-		kMaxSpeedMetersPerSecond = 3.d,
-    	kMaxAccelerationMetersPerSecondSquared = 3.d;
+	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 
 
 	// ----------------------------------------------------------
-	// Ramsete controller constsants
+	// Trajectory constsants
 
 
-	private static final double
+	public static final double
+		kMaxSpeedMetersPerSecond = 3.d,
+    	kMaxAccelerationMetersPerSecondSquared = 3.d;
+
+	public static final double
 		kRamseteB = 2,
 		kRamseteZeta = 0.7;
 
@@ -128,7 +128,7 @@ public class Drivetrain extends SubsystemBase {
 	// Closed-loop control constants
 
 
-	private static final double
+	public static final double
 		// Feedforward gains
 		ksVolts = 0.67701,
 		kvVoltSecondsPerMeter = 0.041828,
