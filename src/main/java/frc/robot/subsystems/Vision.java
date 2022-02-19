@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -39,25 +38,6 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
-
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-
-	@Override
-	public void periodic() {
-
-	}
-
-
-	// ----------------------------------------------------------
-	// Camera-streaming methods
-
-
-	public Vision initCameras() {
 		String frontCenterCameraName = "Front-Center";
 		frontCenterCamera = CameraServer.startAutomaticCapture(frontCenterCameraName, 0);
 		frontCenterCamera.setResolution(640, 480);
@@ -77,8 +57,22 @@ public class Vision extends SubsystemBase {
 			frontCenterCameraName,
 			backCenterCameraName
 		));
-		return this;
 	}
+
+
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+
+	@Override
+	public void periodic() {
+
+	}
+
+
+	// ----------------------------------------------------------
+	// Camera-streaming methods
+
 
 	public Vision startCameraStreams() {
 		new Thread(() -> {

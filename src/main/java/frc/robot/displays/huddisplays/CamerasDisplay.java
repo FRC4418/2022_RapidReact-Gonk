@@ -4,7 +4,7 @@ package frc.robot.displays.huddisplays;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-
+import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Vision;
 
@@ -36,8 +36,8 @@ public class CamerasDisplay extends HUDDisplay {
 			.withPosition(column, row)
 			.withSize(3, 4);
 			
-			camerasLayout.add("Front-Center", Vision.frontCenterCamera);
-			camerasLayout.add("Back-Center", Vision.backCenterCamera);
+			camerasLayout.add("Front-Center", SendableCameraWrapper.wrap(Vision.frontCenterCamera));
+			camerasLayout.add("Back-Center", SendableCameraWrapper.wrap(Vision.backCenterCamera));
 		}
 		return this;
 	}
