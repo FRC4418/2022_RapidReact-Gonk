@@ -26,9 +26,11 @@ import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirec
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.displays.Display;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.CamerasDisplay;
 import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
@@ -37,6 +39,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
@@ -143,6 +146,8 @@ public class RobotContainer {
 
 	public final Autonomous autonomous = new Autonomous();
 
+	public final Vision vision = new Vision();
+
 
     // ----------------------------------------------------------
     // Constructor and display helpers
@@ -151,27 +156,32 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
-		reserveAndGetNextRowAtColumn(0, display, displayType)
+		// reserveAndGetNextRowAtColumn(0, display, displayType);
 
+		// add more HUD displays to this list as needed
 		// hudDisplays.addAll(Arrays.asList(
-		// 	robotChooserDisplay = new RobotChooserDisplay(0, 0, 2, 1),
-		// 	joysticksDisplay = new JoysticksDisplay(2, 0, 3, 2),
-		// 	new AutonomousDisplay(0, 1, 2, 1)
+		// 	robotChooserDisplay = new RobotChooserDisplay(0, 0),
+		// 	joysticksDisplay = new JoysticksDisplay(2, 0),
+		// 	new KidsSafetyDisplay(drivetrain, 5, 0),
+		// 	new AutonomousDisplay(0, 1),
+		// 	new CamerasDisplay(0, 2)
 		// ));
 		// for (var display: hudDisplays) {
 		// 	display.initialize();
 		// 	display.addEntryListeners();
 		// }
 
-		if (enableDiagnostics) {
-			// diagnosticsDisplays.addAll(Arrays.asList(
-			// 	new MotorTestingDisplay(intake, manipulator, 0, 0, 7, 3),
-			// 	new SlewRateLimiterTuningDisplay(drivetrain, 7, 0, 2, 3)
-			// ));
-			// for (var display: diagnosticsDisplays) {
-			// 	display.initialize();
-			// }
-		}
+		// if (enableDiagnostics) {
+		// 	// add more diagnostics displays to this list as needed
+		// 	diagnosticsDisplays.addAll(Arrays.asList(
+		// 		new MotorTestingDisplay(intake, manipulator, 0, 0),
+		// 		new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),
+		// 		new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 0, 3)
+		// 	));
+		// 	for (var display: diagnosticsDisplays) {
+		// 		display.initialize();
+		// 	}
+		// }
 
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();

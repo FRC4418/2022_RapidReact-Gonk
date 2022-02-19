@@ -47,8 +47,7 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void initialize() {
 		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d)
+			.disableOpenLoopRamp()
 			.resetEncoders();
 	}
 
@@ -71,8 +70,7 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
-
-		SmartDashboard.putString("Stopped driving straight", "stopped");
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

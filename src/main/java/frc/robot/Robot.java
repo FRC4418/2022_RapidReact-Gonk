@@ -1,8 +1,6 @@
 package frc.robot;
 
 
-// import edu.wpi.first.cscore.UsbCamera;
-// import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,15 +11,6 @@ public class Robot extends TimedRobot {
 
 	
 	public static RobotContainer robotContainer;
-
-
-	// ----------------------------------------------------------
-	// Private resources
-	
-
-	// TODO: P1 Do camera code
-	// private UsbCamera m_frontShooterCamera;
-	// private UsbCamera m_rightPanelCamera;
 
 
 	// ----------------------------------------------------------
@@ -41,12 +30,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
+
+		robotContainer.drivetrain.brakeMotors();
+
+		// the robot should not be moving while the IMU is calibrating
 		robotContainer.sensory
 			.calibrateIMU()
 			.resetIMU();
 
-		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
-		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+		robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer
@@ -68,8 +60,8 @@ public class Robot extends TimedRobot {
 			.listenForJoystickDevices();
 		
 		if (RobotContainer.enableDiagnostics) {
-			robotContainer
-				.printJoystickValues();
+			// robotContainer
+			// 	.printJoystickValues();
 		}
 	}
 
@@ -80,12 +72,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		
+		robotContainer.drivetrain.coastMotors();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 
+	}
+
+	@Override
+	public void disabledExit() {
+		robotContainer.drivetrain.brakeMotors();
 	}
 
 

@@ -24,16 +24,16 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
     private NetworkTableEntry motorTestingModeToggleSwitch;
 
 	private NetworkTableEntry indexerToggleSwitch;
-	private NetworkTableEntry indexerOutputPercentTextView;
+	private NetworkTableEntry indexerOutputPercentNumberSlider;
 
 	private NetworkTableEntry launcherToggleSwitch;
-	private NetworkTableEntry launcherOutputPercentTextView;
+	private NetworkTableEntry launcherOutputPercentNumberSlider;
 
 	private NetworkTableEntry feederToggleSwitch;
-	private NetworkTableEntry feederOutputPercentTextView;
+	private NetworkTableEntry feederOutputPercentNumberSlider;
 
 	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorPositionTextView;
+	private NetworkTableEntry retractorPositionNumberSlider;
 
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
@@ -49,16 +49,16 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
-			indexerOutputPercentTextView,
+			indexerOutputPercentNumberSlider,
 
 			launcherToggleSwitch,
-			launcherOutputPercentTextView,
+			launcherOutputPercentNumberSlider,
 
 			feederToggleSwitch,
-			feederOutputPercentTextView,
+			feederOutputPercentNumberSlider,
 
 			retractorToggleSwitch,
-			retractorPositionTextView
+			retractorPositionNumberSlider
 		));
 		return this;
 	}
@@ -102,7 +102,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						retractorPositionTextView = retractorLayout
+						retractorPositionNumberSlider = retractorLayout
 							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -120,7 +120,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						feederOutputPercentTextView = feederLayout
+						feederOutputPercentNumberSlider = feederLayout
 							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -144,7 +144,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						indexerOutputPercentTextView = indexerLayout
+						indexerOutputPercentNumberSlider = indexerLayout
 							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -162,7 +162,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						launcherOutputPercentTextView = launcherLayout
+						launcherOutputPercentNumberSlider = launcherLayout
 							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -196,7 +196,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-				retractorPositionTextView.addListener(event -> {
+				retractorPositionNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractMotorPosition(event.value.getDouble());
@@ -211,7 +211,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				feederOutputPercentTextView.addListener(event -> {
+				feederOutputPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& feederToggleSwitch.getBoolean(false)) {
 						m_intake.setFeederMotorPercent(event.value.getDouble());
@@ -229,7 +229,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				indexerOutputPercentTextView.addListener(event -> {
+				indexerOutputPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)) {
@@ -245,7 +245,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				launcherOutputPercentTextView.addListener(event -> {
+				launcherOutputPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& launcherToggleSwitch.getBoolean(false)) {
 						m_manipulator.setLauncherToPercent(event.value.getDouble());
