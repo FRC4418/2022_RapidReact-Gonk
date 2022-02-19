@@ -189,7 +189,8 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return new DriveStraightForDistance(drivetrain, 0.6096d, DriveStraightDirection.BACKWARDS);
+		// return new DriveStraightForDistance(drivetrain, 0.6096d, DriveStraightDirection.BACKWARDS);
+		return getExampleTrajectory();
 	}
 
 	public Command getExampleTrajectory() {
