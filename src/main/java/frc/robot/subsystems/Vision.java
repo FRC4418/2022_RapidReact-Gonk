@@ -18,19 +18,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Private constants
-
-
-	private Hashtable<String, Integer> cameraNameAndPortMap = new Hashtable<>() {{
-		put("Front-Center", 0);
-		put("Back-Center", 1);
-	}};
-
-
-	// ----------------------------------------------------------
 	// Resources
 
 
+	private UsbCamera frontCenterCamera;
+	private UsbCamera backCenterCamera;
+
+	private ArrayList<String> cameraNames = new ArrayList<>();
 	private ArrayList<UsbCamera> cameras = new ArrayList<>();
 	private ArrayList<Mat> outputMats = new ArrayList<>();
 
@@ -58,20 +52,37 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
+	public Vision initCameras() {
+		String frontCenterCameraName = "Front-Center";
+		frontCenterCamera = CameraServer.startAutomaticCapture(frontCenterCameraName, 0);
+		frontCenterCamera.setResolution(640, 480);
+
+		String backCenterCameraName = "Back-Center";
+		backCenterCamera = CameraServer.startAutomaticCapture(backCenterCameraName, 1);
+		backCenterCamera.setResolution(640, 480);
+
+		// add more UsbCameras to this list as needed
+		cameras.addAll(Arrays.asList(
+			frontCenterCamera,
+			backCenterCamera
+		));
+
+		// add more camera String names to this list as needed
+		cameraNames.addAll(Arrays.asList(
+			frontCenterCameraName,
+			backCenterCameraName
+		));
+		return this;
+	}
+
 	public Vision startCameraStreams() {
 		new Thread(() -> {
-			for (var entry: cameraNameAndPortMap.entrySet()) {
-				cameras.add(CameraServer.startAutomaticCapture(entry.getKey(), entry.getValue()));
-			}
-
-			for (var camera: cameras) {
-				camera.setResolution(640, 480);
-			}
+			initCameras();
 
 			CvSink[] cvSinks = Arrays.stream(cameras.toArray()).map(
 				camera -> CameraServer.getVideo((VideoSource) camera)).toArray(CvSink[]::new);
 
-			CvSource[] outputStreams = Arrays.stream(cameraNameAndPortMap.keySet().toArray()).map(
+			CvSource[] outputStreams = Arrays.stream(cameraNames.toArray()).map(
 				cameraName -> CameraServer.putVideo((String) cameraName, 640, 480)).toArray(CvSource[]::new);
 
 			ArrayList<Mat> sources = new ArrayList<>();

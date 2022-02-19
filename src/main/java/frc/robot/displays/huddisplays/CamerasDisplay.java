@@ -35,9 +35,9 @@ public class CamerasDisplay extends HUDDisplay {
 			.withPosition(column, row)
 			.withSize(2, 1);
 			
-			// camerasLayout
-			// 	.add("Autonomous Routine", autoRoutineChooser)
-			// 	.withWidget(BuiltInWidgets.kComboBoxChooser);
+			camerasLayout
+				.add("Autonomous Routine", autoRoutineChooser)
+				.withWidget(BuiltInWidgets.kComboBoxChooser);
 		}
 		return this;
 	}
