@@ -185,15 +185,20 @@ public class RobotContainer {
 	public Pair<Integer, Integer> reserveAndGetNextColumnAtRow(int row, Display display, DisplayType displayType) {
 		var displayGrid = displayType == DisplayType.HUD ? hudDisplaysGrid: diagnosticDisplaysGrid;
 		
+		// if the row we want doesn't exist, make it
+
+		int numRows = displayGrid.size();
 		ArrayList<Display> wantedRow = null;
 		try {
 			wantedRow = displayGrid.get(row);
 		} catch (Exception e) {
-			for (int iii = 0; iii <= row; iii++) {
+			for (int iii = 0; iii <= row - numRows; iii++) {
 				displayGrid.add(new ArrayList<>());
 			}
 			wantedRow = displayGrid.get(row);
 		}
+
+		// REWRITE EVERYTHING BELOW
 
 		Display previousDisplay = null;
 		for (int iii = 0; iii < wantedRow.size(); iii++) {
@@ -202,7 +207,6 @@ public class RobotContainer {
 				previousDisplay = nextDisplayInRow;
 			}
 		}
-
 		if (previousDisplay == null) {
 			DriverStation.reportError("Previous display found null when reserving and getting the next display grid column at given row", true);
 		}
@@ -241,13 +245,13 @@ public class RobotContainer {
 
 		// if the column we want doesn't exist, make it
 
-		int maxColumnIndex = displayGrid.get(0).size() - 1;
+		int numColumns = displayGrid.get(0).size();
 		if (column < 0) {
 			DriverStation.reportError("Negative indexes not supported for reserving next-column-at-row for relative display coordinates", true);
-		} else if (column > maxColumnIndex) {
+		} else if (column > numColumns) {
 			for (int row = 0; row < displayGrid.size(); row++) {
 				var rowArray = displayGrid.get(row);
-				for (int iii = 0; iii < column - maxColumnIndex; iii++) {
+				for (int iii = 0; iii <= column - numColumns; iii++) {
 					rowArray.add(null);
 				}
 			}
