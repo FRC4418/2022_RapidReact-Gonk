@@ -11,7 +11,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
@@ -40,6 +39,7 @@ import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.CamerasDisplay;
 import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.KidsSafetyDisplay;
@@ -48,6 +48,7 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
@@ -146,6 +147,8 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
+	public final Vision vision = new Vision();
+
 
     // ----------------------------------------------------------
     // Constructor
@@ -154,11 +157,13 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
+		// add more HUD displays to this list as needed
 		hudDisplays.addAll(Arrays.asList(
 			robotChooserDisplay = new RobotChooserDisplay(0, 0),
 			joysticksDisplay = new JoysticksDisplay(2, 0),
 			new KidsSafetyDisplay(drivetrain, 5, 0),
-			new AutonomousDisplay(0, 1)
+			new AutonomousDisplay(0, 1),
+			new CamerasDisplay(0, 2)
 		));
 		for (var display: hudDisplays) {
 			display.initialize();
@@ -166,6 +171,7 @@ public class RobotContainer {
 		}
 
 		if (enableDiagnostics) {
+			// add more diagnostics displays to this list as needed
 			diagnosticsDisplays.addAll(Arrays.asList(
 				new MotorTestingDisplay(intake, manipulator, 0, 0),
 				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),

@@ -1,8 +1,6 @@
 package frc.robot;
 
 
-// import edu.wpi.first.cscore.UsbCamera;
-// import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,9 +18,6 @@ public class Robot extends TimedRobot {
 	// Private resources
 	
 
-	// TODO: P1 Do camera code
-	// private UsbCamera m_frontShooterCamera;
-	// private UsbCamera m_rightPanelCamera;
 	private Command defaultAutoCommand;
 
 
@@ -51,8 +46,7 @@ public class Robot extends TimedRobot {
 			.calibrateIMU()
 			.resetIMU();
 
-		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
-		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+		robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer
