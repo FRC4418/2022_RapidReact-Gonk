@@ -37,6 +37,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
@@ -135,6 +136,8 @@ public class RobotContainer {
 
 	public final Autonomous autonomous = new Autonomous();
 
+	public final Vision vision = new Vision();
+
 
     // ----------------------------------------------------------
     // Constructor
@@ -143,6 +146,7 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
+		// add more HUD displays to this list as needed
 		hudDisplays.addAll(Arrays.asList(
 			robotChooserDisplay = new RobotChooserDisplay(0, 0),
 			joysticksDisplay = new JoysticksDisplay(2, 0),
@@ -155,6 +159,7 @@ public class RobotContainer {
 		}
 
 		if (enableDiagnostics) {
+			// add more diagnostics displays to this list as needed
 			diagnosticsDisplays.addAll(Arrays.asList(
 				new MotorTestingDisplay(intake, manipulator, 0, 0),
 				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),

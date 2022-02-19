@@ -38,8 +38,9 @@ public class Robot extends TimedRobot {
 			.calibrateIMU()
 			.resetIMU();
 
-		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
-		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+		robotContainer.vision
+			.initCameras()
+			.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer

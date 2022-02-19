@@ -82,8 +82,6 @@ public class Vision extends SubsystemBase {
 
 	public Vision startCameraStreams() {
 		new Thread(() -> {
-			initCameras();
-
 			CvSink[] cvSinks = Arrays.stream(cameras.toArray()).map(
 				camera -> CameraServer.getVideo((VideoSource) camera)).toArray(CvSink[]::new);
 
