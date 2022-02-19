@@ -504,7 +504,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters;
+		return -m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters;
 	}
 
 	public Drivetrain resetLeftEncoder() {

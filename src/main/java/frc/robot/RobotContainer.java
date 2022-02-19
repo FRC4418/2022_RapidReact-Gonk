@@ -20,7 +20,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
@@ -34,6 +34,8 @@ import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
+import frc.robot.commands.manipulator.AutoRunLauncherDemo;
+import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
 import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
@@ -195,7 +197,9 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return new DriveStraightForDistance(drivetrain, 0.5d, DriveStraightDirection.BACKWARDS);
+		return new SequentialCommandGroup(
+			new AutoRunLauncherDemo(manipulator, 1.5d),
+			new DriveStraightForDistance(drivetrain, 3d, DriveStraightDirection.BACKWARDS));
 		// return getExampleTrajectory();
 	}
 
