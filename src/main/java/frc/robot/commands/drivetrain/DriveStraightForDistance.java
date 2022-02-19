@@ -20,7 +20,7 @@ public class DriveStraightForDistance extends CommandBase {
 	// Private constants
 
 	private final double MOTOR_OUTPUT_PERCENT = 0.45d;
-	private final double kP = 0.1d;
+	private final double kP = 0.05d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -48,23 +48,22 @@ public class DriveStraightForDistance extends CommandBase {
 	public void initialize() {
 		m_drivetrain
 			.disableOpenLoopRamp()
+			.resetIMU()
 			.resetEncoders();
 	}
 
 	@Override
 	public void execute() {
-		double error = m_drivetrain.getLeftDistanceMeters() - m_drivetrain.getRightDistanceMeters();
+		// double error = m_drivetrain.getLeftDistanceMeters() - m_drivetrain.getRightDistanceMeters();
+		double error = m_drivetrain.getHeading();
 
 		if (m_direction == DriveStraightDirection.FORWARDS) {
-			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT - kP * error, MOTOR_OUTPUT_PERCENT + kP * error);
-			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
+			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
+			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
 		} else {
-			// m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT - kP * error), -(MOTOR_OUTPUT_PERCENT + kP * error));
-			m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
+			m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
+			// m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 		}
-
-		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistanceMeters());
-		SmartDashboard.putNumber("Right Encoder", m_drivetrain.getRightDistanceMeters());
 	}
 
 	@Override

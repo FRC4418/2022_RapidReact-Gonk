@@ -205,8 +205,6 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_backRightMotor.follow(m_frontRightMotor);
 
-		m_frontLeftMotor.setInverted(true);
-
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
@@ -235,14 +233,9 @@ public class Drivetrain extends SubsystemBase {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
 
 		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
-		SmartDashboard.putNumber("Temperature from IMU", getRounded(imu.getTemperature()));
-			
-		SmartDashboard.putNumber("Filtered Accel X", getRounded(getXFilteredAccelAngle()));
-		SmartDashboard.putNumber("Filtered Accel Y", getRounded(getYFilteredAccelAngle()));
 
-		SmartDashboard.putNumber("Gyro X", getRounded(imu.getGyroAngleX()));
-		SmartDashboard.putNumber("Gyro Y", getRounded(imu.getGyroAngleY()));
-		SmartDashboard.putNumber("Gyro Z", getRounded(imu.getGyroAngleZ()));
+		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
+		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
 	}
 
 
@@ -535,6 +528,6 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getAverageDistance() {
-		return (getRightDistanceMeters() + getLeftDistanceMeters()) / 2.0d;
+		return (getLeftDistanceMeters() + getRightDistanceMeters()) / 2.0d;
 	}
 }
