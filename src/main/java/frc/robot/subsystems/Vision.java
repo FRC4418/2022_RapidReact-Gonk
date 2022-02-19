@@ -10,8 +10,11 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -20,8 +23,11 @@ public class Vision extends SubsystemBase {
 	// Public static resources
 
 
-	public static UsbCamera frontCenterCamera;
-	public static UsbCamera backCenterCamera;
+	private UsbCamera frontCenterCamera;
+	public static MjpegServer frontCenterCameraServer;
+
+	private UsbCamera backCenterCamera;
+	public static MjpegServer backCenterCameraServer;
 
 
 	// ----------------------------------------------------------
@@ -38,19 +44,29 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
-		String frontCenterCameraName = "Front-Center";
-		frontCenterCamera = CameraServer.startAutomaticCapture(frontCenterCameraName, 0);
-		frontCenterCamera.setResolution(640, 480);
+		// TODO: P2 Figure out how the MJPEG server port numbers should be determined
 
+		String frontCenterCameraName = "Front-Center";
+		frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
+		frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1181);
+		frontCenterCameraServer.setSource(frontCenterCamera);
+		
 		String backCenterCameraName = "Back-Center";
-		backCenterCamera = CameraServer.startAutomaticCapture(backCenterCameraName, 1);
-		backCenterCamera.setResolution(640, 480);
+		backCenterCamera = new UsbCamera(backCenterCameraName, 1);
+		backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		backCenterCameraServer = new MjpegServer(backCenterCameraName, 1182);
+		backCenterCameraServer.setSource(backCenterCamera);
 
 		// add more UsbCameras to this list as needed
 		cameras.addAll(Arrays.asList(
 			frontCenterCamera,
 			backCenterCamera
 		));
+
+		for (var camera: cameras) {
+			camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		}
 
 		// add more camera String names to this list as needed
 		cameraNames.addAll(Arrays.asList(

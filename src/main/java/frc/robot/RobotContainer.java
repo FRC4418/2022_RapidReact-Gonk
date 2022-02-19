@@ -153,7 +153,7 @@ public class RobotContainer {
 			joysticksDisplay = new JoysticksDisplay(2, 0),
 			new KidsSafetyDisplay(drivetrain, 5, 0),
 			new AutonomousDisplay(0, 1),
-			new CamerasDisplay(7, 0)
+			new CamerasDisplay(0, 2)
 		));
 		for (var display: hudDisplays) {
 			display.initialize();
