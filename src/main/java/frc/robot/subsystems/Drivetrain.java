@@ -466,22 +466,16 @@ public class Drivetrain extends SubsystemBase {
 	// IMU methods
 
 
-	public Drivetrain calibrateIMU() {
-		imu.calibrate();	// just filters out noise (robot must be still)
-		
-		m_filteredXAccelOffset = imu.getXFilteredAccelAngle();
-		m_filteredYAccelOffset = imu.getYFilteredAccelAngle();
-		
-		return this;
-	}
-
-	public Drivetrain resetIMU() {
-		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
-		return this;
+	public double getHeading() {
+		return imu.getAngle();
 	}
 
 	public Rotation2d getRotation2d() {
 		return Rotation2d.fromDegrees(imu.getAngle());
+	}
+
+	public double getTurnRate() {
+		return imu.getRate();	// degrees per second
 	}
 
 	// rounds to two decimals
@@ -495,6 +489,20 @@ public class Drivetrain extends SubsystemBase {
 	
 	private double getYFilteredAccelAngle() {
 		return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
+	}
+
+	public Drivetrain calibrateIMU() {
+		imu.calibrate();	// just filters out noise (robot must be still)
+		
+		m_filteredXAccelOffset = imu.getXFilteredAccelAngle();
+		m_filteredYAccelOffset = imu.getYFilteredAccelAngle();
+		
+		return this;
+	}
+
+	public Drivetrain resetIMU() {
+		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		return this;
 	}
 
 
