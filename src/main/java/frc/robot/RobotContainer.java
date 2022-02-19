@@ -36,7 +36,6 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Sensory;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
@@ -133,8 +132,6 @@ public class RobotContainer {
 	
 	public final Manipulator manipulator = new Manipulator();
 	
-	public final Sensory sensory = new Sensory();
-
 	public final Autonomous autonomous = new Autonomous();
 
 

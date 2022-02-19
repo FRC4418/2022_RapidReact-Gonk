@@ -57,6 +57,16 @@ public class Intake extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
+	@Override
+	public void periodic() {
+		
+	}
+	
+
+	// ----------------------------------------------------------
 	// Ball-intake whisker sensor
 
 
@@ -113,15 +123,5 @@ public class Intake extends SubsystemBase {
 	public Intake stopFeeder() {
 		setFeederMotorPercent(0.d);
 		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
 	}
 }

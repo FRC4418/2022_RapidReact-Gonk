@@ -44,10 +44,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotContainer = new RobotContainer();
 
-		robotContainer.drivetrain.brakeMotors();
-
-		// the robot should not be moving while the IMU is calibrating
-		robotContainer.sensory
+		robotContainer.drivetrain
+			.brakeMotors()
+			
+			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
 

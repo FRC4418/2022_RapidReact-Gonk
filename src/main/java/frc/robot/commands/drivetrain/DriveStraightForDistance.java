@@ -53,7 +53,7 @@ public class DriveStraightForDistance extends CommandBase {
 
 	@Override
 	public void execute() {
-		double error = m_drivetrain.getLeftDistance() - m_drivetrain.getRightDistance();
+		double error = m_drivetrain.getLeftDistanceMeters() - m_drivetrain.getRightDistanceMeters();
 
 		if (m_direction == DriveStraightDirection.FORWARDS) {
 			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT - kP * error, MOTOR_OUTPUT_PERCENT + kP * error);
@@ -63,8 +63,8 @@ public class DriveStraightForDistance extends CommandBase {
 			m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 		}
 
-		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistance());
-		SmartDashboard.putNumber("Right Encoder", m_drivetrain.getRightDistance());
+		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistanceMeters());
+		SmartDashboard.putNumber("Right Encoder", m_drivetrain.getRightDistanceMeters());
 	}
 
 	@Override
