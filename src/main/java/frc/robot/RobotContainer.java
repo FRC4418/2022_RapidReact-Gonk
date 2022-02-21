@@ -1,11 +1,8 @@
 package frc.robot;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.BiConsumer;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,14 +21,6 @@ import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
-import frc.robot.displays.Display;
-import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
-import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
-import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
-import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
-import frc.robot.displays.huddisplays.AutonomousDisplay;
-import frc.robot.displays.huddisplays.CamerasDisplay;
-import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
@@ -84,11 +73,6 @@ public class RobotContainer {
 	private static final int[] driverJoystickPorts = new int[] {0, 1};
 	private static final int[] spotterJoystickPorts = new int[] {2, 3};
 
-	private enum DisplayType {
-		HUD,
-		DIAGNOSTICS
-	}
-
 
 	// ----------------------------------------------------------
     // Publicly static resources
@@ -121,15 +105,10 @@ public class RobotContainer {
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 
-	// private final ArrayList<HUDDisplay> hudDisplays = new ArrayList<>();
-	private ArrayList<ArrayList<Display>> hudDisplaysGrid = new ArrayList<>(new ArrayList<>());
-
-	// private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
-	private ArrayList<ArrayList<Display>> diagnosticDisplaysGrid = new ArrayList<>(new ArrayList<>());
-
 	// has default USB values
-	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
-	private JoystickDeviceType spotterJoystickDeviceType = JoystickDeviceType.XboxController;
+	private JoystickDeviceType
+		driverJoystickDeviceType = JoystickDeviceType.XboxController,
+		spotterJoystickDeviceType = JoystickDeviceType.XboxController;
     
 
     // ----------------------------------------------------------
@@ -190,114 +169,6 @@ public class RobotContainer {
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
 
-	// reserves the relative grid coordinate AND returns the ABSOLUTE coordinates for the newly-reserved display
-
-	public Pair<Integer, Integer> reserveAndGetNextColumnAtRow(int row, Display display, DisplayType displayType) {
-		var displayGrid = displayType == DisplayType.HUD ? hudDisplaysGrid: diagnosticDisplaysGrid;
-		
-		// if the row we want doesn't exist, make it
-
-		int numRows = displayGrid.size();
-		ArrayList<Display> wantedRow = null;
-		try {
-			wantedRow = displayGrid.get(row);
-		} catch (Exception e) {
-			for (int iii = 0; iii <= row - numRows; iii++) {
-				displayGrid.add(new ArrayList<>());
-			}
-			wantedRow = displayGrid.get(row);
-		}
-
-		// REWRITE EVERYTHING BELOW
-
-		Display previousDisplay = null;
-		for (int iii = 0; iii < wantedRow.size(); iii++) {
-			var nextDisplayInRow = wantedRow.get(iii);
-			if (nextDisplayInRow == null) {
-				previousDisplay = nextDisplayInRow;
-			}
-		}
-		if (previousDisplay == null) {
-			DriverStation.reportError("Previous display found null when reserving and getting the next display grid column at given row", true);
-		}
-		
-		int maxRowIndex = displayGrid.size() - 1;
-		if (row < 0) {
-			DriverStation.reportError("Negative indexes not supported for reserving next-column-at-row for relative display coordinates", true);
-		} else if (row > maxRowIndex) {
-			for (int iii = 0; iii <= maxRowIndex - row; iii++) {
-				displayGrid.add(new ArrayList<Display>(wantedRow.size()));
-			}
-		}
-
-		displayGrid.get(row).add(display);
-
-		return new Pair<>(
-			previousDisplay.getColumn() + previousDisplay.getWidth(),
-			previousDisplay.getRow()
-		);
-	}
-
-	// reserves the relative grid coordinate AND returns the ABSOLUTE coordinates for the newly-reserved display
-
-	public Pair<Integer, Integer> reserveAndGetNextRowAtColumn(int column, Display display, DisplayType displayType) {
-		var displayGrid = displayType == DisplayType.HUD ? hudDisplaysGrid: diagnosticDisplaysGrid;
-		
-		// if there isn't at least one row, make one
-
-		ArrayList<Display> firstRow = null;
-		try {
-			firstRow = displayGrid.get(0);
-		} catch (Exception e) {
-			displayGrid.add(new ArrayList<>());
-			firstRow = displayGrid.get(0);
-		}
-
-		// if the column we want doesn't exist, make it
-
-		int numColumns = displayGrid.get(0).size();
-		if (column < 0) {
-			DriverStation.reportError("Negative indexes not supported for reserving next-column-at-row for relative display coordinates", true);
-		} else if (column > numColumns) {
-			for (int row = 0; row < displayGrid.size(); row++) {
-				var rowArray = displayGrid.get(row);
-				for (int iii = 0; iii <= column - numColumns; iii++) {
-					rowArray.add(null);
-				}
-			}
-		}
-
-		// get the display in the last row that exists and in the column that we want, so we can add a new display in a new row below it
-
-		Display previousDisplay = null;
-		int previousDisplayRow = 0;
-		for (int row = 0; row < displayGrid.size(); row++) {
-			var nextDisplayInColumn = displayGrid.get(row).get(column);
-			if (nextDisplayInColumn != null) {
-				previousDisplay = nextDisplayInColumn;
-				previousDisplayRow = row;
-			} else {
-				break;
-			}
-		}
-		
-		// use the previous display's position and size to reserve the column in the next row
-
-		// no previous display means that we are creating this column's first display
-		if (previousDisplay == null) {
-			displayGrid.get(previousDisplayRow).set(column, display);
-			return new Pair<>(
-				// THIS NEEDS TO ACCOUNT FOR THE POSITION AND SIZE OF THE DISPLAYS ABOVE AND LEFT
-			);
-		} else {
-			// THIS NEEDS TO ACCOUNT FOR THE POSITION AND SIZE OF THE DISPLAYS ABOVE AND LEFT
-		}
-
-		DriverStation.reportError("Could not find non-null next row at given column to reserve", true);
-		return null;
-	}
-
-
 	// ----------------------------------------------------------
     // Command getters
 
@@ -327,25 +198,6 @@ public class RobotContainer {
 		SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
-		return this;
-	}
-
-
-	// ----------------------------------------------------------
-    // Diagnostic-entry listeners
-
-
-	public RobotContainer addDiagnosticsEntryListeners() {
-		for (var display: diagnosticsDisplays) {
-			display.addEntryListeners();
-		}
-		return this;
-	}
-
-	public RobotContainer removeDiagnosticsEntryListeners() {
-		for (var display: diagnosticsDisplays) {
-			display.removeEntryListeners();
-		}
 		return this;
 	}
 
