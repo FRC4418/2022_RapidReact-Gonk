@@ -47,8 +47,7 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void initialize() {
 		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d)
+			.disableOpenLoopRamp()
 			.resetEncoders();
 	}
 
@@ -57,11 +56,11 @@ public class DriveStraightForDistance extends CommandBase {
 		double error = m_drivetrain.getLeftDistance() - m_drivetrain.getRightDistance();
 
 		if (m_direction == DriveStraightDirection.FORWARDS) {
-			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
-			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
+			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT - kP * error, MOTOR_OUTPUT_PERCENT + kP * error);
+			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
 		} else {
-			m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
-			// m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
+			// m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT - kP * error), -(MOTOR_OUTPUT_PERCENT + kP * error));
+			m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 		}
 
 		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistance());
@@ -71,6 +70,7 @@ public class DriveStraightForDistance extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

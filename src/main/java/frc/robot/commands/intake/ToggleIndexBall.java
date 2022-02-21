@@ -2,23 +2,23 @@ package frc.robot.commands.intake;
 
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
 
 
-public class ToggleFeeder extends CommandBase {
+public class ToggleIndexBall extends CommandBase {
 	// ----------------------------------------------------------
 	// Constants
 
-	private final double MOTOR_OUTPUT_PERCENT = 0.3d;
-	private final double DELAY_TIME = 2.d;
+	private final double DELAY_TIME = 0.25d;
 	
 	// ----------------------------------------------------------
 	// Resources
 
 	private final Intake m_intake;
+	private final Manipulator m_manipulator;
 
 	// delay to keep the intake running for a few seconds, even after we trip the whisker sensor
 	private final Timer m_postWhiskerSensorDelayTimer = new Timer();
@@ -26,8 +26,11 @@ public class ToggleFeeder extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public ToggleFeeder(Intake intake) {
+	public ToggleIndexBall(Intake intake, Manipulator manipulator) {
 		m_intake = intake;
+		m_manipulator = manipulator;
+
+		addRequirements(m_intake);
 	}
 
 	// ----------------------------------------------------------
@@ -35,23 +38,19 @@ public class ToggleFeeder extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_intake.setFeederMotorPercent(MOTOR_OUTPUT_PERCENT);
+		m_intake.runFeeder();
+		m_manipulator.runIndexer();
 	}
-
-	int counter = 0;
 
 	@Override
 	public void execute() {
-		if (counter % 20 == 0) {
-			SmartDashboard.putNumber("Toggle Feeder command is running", counter);
-		}
 
-		counter++;
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_intake.setFeederMotorPercent(0.d);
+		m_intake.stopFeeder();
+		m_manipulator.stopIndexer();
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double MOTOR_OUTPUT_PERCENT = 0.5d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.8d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -31,21 +31,19 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d);
+		m_drivetrain.disableOpenLoopRamp();
 	}
 
 	@Override
 	public void execute() {
-		m_drivetrain
-			.setLeftMotors(MOTOR_OUTPUT_PERCENT)
-			.setRightMotors(MOTOR_OUTPUT_PERCENT);
+		// TODO: P3 Figure out why these values have to be flipped
+		m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

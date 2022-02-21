@@ -19,10 +19,11 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 
 	private final Drivetrain m_drivetrain;
 
-    private NetworkTableEntry arcadeDriveForwardLimiterTextField;
-	private NetworkTableEntry arcadeDriveTurnLimiterTextField;
+    private NetworkTableEntry arcadeDriveForwardLimiterNumberSlider;
+	private NetworkTableEntry arcadeDriveTurnLimiterNumberSlider;
 
-	private NetworkTableEntry tankDriveForwardLimiterTextField;
+	private NetworkTableEntry tankDriveLeftForwardLimiterNumberSlider;
+	private NetworkTableEntry tankDriveRightForwardLimiterNumberSlider;
 
     // ----------------------------------------------------------
 	// Constructor (initializes the display the same time)
@@ -31,18 +32,15 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 		super(column, row);
 
 		m_drivetrain = drivetrain;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override
 	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
-			arcadeDriveForwardLimiterTextField,
-			arcadeDriveTurnLimiterTextField,
+			arcadeDriveForwardLimiterNumberSlider,
+			arcadeDriveTurnLimiterNumberSlider,
 
-			tankDriveForwardLimiterTextField
+			tankDriveLeftForwardLimiterNumberSlider
 		));
 		return this;
 	}
@@ -51,7 +49,6 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
 		{ var slewRateLimiterLayout = diagnosticsTab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
-			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(2, 3);
@@ -60,27 +57,33 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				arcadeDriveForwardLimiterTextField = arcadeDriveLayout
-					.add("Forward", 1.5d)
+				arcadeDriveForwardLimiterNumberSlider = arcadeDriveLayout
+					.add("Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 
-				arcadeDriveTurnLimiterTextField = arcadeDriveLayout
-					.add("Turn", 1.25d)
+				arcadeDriveTurnLimiterNumberSlider = arcadeDriveLayout
+					.add("Turn", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 			}
 
 			{ var tankDriveLayout = slewRateLimiterLayout
 				.getLayout("Tank Drive", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			
-				tankDriveForwardLimiterTextField = tankDriveLayout
-					.add("Forward", 1.0d)
+				tankDriveLeftForwardLimiterNumberSlider = tankDriveLayout
+					.add("Left Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.getEntry();
+
+				tankDriveRightForwardLimiterNumberSlider = tankDriveLayout
+					.add("Right Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
+					.withWidget(BuiltInWidgets.kNumberSlider)
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
 					.getEntry();
 			}
 		}
@@ -90,18 +93,22 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	@Override
 	public DiagnosticsDisplay addEntryListeners() {
 		{	// Arcade drive
-			arcadeDriveForwardLimiterTextField.addListener(event -> {
+			arcadeDriveForwardLimiterNumberSlider.addListener(event -> {
 				m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-			arcadeDriveTurnLimiterTextField.addListener(event -> {
+			arcadeDriveTurnLimiterNumberSlider.addListener(event -> {
 				m_drivetrain.setArcadeDriveTurnLimiterRate(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{	// Tank drive
-			tankDriveForwardLimiterTextField.addListener(event -> {
-				m_drivetrain.setTankDriveForwardLimiterRate(event.value.getDouble());
+			tankDriveLeftForwardLimiterNumberSlider.addListener(event -> {
+				m_drivetrain.setTankDriveLeftForwardLimiterRate(event.value.getDouble());
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			tankDriveRightForwardLimiterNumberSlider.addListener(event -> {
+				m_drivetrain.setTankDriveRightForwardLimiterRate(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;

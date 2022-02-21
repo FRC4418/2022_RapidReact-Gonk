@@ -3,6 +3,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -23,17 +24,21 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.CamerasDisplay;
 import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Sensory;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
@@ -42,7 +47,10 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	private final boolean enableDiagnostics = true;
+	// initial value is the start-up configuration
+	public static final boolean usingKidsSafetyMode = false;
+
+	public static final boolean enableDiagnostics = true;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
 
@@ -50,9 +58,15 @@ public class RobotContainer {
 	// ----------------------------------------------------------
 	// Public constants
 
+
 	public enum TeamRobot {
 		VERSACHASSIS_ONE,
 		VERSACHASSIS_TWO
+	}
+
+	public enum Pilot {
+		DRIVER,
+		SPOTTER
 	}
 
 	public enum JoystickMode {
@@ -66,16 +80,17 @@ public class RobotContainer {
 	// Private constants
 
 
-	private final int[] driverJoystickPorts = new int[] {0, 1};
-	private final int[] spotterJoystickPorts = new int[] {2, 3};
+	private static final int[] driverJoystickPorts = new int[] {0, 1};
+	private static final int[] spotterJoystickPorts = new int[] {2, 3};
 
 
 	// ----------------------------------------------------------
     // Publicly static resources
 
 
-	// joystick control resources are publicly static because 
+	public static boolean usingV1Drivetrain = false;
 
+	// joystick control resources are publicly static because 
 	public static JoystickControls driverJoystickControls;
 	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
 	
@@ -121,7 +136,8 @@ public class RobotContainer {
 	public final Sensory sensory = new Sensory();
 
 	public final Autonomous autonomous = new Autonomous();
-	private final DriveStraightForDistance autoDriveStraightForDistance;
+
+	public final Vision vision = new Vision();
 
 
     // ----------------------------------------------------------
@@ -131,10 +147,13 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
+		// add more HUD displays to this list as needed
 		hudDisplays.addAll(Arrays.asList(
 			robotChooserDisplay = new RobotChooserDisplay(0, 0),
 			joysticksDisplay = new JoysticksDisplay(2, 0),
-			new AutonomousDisplay(0, 1)
+			new KidsSafetyDisplay(drivetrain, 5, 0),
+			new AutonomousDisplay(0, 1),
+			new CamerasDisplay(0, 2)
 		));
 		for (var display: hudDisplays) {
 			display.initialize();
@@ -142,9 +161,11 @@ public class RobotContainer {
 		}
 
 		if (enableDiagnostics) {
+			// add more diagnostics displays to this list as needed
 			diagnosticsDisplays.addAll(Arrays.asList(
 				new MotorTestingDisplay(intake, manipulator, 0, 0),
-				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0)
+				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),
+				new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 0, 3)
 			));
 			for (var display: diagnosticsDisplays) {
 				display.initialize();
@@ -154,10 +175,8 @@ public class RobotContainer {
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 
-		autoDriveStraightForDistance = new DriveStraightForDistance(drivetrain, 60.0d, DriveStraightDirection.BACKWARDS);
-
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake));
+		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
 
 
@@ -166,12 +185,12 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return autoDriveStraightForDistance;
+		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
 	}
 
 	
 	// ----------------------------------------------------------
-    // Methods
+    // Print-out joystick for debugging
 
 	
 	private final Joystick m_printOutjoystick = new Joystick(0);
@@ -193,6 +212,11 @@ public class RobotContainer {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Diagnostic-entry listeners
+
+
 	public RobotContainer addDiagnosticsEntryListeners() {
 		for (var display: diagnosticsDisplays) {
 			display.addEntryListeners();
@@ -207,11 +231,17 @@ public class RobotContainer {
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Robot-drivetrain listeners
+
+
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
 			configureRobotSpecificDrivetrain();
+			usingV1Drivetrain = true;
 		}
 		return this;
 	}
@@ -223,12 +253,19 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
+				usingV1Drivetrain = false;
 				break;
 			case VERSACHASSIS_ONE:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
+				usingV1Drivetrain = true;
 				break;
 		}
 	}
+
+
+	// ----------------------------------------------------------
+    // Joystick-mode (ex. arcade, lone tank, etc) listeners
+
 
 	public RobotContainer listenForJoystickModes() {
 		var newDriverJoystickMode = joysticksDisplay.driverJoystickModeChooser.getSelected();
@@ -258,47 +295,96 @@ public class RobotContainer {
 			}
 		}
 	}
+
+
+	// ----------------------------------------------------------
+    // Joystick-device (ex. Xbox, X3D, etc) listeners
+
 	
 	public RobotContainer listenForJoystickDevices() {
-		// code is repetitive for driver and spotter, but this is on purpose so that we can use the different setup functions
-		// only same-type dual controls are supported, so here we are just looking at the first port for the driver's and spotter's port ranges
+		var pilotPrimaryPorts = new int[] {driverJoystickPorts[0], spotterJoystickPorts[0]};
+		var pilotJoystickTypes = new JoystickDeviceType[] {driverJoystickDeviceType, spotterJoystickDeviceType};
+		Runnable[] setupPilotJoystickControls = new Runnable[] {() -> setupDriverJoystickControls(), () -> setupSpotterJoystickControls()};
 
-		var newDriverJoystickDeviceType = getJoystickDeviceTypeFor(driverJoystickPorts[0]);
-		if (newDriverJoystickDeviceType != JoystickDeviceType.NULL && driverJoystickDeviceType != newDriverJoystickDeviceType) {
-			driverJoystickDeviceType = newDriverJoystickDeviceType;
+		for (int pilotIndex: new int[] {0, 1}) {
+			var newJoystickDeviceType = getJoystickDeviceTypeFor(pilotPrimaryPorts[pilotIndex]);
+			if (newJoystickDeviceType != JoystickDeviceType.NULL && pilotJoystickTypes[pilotIndex] != newJoystickDeviceType) {
+				pilotJoystickTypes[pilotIndex] = newJoystickDeviceType;
 
-			// sets up the joystick-input deadbands depending on which type of joystick device we're using
-			switch (driverJoystickDeviceType) {
-				default:
-					DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
-					break;
-				case XboxController:
-					drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
-					break;
-				case X3D:
-					drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
-					break;
+				switch (pilotJoystickTypes[pilotIndex]) {
+					default:
+						DriverStation.reportError("Unrecognized device type found while setting robot drive's deadband", true);
+						break;
+					case XboxController:
+						drivetrain.setDeadband(XboxController.JOYSTICK_DEADBAND);
+						break;
+					case X3D:
+						drivetrain.setDeadband(X3D.JOYSTICK_DEADBAND);
+						break;
+				}
+
+				setupPilotJoystickControls[pilotIndex].run();
 			}
-
-			setupDriverJoystickControls();
-		}
-
-		var newSpotterJoystickDeviceType = getJoystickDeviceTypeFor(spotterJoystickPorts[0]);
-		if (newSpotterJoystickDeviceType != JoystickDeviceType.NULL && spotterJoystickDeviceType != newSpotterJoystickDeviceType) {
-			spotterJoystickDeviceType = newSpotterJoystickDeviceType;
-			setupSpotterJoystickControls();
 		}
 		return this;
 	}
 
+
+	// ----------------------------------------------------------
+    // Joystick mode and device setups
+
+
+	public static void swapJoysticksFor(Pilot pilot) {
+		JoystickControls joystickControls;
+		JoystickMode joystickMode;
+		int[] joystickPorts;
+		BiConsumer<Joystick, Joystick> setupJoystickControls;
+
+		if (pilot == Pilot.DRIVER) {
+			joystickControls = driverJoystickControls;
+			joystickMode = driverJoystickMode;
+			joystickPorts = driverJoystickPorts;
+			setupJoystickControls = (joy1, joy2) -> Robot.robotContainer.setupDriverJoystickControls(joy1, joy2);
+		} else {
+			joystickControls = spotterJoystickControls;
+			joystickMode = spotterJoystickMode;
+			joystickPorts = spotterJoystickPorts;
+			setupJoystickControls = (joy1, joy2) -> Robot.robotContainer.setupSpotterJoystickControls(joy1, joy2);
+		}
+
+		// account for the case where this is called even though initial driver joystick controls aren't set up yet
+		if (joystickControls == null) {
+			return;
+		}
+
+		int tempPrimaryJoystickPort = joystickPorts[0];
+		joystickPorts[0] = joystickPorts[1];
+		joystickPorts[1] = tempPrimaryJoystickPort;
+
+		// TODO: P3 Figure out how to use non-static RobotContainer resources from static call
+
+		switch (joystickMode) {
+			default:
+				DriverStation.reportError("Unsupported joystick mode detected while swapping the left and right joysticks for the driver", true);
+				break;
+			case ARCADE:
+			case LONE_TANK:
+				// the arcade and lone-tank modes only need one joystick
+				setupJoystickControls.accept(new Joystick(joystickPorts[0]), null);
+				break;
+			case DUAL_TANK:
+				setupJoystickControls.accept(new Joystick(joystickPorts[0]), new Joystick(joystickPorts[1]));
+				break;
+		}
+	}
+
 	// using a different setup function for the driver and the spotter allows special switch cases for each person, meaning that there can be a unique driver and spotter configuration for each joystick setup (ex. one Xbox controller, two X3Ds, etc)
-	
-	int counter = 0;
 
-	private void setupDriverJoystickControls() {
-		var firstJoystick = new Joystick(driverJoystickPorts[0]);
-		var secondJoystick = new Joystick(driverJoystickPorts[1]);
+	private RobotContainer setupDriverJoystickControls() {
+		return setupDriverJoystickControls(new Joystick(driverJoystickPorts[0]), new Joystick(driverJoystickPorts[1]));
+	}
 
+	private RobotContainer setupDriverJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick) {
 		switch (driverJoystickMode) {
 			default:
 				DriverStation.reportError("Unsupported joystick mode detected while setting up driver joystick controls", true);
@@ -309,10 +395,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverXboxArcadeControls(primaryJoystick, drivetrain, intake, manipulator);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DArcadeControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverX3DArcadeControls(primaryJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -322,7 +408,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverXboxLoneTankControls(primaryJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -332,19 +418,19 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DDualTankControls(firstJoystick, secondJoystick, drivetrain, intake, manipulator);
+						driverJoystickControls = new DriverX3DDualTankControls(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
 		}
+		return this;
 	}
 
-	// TODO: P1 Figure out a way to switch between the driver and spotter controlling the robot
+	private RobotContainer setupSpotterJoystickControls() {
+		return setupSpotterJoystickControls(new Joystick(spotterJoystickPorts[0]), new Joystick(spotterJoystickPorts[1]));
+	}
 
-	private void setupSpotterJoystickControls() {
-		var firstJoystick = new Joystick(spotterJoystickPorts[0]);
-		var secondJoystick = new Joystick(spotterJoystickPorts[1]);
-
+	private RobotContainer setupSpotterJoystickControls(Joystick firstJoystick, Joystick secondJoystick) {
 		spotterJoystickControls = new SpotterXboxControls(firstJoystick, drivetrain, intake, manipulator);
 
 		// TODO: P1 If spotter should be allowed to drive, implement setup switch cases for spotter joystick modes
@@ -387,5 +473,6 @@ public class RobotContainer {
 				}
 				break;
 		}
+		return this;
 	}
 }

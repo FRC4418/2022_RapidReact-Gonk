@@ -1,8 +1,6 @@
 package frc.robot;
 
 
-// import edu.wpi.first.cscore.UsbCamera;
-// import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,15 +11,6 @@ public class Robot extends TimedRobot {
 
 	
 	public static RobotContainer robotContainer;
-
-
-	// ----------------------------------------------------------
-	// Private resources
-	
-
-	// TODO: P1 Do camera code
-	// private UsbCamera m_frontShooterCamera;
-	// private UsbCamera m_rightPanelCamera;
 
 
 	// ----------------------------------------------------------
@@ -42,8 +31,20 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotContainer = new RobotContainer();
 
-		// m_frontShooterCamera = CameraServer.startAutomaticCapture(0);
-		// m_rightPanelCamera = CameraServer.startAutomaticCapture(1);
+		robotContainer.drivetrain.brakeMotors();
+
+		// the robot should not be moving while the IMU is calibrating
+		robotContainer.sensory
+			.calibrateIMU()
+			.resetIMU();
+
+		robotContainer.vision.startCameraStreams();
+
+		if (RobotContainer.enableDiagnostics) {
+			robotContainer
+				.addDiagnosticsEntryListeners()
+				.initializeJoystickValues();
+		}
 	}
 
 	// called every robot packet (good for diagnostics), after mode-specific periodics
@@ -57,6 +58,11 @@ public class Robot extends TimedRobot {
 			.listenForRobotSelection()
 			.listenForJoystickModes()
 			.listenForJoystickDevices();
+		
+		if (RobotContainer.enableDiagnostics) {
+			// robotContainer
+			// 	.printJoystickValues();
+		}
 	}
 
 
@@ -66,12 +72,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		
+		robotContainer.drivetrain.coastMotors();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 
+	}
+
+	@Override
+	public void disabledExit() {
+		robotContainer.drivetrain.brakeMotors();
 	}
 
 
@@ -87,6 +98,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 
+	}
+
+	@Override
+	public void autonomousExit() {
+		robotContainer.defaultAutoCommand().cancel();
 	}
 
 
@@ -115,19 +131,11 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		// Cancels all running commands at the start of test mode.
 		CommandScheduler.getInstance().cancelAll();
-
-		robotContainer
-			.addDiagnosticsEntryListeners()
-			.initializeJoystickValues();
 	}
 
 	@Override
 	public void testPeriodic() {
-		robotContainer.printJoystickValues();
+		
 	}
 
-	@Override
-	public void testExit() {
-		robotContainer.removeDiagnosticsEntryListeners();
-	}
 }
