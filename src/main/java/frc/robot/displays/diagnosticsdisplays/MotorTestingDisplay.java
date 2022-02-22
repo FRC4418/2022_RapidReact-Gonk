@@ -15,9 +15,6 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class MotorTestingDisplay extends DiagnosticsDisplay {
-    // ----------------------------------------------------------
-	// Resources
-
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
@@ -34,9 +31,6 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 	private NetworkTableEntry retractorToggleSwitch;
 	private NetworkTableEntry retractorPositionNumberSlider;
-
-    // ----------------------------------------------------------
-	// Constructor (initializes the display the same time)
 
     public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row, int width, int height) {
 		super(column, row, width, height);

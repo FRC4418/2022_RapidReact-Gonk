@@ -12,14 +12,8 @@ import frc.robot.displays.Display;
 
 
 public class RobotChooserDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     public SendableChooser<TeamRobot> teamRobotChooser = new SendableChooser<>();
 
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
-    
     public RobotChooserDisplay(int column, int row, int width, int height) {
 		super(column, row, width, height);
     }

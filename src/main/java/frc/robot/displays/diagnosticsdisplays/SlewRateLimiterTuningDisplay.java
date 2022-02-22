@@ -14,9 +14,6 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
-    // ----------------------------------------------------------
-	// Resources
-
 	private final Drivetrain m_drivetrain;
 
     private NetworkTableEntry arcadeDriveForwardLimiterNumberSlider;
@@ -24,9 +21,6 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 
 	private NetworkTableEntry tankDriveLeftForwardLimiterNumberSlider;
 	private NetworkTableEntry tankDriveRightForwardLimiterNumberSlider;
-
-    // ----------------------------------------------------------
-	// Constructor (initializes the display the same time)
 
     public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
 		super(column, row, width, height);

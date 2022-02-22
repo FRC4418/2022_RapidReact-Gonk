@@ -10,15 +10,7 @@ import frc.robot.displays.Display;
 import frc.robot.subsystems.Vision;
 
 
-public class CamerasDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
-    
-
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
-    
+public class CamerasDisplay extends HUDDisplay {    
     public CamerasDisplay(int column, int row, int width, int height) {
 		super(column, row, width, height);
     }

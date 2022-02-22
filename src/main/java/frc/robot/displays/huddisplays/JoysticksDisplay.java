@@ -18,18 +18,12 @@ import frc.robot.displays.Display;
 
 
 public class JoysticksDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry driverSwapLeftAndRightJoysticksToggleSwitch;
 
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry spotterSwapLeftAndRightJoysticksToggleSwitch;
 
-    // ----------------------------------------------------------
-    // Constructor
-    
     public JoysticksDisplay(int column, int row, int width, int height) {
         super(column, row, width, height);
     }

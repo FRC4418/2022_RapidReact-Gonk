@@ -1,8 +1,6 @@
 package frc.robot.displays;
 
 
-import java.util.ArrayList;
-
 import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
@@ -18,11 +16,9 @@ public class DisplaysContainer {
 		DIAGNOSTICS
 	}
 
-	private boolean hudOriginExists = false;
-	private ArrayList<ArrayList<Display>> hudDisplaysGrid;
+	private DisplaysGrid hudDisplaysGrid;
 
-	private boolean diagnosticsOriginExists = false;
-	private ArrayList<ArrayList<Display>> diagnosticDisplaysGrid;
+	private DisplaysGrid diagnosticDisplaysGrid;
 
 
     // ----------------------------------------------------------
@@ -62,75 +58,46 @@ public class DisplaysContainer {
     // Relative grid-space reservers
 
 
-	public void makeOriginWith(Display display, DisplayType displayType) {
-		ArrayList<ArrayList<Display>> displaysGrid = null;
+	private DisplaysGrid getDisplayGridFromType(DisplayType displayType) {
+		assert displayType != null;
 
-		switch (displayType) {
-			default:
-				DriverStation.reportError("Display type not supported during makeOriginWith", true);
-				break;
-			case HUD:
-				if (hudOriginExists) {
-					DriverStation.reportError("HUD display grid origin already exists", true);
-				}
-				hudDisplaysGrid = new ArrayList<>(new ArrayList<>());
-				hudOriginExists = true;
-				break;
-			case DIAGNOSTICS:
-				if (diagnosticsOriginExists) {
-					DriverStation.reportError("Diagnostics display grid origin already exists", true);
-				}
-				diagnosticDisplaysGrid = new ArrayList<>(new ArrayList<>());
-				diagnosticsOriginExists = true;
-
-				displaysGrid = diagnosticDisplaysGrid;
-				break;
-		}
-
-		displaysGrid.get(0).set(0, display);
-	}
-
-	private ArrayList<ArrayList<Display>> getDisplayGrid(DisplayType displayType) {
-		ArrayList<ArrayList<Display>> displaysGrid = null;
+		DisplaysGrid displaysGrid = null;
 
 		switch (displayType) {
 			default:
 				DriverStation.reportError("Display type not supported during reserveNextColumnAtRow", true);
 				break;
 			case HUD:
-				assert hudOriginExists;
 				displaysGrid = hudDisplaysGrid;
 				break;
 			case DIAGNOSTICS:
-				assert diagnosticsOriginExists;
 				displaysGrid = diagnosticDisplaysGrid;
 				break;
 		}
+		assert displaysGrid.originExists();
 		return displaysGrid;
 	}
 
     public DisplaysContainer reserveNextColumnAtRow(int row, Display display, DisplayType displayType) {
+		assert row >= 0;
+		assert display != null;
+		assert displayType != null;
+
 		// note that 'row' and 'column' are referring to rows and columns in the DISPLAY 2D GRID ARRAY we're using to track relative positions, not rows and columns in Shuffleboard's coordinates
-		var displaysGrid = getDisplayGrid(displayType);
+		var displaysGrid = getDisplayGridFromType(displayType);
 		
 		// if the row we want doesn't exist, make it
-
-		int numRows = displaysGrid.size();
-		int numColumns = displaysGrid.get(0).size();
-		try {
-			displaysGrid.get(row);
-		} catch (Exception e) {
-			for (int iii = 0; iii <= row - numRows; iii++) {
-				displaysGrid.add(new ArrayList<>(numColumns));
-			}
+		if (row >= displaysGrid.getNumRows()) {
+			// ex. we have three rows (indices 0, 1, and 2) but want row index 3. Then we need to add 1 row (3 - 3 + 1 = 1)
+			displaysGrid.addRows(row - displaysGrid.getNumRows() + 1);
 		}
 
 		int wantedColumn = 0;
 
 		// the rightmost non-null display at the row we want to reserve a space in
 		Display rightmostDisplay = null;
-		for (int iii = 0; iii < numColumns; iii++) {
-			var displayInRow = displaysGrid.get(row).get(iii);
+		for (int iii = 0; iii < displaysGrid.getNumColumns(); iii++) {
+			var displayInRow = displaysGrid.get(row, iii);
 			if (displayInRow != null) {
 				rightmostDisplay = displayInRow;
 				wantedColumn = iii;
@@ -146,8 +113,8 @@ public class DisplaysContainer {
 
 		// the bottommost non-null display at the column we are about to reserve a space in
 		Display bottommostDisplay = null;
-		for (var displayRow: displaysGrid) {
-			var displayInColumn = displayRow.get(wantedColumn);
+		for (var displaysRow: displaysGrid) {
+			var displayInColumn = displaysRow.get(wantedColumn);
 			if (displayInColumn != null) {
 				bottommostDisplay = displayInColumn;
 			}
@@ -169,8 +136,18 @@ public class DisplaysContainer {
 	}
 
 	public DisplaysContainer reserveNextRowAtColumn(int column, Display display, DisplayType displayType) {
+		assert column >= 0;
+		assert display != null;
+		assert displayType != null;
+
 		// note that 'row' and 'column' are referring to rows and columns in the DISPLAY 2D GRID ARRAY we're using to track relative positions, not rows and columns in Shuffleboard's coordinates
-		var displaysGrid = getDisplayGrid(displayType);
+		var displaysGrid = getDisplayGridFromType(displayType);
+
+		// if the column we want doesn't exist, make it
+		if (column >= displaysGrid.getNumColumns()) {
+			// ex. we have three columns (indices 0, 1, and 2) but want column index 3. Then we need to add 1 column (3 - 3 + 1 = 1)
+			displaysGrid.addColumns(column - displaysGrid.getNumColumns() + 1);
+		}
 
 		
 		return this;

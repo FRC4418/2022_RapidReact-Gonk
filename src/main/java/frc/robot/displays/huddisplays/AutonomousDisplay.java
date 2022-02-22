@@ -12,13 +12,7 @@ import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class AutonomousDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     private SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
-
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
     
     public AutonomousDisplay(int column, int row, int width, int height) {
 		super(column, row, width, height);
