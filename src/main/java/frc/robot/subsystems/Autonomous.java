@@ -17,7 +17,7 @@ public class Autonomous extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Constructor and methods
+	// Constructor
 
 	
 	public Autonomous() {

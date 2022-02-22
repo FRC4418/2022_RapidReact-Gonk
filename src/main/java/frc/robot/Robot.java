@@ -2,6 +2,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -11,6 +12,13 @@ public class Robot extends TimedRobot {
 
 	
 	public static RobotContainer robotContainer;
+
+
+	// ----------------------------------------------------------
+	// Private resources
+	
+
+	private Command defaultAutoCommand;
 
 
 	// ----------------------------------------------------------
@@ -31,10 +39,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotContainer = new RobotContainer();
 
-		robotContainer.drivetrain.brakeMotors();
-
-		// the robot should not be moving while the IMU is calibrating
-		robotContainer.sensory
+		robotContainer.drivetrain
+			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
 
@@ -60,8 +66,8 @@ public class Robot extends TimedRobot {
 			.listenForJoystickDevices();
 		
 		if (RobotContainer.enableDiagnostics) {
-			// robotContainer
-			// 	.printJoystickValues();
+			robotContainer
+				.printJoystickValues();
 		}
 	}
 
@@ -92,7 +98,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		robotContainer.defaultAutoCommand().schedule();
+		defaultAutoCommand = robotContainer.defaultAutoCommand();
+		defaultAutoCommand.schedule();
 	}
 
 	@Override
@@ -102,7 +109,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousExit() {
-		robotContainer.defaultAutoCommand().cancel();
+		defaultAutoCommand.cancel();
 	}
 
 
