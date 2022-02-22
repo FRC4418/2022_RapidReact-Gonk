@@ -21,7 +21,7 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLone
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
-import frc.robot.commands.intake.RunFeederWithTrigger;
+import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.commands.manipulator.AutoRunLauncherDemo;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
@@ -164,7 +164,7 @@ public class RobotContainer {
 		setupSpotterJoystickControls();
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
+		intake.setDefaultCommand(new RunFeederAndIndexerWithTrigger(intake, manipulator));
     }
 
 	// ----------------------------------------------------------

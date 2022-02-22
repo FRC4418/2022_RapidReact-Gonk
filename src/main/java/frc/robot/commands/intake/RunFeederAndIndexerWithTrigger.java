@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class RunFeederWithTrigger extends CommandBase {
+public class RunFeederAndIndexerWithTrigger extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
@@ -18,7 +18,7 @@ public class RunFeederWithTrigger extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunFeederWithTrigger(Intake intake, Manipulator manipulator) {
+	public RunFeederAndIndexerWithTrigger(Intake intake, Manipulator manipulator) {
 		m_intake = intake;
 		m_manipulator = manipulator;
 
