@@ -155,7 +155,7 @@ public class Drivetrain extends SubsystemBase {
 		kLeftSlotIdx = 0,
 		kRightSlotIdx = 0,
 		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-		kTimeoutMs = 30;
+		kTimeoutMs = 10;
 
 	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
@@ -222,13 +222,13 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
 		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
 		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
 		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
         // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
 
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
 		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
 		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
 		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGains.kI);
