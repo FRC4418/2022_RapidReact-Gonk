@@ -68,8 +68,8 @@ public class Robot extends TimedRobot {
 			.listenForJoystickDevices();
 		
 		if (RobotContainer.enableDiagnostics) {
-			// robotContainer
-			// 	.printJoystickValues();
+			robotContainer
+				.printJoystickValues();
 		}
 	}
 

@@ -25,7 +25,8 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
+        // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
+        return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
