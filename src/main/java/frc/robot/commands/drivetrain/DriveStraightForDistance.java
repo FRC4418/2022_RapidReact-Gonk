@@ -29,7 +29,6 @@ public class DriveStraightForDistance extends CommandBase {
 
 	private final double m_distanceInMeters;
 	private final DriveStraightDirection m_direction;
-	private ReverseDrivetrain reverseDrivetrainCommand;
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -52,9 +51,9 @@ public class DriveStraightForDistance extends CommandBase {
 			.resetIMU()
 			.resetEncoders();
 
+		// we do this so that using the tank drive functions with positive speeds still works (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {
-			reverseDrivetrainCommand = new ReverseDrivetrain(m_drivetrain);
-			reverseDrivetrainCommand.schedule();
+			m_drivetrain.reverseDrivetrain();
 		}
 	}
 
@@ -73,8 +72,9 @@ public class DriveStraightForDistance extends CommandBase {
 		m_drivetrain.stopDrive();
 		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 
+		// undo the drivetrain reversal we did in the initialization (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {
-			reverseDrivetrainCommand.cancel();
+			m_drivetrain.reverseDrivetrain();
 		}
 	}
 

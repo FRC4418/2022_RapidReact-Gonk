@@ -299,7 +299,13 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain swapMotorGroups() {
+	public Drivetrain reverseDrivetrain() {
+		invertMotors();
+		swapMotorGroups();
+		return this;
+	}
+
+	private Drivetrain swapMotorGroups() {
 		var tempLeftGroup = m_leftGroup;
 		m_leftGroup = m_rightGroup;
 		m_rightGroup = tempLeftGroup;
@@ -308,7 +314,7 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain invertMotors() {
+	private Drivetrain invertMotors() {
 		m_leftGroup.setInverted(!m_leftGroup.getInverted());
 		m_rightGroup.setInverted(!m_rightGroup.getInverted());
 		return this;
