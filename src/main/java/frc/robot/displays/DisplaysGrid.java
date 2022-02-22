@@ -81,7 +81,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         assert display != null;
         assert !originDisplayIsReserved();
 
-        grid.get(0).set(0, display);
+        set(0, 0, display);
         return this;
     }
 
