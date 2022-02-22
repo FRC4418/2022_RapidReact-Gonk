@@ -29,9 +29,6 @@ public class RunFeederWithTrigger extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public void initialize() {}
-
-	@Override
 	public void execute() {
 		double driverFeederAxis = RobotContainer.driverJoystickControls.getFeederAxis();
 		double driverReverseFeederAxis = RobotContainer.driverJoystickControls.getReverseFeederAxis();
@@ -59,10 +56,7 @@ public class RunFeederWithTrigger extends CommandBase {
 			}
 		}
 	}
-
-	@Override
-	public void end(boolean interrupted) {}
-
+	
 	@Override
 	public boolean isFinished() {
 		return false;
