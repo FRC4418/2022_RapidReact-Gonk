@@ -4,21 +4,31 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.RobotContainer;
+import frc.robot.Gains;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Public constants
+	// Motor group constants
 
 
 	public enum MotorGroup {
@@ -26,10 +36,24 @@ public class Drivetrain extends SubsystemBase {
 		RIGHT
 	}
 
-	// Open-loop control constants
+	// 1 is not inverted, -1 is inverted
+	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
+	private double leftMotorsDirectionMultiplier = 1.d;
+	private double rightMotorsDirectionMultiplier = 1.d;
+
+
+	// ----------------------------------------------------------
+	// Open-loop ramp constants
+
+
 	public static final double
 		// units in seconds
 		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
+
+
+	// ----------------------------------------------------------
+	// Max output mode constants
+
 
 	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
 
@@ -59,7 +83,7 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Private constants
+	// ID constants
 
 
 	private static class CAN_IDs {
@@ -71,55 +95,108 @@ public class Drivetrain extends SubsystemBase {
 			BACK_RIGHT = 5;
 	}
 
+
+	// ----------------------------------------------------------
+	// Odometry constants
+
+
+	private static DifferentialDriveOdometry m_odometry;
+
+
+	// ----------------------------------------------------------
+	// Kinematics constants
+
+
+	// horizontal distance between the left and right-side wheels
+	private static final double kTrackWidthMeters = 0.62484;
+	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
+
+
+	// ----------------------------------------------------------
+	// Trajectory constsants
+
+
+	public static final double
+		kMaxSpeedMetersPerSecond = 3.d,
+    	kMaxAccelerationMetersPerSecondSquared = 3.d;
+
+	public static final double
+		kRamseteB = 2,
+		kRamseteZeta = 0.7;
+
+
+	// ----------------------------------------------------------
+	// Conversion constants
+
+
 	private static final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
-		// wheel diameter is 6 inches
+		// wheel diameter is 6 inches (which is 0.1524 meters)
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		TICKS_TO_INCHES_CONVERSION  = ( (6.0d * Math.PI) / 2048.0d ) / 7.33d;
+		kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
+		kMetersPerSecondToTicksPer100ms = 427.7550177d;
 	
 
+	// ----------------------------------------------------------
 	// Closed-loop control constants
 
-	// // the PID slot to pull gains from. Starting 2018, there is 0,1,2 or 3. Only 0 and 1 are visible in web-based configuration
-	// private static final int kSlotIdx = 0;
 
-	// // Talon FX supports multiple (cascaded) PID loops. For now we just want the primary one.
-	// private static final int kIdx = 0;
+	public static final double
+		// Feedforward gains
+		ksVolts = 0.67701,
+		kvVoltSecondsPerMeter = 0.041828,
+		kaVoltSecondsSquaredPerMeter = 0.020568,
+		
+		// Feedback gains
+		kPDriveVel = 0.96111;
 
-	// // Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-	// private static final int kTimeoutMs = 30;
+	private static final int
+		kLeftSlotIdx = 0,
+		kRightSlotIdx = 0,
+		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
+		kTimeoutMs = 10;
 
-	// // ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	// private static final Gains kLeftMotorVelocityGains
-	// 	//			kP		kI		kD		kF				Iz		Peakout
-	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	private static final Gains kLeftMotorVelocityGains
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
+		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
-	// private static final Gains kRightMotorVelocityGains 
-	// 	//			kP		kI		kD		kF				Iz		Peakout
-	// 	= new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+	private static final Gains kRightMotorVelocityGains 
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
+		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 
 	// ----------------------------------------------------------
 	// Resources
 
 
-	private final WPI_TalonFX m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.FRONT_LEFT);
-	private final WPI_TalonFX m_backLeftMotor = new WPI_TalonFX(CAN_IDs.BACK_LEFT);
+	private final WPI_TalonFX
+		m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.FRONT_LEFT),
+		m_backLeftMotor = new WPI_TalonFX(CAN_IDs.BACK_LEFT);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
-	private final WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(CAN_IDs.FRONT_RIGHT);
-	private final WPI_TalonFX m_backRightMotor = new WPI_TalonFX(CAN_IDs.BACK_RIGHT);
+	private final WPI_TalonFX
+		m_frontRightMotor = new WPI_TalonFX(CAN_IDs.FRONT_RIGHT),
+		m_backRightMotor = new WPI_TalonFX(CAN_IDs.BACK_RIGHT);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-	private SlewRateLimiter m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
-	private SlewRateLimiter m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+	private final ADIS16448_IMU imu = new ADIS16448_IMU(ADIS16448_IMU.IMUAxis.kZ, SPI.Port.kMXP, ADIS16448_IMU.CalibrationTime._1s);
+	private double
+		m_filteredXAccelOffset = 0.d,
+		m_filteredYAccelOffset = 0.d;
 
-	private SlewRateLimiter m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
-	private SlewRateLimiter m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+	private SlewRateLimiter
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD),
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN),
+
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD),
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
 
 
 	// ----------------------------------------------------------
@@ -127,6 +204,10 @@ public class Drivetrain extends SubsystemBase {
 
 
 	public Drivetrain() {
+		imu.setYawAxis(IMUAxis.kZ);
+
+		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getAngle()));
+
 		// ----------------------------------------------------------
 		// Initialize motor controllers and followers
 
@@ -141,22 +222,37 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
-		// frontLeftDriveMotor.config_kF(PID.kIdx, PID.kLeftMotorVelocityGains.kF, PID.kTimeoutMs);
-		// frontLeftDriveMotor.config_kP(PID.kIdx, PID.kLeftMotorVelocityGains.kP, PID.kTimeoutMs);
-		// frontLeftDriveMotor.config_kI(PID.kIdx, PID.kLeftMotorVelocityGains.kI, PID.kTimeoutMs);
-        // frontLeftDriveMotor.config_kD(PID.kIdx, PID.kLeftMotorVelocityGains.kD, PID.kTimeoutMs);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
+		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
+		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
+		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
+        // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
 
-		// frontRightDriveMotor.config_kF(PID.kIdx, PID.kRightMotorVelocityGains.kF, PID.kTimeoutMs);
-		// frontRightDriveMotor.config_kP(PID.kIdx, PID.kRightMotorVelocityGains.kP, PID.kTimeoutMs);
-		// frontRightDriveMotor.config_kI(PID.kIdx, PID.kRightMotorVelocityGains.kI, PID.kTimeoutMs);
-        // frontRightDriveMotor.config_kD(PID.kIdx, PID.kRightMotorVelocityGains.kD, PID.kTimeoutMs);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
+		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
+		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
+		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGains.kI);
+        // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGains.kD);
 
-		// ----------------------------------------------------------
-		// Config integrated sensors (built-in encoders)
-
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 		resetEncoders();
+	}
+
+
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
+	@Override
+	public void periodic() {
+		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
+
+		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
+
+		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
+		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+
+		SmartDashboard.putBoolean("Left is inverted", m_leftGroup.getInverted());
+		SmartDashboard.putBoolean("Right is inverted", m_rightGroup.getInverted());
 	}
 
 
@@ -174,23 +270,42 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setMaximumOutput(double maxOutput) {
+	public Drivetrain setMaxOutput(double maxOutput) {
 		m_differentialDrive.setMaxOutput(maxOutput);
 		return this;
 	}
 
+	// weird name 'setONLYMotorGroupToInverted' means that ONLY the given motor group should be inverted
 	public Drivetrain setOnlyMotorGroupToInverted(MotorGroup motorGroup) {
-		if (motorGroup == MotorGroup.LEFT) {	// for V2
-			m_leftGroup.setInverted(true);
-			m_rightGroup.setInverted(false);
-		} else {								// for V1
-			m_leftGroup.setInverted(false);
-			m_rightGroup.setInverted(true);
+		switch (motorGroup) {
+			default:
+				DriverStation.reportError("Unsupported motor group detected in setOnlyMotorGroupToInverted", true);
+				break;
+			case LEFT:
+				m_leftGroup.setInverted(true);
+				m_rightGroup.setInverted(false);
+
+				leftMotorsDirectionMultiplier = -1.d;
+				rightMotorsDirectionMultiplier = 1.d;
+				break;
+			case RIGHT:
+				m_leftGroup.setInverted(false);
+				m_rightGroup.setInverted(true);
+
+				leftMotorsDirectionMultiplier = 1.d;
+				rightMotorsDirectionMultiplier = -1.d;
+				break;
 		}
 		return this;
 	}
 
-	public Drivetrain swapMotorGroups() {
+	public Drivetrain reverseDrivetrain() {
+		invertMotors();
+		swapMotorGroups();
+		return this;
+	}
+
+	private Drivetrain swapMotorGroups() {
 		var tempLeftGroup = m_leftGroup;
 		m_leftGroup = m_rightGroup;
 		m_rightGroup = tempLeftGroup;
@@ -199,7 +314,7 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain invertLeftAndRightMotorGroups() {
+	private Drivetrain invertMotors() {
 		m_leftGroup.setInverted(!m_leftGroup.getInverted());
 		m_rightGroup.setInverted(!m_rightGroup.getInverted());
 		return this;
@@ -224,22 +339,22 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setLeftMotors(double negToPosPercentage) {
-		m_frontLeftMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+	public Drivetrain setLeftMotors(double velocity) {
+		m_frontLeftMotor.set(ControlMode.Velocity, velocity * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
-	public Drivetrain setRightMotors(double negToPosPercentage) {
-		m_frontRightMotor.set(ControlMode.PercentOutput, negToPosPercentage);
+	public Drivetrain setRightMotors(double velocity) {
+		m_frontRightMotor.set(ControlMode.Velocity, velocity * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public double getLeftPercent() {
-		return m_frontLeftMotor.getMotorOutputPercent();
+		return m_frontLeftMotor.getMotorOutputPercent() * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightPercent() {
-		return m_frontRightMotor.getMotorOutputPercent();
+		return m_frontRightMotor.getMotorOutputPercent() * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -262,21 +377,41 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Odometry methods
+
+
+	public Pose2d getPose() {
+		return m_odometry.getPoseMeters();
+	}
+
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		return new DifferentialDriveWheelSpeeds(
+			m_frontLeftMotor.getSelectedSensorVelocity(kLeftSlotIdx),
+			m_frontRightMotor.getSelectedSensorVelocity(kRightSlotIdx));
+	}
+
+	public void resetOdometry(Pose2d pose) {
+		resetEncoders();
+		m_odometry.resetPosition(pose, getRotation2d());
+	}
+
+
+	// ----------------------------------------------------------
 	// Drive methods
 
 	
-	public void arcadeDrive(double xSpeed, double zRotation) {
-		m_differentialDrive.arcadeDrive(xSpeed, zRotation);
+	public void arcadeDrive(double forward, double rotation) {
+		m_differentialDrive.arcadeDrive(forward, rotation);
+	}
+
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		m_leftGroup.setVoltage(leftVolts);
+		m_rightGroup.setVoltage(rightVolts);
+		m_differentialDrive.feed();
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		// TODO: P1 Why are the V1 motor groups swapped???
-
-		if (RobotContainer.usingV1Drivetrain) {
-			m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
-		} else {
-			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
-		}
+		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
@@ -351,11 +486,56 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// IMU methods
+
+
+	// heading increases (positive) when turning counter-clockwise
+	public double getHeading() {
+		return imu.getAngle();
+	}
+
+	public Rotation2d getRotation2d() {
+		return Rotation2d.fromDegrees(imu.getAngle());
+	}
+
+	public double getTurnRate() {
+		return imu.getRate();	// degrees per second
+	}
+
+	// rounds to two decimals
+	private double getRounded(double input) {
+		return Math.round(input * 100.0d) / 100.0d;
+	}
+
+	private double getXFilteredAccelAngle() {
+		return imu.getXFilteredAccelAngle() - m_filteredXAccelOffset;
+	}
+	
+	private double getYFilteredAccelAngle() {
+		return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
+	}
+
+	public Drivetrain calibrateIMU() {
+		imu.calibrate();	// just filters out noise (robot must be still)
+		
+		m_filteredXAccelOffset = imu.getXFilteredAccelAngle();
+		m_filteredYAccelOffset = imu.getYFilteredAccelAngle();
+		
+		return this;
+	}
+
+	public Drivetrain resetIMU() {
+		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
 	// Encoder methods
 	
 
-	public double getLeftDistance() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
+	public double getLeftDistanceMeters() {
+		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters * leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -363,8 +543,8 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public double getRightDistance() {
-		return m_frontRightMotor.getSelectedSensorPosition() * TICKS_TO_INCHES_CONVERSION;
+	public double getRightDistanceMeters() {
+		return m_frontRightMotor.getSelectedSensorPosition() * kTicksToMeters * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {
@@ -378,17 +558,8 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
+	// always returns a positive value
 	public double getAverageDistance() {
-		return (getRightDistance() + getLeftDistance()) / 2.0d;
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
+		return (Math.abs(getLeftDistanceMeters()) + Math.abs(getRightDistanceMeters())) / 2.0d;
 	}
 }

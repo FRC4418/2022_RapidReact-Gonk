@@ -1,12 +1,26 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiConsumer;
 
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
@@ -27,7 +41,6 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Sensory;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
@@ -36,6 +49,8 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Robot-configuration constants
 
+
+	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_ONE;
 
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
@@ -78,8 +93,6 @@ public class RobotContainer {
     // Publicly static resources
 
 
-	public static boolean usingV1Drivetrain = false;
-
 	// joystick control resources are publicly static because 
 	public static JoystickControls driverJoystickControls;
 	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
@@ -121,8 +134,6 @@ public class RobotContainer {
 	
 	public final Manipulator manipulator = new Manipulator();
 	
-	public final Sensory sensory = new Sensory();
-
 	public final Autonomous autonomous = new Autonomous();
 
 	public final Vision vision = new Vision();
@@ -174,7 +185,67 @@ public class RobotContainer {
 
 
 	public Command defaultAutoCommand() {
-		return new DriveStraightForDistance(drivetrain, 3.0d, DriveStraightDirection.BACKWARDS);
+		return new SequentialCommandGroup(
+			new AutoRunLauncherDemo(manipulator, 1.5d),
+			new DriveStraightForDistance(drivetrain, 3d, DriveStraightDirection.BACKWARDS));
+		// return getExampleTrajectory();
+	}
+
+	public Command getExampleTrajectory() {
+		// Create a voltage constraint to ensure we don't accelerate too fast
+		var autoVoltageConstraint =
+			new DifferentialDriveVoltageConstraint(
+				new SimpleMotorFeedforward(
+					Drivetrain.ksVolts,
+					Drivetrain.kvVoltSecondsPerMeter,
+					Drivetrain.kaVoltSecondsSquaredPerMeter),
+					Drivetrain.kDriveKinematics,
+				10);
+	
+		// Create config for trajectory
+		var config =
+			new TrajectoryConfig(
+				Drivetrain.kMaxSpeedMetersPerSecond,
+				Drivetrain.kMaxAccelerationMetersPerSecondSquared)
+				// Add kinematics to ensure max speed is actually obeyed
+				.setKinematics(Drivetrain.kDriveKinematics)
+				// Apply the voltage constraint
+				.addConstraint(autoVoltageConstraint);
+	
+		// An example trajectory to follow.  All units in meters.
+		var exampleTrajectory =
+			TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+				// Pass through these two interior waypoints, making an 's' curve path
+				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+				// End 3 meters straight ahead of where we started, facing forward
+				new Pose2d(3, 0, new Rotation2d(0)),
+				// Pass config
+				config);
+	
+		var ramseteCommand =
+			new RamseteCommand(
+				exampleTrajectory,
+				drivetrain::getPose,
+				new RamseteController(Drivetrain.kRamseteB, Drivetrain.kRamseteZeta),
+				new SimpleMotorFeedforward(
+					Drivetrain.ksVolts,
+					Drivetrain.kvVoltSecondsPerMeter,
+					Drivetrain.kaVoltSecondsSquaredPerMeter),
+					Drivetrain.kDriveKinematics,
+				drivetrain::getWheelSpeeds,
+				new PIDController(Drivetrain.kPDriveVel, 0, 0),
+				new PIDController(Drivetrain.kPDriveVel, 0, 0),
+				// RamseteCommand passes volts to the callback
+				drivetrain::tankDriveVolts,
+				drivetrain);
+	
+		// Reset odometry to the starting pose of the trajectory.
+		drivetrain.resetOdometry(exampleTrajectory.getInitialPose());
+	
+		// Run path following command, then stop at the end.
+		return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 	
@@ -211,7 +282,6 @@ public class RobotContainer {
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
 			configureRobotSpecificDrivetrain();
-			usingV1Drivetrain = true;
 		}
 		return this;
 	}
@@ -223,11 +293,9 @@ public class RobotContainer {
 				break;
 			case VERSACHASSIS_TWO:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
-				usingV1Drivetrain = false;
 				break;
 			case VERSACHASSIS_ONE:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
-				usingV1Drivetrain = true;
 				break;
 		}
 	}

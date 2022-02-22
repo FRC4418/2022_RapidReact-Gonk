@@ -69,7 +69,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 		kidsSafetyModeToggleSwitch.addListener(event -> {
 			if (event.value.getBoolean()) {
 				m_drivetrain
-					.setMaximumOutput(kidsSafetyMaxOutputNumberSlider.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
+					.setMaxOutput(kidsSafetyMaxOutputNumberSlider.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
 					.useKidsSafetyModeSlewRates();
 			} else {
 				m_drivetrain
@@ -80,7 +80,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 
 		kidsSafetyMaxOutputNumberSlider.addListener(event -> {
 			if (kidsSafetyModeToggleSwitch.getBoolean(false)) {
-				m_drivetrain.setMaximumOutput(event.value.getDouble());
+				m_drivetrain.setMaxOutput(event.value.getDouble());
 				SmartDashboard.putNumber("DOING THING", counter++);
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);

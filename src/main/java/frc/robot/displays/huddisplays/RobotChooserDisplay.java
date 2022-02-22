@@ -6,7 +6,7 @@ import java.util.Map;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.TeamRobot;
 import frc.robot.displays.Display;
 
@@ -39,8 +39,13 @@ public class RobotChooserDisplay extends HUDDisplay {
 			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
-			teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
-			teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+			if (RobotContainer.defaultRobot == TeamRobot.VERSACHASSIS_ONE) {
+				teamRobotChooser.setDefaultOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+				teamRobotChooser.addOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
+			} else if (RobotContainer.defaultRobot == TeamRobot.VERSACHASSIS_TWO) {
+				teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
+				teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+			}
 			robotSelectionLayout
 				.add("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);
