@@ -17,7 +17,7 @@ import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class AutonomousDisplay extends HUDDisplay {
-    private SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
+    public SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
 
 	private NetworkTableEntry startDelayTimeNumberSlider;
 	

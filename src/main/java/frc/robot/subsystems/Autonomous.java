@@ -22,7 +22,6 @@ public class Autonomous extends SubsystemBase {
 	// Public constants
 
 
-	// TODO: P2 Figure out all the autonomous strategy options we should have
 	public enum AutonomousRoutine {
 		// 'PICKUP_CARGO' just directly runs intake to collect the cargo that's assumed to be right behind us
 		// 'RETRIEVE_CARGO' uses vision and the IMU to autonomously find the closest cargo and collect it 
