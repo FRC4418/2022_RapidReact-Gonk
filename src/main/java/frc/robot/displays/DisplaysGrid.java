@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     private int rows = 4;
@@ -21,7 +23,11 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 
     public DisplaysGrid() {
         for (int iii = 0; iii < rows; iii++) {
-            grid.add(new ArrayList<>(Collections.nCopies(columns, null)));
+            var newRow = new ArrayList<Display>();
+            for (int jjj = 0; jjj < columns; jjj++) {
+                newRow.add(null);
+            }
+            grid.add(newRow);
         }
     }
 
@@ -110,8 +116,6 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 
         int reservedColumn = rightmostDisplayColumn + 1;
 
-        set(row, reservedColumn, display);
-
         // oh hell no I am not explaining what row and column "pegs" are without a whiteboard and like two hours of your time
 
         int absoluteColumn = 0;
@@ -155,6 +159,8 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
             }
         }
 
+        set(row, reservedColumn, display);
+
         display
             .setColumn(absoluteColumn)
             .setRow(absoluteRow);
@@ -184,8 +190,6 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 		}
 
         int reservedRow = bottommostDisplayRow + 1;
-
-        set(reservedRow, column, display);
 
         int absoluteRow = 0;
         if (bottommostDisplay != null) {
@@ -226,6 +230,8 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
                 }
             }
         }
+
+        set(reservedRow, column, display);
 
         display
             .setColumn(absoluteColumn)
