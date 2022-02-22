@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
 import frc.robot.joystickcontrols.IO.X3D;
@@ -35,7 +36,6 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.commands.manipulator.AutoRunLauncherDemo;
-import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
 import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
@@ -101,8 +101,6 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Publicly static resources
 
-
-	public static boolean usingV1Drivetrain = false;
 
 	// joystick control resources are publicly static because 
 	public static JoystickControls driverJoystickControls;
@@ -313,27 +311,20 @@ public class RobotContainer {
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
 			configureRobotSpecificDrivetrain();
-			usingV1Drivetrain = true;
 		}
 		return this;
 	}
-
-	int counter = 0;
 	
 	private void configureRobotSpecificDrivetrain() {
-		SmartDashboard.putNumber("Configured Drivetrain", counter++);
-
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
 				break;
 			case VERSACHASSIS_TWO:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
-				usingV1Drivetrain = false;
 				break;
 			case VERSACHASSIS_ONE:
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
-				usingV1Drivetrain = true;
 				break;
 		}
 	}

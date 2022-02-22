@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Public constants
+	// Motor group constants
 
 
 	public enum MotorGroup {
@@ -36,10 +37,24 @@ public class Drivetrain extends SubsystemBase {
 		RIGHT
 	}
 
-	// Open-loop control constants
+	// 1 is not inverted, -1 is inverted
+	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
+	private double leftMotorsDirectionMultiplier = 1.d;
+	private double rightMotorsDirectionMultiplier = 1.d;
+
+
+	// ----------------------------------------------------------
+	// Open-loop ramp constants
+
+
 	public static final double
 		// units in seconds
 		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
+
+
+	// ----------------------------------------------------------
+	// Max output mode constants
+
 
 	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
 
@@ -236,6 +251,9 @@ public class Drivetrain extends SubsystemBase {
 
 		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
 		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+
+		SmartDashboard.putBoolean("Left is inverted", m_frontLeftMotor.getInverted());
+		SmartDashboard.putBoolean("Right is inverted", m_frontRightMotor.getInverted());
 	}
 
 
@@ -258,13 +276,26 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
+	// weird name 'setONLYMotorGroupToInverted' means that ONLY the given motor group should be inverted
 	public Drivetrain setOnlyMotorGroupToInverted(MotorGroup motorGroup) {
-		if (motorGroup == MotorGroup.LEFT) {	// for V2
-			m_leftGroup.setInverted(true);
-			m_rightGroup.setInverted(false);
-		} else {								// for V1
-			m_leftGroup.setInverted(false);
-			m_rightGroup.setInverted(true);
+		switch (motorGroup) {
+			default:
+				DriverStation.reportError("Unsupported motor group detected in setOnlyMotorGroupToInverted", true);
+				break;
+			case LEFT:
+				m_leftGroup.setInverted(true);
+				m_rightGroup.setInverted(false);
+
+				leftMotorsDirectionMultiplier = -1.d;
+				rightMotorsDirectionMultiplier = 1.d;
+				break;
+			case RIGHT:
+				m_leftGroup.setInverted(false);
+				m_rightGroup.setInverted(true);
+
+				leftMotorsDirectionMultiplier = 1.d;
+				rightMotorsDirectionMultiplier = -1.d;
+				break;
 		}
 		return this;
 	}
@@ -278,7 +309,7 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain invertLeftAndRightMotorGroups() {
+	public Drivetrain invertMotors() {
 		m_leftGroup.setInverted(!m_leftGroup.getInverted());
 		m_rightGroup.setInverted(!m_rightGroup.getInverted());
 		return this;
@@ -304,21 +335,21 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain setLeftMotors(double velocity) {
-		m_frontLeftMotor.set(ControlMode.Velocity, velocity);
+		m_frontLeftMotor.set(ControlMode.Velocity, velocity * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public Drivetrain setRightMotors(double velocity) {
-		m_frontRightMotor.set(ControlMode.Velocity, velocity);
+		m_frontRightMotor.set(ControlMode.Velocity, velocity * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public double getLeftPercent() {
-		return m_frontLeftMotor.getMotorOutputPercent();
+		return m_frontLeftMotor.getMotorOutputPercent() * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightPercent() {
-		return m_frontRightMotor.getMotorOutputPercent();
+		return m_frontRightMotor.getMotorOutputPercent() * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -377,11 +408,12 @@ public class Drivetrain extends SubsystemBase {
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		// TODO: P1 Why do the V1 motor groups need to be swapped???
 
-		if (RobotContainer.usingV1Drivetrain) {
-			m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
-		} else {
-			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
-		}
+		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		// if (RobotContainer.usingV1Drivetrain) {
+		// 	m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
+		// } else {
+		// 	m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		// }
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
@@ -504,7 +536,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return -m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters;
+		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters;
 	}
 
 	public Drivetrain resetLeftEncoder() {
