@@ -23,6 +23,7 @@ CRGB leds[NUM_LEDS];
 #define I2C_ADDRESS 0x44
 volatile int new_data = 0;
 volatile int value = 0;
+volatile int value_register = 0;
 
 void setup() {
   delay(1000); // power-up safety delay
@@ -87,10 +88,16 @@ void loop() {
 }
 
 
-void i2cReceiveEvent(){
+void i2cReceiveEvent(int bytesReceived){  //The first byte is the register and the rest of the bytes are data
+  value_register = (int)Wire.read();
   value = (int)Wire.read(); 
+  if (bytesReceived > 2){   //Throw away all the rest of the data past the first 2 bytes
+    for (uint8_t a = 2; a < bytesReceived; a++){  
+      Wire.read();
+  }
   new_data = 1;
 }
+
 
 void startupEffect(){
   Wire.end();
