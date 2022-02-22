@@ -156,7 +156,7 @@ public class RobotContainer {
 			diagnosticDisplaysGrid
 				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 7, 3))
 				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
-				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 2))
+				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
 				.show();
 		}
 

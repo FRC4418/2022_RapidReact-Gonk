@@ -40,7 +40,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 			.getLayout("Kid's Safety", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(2, 2);
+			.withSize(width, height);
 			
 			kidsSafetyModeToggleSwitch = kidsSafetyLayout
 				.add("On-Off", false)
