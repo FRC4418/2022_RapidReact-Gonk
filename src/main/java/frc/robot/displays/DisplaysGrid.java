@@ -3,6 +3,7 @@ package frc.robot.displays;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,19 +13,16 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     private int columns = 4;
 
     // this is to avoid having to add more rows or columns for a while
-    private List<ArrayList<Display>> grid = Arrays.asList(
-        new ArrayList<>(4),
-        new ArrayList<>(4),
-        new ArrayList<>(4),
-        new ArrayList<>(4)
-    );
+    private List<ArrayList<Display>> grid = new ArrayList<ArrayList<Display>>();
 
     // maps each grid column/row index to an absolute Shuffleboard column/row (ex. grid column/row 1 corresponds to Shuffleboard column/row 6 because a display(s) in grid column/row 0 has width/height of 5 Shuffleboard columns/rows)
     private List<Integer> absoluteColumns = Arrays.asList(0, 1, 2, 3);
     private List<Integer> absoluteRows = Arrays.asList(0, 1, 2, 3);
 
     public DisplaysGrid() {
-
+        for (int iii = 0; iii < rows; iii++) {
+            grid.add(new ArrayList<>(Collections.nCopies(columns, null)));
+        }
     }
 
     @Override
@@ -88,7 +86,11 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     private int maxWidthOfColumn(int column) {
         int maxWidth = 0;
         for (var displaysRow: grid) {
-            int displayWidth = displaysRow.get(column).getWidth();
+            var display = displaysRow.get(column);
+            if (display == null) {
+                continue;
+            }
+            int displayWidth = display.getWidth();
             if (displayWidth > maxWidth) {
                 maxWidth = displayWidth;
             }
@@ -108,6 +110,9 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     private int maxHeightOfRow(int row) {
         int maxHeight = 0;
         for (var display: grid.get(row)) {
+            if (display == null) {
+                continue;
+            }
             int height = display.getHeight();
             if (height > maxHeight) {
                 maxHeight = height;
@@ -178,7 +183,11 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         calculateAbsoluteRows();
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                get(row, column)
+                var display = get(row, column);
+                if (display == null) {
+                    continue;
+                }
+                display
                     .setColumn(absoluteColumns.get(column))
                     .setRow(absoluteRows.get(row))
                     .initialize();
@@ -190,6 +199,9 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     public DisplaysGrid addEntryListeners() {
         for (var row: grid) {
             for (var display: row) {
+                if (display == null) {
+                    continue;
+                }
                 display.addEntryListeners();
             }
         }
