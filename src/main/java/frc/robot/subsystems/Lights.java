@@ -1,21 +1,34 @@
 package frc.robot.subsystems;
 
 
-import java.math.BigInteger;
+import java.nio.ByteBuffer;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Lights extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Resources
+	// Private constants
 
 
 	private final int I2C_DEVICE_ADDRESS = 0x44;
+
+	private final byte VALUE_REGISTER = 0x0;
+
+	private final int
+		STARTUP_EFFECT = 5,
+		BLUE = 4,
+		GREEN = 3,
+		SECOND_HALF_IS_FORWARD_COLOR = 2,
+		FIRST_HALF_IS_FORWARD_COLOR = 1;
+
+
+	// ----------------------------------------------------------
+	// Resources
+
+
 	private final I2C arduino = new I2C(Port.kOnboard, I2C_DEVICE_ADDRESS);
 	
 
@@ -34,8 +47,15 @@ public class Lights extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		byte[] sendData = (BigInteger.valueOf(4)).toByteArray();
-		// arduino.writeBulk(sendData);
-		arduino.write(2, 4);
+		sendCommand(STARTUP_EFFECT);
 	}
+
+	private void sendCommand(int command) {
+		// one byte for the register address, one byte for the integer-value command
+		ByteBuffer data = ByteBuffer.allocateDirect(2);
+		data.put(VALUE_REGISTER);
+		data.putInt(command);
+
+		arduino.writeBulk(data, 2);
+ }
 }
