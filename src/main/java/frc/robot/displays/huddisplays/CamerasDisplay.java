@@ -10,17 +10,9 @@ import frc.robot.displays.Display;
 import frc.robot.subsystems.Vision;
 
 
-public class CamerasDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
-    
-
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
-    
-    public CamerasDisplay(int column, int row) {
-		super(column, row);
+public class CamerasDisplay extends HUDDisplay {    
+    public CamerasDisplay(int width, int height) {
+		super(width, height);
     }
 
 	@Override
@@ -35,7 +27,7 @@ public class CamerasDisplay extends HUDDisplay {
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(6, 2);
+			.withSize(width, height);
 			
 			camerasLayout
 				.add("Front-Center", Vision.frontCenterCameraServer.getSource())

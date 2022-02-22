@@ -18,20 +18,14 @@ import frc.robot.displays.Display;
 
 
 public class JoysticksDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry driverSwapLeftAndRightJoysticksToggleSwitch;
 
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry spotterSwapLeftAndRightJoysticksToggleSwitch;
 
-    // ----------------------------------------------------------
-    // Constructor
-    
-    public JoysticksDisplay(int column, int row) {
-        super(column, row);
+    public JoysticksDisplay(int width, int height) {
+        super(width, height);
     }
 
     @Override
@@ -50,7 +44,7 @@ public class JoysticksDisplay extends HUDDisplay {
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(3, 2);
+			.withSize(width, height);
 
             { var driverLayout = joysticksLayout
                 .getLayout("Driver", BuiltInLayouts.kGrid)

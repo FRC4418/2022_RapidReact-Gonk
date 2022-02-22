@@ -12,16 +12,10 @@ import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
 public class AutonomousDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     private SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
-
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
     
-    public AutonomousDisplay(int column, int row) {
-		super(column, row);
+    public AutonomousDisplay(int width, int height) {
+		super(width, height);
     }
 
 	@Override
@@ -36,7 +30,7 @@ public class AutonomousDisplay extends HUDDisplay {
 			.getLayout("Autonomous", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
 			autoRoutineChooser.setDefaultOption("LH PC LT", AutonomousRoutine.SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC);

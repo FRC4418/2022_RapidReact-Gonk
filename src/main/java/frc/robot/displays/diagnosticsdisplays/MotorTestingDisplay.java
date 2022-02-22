@@ -15,9 +15,6 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class MotorTestingDisplay extends DiagnosticsDisplay {
-    // ----------------------------------------------------------
-	// Resources
-
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
@@ -35,11 +32,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry retractorToggleSwitch;
 	private NetworkTableEntry retractorPositionNumberSlider;
 
-    // ----------------------------------------------------------
-	// Constructor (initializes the display the same time)
-
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row) {
-		super(column, row);
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
+		super(width, height);
 
 		m_intake = intake;
 		m_manipulator = manipulator;
@@ -70,7 +64,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(7, 3);
+			.withSize(width, height);
 
 			// Enable/disable motor testing
 			motorTestingModeToggleSwitch = motorTestingLayout
