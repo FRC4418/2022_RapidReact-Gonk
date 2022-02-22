@@ -17,10 +17,9 @@ public abstract class Display {
 
     protected ArrayList<NetworkTableEntry> entries = new ArrayList<>();
 
-    public Display(int column, int row, int width, int height) {
-        this.column = column;
-        this.row = row;
-
+    public Display(int width, int height) {
+        assert width > 0;
+        assert height > 0;
         this.width = width;
         this.height = height;
     }

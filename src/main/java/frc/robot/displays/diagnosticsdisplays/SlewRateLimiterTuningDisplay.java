@@ -22,8 +22,8 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry tankDriveLeftForwardLimiterNumberSlider;
 	private NetworkTableEntry tankDriveRightForwardLimiterNumberSlider;
 
-    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
-		super(column, row, width, height);
+    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int width, int height) {
+		super(width, height);
 
 		m_drivetrain = drivetrain;
     }

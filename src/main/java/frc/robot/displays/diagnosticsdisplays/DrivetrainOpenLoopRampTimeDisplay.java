@@ -18,13 +18,10 @@ public class DrivetrainOpenLoopRampTimeDisplay extends DiagnosticsDisplay {
 
     private NetworkTableEntry rampTimeNumberSlider;
 
-    public DrivetrainOpenLoopRampTimeDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
-		super(column, row, width, height);
+    public DrivetrainOpenLoopRampTimeDisplay(Drivetrain drivetrain, int width, int height) {
+		super(width, height);
 
 		m_drivetrain = drivetrain;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override

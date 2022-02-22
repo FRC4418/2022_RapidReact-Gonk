@@ -32,8 +32,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry retractorToggleSwitch;
 	private NetworkTableEntry retractorPositionNumberSlider;
 
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row, int width, int height) {
-		super(column, row, width, height);
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
+		super(width, height);
 
 		m_intake = intake;
 		m_manipulator = manipulator;

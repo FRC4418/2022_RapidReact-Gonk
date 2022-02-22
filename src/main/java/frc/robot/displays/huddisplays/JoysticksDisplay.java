@@ -24,8 +24,8 @@ public class JoysticksDisplay extends HUDDisplay {
     public SendableChooser<JoystickMode> spotterJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry spotterSwapLeftAndRightJoysticksToggleSwitch;
 
-    public JoysticksDisplay(int column, int row, int width, int height) {
-        super(column, row, width, height);
+    public JoysticksDisplay(int width, int height) {
+        super(width, height);
     }
 
     @Override

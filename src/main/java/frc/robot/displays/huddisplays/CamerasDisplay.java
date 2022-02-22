@@ -11,8 +11,8 @@ import frc.robot.subsystems.Vision;
 
 
 public class CamerasDisplay extends HUDDisplay {    
-    public CamerasDisplay(int column, int row, int width, int height) {
-		super(column, row, width, height);
+    public CamerasDisplay(int width, int height) {
+		super(width, height);
     }
 
 	@Override

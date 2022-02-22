@@ -10,7 +10,7 @@ import frc.robot.displays.Display;
 public abstract class HUDDisplay extends Display {
     protected static final ShuffleboardTab hudTab = Shuffleboard.getTab("HUD");
 
-    public HUDDisplay(int column, int row, int width, int height) {
-        super(column, row, width, height);
+    public HUDDisplay(int width, int height) {
+        super(width, height);
     }
 }

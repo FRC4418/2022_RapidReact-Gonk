@@ -34,7 +34,10 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.commands.manipulator.AutoRunLauncherDemo;
+import frc.robot.displays.DisplaysGrid;
+import frc.robot.displays.huddisplays.AutonomousDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
+import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -114,6 +117,9 @@ public class RobotContainer {
     // Private resources
 
 
+	private DisplaysGrid hudDisplaysGrid = new DisplaysGrid();
+	private DisplaysGrid diagnosticDisplaysGrid = new DisplaysGrid();
+
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 
@@ -144,6 +150,12 @@ public class RobotContainer {
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
+
+		hudDisplaysGrid
+			.makeOriginWith(new RobotChooserDisplay(2, 1))
+			.reserveNextColumnAtRow(0, new JoysticksDisplay(3, 2))
+			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
+			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 1))
 
 		// reserveAndGetNextRowAtColumn(0, display, displayType);
 

@@ -20,8 +20,8 @@ public class KidsSafetyDisplay extends HUDDisplay {
     private NetworkTableEntry kidsSafetyModeToggleSwitch;
 	private NetworkTableEntry kidsSafetyMaxOutputNumberSlider;
 
-    public KidsSafetyDisplay(Drivetrain drivetrain, int column, int row, int width, int height) {
-		super(column, row, width, height);
+    public KidsSafetyDisplay(Drivetrain drivetrain, int width, int height) {
+		super(width, height);
 
 		m_drivetrain = drivetrain;
     }
