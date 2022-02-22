@@ -20,21 +20,21 @@ public class DriveStraightForDistance extends CommandBase {
 	// Private constants
 
 	private final double MOTOR_OUTPUT_PERCENT = 0.45d;
-	private final double kP = 0.1d;
+	private final double kP = 0.05d;
 
 	// ----------------------------------------------------------
 	// Resources
 
 	private final Drivetrain m_drivetrain;
 
-	private final double m_distanceInInches;
+	private final double m_distanceInMeters;
 	private final DriveStraightDirection m_direction;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInInches, DriveStraightDirection direction) {
-		m_distanceInInches = distanceInInches;
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
+		m_distanceInMeters = distanceInMeters;
 		m_direction = direction;
 		m_drivetrain = drivetrain;
 		
@@ -48,35 +48,40 @@ public class DriveStraightForDistance extends CommandBase {
 	public void initialize() {
 		m_drivetrain
 			.disableOpenLoopRamp()
+			.resetIMU()
 			.resetEncoders();
+
+		// we do this so that using the tank drive functions with positive speeds still works (only if we're driving backwards)
+		if (m_direction == DriveStraightDirection.BACKWARDS) {
+			m_drivetrain.reverseDrivetrain();
+		}
 	}
 
 	@Override
 	public void execute() {
-		double error = m_drivetrain.getLeftDistance() - m_drivetrain.getRightDistance();
+		var error = m_drivetrain.getHeading();
 
-		if (m_direction == DriveStraightDirection.FORWARDS) {
-			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT - kP * error, MOTOR_OUTPUT_PERCENT + kP * error);
-			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
-		} else {
-			// m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT - kP * error), -(MOTOR_OUTPUT_PERCENT + kP * error));
-			m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
-		}
+		var leftTankSpeed = MOTOR_OUTPUT_PERCENT + kP * error;
+		var rightTankSpeed = MOTOR_OUTPUT_PERCENT - kP * error;
 
-		SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftDistance());
-		SmartDashboard.putNumber("Right Encoder", m_drivetrain.getRightDistance());
+		m_drivetrain.tankDrive(leftTankSpeed, rightTankSpeed);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
 		m_drivetrain.useJoystickDrivingOpenLoopRamp();
+
+		// undo the drivetrain reversal we did in the initialization (only if we're driving backwards)
+		if (m_direction == DriveStraightDirection.BACKWARDS) {
+			m_drivetrain.reverseDrivetrain();
+		}
 	}
 
 	@Override
 	public boolean isFinished() {
 		SmartDashboard.putNumber("traveled average distance", m_drivetrain.getAverageDistance());
 
-		return Math.abs(m_drivetrain.getAverageDistance()) >= m_distanceInInches;
+		return m_drivetrain.getAverageDistance() >= m_distanceInMeters;
 	}
 }

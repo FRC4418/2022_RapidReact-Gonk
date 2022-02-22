@@ -55,6 +55,16 @@ public class Manipulator extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
+	@Override
+	public void periodic() {
+		
+	}
+
+
+	// ----------------------------------------------------------
 	// Indexer motor
 	
 
@@ -97,15 +107,5 @@ public class Manipulator extends SubsystemBase {
 	public Manipulator stopLauncher() {
 		setLauncherToPercent(0.d);
 		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
 	}
 }
