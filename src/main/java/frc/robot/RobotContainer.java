@@ -35,6 +35,7 @@ import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
+import frc.robot.commands.manipulator.AutoRunLauncherDemo;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;

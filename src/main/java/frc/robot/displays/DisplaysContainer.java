@@ -19,7 +19,6 @@ public class DisplaysContainer {
 	}
 
 	private boolean hudOriginExists = false;
-	// TODO: P3 Make and use a custom display grid type that's implemented by a 2D ArrayList 
 	private ArrayList<ArrayList<Display>> hudDisplaysGrid;
 
 	private boolean diagnosticsOriginExists = false;
@@ -91,8 +90,7 @@ public class DisplaysContainer {
 		displaysGrid.get(0).set(0, display);
 	}
 
-    public DisplaysContainer reserveNextColumnAtRow(int row, Display display, DisplayType displayType) {
-		// note that 'row' and 'column' are referring to rows and columns in the DISPLAY 2D GRID ARRAY we're using to track relative positions, not rows and columns in Shuffleboard's coordinates
+	private ArrayList<ArrayList<Display>> getDisplayGrid(DisplayType displayType) {
 		ArrayList<ArrayList<Display>> displaysGrid = null;
 
 		switch (displayType) {
@@ -108,6 +106,12 @@ public class DisplaysContainer {
 				displaysGrid = diagnosticDisplaysGrid;
 				break;
 		}
+		return displaysGrid;
+	}
+
+    public DisplaysContainer reserveNextColumnAtRow(int row, Display display, DisplayType displayType) {
+		// note that 'row' and 'column' are referring to rows and columns in the DISPLAY 2D GRID ARRAY we're using to track relative positions, not rows and columns in Shuffleboard's coordinates
+		var displaysGrid = getDisplayGrid(displayType);
 		
 		// if the row we want doesn't exist, make it
 
@@ -132,6 +136,13 @@ public class DisplaysContainer {
 				wantedColumn = iii;
 			}
 		}
+		// getting the rightmost display's absolute Shuffleboard column and width
+		int rightmostDisplayColumn = 0;
+		int rightmostDisplayWidth = 0;
+		if (rightmostDisplay != null) {
+			rightmostDisplayColumn = rightmostDisplay.getColumn();
+			rightmostDisplayWidth = rightmostDisplay.getWidth();
+		}
 
 		// the bottommost non-null display at the column we are about to reserve a space in
 		Display bottommostDisplay = null;
@@ -141,14 +152,27 @@ public class DisplaysContainer {
 				bottommostDisplay = displayInColumn;
 			}
 		}
+		// getting the bottommost display's absolute Shuffleboard row and height
+		int bottommostDisplayRow = 0;
+		int bottommostDisplayHeight = 0;
+		if (bottommostDisplay != null) {
+			bottommostDisplayRow = bottommostDisplay.getRow();
+			bottommostDisplayHeight = bottommostDisplay.getHeight();
+		}
 
-		// TODO: !!!P1!!! Continue implementation here
-		// Use the rightmost and bottommost displays to place the display at the correct grid coordinate and absolute Shuffleboard coordinate
+		// setting the display's absolute Shuffleboard coordinates and using them to initialize the display at the correct absolute Shuffleboard coordinates given the size and position of the rightmost display in the row and the bottommost display in the column
+		display
+			.setColumn(rightmostDisplayColumn + rightmostDisplayWidth)
+			.setRow(bottommostDisplayRow + bottommostDisplayHeight)
+			.initialize();
 		return this;
 	}
 
 	public DisplaysContainer reserveNextRowAtColumn(int column, Display display, DisplayType displayType) {
+		// note that 'row' and 'column' are referring to rows and columns in the DISPLAY 2D GRID ARRAY we're using to track relative positions, not rows and columns in Shuffleboard's coordinates
+		var displaysGrid = getDisplayGrid(displayType);
 
+		
 		return this;
 	}
 

@@ -7,6 +7,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 
 
 public abstract class Display {
+    protected boolean initialized = false;
+
     protected int column;
     protected int row;
 
@@ -23,8 +25,20 @@ public abstract class Display {
         this.height = height;
     }
 
+    public Display setColumn(int column) {
+        assert !initialized;
+        this.column = column;
+        return this;
+    }
+
     public int getColumn() {
         return column;
+    }
+
+    public Display setRow(int row) {
+        assert !initialized;
+        this.row = row;
+        return this;
     }
 
     public int getRow() {
@@ -42,6 +56,8 @@ public abstract class Display {
     public Display initialize() {
         createDisplayAt(column, row);
         createEntriesArray();
+        
+        initialized = true;
         return this;
     }
 
