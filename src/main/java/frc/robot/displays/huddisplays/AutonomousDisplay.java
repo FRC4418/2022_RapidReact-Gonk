@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import frc.robot.Conversion;
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
@@ -77,7 +77,7 @@ public class AutonomousDisplay extends HUDDisplay {
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		tarmacLeavingDistanceNumberSlider.addListener(event -> {
-			Autonomous.tarmacLeavingDistance = (int) event.value.getDouble();
+			Autonomous.tarmacLeavingDistance = Conversion.inchesToMeters(event.value.getDouble());
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		return this;
 	}

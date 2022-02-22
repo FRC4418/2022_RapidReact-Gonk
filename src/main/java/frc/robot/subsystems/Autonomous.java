@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Conversion;
+
 
 public class Autonomous extends SubsystemBase {
 	// ----------------------------------------------------------
@@ -12,8 +14,8 @@ public class Autonomous extends SubsystemBase {
 	// in seconds
 	public static double startDelayTime = 0.d;
 
-	// in inches
-	public static int tarmacLeavingDistance = 50;
+	// in meters
+	public static double tarmacLeavingDistance = Conversion.inchesToMeters(50.d);
 
 
 	// ----------------------------------------------------------

@@ -5,17 +5,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
-import frc.robot.commands.manipulator.AutoRunLauncherDemo;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Manipulator;
 
 
-public class ScoreLowHubAndLeaveTarmac extends SequentialCommandGroup {
-	public ScoreLowHubAndLeaveTarmac(Drivetrain drivetrain, Manipulator manipulator) {
+public class LeaveTarmac extends SequentialCommandGroup {
+	public LeaveTarmac(Drivetrain drivetrain) {
 		super(
 			new Wait(Autonomous.startDelayTime),
-			new AutoRunLauncherDemo(manipulator, 1.5d),
 			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistance, DriveStraightDirection.FORWARDS)
 		);
 	}
