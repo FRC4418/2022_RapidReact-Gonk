@@ -146,7 +146,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	public final Vision vision = new Vision();
+	// public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 
@@ -163,7 +163,7 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
 			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 1))
-			.reserveNextRowAtColumn(0, new CamerasDisplay(6, 2))
+			// .reserveNextRowAtColumn(0, new CamerasDisplay(6, 2))
 			.show();
 		
 		if (enableDiagnostics) {
@@ -287,7 +287,7 @@ public class RobotContainer {
 		return this;
 	}
 	
-	private void configureRobotSpecificDrivetrain() {
+	private RobotContainer configureRobotSpecificDrivetrain() {
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
@@ -299,6 +299,7 @@ public class RobotContainer {
 				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
 				break;
 		}
+		return this;
 	}
 
 
@@ -400,8 +401,6 @@ public class RobotContainer {
 		joystickPorts[0] = joystickPorts[1];
 		joystickPorts[1] = tempPrimaryJoystickPort;
 
-		// TODO: P3 Figure out how to use non-static RobotContainer resources from static call
-
 		switch (joystickMode) {
 			default:
 				DriverStation.reportError("Unsupported joystick mode detected while swapping the left and right joysticks for the driver", true);
@@ -415,6 +414,7 @@ public class RobotContainer {
 				setupJoystickControls.accept(new Joystick(joystickPorts[0]), new Joystick(joystickPorts[1]));
 				break;
 		}
+		return;
 	}
 
 	// using a different setup function for the driver and the spotter allows special switch cases for each person, meaning that there can be a unique driver and spotter configuration for each joystick setup (ex. one Xbox controller, two X3Ds, etc)
