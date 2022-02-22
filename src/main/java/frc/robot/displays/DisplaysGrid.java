@@ -80,6 +80,9 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         assert !originDisplayIsReserved();
 
         set(0, 0, display);
+        display
+            .setColumn(0)
+            .setRow(0);
         return this;
     }
 
@@ -141,16 +144,70 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 			addRows(row - rows + 1);
 		}
 
-        // the rightmost display's grid column (NOT its column in Shuffleboard [absolute-Shuffleboard column])
+        Display rightmostDisplay = null;
+        // the grid column (NOT the Shuffleboard column [AKA absolute-Shuffleboard column]) of the rightmost display in the row we want
         int rightmostDisplayColumn = 0;
 		for (int column = 0; column < columns; column++) {
 			var displayInRow = get(row, column);
 			if (displayInRow != null) {
+                rightmostDisplay = displayInRow;
 				rightmostDisplayColumn = column;
 			}
 		}
 
-        set(row, rightmostDisplayColumn + 1, display);
+        int reservedColumn = rightmostDisplayColumn + 1;
+
+        set(row, reservedColumn, display);
+
+        // oh hell no I am not explaining what row and column "pegs" are without a whiteboard and like two hours of your time
+
+        int absoluteColumn = 0;
+        if (rightmostDisplay != null) {
+            absoluteColumn = rightmostDisplay.getColumn() + rightmostDisplay.getWidth();
+        }
+        int potentialNumRowPegs = display.getHeight() - rightmostDisplay.getHeight();
+        if (potentialNumRowPegs > 0 && reservedColumn >= 1) {
+            for (int column = 0; column < reservedColumn; column++) {
+                // called 'rowIndex' to avoid name collision with 'row' parameter
+                for (int rowIndex = 1; rowIndex <= potentialNumRowPegs; rowIndex++) {
+                    try {
+                        var absoluteColumnPegger = get(rowIndex, column);
+                        int reservedColumnAfterPegging = absoluteColumnPegger.getColumn() + absoluteColumnPegger.getWidth();
+                        absoluteColumn = Math.max(absoluteColumn, reservedColumnAfterPegging);
+                    } catch (Exception e) {}
+                }
+            }
+        }
+
+        Display bottommostDisplay = null;
+        // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we're reserving
+		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
+			var displayInRow = get(rowIndex, reservedColumn);
+			if (displayInRow != null) {
+                bottommostDisplay = displayInRow;
+			}
+		}
+
+        int absoluteRow = 0;
+        if (bottommostDisplay != null) {
+            absoluteRow = bottommostDisplay.getRow() + bottommostDisplay.getHeight();
+        }
+        int potentialNumColumnPegs = display.getWidth();
+        if (potentialNumColumnPegs > 0 && row >= 1) {
+            for (int rowIndex = 0; rowIndex < row; rowIndex++) {
+                for (int column = 1; column <= potentialNumColumnPegs; column++) {
+                    try {
+                        var rowPegger = get(rowIndex, column);
+                        int reservedRowAfterPegging = rowPegger.getRow() + rowPegger.getHeight();
+                        absoluteRow = Math.max(absoluteRow, reservedRowAfterPegging);
+                    } catch (Exception e) {}
+                }
+            }
+        }
+
+        display
+            .setColumn(absoluteColumn)
+            .setRow(absoluteRow);
         return this;
     }
 
@@ -165,7 +222,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 			addRows(column - columns + 1);
 		}
 
-        // the bottommost display's grid row (NOT its row in Shuffleboard [absolute-Shuffleboard row])
+        // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we want
         int bottommostDisplayRow = 0;
 		for (int row = 0; row < rows; row++) {
 			var displayInColumn = get(row, column);
@@ -187,10 +244,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
                 if (display == null) {
                     continue;
                 }
-                display
-                    .setColumn(absoluteColumns.get(column))
-                    .setRow(absoluteRows.get(row))
-                    .initialize();
+                display.initialize();
             }
         }
         return this;
