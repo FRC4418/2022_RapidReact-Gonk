@@ -405,14 +405,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		// TODO: P1 Why do the V1 motor groups need to be swapped???
-
 		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
-		// if (RobotContainer.usingV1Drivetrain) {
-		// 	m_differentialDrive.tankDrive(rightSpeed, leftSpeed);
-		// } else {
-		// 	m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
-		// }
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
@@ -490,6 +483,7 @@ public class Drivetrain extends SubsystemBase {
 	// IMU methods
 
 
+	// heading increases (positive) when turning counter-clockwise
 	public double getHeading() {
 		return imu.getAngle();
 	}
@@ -558,7 +552,8 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
+	// always returns a positive value
 	public double getAverageDistance() {
-		return (getLeftDistanceMeters() + getRightDistanceMeters()) / 2.0d;
+		return (Math.abs(getLeftDistanceMeters()) + Math.abs(getRightDistanceMeters())) / 2.0d;
 	}
 }

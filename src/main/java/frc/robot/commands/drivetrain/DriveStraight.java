@@ -11,7 +11,7 @@ public class DriveStraight extends CommandBase {
 	// Private constants
 
 	// in meters per second
-	private final double MOTOR_SPEED = 0.8d;
+	private final double MOTOR_SPEED = 0.7d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -37,8 +37,7 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void execute() {
-		// TODO: P3 Figure out why these values have to be flipped
-		m_drivetrain.tankDrive(-MOTOR_SPEED, -MOTOR_SPEED);
+		m_drivetrain.tankDrive(MOTOR_SPEED, MOTOR_SPEED);
 	}
 
 	@Override

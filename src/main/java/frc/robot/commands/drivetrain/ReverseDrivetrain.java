@@ -35,8 +35,7 @@ public class ReverseDrivetrain extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.invertMotors();
-		m_drivetrain.swapMotorGroups();
+		
 	}
 
 	@Override

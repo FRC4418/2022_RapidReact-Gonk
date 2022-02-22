@@ -29,6 +29,7 @@ public class DriveStraightForDistance extends CommandBase {
 
 	private final double m_distanceInMeters;
 	private final DriveStraightDirection m_direction;
+	private ReverseDrivetrain reverseDrivetrainCommand;
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -50,32 +51,37 @@ public class DriveStraightForDistance extends CommandBase {
 			.disableOpenLoopRamp()
 			.resetIMU()
 			.resetEncoders();
+
+		if (m_direction == DriveStraightDirection.BACKWARDS) {
+			reverseDrivetrainCommand = new ReverseDrivetrain(m_drivetrain);
+			reverseDrivetrainCommand.schedule();
+		}
 	}
 
 	@Override
 	public void execute() {
-		// double error = m_drivetrain.getLeftDistanceMeters() - m_drivetrain.getRightDistanceMeters();
-		double error = m_drivetrain.getHeading();
+		var error = m_drivetrain.getHeading();
 
-		if (m_direction == DriveStraightDirection.FORWARDS) {
-			m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT + kP * error, MOTOR_OUTPUT_PERCENT - kP * error);
-			// m_drivetrain.tankDrive(MOTOR_OUTPUT_PERCENT, MOTOR_OUTPUT_PERCENT);
-		} else {
-			m_drivetrain.tankDrive(-(MOTOR_OUTPUT_PERCENT + kP * error), -(MOTOR_OUTPUT_PERCENT - kP * error));
-			// m_drivetrain.tankDrive(-MOTOR_OUTPUT_PERCENT, -MOTOR_OUTPUT_PERCENT);
-		}
+		var leftTankSpeed = MOTOR_OUTPUT_PERCENT + kP * error;
+		var rightTankSpeed = MOTOR_OUTPUT_PERCENT - kP * error;
+
+		m_drivetrain.tankDrive(leftTankSpeed, rightTankSpeed);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
 		m_drivetrain.useJoystickDrivingOpenLoopRamp();
+
+		if (m_direction == DriveStraightDirection.BACKWARDS) {
+			reverseDrivetrainCommand.cancel();
+		}
 	}
 
 	@Override
 	public boolean isFinished() {
 		SmartDashboard.putNumber("traveled average distance", m_drivetrain.getAverageDistance());
 
-		return Math.abs(m_drivetrain.getAverageDistance()) >= m_distanceInMeters;
+		return m_drivetrain.getAverageDistance() >= m_distanceInMeters;
 	}
 }
