@@ -23,7 +23,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Gains;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
@@ -288,6 +287,9 @@ public class Drivetrain extends SubsystemBase {
 
 				leftMotorsDirectionMultiplier = -1.d;
 				rightMotorsDirectionMultiplier = 1.d;
+
+				m_frontLeftMotor.setSensorPhase(true);
+				m_frontRightMotor.setSensorPhase(false);
 				break;
 			case RIGHT:
 				m_leftGroup.setInverted(false);
@@ -295,6 +297,9 @@ public class Drivetrain extends SubsystemBase {
 
 				leftMotorsDirectionMultiplier = 1.d;
 				rightMotorsDirectionMultiplier = -1.d;
+
+				m_frontLeftMotor.setSensorPhase(false);
+				m_frontRightMotor.setSensorPhase(true);
 				break;
 		}
 		return this;
