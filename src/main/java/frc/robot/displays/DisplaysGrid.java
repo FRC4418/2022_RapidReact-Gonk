@@ -102,7 +102,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         int previousColumnsWidthsSum = 0;
         for (int column = 1; column < columns; column++) {
             previousColumnsWidthsSum += maxWidthOfColumn(column - 1);
-            absoluteColumns.set(column, previousColumnsWidthsSum + 1);
+            absoluteColumns.set(column, previousColumnsWidthsSum);
         }
         return this;
     }
@@ -125,7 +125,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         int previousRowsHeightsSum = 0;
         for (int row = 1; row < rows; row++) {
             previousRowsHeightsSum += maxHeightOfRow(row - 1);
-            absoluteRows.set(row, previousRowsHeightsSum + 1);
+            absoluteRows.set(row, previousRowsHeightsSum);
         }
         return this;
     }
