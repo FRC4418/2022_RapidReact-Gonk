@@ -38,12 +38,12 @@ public class DrivetrainOpenLoopRampTimeDisplay extends DiagnosticsDisplay {
 			.getLayout("Drivetrain Open-Loop", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 
 			rampTimeNumberSlider = drivetrainOpenLoopRampTimeLayout
 				.add("Ramp Time", Drivetrain.JOYSTICK_DRIVING_OPEN_LOOP_TIME)
 				.withWidget(BuiltInWidgets.kNumberSlider)
-				.withProperties(Map.of("Min", 0.d, "Max", 16.0d, "Block increment", 0.05d))
+				.withProperties(Map.of("Min", 0.d, "Max", 5.0d, "Block increment", 0.05d))
 				.getEntry();
 		}
 		return this;

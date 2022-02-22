@@ -1,23 +1,12 @@
 package frc.robot;
 
 
-import java.util.List;
 import java.util.function.BiConsumer;
 
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.joystickcontrols.JoystickControls;
@@ -162,15 +151,15 @@ public class RobotContainer {
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 1))
-			// .reserveNextRowAtColumn(0, new CamerasDisplay(6, 2))
+			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 3))
+			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 			.show();
 		
 		if (enableDiagnostics) {
 			diagnosticDisplaysGrid
 				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 7, 3))
 				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
-				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 2))
+				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
 				.show();
 		}
 
@@ -191,64 +180,6 @@ public class RobotContainer {
 			new DriveStraightForDistance(drivetrain, 3d, DriveStraightDirection.BACKWARDS));
 		// return getExampleTrajectory();
 	}
-
-	public Command getExampleTrajectory() {
-		// Create a voltage constraint to ensure we don't accelerate too fast
-		var autoVoltageConstraint =
-			new DifferentialDriveVoltageConstraint(
-				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
-				10);
-	
-		// Create config for trajectory
-		var config =
-			new TrajectoryConfig(
-				Drivetrain.kMaxSpeedMetersPerSecond,
-				Drivetrain.kMaxAccelerationMetersPerSecondSquared)
-				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Drivetrain.kDriveKinematics)
-				// Apply the voltage constraint
-				.addConstraint(autoVoltageConstraint);
-	
-		// An example trajectory to follow.  All units in meters.
-		var exampleTrajectory =
-			TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
-				config);
-	
-		var ramseteCommand =
-			new RamseteCommand(
-				exampleTrajectory,
-				drivetrain::getPose,
-				new RamseteController(Drivetrain.kRamseteB, Drivetrain.kRamseteZeta),
-				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
-				drivetrain::getWheelSpeeds,
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
-				// RamseteCommand passes volts to the callback
-				drivetrain::tankDriveVolts,
-				drivetrain);
-	
-		// Reset odometry to the starting pose of the trajectory.
-		drivetrain.resetOdometry(exampleTrajectory.getInitialPose());
-	
-		// Run path following command, then stop at the end.
-		return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-
 	
 	// ----------------------------------------------------------
     // Print-out joystick for debugging
