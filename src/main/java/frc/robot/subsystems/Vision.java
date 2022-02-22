@@ -44,18 +44,18 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
-		// TODO: P2 Figure out how the MJPEG server port numbers should be determined
+		// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
 
 		String frontCenterCameraName = "Front-Center";
 		frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
 		frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-		frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1181);
+		frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
 		frontCenterCameraServer.setSource(frontCenterCamera);
 		
 		String backCenterCameraName = "Back-Center";
 		backCenterCamera = new UsbCamera(backCenterCameraName, 1);
 		backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-		backCenterCameraServer = new MjpegServer(backCenterCameraName, 1182);
+		backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
 		backCenterCameraServer.setSource(backCenterCamera);
 
 		// add more UsbCameras to this list as needed
