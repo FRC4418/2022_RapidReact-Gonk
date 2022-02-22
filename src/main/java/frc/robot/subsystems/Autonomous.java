@@ -6,6 +6,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Autonomous extends SubsystemBase {
 	// ----------------------------------------------------------
+	// Publicly static resources
+
+
+	// in seconds
+	public static double startDelayTime = 0.d;
+
+	// in inches
+	public static int tarmacLeavingDistance = 50;
+
+
+	// ----------------------------------------------------------
 	// Public constants
 
 

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.displays.Display;
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
@@ -20,7 +22,7 @@ public class AutonomousDisplay extends HUDDisplay {
 	private NetworkTableEntry startDelayTimeNumberSlider;
 	
 	// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
-	private NetworkTableEntry tarmacLeavingDistanceInchesNumberSlider;
+	private NetworkTableEntry tarmacLeavingDistanceNumberSlider;
     
     public AutonomousDisplay(int width, int height) {
 		super(width, height);
@@ -31,7 +33,7 @@ public class AutonomousDisplay extends HUDDisplay {
 		entries = new ArrayList<>(Arrays.asList(
 			startDelayTimeNumberSlider,
 
-			tarmacLeavingDistanceInchesNumberSlider
+			tarmacLeavingDistanceNumberSlider
 		));
 		return this;
 	}
@@ -54,13 +56,13 @@ public class AutonomousDisplay extends HUDDisplay {
 				.withWidget(BuiltInWidgets.kComboBoxChooser);
 
 			startDelayTimeNumberSlider = autonomousLayout
-				.add("Start Delay (seconds)", 0.d)
+				.add("Start Delay (seconds)", Autonomous.startDelayTime)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 0.d, "Max", 15.0d, "Block increment", 0.5d))
 				.getEntry();
 
-			tarmacLeavingDistanceInchesNumberSlider = autonomousLayout
-				.add("Leave-Tarmac Distance (inches)", 50)
+			tarmacLeavingDistanceNumberSlider = autonomousLayout
+				.add("Leave-Tarmac Distance (inches)", Autonomous.tarmacLeavingDistance)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 35, "Max", 80, "Block increment", 1))
 				.getEntry();
@@ -70,7 +72,13 @@ public class AutonomousDisplay extends HUDDisplay {
 
 	@Override
 	public Display addEntryListeners() {
-		
+		startDelayTimeNumberSlider.addListener(event -> {
+			Autonomous.startDelayTime = event.value.getDouble();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+		tarmacLeavingDistanceNumberSlider.addListener(event -> {
+			Autonomous.tarmacLeavingDistance = (int) event.value.getDouble();
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		return this;
 	}
 }
