@@ -159,8 +159,8 @@ public class RobotContainer {
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 1))
-			// .reserveNextRowAtColumn(0, new CamerasDisplay(6, 2))
+			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 3))
+			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 			.show();
 		
 		if (enableDiagnostics) {
