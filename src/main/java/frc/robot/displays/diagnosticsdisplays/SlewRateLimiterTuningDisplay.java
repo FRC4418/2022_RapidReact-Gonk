@@ -14,9 +14,6 @@ import frc.robot.subsystems.Drivetrain;
 
 
 public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
-    // ----------------------------------------------------------
-	// Resources
-
 	private final Drivetrain m_drivetrain;
 
     private NetworkTableEntry arcadeDriveForwardLimiterNumberSlider;
@@ -25,11 +22,8 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry tankDriveLeftForwardLimiterNumberSlider;
 	private NetworkTableEntry tankDriveRightForwardLimiterNumberSlider;
 
-    // ----------------------------------------------------------
-	// Constructor (initializes the display the same time)
-
-    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int column, int row) {
-		super(column, row);
+    public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int width, int height) {
+		super(width, height);
 
 		m_drivetrain = drivetrain;
     }
@@ -51,7 +45,7 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
-			.withSize(2, 3);
+			.withSize(width, height);
 
 			{ var arcadeDriveLayout = slewRateLimiterLayout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)

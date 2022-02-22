@@ -12,16 +12,10 @@ import frc.robot.displays.Display;
 
 
 public class RobotChooserDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     public SendableChooser<TeamRobot> teamRobotChooser = new SendableChooser<>();
 
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
-    
-    public RobotChooserDisplay(int column, int row) {
-		super(column, row);
+    public RobotChooserDisplay(int width, int height) {
+		super(width, height);
     }
 
 	@Override
@@ -36,7 +30,7 @@ public class RobotChooserDisplay extends HUDDisplay {
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
 			if (RobotContainer.defaultRobot == TeamRobot.VERSACHASSIS_ONE) {

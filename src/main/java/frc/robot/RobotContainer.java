@@ -1,8 +1,6 @@
 package frc.robot;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -36,13 +34,12 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederWithTrigger;
 import frc.robot.commands.manipulator.AutoRunLauncherDemo;
-import frc.robot.displays.diagnosticsdisplays.DiagnosticsDisplay;
+import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
 import frc.robot.displays.huddisplays.CamerasDisplay;
-import frc.robot.displays.huddisplays.HUDDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
@@ -125,15 +122,16 @@ public class RobotContainer {
     // Private resources
 
 
+	private DisplaysGrid hudDisplaysGrid = new DisplaysGrid();
+	private DisplaysGrid diagnosticDisplaysGrid = new DisplaysGrid();
+
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 
-	private final ArrayList<HUDDisplay> hudDisplays = new ArrayList<>();
-	private final ArrayList<DiagnosticsDisplay> diagnosticsDisplays = new ArrayList<>();
-
 	// has default USB values
-	private JoystickDeviceType driverJoystickDeviceType = JoystickDeviceType.XboxController;
-	private JoystickDeviceType spotterJoystickDeviceType = JoystickDeviceType.XboxController;
+	private JoystickDeviceType
+		driverJoystickDeviceType = JoystickDeviceType.XboxController,
+		spotterJoystickDeviceType = JoystickDeviceType.XboxController;
     
 
     // ----------------------------------------------------------
@@ -154,35 +152,26 @@ public class RobotContainer {
 
 
     // ----------------------------------------------------------
-    // Constructor
+    // Constructor and display helpers
 
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 
-		// add more HUD displays to this list as needed
-		hudDisplays.addAll(Arrays.asList(
-			robotChooserDisplay = new RobotChooserDisplay(0, 0),
-			joysticksDisplay = new JoysticksDisplay(2, 0),
-			new KidsSafetyDisplay(drivetrain, 5, 0),
-			new AutonomousDisplay(0, 1),
-			new CamerasDisplay(0, 2)
-		));
-		for (var display: hudDisplays) {
-			display.initialize();
-			display.addEntryListeners();
-		}
-
+		hudDisplaysGrid
+			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
+			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
+			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
+			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 1))
+			.reserveNextRowAtColumn(0, new CamerasDisplay(6, 2))
+			.show();
+		
 		if (enableDiagnostics) {
-			// add more diagnostics displays to this list as needed
-			diagnosticsDisplays.addAll(Arrays.asList(
-				new MotorTestingDisplay(intake, manipulator, 0, 0),
-				new SlewRateLimiterTuningDisplay(drivetrain, 7, 0),
-				new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 0, 3)
-			));
-			for (var display: diagnosticsDisplays) {
-				display.initialize();
-			}
+			diagnosticDisplaysGrid
+				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 7, 3))
+				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
+				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 2))
+				.show();
 		}
 
 		setupDriverJoystickControls();
@@ -191,7 +180,6 @@ public class RobotContainer {
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
 		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
     }
-
 
 	// ----------------------------------------------------------
     // Command getters
@@ -282,25 +270,6 @@ public class RobotContainer {
 		SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
-		return this;
-	}
-
-
-	// ----------------------------------------------------------
-    // Diagnostic-entry listeners
-
-
-	public RobotContainer addDiagnosticsEntryListeners() {
-		for (var display: diagnosticsDisplays) {
-			display.addEntryListeners();
-		}
-		return this;
-	}
-
-	public RobotContainer removeDiagnosticsEntryListeners() {
-		for (var display: diagnosticsDisplays) {
-			display.removeEntryListeners();
-		}
 		return this;
 	}
 

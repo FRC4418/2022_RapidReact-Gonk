@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer
-				.addDiagnosticsEntryListeners()
 				.initializeJoystickValues();
 		}
 	}
