@@ -45,8 +45,10 @@ public class AutonomousDisplay extends HUDDisplay {
 			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
-			autoRoutineChooser.setDefaultOption("Drive Straight Backwards", AutonomousRoutine.DRIVE_STRAIGHT_BACKWARDS);
-			autoRoutineChooser.addOption("Drive Straight to Low Hub", AutonomousRoutine.DRIVE_STRAIGHT_TO_LOW_HUB);
+			autoRoutineChooser.setDefaultOption("LH PC LT", AutonomousRoutine.SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC);
+			autoRoutineChooser.addOption("LT", AutonomousRoutine.LEAVE_TARMAC);
+			autoRoutineChooser.addOption("LH LT", AutonomousRoutine.SCORE_LH_AND_LEAVE_TARMAC);
+			autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 			autonomousLayout
 				.add("Routine", autoRoutineChooser)
 				.withWidget(BuiltInWidgets.kComboBoxChooser);
