@@ -86,53 +86,6 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    private int maxWidthOfColumn(int column) {
-        int maxWidth = 0;
-        for (var displaysRow: grid) {
-            var display = displaysRow.get(column);
-            if (display == null) {
-                continue;
-            }
-            int displayWidth = display.getWidth();
-            if (displayWidth > maxWidth) {
-                maxWidth = displayWidth;
-            }
-        }
-        return maxWidth;
-    }
-
-    private DisplaysGrid calculateAbsoluteColumns() {
-        int previousColumnsWidthsSum = 0;
-        for (int column = 1; column < columns; column++) {
-            previousColumnsWidthsSum += maxWidthOfColumn(column - 1);
-            absoluteColumns.set(column, previousColumnsWidthsSum);
-        }
-        return this;
-    }
-
-    private int maxHeightOfRow(int row) {
-        int maxHeight = 0;
-        for (var display: grid.get(row)) {
-            if (display == null) {
-                continue;
-            }
-            int height = display.getHeight();
-            if (height > maxHeight) {
-                maxHeight = height;
-            }
-        }
-        return maxHeight;
-    }
-
-    private DisplaysGrid calculateAbsoluteRows() {
-        int previousRowsHeightsSum = 0;
-        for (int row = 1; row < rows; row++) {
-            previousRowsHeightsSum += maxHeightOfRow(row - 1);
-            absoluteRows.set(row, previousRowsHeightsSum);
-        }
-        return this;
-    }
-
     public DisplaysGrid reserveNextColumnAtRow(int row, Display display) {
         assert row >= 0;
 		assert display != null;
@@ -172,15 +125,13 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
                 for (int rowIndex = 1; rowIndex <= potentialNumRowPegs; rowIndex++) {
                     try {
                         var absoluteColumnPegger = get(rowIndex, column);
-                        int reservedColumnAfterPegging = absoluteColumnPegger.getColumn() + absoluteColumnPegger.getWidth();
-                        absoluteColumn = Math.max(absoluteColumn, reservedColumnAfterPegging);
+                        absoluteColumn = Math.max(absoluteColumn, absoluteColumnPegger.getColumn() + absoluteColumnPegger.getWidth());
                     } catch (Exception e) {}
                 }
             }
         }
 
         Display bottommostDisplay = null;
-        // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we're reserving
 		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
 			var displayInRow = get(rowIndex, reservedColumn);
 			if (displayInRow != null) {
@@ -198,8 +149,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
                 for (int column = 1; column <= potentialNumColumnPegs; column++) {
                     try {
                         var rowPegger = get(rowIndex, column);
-                        int reservedRowAfterPegging = rowPegger.getRow() + rowPegger.getHeight();
-                        absoluteRow = Math.max(absoluteRow, reservedRowAfterPegging);
+                        absoluteRow = Math.max(absoluteRow, rowPegger.getRow() + rowPegger.getHeight());
                     } catch (Exception e) {}
                 }
             }
@@ -222,22 +172,68 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 			addRows(column - columns + 1);
 		}
 
-        // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we want
+        Display bottommostDisplay = null;
+        // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we're reserving
         int bottommostDisplayRow = 0;
 		for (int row = 0; row < rows; row++) {
-			var displayInColumn = get(row, column);
-			if (displayInColumn != null) {
-				bottommostDisplayRow = row;
+			var displayInRow = get(row, column);
+			if (displayInRow != null) {
+                bottommostDisplay = displayInRow;
+                bottommostDisplayRow = row;
 			}
 		}
 
-        set(bottommostDisplayRow + 1, column, display);
+        int reservedRow = bottommostDisplayRow + 1;
+
+        set(reservedRow, column, display);
+
+        int absoluteRow = 0;
+        if (bottommostDisplay != null) {
+            absoluteRow = bottommostDisplay.getRow() + bottommostDisplay.getHeight();
+        }
+        int potentialNumColumnPegs = display.getWidth() - bottommostDisplay.getWidth();
+        if (potentialNumColumnPegs > 0 && reservedRow >= 1) {
+            for (int row = 0; row < reservedRow; row++) {
+                for (int columnIndex = 1; columnIndex <= potentialNumColumnPegs; columnIndex++) {
+                    try {
+                        var absoluteRowPegger = get(row, columnIndex);
+                        absoluteRow = Math.max(absoluteRow, absoluteRowPegger.getRow() + absoluteRowPegger.getHeight());
+                    } catch (Exception e) {}
+                }
+            }
+        }
+
+        Display rightmostDisplay = null;
+		for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
+			var displayInRow = get(reservedRow, columnIndex);
+			if (displayInRow != null) {
+                rightmostDisplay = displayInRow;
+			}
+		}
+
+        int absoluteColumn = 0;
+        if (rightmostDisplay != null) {
+            absoluteColumn = rightmostDisplay.getColumn() + rightmostDisplay.getWidth();
+        }
+        int potentialNumRowPegs = display.getHeight();
+        if (potentialNumRowPegs > 0 && column >= 1) {
+            for (int columnIndex = 0; columnIndex < column; columnIndex++) {
+                for (int row = 1; row <= potentialNumRowPegs; row++) {
+                    try {
+                        var absoluteColumnPegger = get(row, columnIndex);
+                        absoluteColumn = Math.max(absoluteColumn, absoluteColumnPegger.getColumn() + absoluteColumnPegger.getWidth());
+                    } catch (Exception e) {}
+                }
+            }
+        }
+
+        display
+            .setColumn(absoluteColumn)
+            .setRow(absoluteRow);
         return this;
     }
 
     public DisplaysGrid show() {
-        calculateAbsoluteColumns();
-        calculateAbsoluteRows();
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
                 var display = get(row, column);
