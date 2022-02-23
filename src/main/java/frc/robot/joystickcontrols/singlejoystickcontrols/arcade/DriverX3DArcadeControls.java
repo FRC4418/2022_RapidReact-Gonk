@@ -80,7 +80,7 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    protected JoystickButton runFeederDisposalButton(Joystick joystick) {
+    protected JoystickButton runReverseFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_11_ID);
     }
 

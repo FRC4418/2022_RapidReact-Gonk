@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
 		kDefaultFeederPercent = 0.5d;
 		
 	public static final int
-		kDefaultRetractorPositionDegrees = 90;
+		kDefaultRetractorDegree = 90;
 	
 		
 	// ----------------------------------------------------------

@@ -83,7 +83,7 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    protected JoystickButton runFeederDisposalButton(Joystick joystick) {
+    protected JoystickButton runReverseFeederButton(Joystick joystick) {
         return null;
     }
 
