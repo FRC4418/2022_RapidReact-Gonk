@@ -35,6 +35,7 @@ import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
@@ -140,6 +141,8 @@ public class RobotContainer {
 	public final Autonomous autonomous = new Autonomous();
 
 	public final Vision vision = new Vision();
+
+	public final Lights lights = new Lights();
 
 
     // ----------------------------------------------------------
