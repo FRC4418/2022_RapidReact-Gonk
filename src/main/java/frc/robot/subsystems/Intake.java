@@ -56,6 +56,7 @@ public class Intake extends SubsystemBase {
 		kRetractorSlotIdx = 0,
 		kTimeoutMs = 30;
 
+	// TODO: !!!P1!!! tune retractor degree PID gains
 	private final Gains kRetractorPositionGains
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
