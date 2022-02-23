@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
 	private final double
 		kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 360.d;
 
-	// TODO: P1 Figure out what the retractor's extended and retracted positions should be
+	// TODO: P1 Tune retractor extended and retracted degrees
 	private final int
 		kExtendedIntakeRetractorPosition = 0,
 		kRetractedIntakeRetractorPosition = 100;
