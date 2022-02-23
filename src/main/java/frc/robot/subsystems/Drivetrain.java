@@ -32,8 +32,8 @@ public class Drivetrain extends SubsystemBase {
 
 
 	public enum MotorGroup {
-		LEFT,
-		RIGHT
+		kLeft,
+		kRight
 	}
 
 	// 1 is not inverted, -1 is inverted
@@ -48,36 +48,36 @@ public class Drivetrain extends SubsystemBase {
 
 	public static final double
 		// units in seconds
-		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
+		kJoystickOpenLoopRampTime = 0.7d;
 
 
 	// ----------------------------------------------------------
 	// Max output mode constants
 
 
-	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
+	public static final double kMaxSlewRateAllowed = 3.d;
 
 	public static class NormalOutputMode {
-		public static final double DEFAULT_MAXIMUM_OUTPUT = 1.d;
+		public static final double kDefaultMaxOutput = 1.d;
 
 		public static class SlewRates {
 			public static final double
-				DEFAULT_ARCADE_DRIVE_FORWARD = 1.58d,
-				DEFAULT_ARCADE_DRIVE_TURN = 2.08d,
+				kDefaultArcadeForward = 1.58d,
+				kDefaultArcadeTurn = 2.08d,
 	
-				DEFAULT_TANK_DRIVE_FORWARD = 1.0d;
+				kDefaultTankForward = 1.0d;
 		}
 	}
 
 	public static class KidsSafetyOutputMode {
-		public static final double DEFAULT_MAXIMUM_OUTPUT = 0.1d;
+		public static final double kDefaultMaxOutput = 0.1d;
 
 		public static class SlewRates {
 			public static final double
-				DEFAULT_ARCADE_DRIVE_FORWARD = 2.d,
-				DEFAULT_ARCADE_DRIVE_TURN = 2.d,
+				kDefaultArcadeForward = 2.d,
+				kDefaultArcadeTurn = 2.d,
 
-				DEFAULT_TANK_DRIVE_FORWARD = 2.d;
+				kDefaultTankForward = 2.d;
 		}
 	}
 
@@ -89,10 +89,10 @@ public class Drivetrain extends SubsystemBase {
 	private static class CAN_IDs {
 		// These are how it's SUPPOSED to be on both V1 and V2
 		private static final int
-			FRONT_LEFT = 3,
-			BACK_LEFT = 2,
-			FRONT_RIGHT = 4,
-			BACK_RIGHT = 5;
+			kFrontLeft = 3,
+			kBackLeft = 2,
+			kFrontRight = 4,
+			kBackRight = 5;
 	}
 
 
@@ -152,7 +152,10 @@ public class Drivetrain extends SubsystemBase {
 		kPDriveVel = 0.96111;
 
 	private static final int
-		kLeftSlotIdx = 0,
+		kLeftPidIdx = 0,	// PID slots are basically different contorl-loop types (closed-loop, open-loop, etc)
+		kLeftSlotIdx = 0,	// slots are basically different motor control types
+
+		kRightPidIdx = 0,
 		kRightSlotIdx = 0,
 		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
 		kTimeoutMs = 10;
@@ -175,13 +178,13 @@ public class Drivetrain extends SubsystemBase {
 
 
 	private final WPI_TalonFX
-		m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.FRONT_LEFT),
-		m_backLeftMotor = new WPI_TalonFX(CAN_IDs.BACK_LEFT);
+		m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.kFrontLeft),
+		m_backLeftMotor = new WPI_TalonFX(CAN_IDs.kBackLeft);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
 	private final WPI_TalonFX
-		m_frontRightMotor = new WPI_TalonFX(CAN_IDs.FRONT_RIGHT),
-		m_backRightMotor = new WPI_TalonFX(CAN_IDs.BACK_RIGHT);
+		m_frontRightMotor = new WPI_TalonFX(CAN_IDs.kFrontRight),
+		m_backRightMotor = new WPI_TalonFX(CAN_IDs.kBackRight);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -192,11 +195,11 @@ public class Drivetrain extends SubsystemBase {
 		m_filteredYAccelOffset = 0.d;
 
 	private SlewRateLimiter
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD),
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN),
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultArcadeForward),
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.kDefaultArcadeTurn),
 
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD),
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultTankForward),
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultTankForward);
 
 
 	// ----------------------------------------------------------
@@ -222,13 +225,13 @@ public class Drivetrain extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Config closed-loop controls
 
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLeftPidIdx, kTimeoutMs);
 		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
 		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
 		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
         // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
 
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRightPidIdx, kTimeoutMs);
 		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
 		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
 		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGains.kI);
@@ -266,7 +269,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useNormalMaximumOutput() {
-		m_differentialDrive.setMaxOutput(Drivetrain.NormalOutputMode.DEFAULT_MAXIMUM_OUTPUT);
+		m_differentialDrive.setMaxOutput(Drivetrain.NormalOutputMode.kDefaultMaxOutput);
 		return this;
 	}
 
@@ -281,14 +284,14 @@ public class Drivetrain extends SubsystemBase {
 			default:
 				DriverStation.reportError("Unsupported motor group detected in setOnlyMotorGroupToInverted", true);
 				break;
-			case LEFT:
+			case kLeft:
 				m_leftGroup.setInverted(true);
 				m_rightGroup.setInverted(false);
 
 				leftMotorsDirectionMultiplier = -1.d;
 				rightMotorsDirectionMultiplier = 1.d;
 				break;
-			case RIGHT:
+			case kRight:
 				m_leftGroup.setInverted(false);
 				m_rightGroup.setInverted(true);
 
@@ -321,7 +324,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
-		setOpenLoopRampTimes(JOYSTICK_DRIVING_OPEN_LOOP_TIME);
+		setOpenLoopRampTimes(kJoystickOpenLoopRampTime);
 		return this;
 	}
 
@@ -339,22 +342,26 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setLeftMotors(double velocity) {
-		m_frontLeftMotor.set(ControlMode.Velocity, velocity * leftMotorsDirectionMultiplier);
+	// in MPS (meters per second)
+	public Drivetrain setLeftMotorsVelocity(double velocity) {
+		m_frontLeftMotor.set(ControlMode.Velocity, velocity * kMetersPerSecondToTicksPer100ms * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
-	public Drivetrain setRightMotors(double velocity) {
-		m_frontRightMotor.set(ControlMode.Velocity, velocity * rightMotorsDirectionMultiplier);
+	// in MPS
+	public Drivetrain setRightMotorsVelocity(double velocity) {
+		m_frontRightMotor.set(ControlMode.Velocity, velocity * kMetersPerSecondToTicksPer100ms * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
-	public double getLeftPercent() {
-		return m_frontLeftMotor.getMotorOutputPercent() * leftMotorsDirectionMultiplier;
+	// in MPS
+	public double getLeftVelocity() {
+		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMetersPerSecondToTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
 
-	public double getRightPercent() {
-		return m_frontRightMotor.getMotorOutputPercent() * rightMotorsDirectionMultiplier;
+	// in MPS
+	public double getRightVelocity() {
+		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMetersPerSecondToTicksPer100ms * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -420,8 +427,8 @@ public class Drivetrain extends SubsystemBase {
 
 	public void stopDrive() {
 		tankDrive(0.d, 0.d);
-		m_leftGroup.stopMotor();
-		m_rightGroup.stopMotor();
+		// m_leftGroup.stopMotor();
+		// m_rightGroup.stopMotor();
 	}
 
 
@@ -432,20 +439,20 @@ public class Drivetrain extends SubsystemBase {
 	// Output-mode configurations
 
 	public Drivetrain useNormalOutputModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
-		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
-		setTankDriveRightForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
 	public Drivetrain useKidsSafetyModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
-		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
-		setTankDriveRightForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
@@ -507,11 +514,11 @@ public class Drivetrain extends SubsystemBase {
 		return Math.round(input * 100.0d) / 100.0d;
 	}
 
-	private double getXFilteredAccelAngle() {
+	private double getXAccelAngle() {
 		return imu.getXFilteredAccelAngle() - m_filteredXAccelOffset;
 	}
 	
-	private double getYFilteredAccelAngle() {
+	private double getYAccelAngle() {
 		return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
 	}
 
@@ -525,7 +532,8 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain resetIMU() {
-		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		imu.reset();
 		return this;
 	}
 

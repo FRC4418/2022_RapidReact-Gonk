@@ -97,7 +97,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						retractorPositionNumberSlider = retractorLayout
-							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
+							.add("Position", Intake.kDefaultRetractorPositionDegrees)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
@@ -115,7 +115,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						feederOutputPercentNumberSlider = feederLayout
-							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
+							.add("Percentage", Intake.kDefaultFeederPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();

@@ -15,35 +15,47 @@ public class Intake extends SubsystemBase {
 
 
 	public static final double
-		DEFAULT_REVERSE_FEEDER_OUTPUT_PERCENT = -0.5d,
-		DEFAULT_FEEDER_OUTPUT_PERCENT = 1.0d,
+		kDefaultReverseFeederPercent = -0.5d,
+		kDefaultFeederPercent = 0.5d;
 		
-		DEFAULT_RETRACTOR_POSITION = 90.d;
+	public static final int
+		kDefaultRetractorPositionDegrees = 90;
 	
 		
 	// ----------------------------------------------------------
 	// Private constants
 
 
-	private final int
-		FEEDER_CAN_ID = 11,
-		RETRACT_CAN_ID = 12;
+	private static class CAN_IDs {
+		private static final int
+			kFeeder = 11,
+			kRetractor = 12;
+	}
 
-	private final int WHISKER_SENSOR_DIO_PORT = 8;
+	private final int kWhiskerSensorDIOPort = 8;
 
 	private final double
-		// units in seconds
-		FEEDER_MOTOR_RAMP_TIME = 0.25d;
+		// in seconds
+		kFeederRampTime = 0.25d;
+
+	private final double
+		// 2048 ticks for every 360 degrees in one revolution
+		kRetractorDegreesToTicks = 2048.d / 360.d;
+
+	// TODO: P1 Figure out what the retractor's extended and retracted positions should be
+	private final int
+		kExtendedIntakeRetractorPosition = 0,
+		kRetractedIntakeRetractorPosition = 100;
 
 
 	// ----------------------------------------------------------
 	// Resources
 
 
-	private final DigitalInput m_whiskerSensor = new DigitalInput(WHISKER_SENSOR_DIO_PORT);
+	private final DigitalInput m_whiskerSensor = new DigitalInput(kWhiskerSensorDIOPort);
 
-	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(FEEDER_CAN_ID);
-	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(RETRACT_CAN_ID);
+	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(CAN_IDs.kFeeder);
+	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(CAN_IDs.kRetractor);
 
 
 	// ----------------------------------------------------------
@@ -51,18 +63,8 @@ public class Intake extends SubsystemBase {
 	
 
 	public Intake() {
-		m_feederMotor.configOpenloopRamp(FEEDER_MOTOR_RAMP_TIME);
+		m_feederMotor.configOpenloopRamp(kFeederRampTime);
 		m_feederMotor.setInverted(true);
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
 	}
 	
 
@@ -79,22 +81,24 @@ public class Intake extends SubsystemBase {
 	// Retractor motor
 
 
-	public double getRetractorPosition() { return m_retractorMotor.getSelectedSensorPosition(); }
+	// in degrees
+	public double getRetractorPosition() {
+		return m_retractorMotor.getSelectedSensorPosition() / kRetractorDegreesToTicks;
+	}
 
-	public Intake setRetractMotorPosition(double position) {
-		m_retractorMotor.set(ControlMode.Position, position);
+	// in degrees
+	public Intake setRetractMotorPosition(double positionDegrees) {
+		m_retractorMotor.set(ControlMode.Position, positionDegrees * kRetractorDegreesToTicks);
 		return this;
 	}
 
-	// TODO: P1 Figure out how the intake's retractor is supposed to work
-
 	public Intake retractIntakeArm() {
-		// setRetractMotorPosition(RETRACTED_INTAKE_ARM_RETRACTOR_MOTOR_POSITION);
+		setRetractMotorPosition(kRetractedIntakeRetractorPosition);
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
-		// setRetractMotorPosition(EXTENDED_INTAKE_ARM_RETRACTOR_MOTOR_POSITION);
+		setRetractMotorPosition(kExtendedIntakeRetractorPosition);
 		return this;
 	}
 
@@ -103,20 +107,24 @@ public class Intake extends SubsystemBase {
 	// Feeder motor
 
 
-	public double getFeederSpeed() { return m_feederMotor.get(); }
+	// arbitrary -1 to 1
+	public double getFeederSpeed() {
+		return m_feederMotor.get();
+	}
 
+	// arbitrary -1 to 1
 	public Intake setFeederMotorPercent(double percentOutput) {
 		m_feederMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
 	public Intake runReverseFeeder() {
-		setFeederMotorPercent(DEFAULT_REVERSE_FEEDER_OUTPUT_PERCENT);
+		setFeederMotorPercent(kDefaultReverseFeederPercent);
 		return this;
 	}
 
 	public Intake runFeeder() {
-		setFeederMotorPercent(DEFAULT_FEEDER_OUTPUT_PERCENT);
+		setFeederMotorPercent(kDefaultFeederPercent);
 		return this;
 	}
 

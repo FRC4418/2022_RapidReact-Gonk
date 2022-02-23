@@ -134,7 +134,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	// public final Vision vision = new Vision();
+	public final Vision vision = new Vision();
 
 
     // ----------------------------------------------------------
@@ -149,7 +149,7 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
 			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 3))
-			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
+			.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 			.show();
 		
 		if (enableDiagnostics) {
@@ -221,10 +221,10 @@ public class RobotContainer {
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
 				break;
 			case VERSACHASSIS_TWO:
-				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
+				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kLeft);
 				break;
 			case VERSACHASSIS_ONE:
-				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
+				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kRight);
 				break;
 		}
 		return this;
