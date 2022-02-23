@@ -40,6 +40,7 @@ public class Manipulator extends SubsystemBase {
 		kLauncherPidIdx = 0,
 		kTimeoutMs = 30;
 
+	// Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
 	private final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.d;
 
 	private final Gains kLauncherRPMGains
