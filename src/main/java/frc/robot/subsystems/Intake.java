@@ -4,9 +4,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Gains;
 import frc.robot.Constants.Falcon500;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -40,14 +42,24 @@ public class Intake extends SubsystemBase {
 		// in seconds
 		kFeederRampTime = 0.25d;
 
+		
 	private final double
 		kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 360.d;
-
+	
 	// TODO: P1 Tune retractor extended and retracted degrees
 	private final int
 		kExtendedIntakeRetractorPosition = 0,
 		kRetractedIntakeRetractorPosition = 100;
+		
+	private final int
+		kRetractorPidIdx = 0,
+		kRetractorSlotIdx = 0,
+		kTimeoutMs = 30;
 
+	private final Gains kRetractorPositionGains
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
+		= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 	// ----------------------------------------------------------
 	// Resources
@@ -64,8 +76,22 @@ public class Intake extends SubsystemBase {
 	
 
 	public Intake() {
+		// ----------------------------------------------------------
+		// Feeder motor configuration
+
+		m_feederMotor.configFactoryDefault();
 		m_feederMotor.configOpenloopRamp(kFeederRampTime);
 		m_feederMotor.setInverted(true);
+		
+		// ----------------------------------------------------------
+		// Retractor motor configuration
+
+		m_retractorMotor.configFactoryDefault();
+		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRetractorPidIdx, kTimeoutMs);
+		// m_retractorMotor.config_kF(kRetractorSlotIdx, kRetractorPositionGains.kF);
+		m_retractorMotor.config_kP(kRetractorSlotIdx, kRetractorPositionGains.kP);
+		// m_retractorMotor.config_kI(kRetractorSlotIdx, kRetractorPositionGains.kI);
+        // m_retractorMotor.config_kD(kRetractorSlotIdx, kRetractorPositionGains.kD);
 	}
 	
 

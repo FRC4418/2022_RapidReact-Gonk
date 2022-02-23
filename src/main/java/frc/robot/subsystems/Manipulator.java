@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Falcon500;
 
@@ -19,7 +20,7 @@ public class Manipulator extends SubsystemBase {
 	
 	// TODO: P1 Tune launcher RPM
 	public static final int
-		kDefaultLauncherRPM = 800;
+		kDefaultLauncherRPM = 5_000;
 
 		
 	// ----------------------------------------------------------
@@ -47,6 +48,11 @@ public class Manipulator extends SubsystemBase {
 
 	// ----------------------------------------------------------
 	// Indexer motor
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
+	}
 	
 
 	// -1 to 1

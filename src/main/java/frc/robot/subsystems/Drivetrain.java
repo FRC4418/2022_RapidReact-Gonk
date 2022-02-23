@@ -130,7 +130,7 @@ public class Drivetrain extends SubsystemBase {
 	// Conversion constants
 
 
-	private static final double
+	private final double
 		// 2048 ticks in 1 revolution for Falcon 500s
 		// wheel diameter * pi = circumference of 1 revolution
 		// wheel diameter is 6 inches (which is 0.1524 meters)
@@ -153,23 +153,23 @@ public class Drivetrain extends SubsystemBase {
 		// Feedback gains
 		kPDriveVel = 0.96111;
 
-	private static final int
+	private final int
 		kLeftPidIdx = 0,	// PID slots are basically different contorl-loop types (closed-loop, open-loop, etc)
 		kLeftSlotIdx = 0,	// slots are basically different motor control types
 
 		kRightPidIdx = 0,
 		kRightSlotIdx = 0,
 		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-		kTimeoutMs = 10;
+		kTimeoutMs = 30;
 
 	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	private static final Gains kLeftMotorVelocityGains
+	private final Gains kLeftMotorVelocityGains
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
 		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
-	private static final Gains kRightMotorVelocityGains 
+	private final Gains kRightMotorVelocityGains 
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
 		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
@@ -214,25 +214,23 @@ public class Drivetrain extends SubsystemBase {
 		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getAngle()));
 
 		// ----------------------------------------------------------
-		// Initialize motor controllers and followers
+		// Left motor group configuration
 
 		m_frontLeftMotor.configFactoryDefault();
 		m_backLeftMotor.configFactoryDefault();
-		m_frontRightMotor.configFactoryDefault();
-		m_backRightMotor.configFactoryDefault();
-
-		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_backRightMotor.follow(m_frontRightMotor);
-
-		// ----------------------------------------------------------
-		// Config closed-loop controls
-
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLeftPidIdx, kTimeoutMs);
 		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
 		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
 		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
         // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
 
+		// ----------------------------------------------------------
+		// Right motor group configuration
+
+		m_frontRightMotor.configFactoryDefault();
+		m_backRightMotor.configFactoryDefault();
+		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRightPidIdx, kTimeoutMs);
 		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
 		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
