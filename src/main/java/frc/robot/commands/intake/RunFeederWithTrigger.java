@@ -42,20 +42,20 @@ public class RunFeederWithTrigger extends CommandBase {
 		// driver's triggers take priority over the spotter's triggers
 		if (driverFeederAxis == 0.d && driverReverseFeederAxis == 0.d) {
 			if (spotterFeederAxis == 0.d) {
-				m_intake.setFeederMotorPercent(-spotterReverseFeederAxis);
-				m_manipulator.setIndexerToPercent(-spotterReverseFeederAxis);
+				m_intake.setFeederPercent(-spotterReverseFeederAxis);
+				m_manipulator.setIndexerPercent(-spotterReverseFeederAxis);
 			} else {
-				m_intake.setFeederMotorPercent(spotterFeederAxis);
-				m_manipulator.setIndexerToPercent(spotterFeederAxis);
+				m_intake.setFeederPercent(spotterFeederAxis);
+				m_manipulator.setIndexerPercent(spotterFeederAxis);
 			}
 		} else {
 			// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
 			if (driverFeederAxis == 0.d) {
-				m_intake.setFeederMotorPercent(-driverReverseFeederAxis);
-				m_manipulator.setIndexerToPercent(-driverReverseFeederAxis);
+				m_intake.setFeederPercent(-driverReverseFeederAxis);
+				m_manipulator.setIndexerPercent(-driverReverseFeederAxis);
 			} else {
-				m_intake.setFeederMotorPercent(driverFeederAxis);
-				m_manipulator.setIndexerToPercent(driverFeederAxis);
+				m_intake.setFeederPercent(driverFeederAxis);
+				m_manipulator.setIndexerPercent(driverFeederAxis);
 			}
 		}
 	}

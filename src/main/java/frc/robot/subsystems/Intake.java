@@ -4,6 +4,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Constants.Falcon500;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -26,7 +28,7 @@ public class Intake extends SubsystemBase {
 	// Private constants
 
 
-	private static class CAN_IDs {
+	private static class CAN_ID {
 		private static final int
 			kFeeder = 11,
 			kRetractor = 12;
@@ -39,8 +41,7 @@ public class Intake extends SubsystemBase {
 		kFeederRampTime = 0.25d;
 
 	private final double
-		// 2048 ticks for every 360 degrees in one revolution
-		kRetractorDegreesToTicks = 2048.d / 360.d;
+		kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 360.d;
 
 	// TODO: P1 Figure out what the retractor's extended and retracted positions should be
 	private final int
@@ -54,8 +55,8 @@ public class Intake extends SubsystemBase {
 
 	private final DigitalInput m_whiskerSensor = new DigitalInput(kWhiskerSensorDIOPort);
 
-	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(CAN_IDs.kFeeder);
-	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(CAN_IDs.kRetractor);
+	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(CAN_ID.kFeeder);
+	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(CAN_ID.kRetractor);
 
 
 	// ----------------------------------------------------------
@@ -81,24 +82,23 @@ public class Intake extends SubsystemBase {
 	// Retractor motor
 
 
-	// in degrees
-	public double getRetractorPosition() {
+	public double getRetractorDegree() {
 		return m_retractorMotor.getSelectedSensorPosition() / kRetractorDegreesToTicks;
 	}
 
 	// in degrees
-	public Intake setRetractMotorPosition(double positionDegrees) {
+	public Intake setRetractDegree(double positionDegrees) {
 		m_retractorMotor.set(ControlMode.Position, positionDegrees * kRetractorDegreesToTicks);
 		return this;
 	}
 
 	public Intake retractIntakeArm() {
-		setRetractMotorPosition(kRetractedIntakeRetractorPosition);
+		setRetractDegree(kRetractedIntakeRetractorPosition);
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
-		setRetractMotorPosition(kExtendedIntakeRetractorPosition);
+		setRetractDegree(kExtendedIntakeRetractorPosition);
 		return this;
 	}
 
@@ -107,29 +107,29 @@ public class Intake extends SubsystemBase {
 	// Feeder motor
 
 
-	// arbitrary -1 to 1
-	public double getFeederSpeed() {
+	// -1 to 1
+	public double getFeederPercent() {
 		return m_feederMotor.get();
 	}
 
-	// arbitrary -1 to 1
-	public Intake setFeederMotorPercent(double percentOutput) {
+	// -1 to 1
+	public Intake setFeederPercent(double percentOutput) {
 		m_feederMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
 	public Intake runReverseFeeder() {
-		setFeederMotorPercent(kDefaultReverseFeederPercent);
+		setFeederPercent(kDefaultReverseFeederPercent);
 		return this;
 	}
 
 	public Intake runFeeder() {
-		setFeederMotorPercent(kDefaultFeederPercent);
+		setFeederPercent(kDefaultFeederPercent);
 		return this;
 	}
 
 	public Intake stopFeeder() {
-		setFeederMotorPercent(0.d);
+		setFeederPercent(0.d);
 		return this;
 	}
 }

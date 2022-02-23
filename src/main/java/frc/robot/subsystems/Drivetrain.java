@@ -23,6 +23,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Gains;
+import frc.robot.Constants.Falcon500;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
@@ -86,7 +87,7 @@ public class Drivetrain extends SubsystemBase {
 	// ID constants
 
 
-	private static class CAN_IDs {
+	private static class CAN_ID {
 		// These are how it's SUPPOSED to be on both V1 and V2
 		private static final int
 			kFrontLeft = 3,
@@ -134,8 +135,9 @@ public class Drivetrain extends SubsystemBase {
 		// wheel diameter * pi = circumference of 1 revolution
 		// wheel diameter is 6 inches (which is 0.1524 meters)
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
-		kMetersPerSecondToTicksPer100ms = 427.7550177d;
+		kTicksToMeters  = ( (0.1524d * Math.PI) / ((double) Falcon500.ticksPerRevolution) ) / 7.33d,
+		// MPS = meters per second
+		kMPSToTicksPer100ms = 427.7550177d;
 	
 
 	// ----------------------------------------------------------
@@ -178,13 +180,13 @@ public class Drivetrain extends SubsystemBase {
 
 
 	private final WPI_TalonFX
-		m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.kFrontLeft),
-		m_backLeftMotor = new WPI_TalonFX(CAN_IDs.kBackLeft);
+		m_frontLeftMotor = new WPI_TalonFX(CAN_ID.kFrontLeft),
+		m_backLeftMotor = new WPI_TalonFX(CAN_ID.kBackLeft);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
 	private final WPI_TalonFX
-		m_frontRightMotor = new WPI_TalonFX(CAN_IDs.kFrontRight),
-		m_backRightMotor = new WPI_TalonFX(CAN_IDs.kBackRight);
+		m_frontRightMotor = new WPI_TalonFX(CAN_ID.kFrontRight),
+		m_backRightMotor = new WPI_TalonFX(CAN_ID.kBackRight);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -342,26 +344,22 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	// in MPS (meters per second)
-	public Drivetrain setLeftMotorsVelocity(double velocity) {
-		m_frontLeftMotor.set(ControlMode.Velocity, velocity * kMetersPerSecondToTicksPer100ms * leftMotorsDirectionMultiplier);
+	public Drivetrain setLeftMPS(double mps) {
+		m_frontLeftMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100ms * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
-	// in MPS
-	public Drivetrain setRightMotorsVelocity(double velocity) {
-		m_frontRightMotor.set(ControlMode.Velocity, velocity * kMetersPerSecondToTicksPer100ms * rightMotorsDirectionMultiplier);
+	public Drivetrain setRightMPS(double mps) {
+		m_frontRightMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100ms * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
-	// in MPS
-	public double getLeftVelocity() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMetersPerSecondToTicksPer100ms * leftMotorsDirectionMultiplier;
+	public double getLeftMPS() {
+		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
 
-	// in MPS
-	public double getRightVelocity() {
-		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMetersPerSecondToTicksPer100ms * rightMotorsDirectionMultiplier;
+	public double getRightMPS() {
+		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMPSToTicksPer100ms * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {

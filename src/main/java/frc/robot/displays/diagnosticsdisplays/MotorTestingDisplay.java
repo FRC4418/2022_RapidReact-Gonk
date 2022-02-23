@@ -139,7 +139,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 
 						indexerOutputPercentNumberSlider = indexerLayout
-							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
+							.add("Percentage", Manipulator.kDefaultIndexerPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
@@ -157,7 +157,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 
 						launcherOutputPercentNumberSlider = launcherLayout
-							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
+							.add("Percentage", Manipulator.kDefaultLauncherRPM)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 							.getEntry();
@@ -193,7 +193,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 				retractorPositionNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
-						m_intake.setRetractMotorPosition(event.value.getDouble());
+						m_intake.setRetractDegree(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -208,7 +208,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 				feederOutputPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& feederToggleSwitch.getBoolean(false)) {
-						m_intake.setFeederMotorPercent(event.value.getDouble());
+						m_intake.setFeederPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -227,7 +227,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)) {
-						m_manipulator.setIndexerToPercent(event.value.getDouble());
+						m_manipulator.setIndexerPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -242,7 +242,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 				launcherOutputPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& launcherToggleSwitch.getBoolean(false)) {
-						m_manipulator.setLauncherToPercent(event.value.getDouble());
+						m_manipulator.setLauncherRPM(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
