@@ -248,11 +248,9 @@ public class RobotContainer {
 			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
 				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
 				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
 				break;
 			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
 				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
