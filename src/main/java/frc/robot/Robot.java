@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 			.calibrateIMU()
 			.resetIMU();
 
-		robotContainer.vision.startCameraStreams();
+		// robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer
@@ -60,6 +60,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
+		
+		robotContainer.intake
+			.coastRetractor()
+			.retractIntakeArm();
 	}
 
 	@Override
@@ -70,6 +74,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
+
+		robotContainer.intake
+			.brakeRetractor()
+			.extendIntakeArm();
 	}
 
 

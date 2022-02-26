@@ -40,7 +40,6 @@ public class Intake extends SubsystemBase {
 		// Retractor motor configuration
 
 		m_retractorMotor.configFactoryDefault();
-		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
 		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kP);
@@ -62,11 +61,20 @@ public class Intake extends SubsystemBase {
 	// Retractor motor
 
 
+	public Intake brakeRetractor() {
+		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
+		return this;
+	}
+
+	public Intake coastRetractor() {
+		m_retractorMotor.setNeutralMode(NeutralMode.Coast);
+		return this;
+	}
+
 	public double getRetractorDegree() {
 		return m_retractorMotor.getSelectedSensorPosition() / Constants.Intake.kRetractorDegreesToTicks;
 	}
 
-	// in degrees
 	public Intake setRetractDegree(double positionDegrees) {
 		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks);
 		return this;
