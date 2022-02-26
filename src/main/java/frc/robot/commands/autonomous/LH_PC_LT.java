@@ -19,7 +19,8 @@ public class LH_PC_LT extends SequentialCommandGroup {
 			new Wait(Autonomous.startDelayTime),
 			new AutoRunLauncherDemo(manipulator, 1.5d),
 			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS),
-			new RunFeederAndIndexerForTime(intake, manipulator, 1.5d),
+			new Wait(0.5d),
+			new RunFeederAndIndexerForTime(intake, manipulator, 2.d),
 			new DriveStraightForDistance(drivetrain, Conversion.inchesToMeters(10), DriveStraightDirection.FORWARDS)
 		);
 	}
