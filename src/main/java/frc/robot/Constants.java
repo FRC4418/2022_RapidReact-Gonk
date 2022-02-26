@@ -183,7 +183,7 @@ public class Constants {
         // 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
         // TODO: !!!P1!!! tune V2 retractor gains
         public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+            = new Gains(0.0013522d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
     }
 
     public static class Manipulator {
