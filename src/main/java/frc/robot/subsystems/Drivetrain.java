@@ -22,11 +22,22 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.Conversion;
 import frc.robot.Gains;
+import frc.robot.Constants.Falcon500;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
 public class Drivetrain extends SubsystemBase {
+	// ----------------------------------------------------------
+	// Motor group constants
+
+
+	private final double
+		// kWheelDiameterMeters = Conversion.inchesToMeters(6.d),
+		kWheelDiameterMetersV2 = Conversion.inchesToMeters(4.d);
+
+
 	// ----------------------------------------------------------
 	// Motor group constants
 
@@ -108,8 +119,8 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// horizontal distance between the left and right-side wheels
-	// private static final double kTrackWidthMeters = 0.62484d;
-	private static final double kTrackWidthMetersV2 = 0.60960d;
+	// private static final double kTrackWidthMeters = Conversion.inchesToMeters(24.6d);
+	private static final double kTrackWidthMetersV2 = Conversion.inchesToMeters(24.d);
 	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(kTrackWidthMetersV2);
 
@@ -138,8 +149,8 @@ public class Drivetrain extends SubsystemBase {
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
 		// kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
 		kTicksToMetersV2  = ( (0.1016d * Math.PI) / 2048.0d ) / 7.75d,
-		// kMPSToTicksPer100ms = 427.7550177d,
-		kMPSToTicksPer100msV2 = 641.6325265d;
+		// kMPSToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / (10.d * kWheelDiameterMeters * Math.PI),
+		kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10.d * kWheelDiameterMetersV2 * Math.PI);
 	
 
 	// ----------------------------------------------------------
@@ -153,11 +164,7 @@ public class Drivetrain extends SubsystemBase {
 		// kvVoltSecondsPerMeter = 0.043021d,
 		kvVoltSecondsPerMeterV2 = 0.066546d,
 		// kaVoltSecondsSquaredPerMeter = 0.018985d,
-		kaVoltSecondsSquaredPerMeterV2 = 0.010455d,
-		
-		// Feedback gains
-		// kPDriveVelocity = 0.89077d;
-		kPDriveVelocityV2 = 0.45563d;
+		kaVoltSecondsSquaredPerMeterV2 = 0.010455d;
 
 	private final int
 		kLeftPidIdx = 0,	// PID slots are basically different contorl-loop types (closed-loop, open-loop, etc)
@@ -170,15 +177,10 @@ public class Drivetrain extends SubsystemBase {
 
 	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
 
-	private final Gains kLeftMotorVelocityGains
-		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
-		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(kPDriveVelocityV2, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
-	
-	private final Gains kRightMotorVelocityGains 
-		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
-		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(kPDriveVelocityV2, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+	// private final Gains kLeftVelocityGains = new Gains(0.89077d, 0.d, 0.d, 0.d, 0, 0.d);
+	// private final Gains kRightVelocityGains = new Gains(kLeftMotorVelocityGains);
+	public static final Gains kLeftVelocityGainsV2 = new Gains(0.45563d, 0.d, 0.d, 0.d, 0, 0.d);
+	public static final Gains kRightVelocityGainsV2 = new Gains(kLeftVelocityGainsV2);
 
 
 	// ----------------------------------------------------------
@@ -226,10 +228,10 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.configFactoryDefault();
 		m_backRightMotor.follow(m_frontRightMotor);
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLeftPidIdx, kTimeoutMs);
-		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
-		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
-		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
-        // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
+		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kF);
+		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftVelocityGainsV2.kP);
+		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kI);
+        // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kD);
 
 		// ----------------------------------------------------------
 		// Right motor group configuration
@@ -238,10 +240,10 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor.configFactoryDefault();
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRightPidIdx, kTimeoutMs);
-		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
-		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
-		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGains.kI);
-        // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGains.kD);
+		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGainsV2.kF);
+		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightVelocityGainsV2.kP);
+		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGainsV2.kI);
+        // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGainsV2.kD);
 
 		resetEncoders();
 	}

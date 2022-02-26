@@ -21,7 +21,7 @@ public class Manipulator extends SubsystemBase {
 	public static final double
 		kDefaultIndexerPercent = 1.0d;
 	
-	// TODO: P1 Tune launcher RPM
+	// TODO: P1 Tune default launcher RPM
 	public static final int
 		kDefaultLauncherRPM = 5_000;
 

@@ -77,8 +77,8 @@ public class ExampleTrajectory extends CommandBase {
 					Drivetrain.kaVoltSecondsSquaredPerMeterV2),
 					Drivetrain.kDriveKinematicsV2,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Drivetrain.kPDriveVelocityV2, 0, 0),
-				new PIDController(Drivetrain.kPDriveVelocityV2, 0, 0),
+				new PIDController(Drivetrain.kLeftVelocityGainsV2.kP, 0, 0),
+				new PIDController(Drivetrain.kRightVelocityGainsV2.kP, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);
