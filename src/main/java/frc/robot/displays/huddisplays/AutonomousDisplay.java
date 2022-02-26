@@ -50,7 +50,7 @@ public class AutonomousDisplay extends HUDDisplay {
 			autoRoutineChooser.setDefaultOption("LH PC LT", AutonomousRoutine.SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC);
 			autoRoutineChooser.addOption("LT", AutonomousRoutine.LEAVE_TARMAC);
 			autoRoutineChooser.addOption("LH LT", AutonomousRoutine.SCORE_LH_AND_LEAVE_TARMAC);
-			autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
+			// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 			autonomousLayout
 				.add("Routine", autoRoutineChooser)
 				.withWidget(BuiltInWidgets.kComboBoxChooser);
