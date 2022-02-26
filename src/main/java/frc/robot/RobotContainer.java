@@ -18,7 +18,7 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcade
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
 import frc.robot.commands.autonomous.Wait_LH_LT;
-import frc.robot.commands.autonomous.Wait_LH_PC_LT;
+import frc.robot.commands.autonomous.Wait_LH_PC_LH;
 import frc.robot.commands.autonomous.Wait_LH_RC_LT;
 import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
@@ -249,7 +249,7 @@ public class RobotContainer {
 				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_PC_LT(drivetrain, intake, manipulator);
+				autoCommand = new Wait_LH_PC_LH(drivetrain, intake, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
 				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);

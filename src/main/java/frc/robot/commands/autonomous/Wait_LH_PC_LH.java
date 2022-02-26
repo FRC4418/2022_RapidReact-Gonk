@@ -16,8 +16,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class Wait_LH_PC_LT extends SequentialCommandGroup {
-	public Wait_LH_PC_LT(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+public class Wait_LH_PC_LH extends SequentialCommandGroup {
+	public Wait_LH_PC_LH(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
 		super(
 			new Wait(Autonomous.startDelayTime),
 			new RunLauncherForTime(manipulator, 1.0d),
