@@ -44,6 +44,13 @@ import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 public class RobotContainer {
 	// ----------------------------------------------------------
+    // Singleton instance
+
+
+	public static RobotContainer instance;
+
+
+	// ----------------------------------------------------------
     // Robot-configuration constants
 
 
@@ -113,7 +120,7 @@ public class RobotContainer {
 	private static TeamRobot teamRobot;
 
 	private static AutonomousRoutine autoRoutine;
-	private Command autoCommand;
+	private static Command autoCommand;
 
 	private DisplaysGrid hudDisplaysGrid = new DisplaysGrid();
 	private DisplaysGrid diagnosticDisplaysGrid = new DisplaysGrid();
@@ -175,6 +182,9 @@ public class RobotContainer {
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
 		intake.setDefaultCommand(new RunFeederAndIndexerWithTrigger(intake, manipulator));
+
+		assert instance == null;
+		instance = this;
     }
 
 	
@@ -221,6 +231,53 @@ public class RobotContainer {
 					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
 					break;
 			}
+		}
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
+	// Autonomous-routine listeners
+
+
+	public Command getAutoCommand() {
+		return autoCommand;
+	}
+
+	public RobotContainer setAutoCommand(AutonomousRoutine autoRoutine) {
+		switch (autoRoutine) {
+			default:
+				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
+				break;
+			case LEAVE_TARMAC:
+				autoCommand = new LeaveTarmac(drivetrain);
+				break;
+			case SCORE_LH_AND_LEAVE_TARMAC:
+				// LH_LT = score Low Hub and Leave Tarmac
+				autoCommand = new LH_LT(drivetrain, manipulator);
+				break;
+			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
+				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
+				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
+				break;
+			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
+				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
+				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
+				break;
+		}
+		return this;
+	}
+
+	public RobotContainer remakeAutoCommand() {
+		setAutoCommand(autoRoutine);
+		return this;
+	}
+
+	public RobotContainer listenForAutoRoutine() {
+		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
+		if (autoRoutine != newAutoRoutineSelection) {
+			autoRoutine = newAutoRoutineSelection;
+			setAutoCommand(autoRoutine);
 		}
 		return this;
 	}
@@ -434,48 +491,6 @@ public class RobotContainer {
 						break;
 				}
 				break;
-		}
-		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Autonomous-routine listeners
-
-
-	public Command getAutoCommand() {
-		return autoCommand;
-	}
-
-	public RobotContainer setAutoCommand(AutonomousRoutine autoRoutine) {
-		switch (autoRoutine) {
-			default:
-				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
-				break;
-			case LEAVE_TARMAC:
-				autoCommand = new LeaveTarmac(drivetrain);
-				break;
-			case SCORE_LH_AND_LEAVE_TARMAC:
-				// LH_LT = score Low Hub and Leave Tarmac
-				autoCommand = new LH_LT(drivetrain, manipulator);
-				break;
-			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
-				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
-				break;
-			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
-				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
-				break;
-		}
-		return this;
-	}
-
-	public RobotContainer listenForAutoRoutine() {
-		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
-		if (autoRoutine != newAutoRoutineSelection) {
-			autoRoutine = newAutoRoutineSelection;
-			setAutoCommand(autoRoutine);
 		}
 		return this;
 	}

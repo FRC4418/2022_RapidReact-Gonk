@@ -73,11 +73,11 @@ public class AutonomousDisplay extends HUDDisplay {
 	@Override
 	public Display addEntryListeners() {
 		startDelayTimeNumberSlider.addListener(event -> {
-			Autonomous.startDelayTime = event.value.getDouble();
+			Autonomous.setStartDelayTime(event.value.getDouble());
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		tarmacLeavingDistanceNumberSlider.addListener(event -> {
-			Autonomous.tarmacLeavingDistance = Conversion.inchesToMeters(event.value.getDouble());
+			Autonomous.setTarmacLeavingDistance(Conversion.inchesToMeters(event.value.getDouble()));
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		return this;
 	}

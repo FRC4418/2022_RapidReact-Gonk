@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Conversion;
+import frc.robot.RobotContainer;
 
 
 public class Autonomous extends SubsystemBase {
@@ -43,5 +44,15 @@ public class Autonomous extends SubsystemBase {
 		public int getValue() {
 			return value;
 		}
+	}
+
+	public static void setStartDelayTime(double newDelayTime) {
+		startDelayTime = newDelayTime;
+		RobotContainer.instance.remakeAutoCommand();
+	}
+
+	public static void setTarmacLeavingDistance(double newDistance) {
+		tarmacLeavingDistance = newDistance;
+		RobotContainer.instance.remakeAutoCommand();
 	}
 }
