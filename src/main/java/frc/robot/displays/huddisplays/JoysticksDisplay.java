@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.RobotContainer.Pilot;
@@ -66,8 +67,8 @@ public class JoysticksDisplay extends HUDDisplay {
                 .getLayout("Spotter", BuiltInLayouts.kGrid)
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 
-                spotterJoystickModeChooser.setDefaultOption("Arcade", RobotContainer.defaultSpotterJoystickMode);
-                spotterJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
+                spotterJoystickModeChooser.setDefaultOption("Lone Tank", JoystickMode.LONE_TANK);
+                spotterJoystickModeChooser.addOption("Arcade", RobotContainer.defaultSpotterJoystickMode);
                 spotterJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 spotterLayout
                     .add("Mode", spotterJoystickModeChooser)
