@@ -24,7 +24,6 @@ public class Wait_LH_PC_LT extends SequentialCommandGroup {
 				new RunFeederAndIndexerForTime(intake, manipulator, 4.d),
 				new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS)
 			),
-			new Wait(0.25d),
 			new DriveStraightForDistance(drivetrain, Constants.inchesToMeters(10), DriveStraightDirection.FORWARDS)
 		);
 	}
