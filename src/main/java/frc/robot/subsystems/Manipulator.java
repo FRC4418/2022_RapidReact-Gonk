@@ -47,7 +47,7 @@ public class Manipulator extends SubsystemBase {
 	private final Gains kLauncherRPMGains
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+		= new Gains(0.083708d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 
 	// ----------------------------------------------------------

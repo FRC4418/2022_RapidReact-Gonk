@@ -22,12 +22,29 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.Conversion;
 import frc.robot.Gains;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.Falcon500;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
 public class Drivetrain extends SubsystemBase {
+	// ----------------------------------------------------------
+	// Dimension constants
+
+
+	private static class V1 {
+		private final double kWheelDiameterInches = 6.d;
+		private final double kGearRatio = 1.d / 7.33d;
+	}
+
+	private static class V2 {
+		private final double kWheelDiameterInches = 4.d;
+		private final double kGearRatio = 1.d / 7.75d;
+	}
+
+
 	// ----------------------------------------------------------
 	// Motor group constants
 

@@ -109,6 +109,8 @@ public class RobotContainer {
     // Public resources
 
 	
+	public static TeamRobot teamRobot = defaultRobot;
+
 	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
 	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
 	
@@ -116,8 +118,6 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Private resources
 	
-
-	private static TeamRobot teamRobot;
 
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
