@@ -64,6 +64,7 @@ public class Manipulator extends SubsystemBase {
 
 	public Manipulator() {
 		m_launcherMotor.configFactoryDefault();
+		m_launcherMotor.setInverted(true);
 		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLauncherPidIdx, kTimeoutMs);
 		// m_launcherMotor.config_kF(kLauncherPidIdx, kLauncherRPMGains.kF);
 		m_launcherMotor.config_kP(kLauncherPidIdx, kLauncherRPMGains.kP);

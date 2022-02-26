@@ -9,6 +9,7 @@ import frc.robot.Constants.Falcon500;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -88,6 +89,7 @@ public class Intake extends SubsystemBase {
 		// Retractor motor configuration
 
 		m_retractorMotor.configFactoryDefault();
+		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRetractorPidIdx, kTimeoutMs);
 		// m_retractorMotor.config_kF(kRetractorSlotIdx, kRetractorPositionGains.kF);
 		m_retractorMotor.config_kP(kRetractorSlotIdx, kRetractorPositionGains.kP);
