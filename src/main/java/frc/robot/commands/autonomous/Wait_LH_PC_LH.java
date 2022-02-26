@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.Constants;
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederAndIndexerForTime;

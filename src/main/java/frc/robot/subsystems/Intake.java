@@ -87,12 +87,15 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake retractIntakeArm() {
-		setRetractTicks(-18_400);
+		// should be around -18,400 ticks
+		// setRetractDegree(Constants.Intake.kDefaultRetractorDegree);
+		setRetractTicks(-18_500);
 		SmartDashboard.putString("Arm", "Retracting");
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
+		// should be around -1,000 ticks
 		// setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
 		setRetractTicks(-1_000);
 		SmartDashboard.putString("Arm", "Extending");

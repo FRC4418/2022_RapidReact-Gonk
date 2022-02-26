@@ -144,9 +144,9 @@ public class Constants {
         public static final int
             kDefaultRetractorDegree = 0;
 
-        public static final int
-            kRetractedIntakeRetractorPosition = -71,
-            kExtendedIntakeRetractorPosition = 71;
+        public static final double
+            kRetractedIntakeRetractorPosition = -55.53d,
+            kExtendedIntakeRetractorPosition = 3.018d;
 
         public static class CAN_ID {
             public static final int
@@ -171,7 +171,7 @@ public class Constants {
 
         // ----------------------------------------------------------
         // Closed-loop control
-            
+        
         public static final int
             kRetractorPidIdx = 0,
             kRetractorSlotIdx = 0,
