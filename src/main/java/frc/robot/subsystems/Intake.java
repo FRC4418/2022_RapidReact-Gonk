@@ -81,11 +81,13 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake retractIntakeArm() {
+		brakeRetractor();
 		setRetractDegree(Constants.Intake.kRetractedIntakeRetractorPosition);
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
+		coastRetractor();
 		setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
 		return this;
 	}
