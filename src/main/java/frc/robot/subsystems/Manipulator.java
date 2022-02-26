@@ -43,10 +43,9 @@ public class Manipulator extends SubsystemBase {
 	// Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
 	private final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.d;
 
-	// TODO: !!!P1!!! tune launcher RPM PID gains
-	private final Gains kLauncherRPMGains
-		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
-		// kP, kI, kD, kF, kIzone, kPeakOutput
+	// private final Gains kLauncherRPMGains
+	// 	= new Gains(0.083708d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+	private final Gains kLauncherRPMGainsV2
 		= new Gains(0.040753d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 
@@ -66,10 +65,10 @@ public class Manipulator extends SubsystemBase {
 		m_launcherMotor.configFactoryDefault();
 		m_launcherMotor.setInverted(true);
 		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLauncherPidIdx, kTimeoutMs);
-		// m_launcherMotor.config_kF(kLauncherPidIdx, kLauncherRPMGains.kF);
-		m_launcherMotor.config_kP(kLauncherPidIdx, kLauncherRPMGains.kP);
-		// m_launcherMotor.config_kI(kLauncherPidIdx, kLauncherRPMGains.kI);
-        // m_launcherMotor.config_kD(kLauncherPidIdx, kLauncherRPMGains.kD);
+		// m_launcherMotor.config_kF(kLauncherPidIdx, kLauncherRPMGainsV2.kF);
+		m_launcherMotor.config_kP(kLauncherPidIdx, kLauncherRPMGainsV2.kP);
+		// m_launcherMotor.config_kI(kLauncherPidIdx, kLauncherRPMGainsV2.kI);
+        // m_launcherMotor.config_kD(kLauncherPidIdx, kLauncherRPMGainsV2.kD);
 	}
 
 
