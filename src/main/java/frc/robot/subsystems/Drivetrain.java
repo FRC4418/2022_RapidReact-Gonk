@@ -22,10 +22,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Conversion;
-import frc.robot.Gains;
-import frc.robot.Constants.Falcon500;
-import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
+import frc.robot.Constants;
+import frc.robot.Constants.Drivetrain.MotorGroup;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -33,78 +31,10 @@ public class Drivetrain extends SubsystemBase {
 	// Motor group constants
 
 
-	private final double
-		// kWheelDiameterMeters = Conversion.inchesToMeters(6.d),
-		kWheelDiameterMetersV2 = Conversion.inchesToMeters(4.d);
-
-
-	// ----------------------------------------------------------
-	// Motor group constants
-
-
-	public enum MotorGroup {
-		kLeft,
-		kRight
-	}
-
 	// 1 is not inverted, -1 is inverted
 	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
 	private double leftMotorsDirectionMultiplier = 1.d;
 	private double rightMotorsDirectionMultiplier = 1.d;
-
-
-	// ----------------------------------------------------------
-	// Open-loop ramp constants
-
-
-	public static final double
-		// units in seconds
-		kJoystickOpenLoopRampTime = 0.7d;
-
-
-	// ----------------------------------------------------------
-	// Max output mode constants
-
-
-	public static final double kMaxSlewRateAllowed = 3.d;
-
-	public static class NormalOutputMode {
-		public static final double kDefaultMaxOutput = 1.d;
-
-		public static class SlewRates {
-			public static final double
-				kDefaultArcadeForward = 1.58d,
-				kDefaultArcadeTurn = 2.08d,
-	
-				kDefaultTankForward = 1.0d;
-		}
-	}
-
-	public static class KidsSafetyOutputMode {
-		public static final double kDefaultMaxOutput = 0.1d;
-
-		public static class SlewRates {
-			public static final double
-				kDefaultArcadeForward = 2.d,
-				kDefaultArcadeTurn = 2.d,
-
-				kDefaultTankForward = 2.d;
-		}
-	}
-
-
-	// ----------------------------------------------------------
-	// ID constants
-
-
-	private static class CAN_ID {
-		// These are how it's SUPPOSED to be on both V1 and V2
-		private static final int
-			kFrontLeft = 3,
-			kBackLeft = 2,
-			kFrontRight = 4,
-			kBackRight = 5;
-	}
 
 
 	// ----------------------------------------------------------
@@ -118,69 +48,8 @@ public class Drivetrain extends SubsystemBase {
 	// Kinematics constants
 
 
-	// horizontal distance between the left and right-side wheels
-	// private static final double kTrackWidthMeters = Conversion.inchesToMeters(24.6d);
-	private static final double kTrackWidthMetersV2 = Conversion.inchesToMeters(24.d);
 	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(kTrackWidthMetersV2);
-
-
-	// ----------------------------------------------------------
-	// Trajectory constsants
-
-
-	public static final double
-		kMaxSpeedMetersPerSecond = 3.d,
-    	kMaxAccelerationMetersPerSecondSquared = 3.d;
-
-	public static final double
-		kRamseteB = 2,
-		kRamseteZeta = 0.7;
-
-
-	// ----------------------------------------------------------
-	// Conversion constants
-
-
-	private final double
-		// 2048 ticks in 1 revolution for Falcon 500s
-		// wheel diameter * pi = circumference of 1 revolution
-		// wheel diameter is 6 inches (which is 0.1524 meters)
-		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		// kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
-		kTicksToMetersV2  = ( (0.1016d * Math.PI) / 2048.0d ) / 7.75d,
-		// kMPSToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / (10.d * kWheelDiameterMeters * Math.PI),
-		kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10.d * kWheelDiameterMetersV2 * Math.PI);
-	
-
-	// ----------------------------------------------------------
-	// Closed-loop control constants
-
-
-	public static final double
-		// Feedforward gains
-		// ksVolts = 0.63599d,
-		ksVoltsV2 = 0.69552d,
-		// kvVoltSecondsPerMeter = 0.043021d,
-		kvVoltSecondsPerMeterV2 = 0.066546d,
-		// kaVoltSecondsSquaredPerMeter = 0.018985d,
-		kaVoltSecondsSquaredPerMeterV2 = 0.010455d;
-
-	private final int
-		kLeftPidIdx = 0,	// PID slots are basically different contorl-loop types (closed-loop, open-loop, etc)
-		kLeftSlotIdx = 0,	// slots are basically different motor control types
-
-		kRightPidIdx = 0,
-		kRightSlotIdx = 0,
-		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-		kTimeoutMs = 30;
-
-	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
-
-	// private final Gains kLeftVelocityGains = new Gains(0.89077d, 0.d, 0.d, 0.d, 0, 0.d);
-	// private final Gains kRightVelocityGains = new Gains(kLeftMotorVelocityGains);
-	public static final Gains kLeftVelocityGainsV2 = new Gains(0.45563d, 0.d, 0.d, 0.d, 0, 0.d);
-	public static final Gains kRightVelocityGainsV2 = new Gains(kLeftVelocityGainsV2);
+	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMetersV2);
 
 
 	// ----------------------------------------------------------
@@ -188,13 +57,13 @@ public class Drivetrain extends SubsystemBase {
 
 
 	private final WPI_TalonFX
-		m_frontLeftMotor = new WPI_TalonFX(CAN_ID.kFrontLeft),
-		m_backLeftMotor = new WPI_TalonFX(CAN_ID.kBackLeft);
+		m_frontLeftMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kFrontLeft),
+		m_backLeftMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackLeft);
 	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
 
 	private final WPI_TalonFX
-		m_frontRightMotor = new WPI_TalonFX(CAN_ID.kFrontRight),
-		m_backRightMotor = new WPI_TalonFX(CAN_ID.kBackRight);
+		m_frontRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kFrontRight),
+		m_backRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackRight);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -205,11 +74,11 @@ public class Drivetrain extends SubsystemBase {
 		m_filteredYAccelOffset = 0.d;
 
 	private SlewRateLimiter
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultArcadeForward),
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.kDefaultArcadeTurn),
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward),
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn),
 
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultTankForward),
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.kDefaultTankForward);
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward),
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
 
 
 	// ----------------------------------------------------------
@@ -227,9 +96,9 @@ public class Drivetrain extends SubsystemBase {
 		m_frontLeftMotor.configFactoryDefault();
 		m_backLeftMotor.configFactoryDefault();
 		m_backRightMotor.follow(m_frontRightMotor);
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLeftPidIdx, kTimeoutMs);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kLeftPidIdx, Constants.Drivetrain.kTimeoutMs);
 		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kF);
-		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftVelocityGainsV2.kP);
+		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGainsV2.kP);
 		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kI);
         // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kD);
 
@@ -239,9 +108,9 @@ public class Drivetrain extends SubsystemBase {
 		m_frontRightMotor.configFactoryDefault();
 		m_backRightMotor.configFactoryDefault();
 		m_backLeftMotor.follow(m_frontLeftMotor);
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRightPidIdx, kTimeoutMs);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kRightPidIdx, Constants.Drivetrain.kTimeoutMs);
 		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGainsV2.kF);
-		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightVelocityGainsV2.kP);
+		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGainsV2.kP);
 		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGainsV2.kI);
         // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGainsV2.kD);
 
@@ -277,7 +146,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useNormalMaximumOutput() {
-		m_differentialDrive.setMaxOutput(Drivetrain.NormalOutputMode.kDefaultMaxOutput);
+		m_differentialDrive.setMaxOutput(Constants.Drivetrain.NormalOutputMode.kDefaultMaxOutput);
 		return this;
 	}
 
@@ -332,7 +201,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
-		setOpenLoopRampTimes(kJoystickOpenLoopRampTime);
+		setOpenLoopRampTimes(Constants.Drivetrain.kJoystickOpenLoopRampTime);
 		return this;
 	}
 
@@ -351,21 +220,21 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain setLeftMPS(double mps) {
-		m_frontLeftMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier);
+		m_frontLeftMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public Drivetrain setRightMPS(double mps) {
-		m_frontRightMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public double getLeftMPS() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightMPS() {
-		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -397,8 +266,8 @@ public class Drivetrain extends SubsystemBase {
 
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		return new DifferentialDriveWheelSpeeds(
-			m_frontLeftMotor.getSelectedSensorVelocity(kLeftSlotIdx),
-			m_frontRightMotor.getSelectedSensorVelocity(kRightSlotIdx));
+			m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftSlotIdx),
+			m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightSlotIdx));
 	}
 
 	public void resetOdometry(Pose2d pose) {
@@ -443,20 +312,20 @@ public class Drivetrain extends SubsystemBase {
 	// Output-mode configurations
 
 	public Drivetrain useNormalOutputModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultArcadeForward);
-		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.kDefaultArcadeTurn);
+		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultTankForward);
-		setTankDriveRightForwardLimiterRate(NormalOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
 	public Drivetrain useKidsSafetyModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultArcadeForward);
-		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultArcadeTurn);
+		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
-		setTankDriveRightForwardLimiterRate(KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
@@ -547,7 +416,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMetersV2 * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -556,7 +425,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistanceMeters() {
-		return m_frontRightMotor.getSelectedSensorPosition() * kTicksToMetersV2 * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {

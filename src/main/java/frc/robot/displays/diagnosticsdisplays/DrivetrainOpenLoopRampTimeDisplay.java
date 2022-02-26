@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -41,7 +41,7 @@ public class DrivetrainOpenLoopRampTimeDisplay extends DiagnosticsDisplay {
 			.withSize(width, height);
 
 			rampTimeNumberSlider = drivetrainOpenLoopRampTimeLayout
-				.add("Ramp Time", Drivetrain.kJoystickOpenLoopRampTime)
+				.add("Ramp Time", Constants.Drivetrain.kJoystickOpenLoopRampTime)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 0.d, "Max", 5.0d, "Block increment", 0.05d))
 				.getEntry();
