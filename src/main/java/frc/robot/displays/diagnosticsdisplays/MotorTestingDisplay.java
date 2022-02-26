@@ -139,7 +139,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 
 						indexerPercentNumberSlider = indexerLayout
-							.add("Percentage", Manipulator.kDefaultIndexerPercent)
+							.add("Percentage", Constants.Manipulator.kDefaultIndexerPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", -1.d, "Max", 1.d, "Block increment", 0.05d))
 							.getEntry();
@@ -157,7 +157,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 
 						launcherRPMNumberSlider = launcherLayout
-							.add("RPM", Manipulator.kDefaultLauncherRPM)
+							.add("RPM", Constants.Manipulator.kDefaultLauncherRPM)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0, "Max", 6380, "Block increment", 20))
 							.getEntry();
