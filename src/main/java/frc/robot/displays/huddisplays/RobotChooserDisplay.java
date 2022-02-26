@@ -6,22 +6,16 @@ import java.util.Map;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.TeamRobot;
 import frc.robot.displays.Display;
 
 
 public class RobotChooserDisplay extends HUDDisplay {
-    // ----------------------------------------------------------
-    // Resources
-
     public SendableChooser<TeamRobot> teamRobotChooser = new SendableChooser<>();
 
-    // ----------------------------------------------------------
-    // Constructor (initializes the display the same time)
-    
-    public RobotChooserDisplay(int column, int row) {
-		super(column, row);
+    public RobotChooserDisplay(int width, int height) {
+		super(width, height);
     }
 
 	@Override
@@ -34,14 +28,18 @@ public class RobotChooserDisplay extends HUDDisplay {
 	protected Display createDisplayAt(int column, int row) {
 		{ var robotSelectionLayout = hudTab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
-			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(2, 1);
+			.withSize(width, height);
 			
 			// setting default options for sendable choosers also adds the label-value pair as an option
-			teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
-			teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+			if (RobotContainer.defaultRobot == TeamRobot.VERSACHASSIS_ONE) {
+				teamRobotChooser.setDefaultOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+				teamRobotChooser.addOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
+			} else if (RobotContainer.defaultRobot == TeamRobot.VERSACHASSIS_TWO) {
+				teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
+				teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
+			}
 			robotSelectionLayout
 				.add("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);

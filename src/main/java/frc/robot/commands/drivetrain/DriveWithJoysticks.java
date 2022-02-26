@@ -22,7 +22,7 @@ public class DriveWithJoysticks extends CommandBase {
 	public DriveWithJoysticks(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
 
-		addRequirements(drivetrain);
+		addRequirements(m_drivetrain);
 	}
 
 	// ----------------------------------------------------------
@@ -30,7 +30,7 @@ public class DriveWithJoysticks extends CommandBase {
 
 	@Override
 	public void initialize() {
-		
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override
@@ -58,15 +58,10 @@ public class DriveWithJoysticks extends CommandBase {
 			case LONE_TANK:
 			case DUAL_TANK:
 				m_drivetrain.tankDrive(
-					m_drivetrain.filterTankDriveForward(activePilotJoystickControls.getTankDriveLeftAxis()),
-					m_drivetrain.filterTankDriveForward(activePilotJoystickControls.getTankDriveRightAxis()));
+					m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
+					m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));
 				break;
 		}
-	}
-
-	@Override
-	public void end(boolean interrupted) {
-		
 	}
 
 	@Override

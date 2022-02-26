@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.intake.RunFeeder;
+import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
-import frc.robot.commands.intake.ToggleFeeder;
+import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
@@ -30,6 +30,17 @@ public abstract class SingleJoystickControls extends JoystickControls {
         return m_primaryJoystick.getMagnitude() > Math.sqrt(DEADBAND * 2.d);
     }
 
+    @Override
+    public int getPrimaryJoystickPort() {
+        return m_primaryJoystick.getPort();
+    }
+
+    @Override
+    public int getSecondaryJoystickPort() {
+        // it's weird, but this obviously erroneous implementation is needed by the driver to override, since the base JoystickControls class is the common type used for our polymorphic code
+        return -1;
+    }
+
     // ----------------------------------------------------------
     // Constructor
 
@@ -40,7 +51,11 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // Drivetrain
 
         reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrain(drivetrain));
+        if (reverseDrivetrainButton != null) {
+            reverseDrivetrainButton
+                .whenPressed(new ReverseDrivetrain(drivetrain))
+                .whenReleased(new ReverseDrivetrain(drivetrain));
+        }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
@@ -52,9 +67,9 @@ public abstract class SingleJoystickControls extends JoystickControls {
         runFeederDisposalButton = runFeederDisposalButton(primaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(primaryJoystick);
-        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
+        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));
         toggleFeederButton = toggleFeederButton(primaryJoystick);
-        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleFeeder(intake));
+        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
 
         // ----------------------------------------------------------
         // Manipulator

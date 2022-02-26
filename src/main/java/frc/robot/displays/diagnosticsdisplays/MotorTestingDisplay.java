@@ -15,53 +15,44 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class MotorTestingDisplay extends DiagnosticsDisplay {
-    // ----------------------------------------------------------
-	// Resources
-
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
     private NetworkTableEntry motorTestingModeToggleSwitch;
 
 	private NetworkTableEntry indexerToggleSwitch;
-	private NetworkTableEntry indexerOutputPercentTextView;
+	private NetworkTableEntry indexerOutputPercentNumberSlider;
 
 	private NetworkTableEntry launcherToggleSwitch;
-	private NetworkTableEntry launcherOutputPercentTextView;
+	private NetworkTableEntry launcherOutputPercentNumberSlider;
 
 	private NetworkTableEntry feederToggleSwitch;
-	private NetworkTableEntry feederOutputPercentTextView;
+	private NetworkTableEntry feederOutputPercentNumberSlider;
 
 	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorPositionTextView;
+	private NetworkTableEntry retractorPositionNumberSlider;
 
-    // ----------------------------------------------------------
-	// Constructor (initializes the display the same time)
-
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int column, int row) {
-		super(column, row);
+    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
+		super(width, height);
 
 		m_intake = intake;
 		m_manipulator = manipulator;
-
-		this.column = column;
-		this.row = row;
     }
 
 	@Override
 	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
-			indexerOutputPercentTextView,
+			indexerOutputPercentNumberSlider,
 
 			launcherToggleSwitch,
-			launcherOutputPercentTextView,
+			launcherOutputPercentNumberSlider,
 
 			feederToggleSwitch,
-			feederOutputPercentTextView,
+			feederOutputPercentNumberSlider,
 
 			retractorToggleSwitch,
-			retractorPositionTextView
+			retractorPositionNumberSlider
 		));
 		return this;
 	}
@@ -73,7 +64,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
-			.withSize(7, 3);
+			.withSize(width, height);
 
 			// Enable/disable motor testing
 			motorTestingModeToggleSwitch = motorTestingLayout
@@ -101,11 +92,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 
 						// I have no fucking clue why the textView entry is always added before (to the 2nd row) the toggleSwitch but it's good enough
 						retractorToggleSwitch = retractorLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						retractorPositionTextView = retractorLayout
+						retractorPositionNumberSlider = retractorLayout
 							.add("Position", Intake.DEFAULT_RETRACTOR_POSITION)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -119,11 +110,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						feederToggleSwitch = feederLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						feederOutputPercentTextView = feederLayout
+						feederOutputPercentNumberSlider = feederLayout
 							.add("Percentage", Intake.DEFAULT_FEEDER_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -143,11 +134,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						indexerToggleSwitch = indexerLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						indexerOutputPercentTextView = indexerLayout
+						indexerOutputPercentNumberSlider = indexerLayout
 							.add("Percentage", Manipulator.DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -161,11 +152,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 						launcherToggleSwitch = launcherLayout
-							.add(" ", false)
+							.add("On-Off", false)
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						launcherOutputPercentTextView = launcherLayout
+						launcherOutputPercentNumberSlider = launcherLayout
 							.add("Percentage", Manipulator.DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
@@ -193,27 +184,30 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 		{ // Intake
 			{ // Retractor motor
 				retractorToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_intake.retractIntakeArm();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-				retractorPositionTextView.addListener(event -> {
-					// if the retractor toggle switch is enabled. The false that we pass in is the default value of the switch if we can't get the entry's value
-					if (retractorToggleSwitch.getBoolean(false)) {
+				retractorPositionNumberSlider.addListener(event -> {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractMotorPosition(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			{ // Feeder motor
 				feederToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_intake.stopFeeder();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				feederOutputPercentTextView.addListener(event -> {
-					if (feederToggleSwitch.getBoolean(false)) {
+				feederOutputPercentNumberSlider.addListener(event -> {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& feederToggleSwitch.getBoolean(false)) {
 						m_intake.setFeederMotorPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -223,26 +217,31 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 		{ // Manipulator
 			{ // Indexer motor
 				indexerToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_manipulator.stopIndexer();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				indexerOutputPercentTextView.addListener(event -> {
-					if (indexerToggleSwitch.getBoolean(false)) {
+				indexerOutputPercentNumberSlider.addListener(event -> {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& indexerToggleSwitch.getBoolean(false)
+					&& indexerToggleSwitch.getBoolean(false)) {
 						m_manipulator.setIndexerToPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			{ // Launcher motor
 				launcherToggleSwitch.addListener(event -> {
-					if (!event.value.getBoolean()) {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& !event.value.getBoolean()) {
 						m_manipulator.stopLauncher();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				launcherOutputPercentTextView.addListener(event -> {
-					if (launcherToggleSwitch.getBoolean(false)) {
+				launcherOutputPercentNumberSlider.addListener(event -> {
+					if (motorTestingModeToggleSwitch.getBoolean(false)
+					&& launcherToggleSwitch.getBoolean(false)) {
 						m_manipulator.setLauncherToPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);

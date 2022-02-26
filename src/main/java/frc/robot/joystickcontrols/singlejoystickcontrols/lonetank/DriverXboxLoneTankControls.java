@@ -40,12 +40,12 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
     
     @Override
     public double getTankDriveLeftAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
+        return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
     public double getTankDriveRightAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
+        return -m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }
 
     // ----------------------------------------------------------

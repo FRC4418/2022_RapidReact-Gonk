@@ -10,7 +10,8 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double MOTOR_OUTPUT_PERCENT = 0.5d;
+	// in meters per second
+	private final double MOTOR_SPEED = 0.7d;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -31,21 +32,18 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			// .coastOrBrakeMotors(false, false)
-			.setOpenLoopRampTimes(0.d);
+		m_drivetrain.disableOpenLoopRamp();
 	}
 
 	@Override
 	public void execute() {
-		m_drivetrain
-			.setLeftMotors(MOTOR_OUTPUT_PERCENT)
-			.setRightMotors(MOTOR_OUTPUT_PERCENT);
+		m_drivetrain.tankDrive(MOTOR_SPEED, MOTOR_SPEED);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
 
 	@Override

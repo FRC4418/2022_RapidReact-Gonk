@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.intake.RunFeeder;
+import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
-import frc.robot.commands.intake.ToggleFeeder;
+import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
@@ -31,6 +31,16 @@ public abstract class DualJoystickControls extends JoystickControls {
         return (Math.abs(m_primaryJoystick.getY()) + Math.abs(m_secondaryJoystick.getY())) / 2.d > (DEADBAND * 2.d);
     }
 
+    @Override
+    public int getPrimaryJoystickPort() {
+        return m_primaryJoystick.getPort();
+    }
+
+    @Override
+    public int getSecondaryJoystickPort() {
+        return m_secondaryJoystick.getPort();
+    }
+
     // ----------------------------------------------------------
     // Constructor
 
@@ -39,7 +49,11 @@ public abstract class DualJoystickControls extends JoystickControls {
         m_secondaryJoystick = secondaryJoystick;
         
         reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        if (reverseDrivetrainButton != null) reverseDrivetrainButton.whenHeld(new ReverseDrivetrain(drivetrain));
+        if (reverseDrivetrainButton != null) {
+            reverseDrivetrainButton
+                .whenPressed(new ReverseDrivetrain(drivetrain))
+                .whenReleased(new ReverseDrivetrain(drivetrain));
+        }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
@@ -48,9 +62,9 @@ public abstract class DualJoystickControls extends JoystickControls {
         runFeederDisposalButton = runFeederDisposalButton(secondaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
-        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
+        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));
         toggleFeederButton = toggleFeederButton(secondaryJoystick);
-        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleFeeder(intake));
+        if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
 
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));

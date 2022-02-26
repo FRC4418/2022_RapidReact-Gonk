@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
 
 	public static final double
 		DEFAULT_REVERSE_FEEDER_OUTPUT_PERCENT = -0.5d,
-		DEFAULT_FEEDER_OUTPUT_PERCENT = 0.5d,
+		DEFAULT_FEEDER_OUTPUT_PERCENT = 1.0d,
 		
 		DEFAULT_RETRACTOR_POSITION = 90.d;
 	
@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
 		FEEDER_CAN_ID = 11,
 		RETRACT_CAN_ID = 12;
 
-	private final int WHISKER_SENSOR_DIO_PORT = 0;
+	private final int WHISKER_SENSOR_DIO_PORT = 8;
 
 	private final double
 		// units in seconds
@@ -55,6 +55,16 @@ public class Intake extends SubsystemBase {
 		m_feederMotor.setInverted(true);
 	}
 
+
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+	
+	@Override
+	public void periodic() {
+		
+	}
+	
 
 	// ----------------------------------------------------------
 	// Ball-intake whisker sensor
@@ -113,15 +123,5 @@ public class Intake extends SubsystemBase {
 	public Intake stopFeeder() {
 		setFeederMotorPercent(0.d);
 		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
 	}
 }

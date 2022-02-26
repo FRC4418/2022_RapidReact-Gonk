@@ -10,8 +10,8 @@ import frc.robot.displays.Display;
 public abstract class DiagnosticsDisplay extends Display {
     protected static final ShuffleboardTab diagnosticsTab = Shuffleboard.getTab("Diagnostics");
 
-    public DiagnosticsDisplay(int column, int row) {
-        super(column, row);
+    public DiagnosticsDisplay(int width, int height) {
+        super(width, height);
     }
 
     public DiagnosticsDisplay removeEntryListeners() {

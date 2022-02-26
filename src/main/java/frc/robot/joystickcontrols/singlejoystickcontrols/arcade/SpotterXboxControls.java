@@ -36,12 +36,14 @@ public class SpotterXboxControls extends SingleJoystickControls {
     
     @Override
     public double getTankDriveLeftAxis() {
-        return 0.d;
+        // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
+        return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
     public double getTankDriveRightAxis() {
-        return 0.d;
+        // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
+        return -m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }
 
     // ----------------------------------------------------------
