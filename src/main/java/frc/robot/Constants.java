@@ -132,4 +132,61 @@ public class Constants {
             kRamseteB = 2,
             kRamseteZeta = 0.7;
     }
+
+    public static class Intake {
+        // ----------------------------------------------------------
+        // General
+
+        public static final double
+            kDefaultReverseFeederPercent = -0.5d,
+            kDefaultFeederPercent = 0.5d;
+            
+        public static final int
+            kDefaultRetractorDegree = 90;
+
+        // TODO: P1 Tune retractor extended and retracted degrees
+        public static final int
+            kExtendedIntakeRetractorPosition = 0,
+            kRetractedIntakeRetractorPosition = 100;
+
+        public static class CAN_ID {
+            public static final int
+                kFeeder = 11,
+                kRetractor = 12;
+        }
+
+        public static final int kWhiskerSensorDIOPort = 8;
+
+        // ----------------------------------------------------------
+        // Conversion
+
+        public static final double
+            kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution * 58.25d) / 360.d;
+
+        // ----------------------------------------------------------
+        // Closed-loop control
+
+        public static final double
+            // in seconds
+            kFeederRampTime = 0.25d;
+
+        // ----------------------------------------------------------
+        // Closed-loop control
+            
+        public static final int
+            kRetractorPidIdx = 0,
+            kRetractorSlotIdx = 0,
+            kTimeoutMs = 30;
+
+        // TODO: !!!P1!!! tune V1 retractor gains
+        // private final Gains kRetractorPositionGains
+        // 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+        // TODO: !!!P1!!! tune V2 retractor gains
+        public static final Gains kRetractorPositionGainsV2
+            = new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+    }
+
+    public static class Manipulator {
+
+    }
 }

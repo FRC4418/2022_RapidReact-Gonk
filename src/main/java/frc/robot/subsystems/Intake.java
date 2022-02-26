@@ -4,8 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Gains;
-import frc.robot.Constants.Falcon500;
+import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -16,62 +15,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Intake extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Public constants
-
-
-	public static final double
-		kDefaultReverseFeederPercent = -0.5d,
-		kDefaultFeederPercent = 0.5d;
-		
-	public static final int
-		kDefaultRetractorDegree = 90;
-	
-		
-	// ----------------------------------------------------------
-	// Private constants
-
-
-	private static class CAN_ID {
-		private static final int
-			kFeeder = 11,
-			kRetractor = 12;
-	}
-
-	private final int kWhiskerSensorDIOPort = 8;
-
-	private final double
-		// in seconds
-		kFeederRampTime = 0.25d;
-
-		
-	private final double
-		kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution * 58.25d) / 360.d;
-	
-	// TODO: P1 Tune retractor extended and retracted degrees
-	private final int
-		kExtendedIntakeRetractorPosition = 0,
-		kRetractedIntakeRetractorPosition = 100;
-		
-	private final int
-		kRetractorPidIdx = 0,
-		kRetractorSlotIdx = 0,
-		kTimeoutMs = 30;
-
-	// TODO: !!!P1!!! tune V1 retractor gains
-	// private final Gains kRetractorPositionGains
-	// 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
-	// TODO: !!!P1!!! tune V2 retractor gains
-	private final Gains kRetractorPositionGainsV2
-		= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
-
-	// ----------------------------------------------------------
 	// Resources
 
 
-	private final DigitalInput m_whiskerSensor = new DigitalInput(kWhiskerSensorDIOPort);
+	private final DigitalInput m_whiskerSensor = new DigitalInput(Constants.Intake.kWhiskerSensorDIOPort);
 
-	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(CAN_ID.kFeeder);
-	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(CAN_ID.kRetractor);
+	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
+	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
 
 	// ----------------------------------------------------------
@@ -83,7 +33,7 @@ public class Intake extends SubsystemBase {
 		// Feeder motor configuration
 
 		m_feederMotor.configFactoryDefault();
-		m_feederMotor.configOpenloopRamp(kFeederRampTime);
+		m_feederMotor.configOpenloopRamp(Constants.Intake.kFeederRampTime);
 		m_feederMotor.setInverted(true);
 		
 		// ----------------------------------------------------------
@@ -91,11 +41,11 @@ public class Intake extends SubsystemBase {
 
 		m_retractorMotor.configFactoryDefault();
 		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
-		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRetractorPidIdx, kTimeoutMs);
-		// m_retractorMotor.config_kF(kRetractorSlotIdx, kRetractorPositionGainsV2.kF);
-		m_retractorMotor.config_kP(kRetractorSlotIdx, kRetractorPositionGainsV2.kP);
-		// m_retractorMotor.config_kI(kRetractorSlotIdx, kRetractorPositionGainsV2.kI);
-        // m_retractorMotor.config_kD(kRetractorSlotIdx, kRetractorPositionGainsV2.kD);
+		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
+		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
+		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kP);
+		// m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
+        // m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
 	}
 	
 
@@ -113,22 +63,22 @@ public class Intake extends SubsystemBase {
 
 
 	public double getRetractorDegree() {
-		return m_retractorMotor.getSelectedSensorPosition() / kRetractorDegreesToTicks;
+		return m_retractorMotor.getSelectedSensorPosition() / Constants.Intake.kRetractorDegreesToTicks;
 	}
 
 	// in degrees
 	public Intake setRetractDegree(double positionDegrees) {
-		m_retractorMotor.set(ControlMode.Position, positionDegrees * kRetractorDegreesToTicks);
+		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks);
 		return this;
 	}
 
 	public Intake retractIntakeArm() {
-		setRetractDegree(kRetractedIntakeRetractorPosition);
+		setRetractDegree(Constants.Intake.kRetractedIntakeRetractorPosition);
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
-		setRetractDegree(kExtendedIntakeRetractorPosition);
+		setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
 		return this;
 	}
 
@@ -149,12 +99,12 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake runReverseFeeder() {
-		setFeederPercent(kDefaultReverseFeederPercent);
+		setFeederPercent(Constants.Intake.kDefaultReverseFeederPercent);
 		return this;
 	}
 
 	public Intake runFeeder() {
-		setFeederPercent(kDefaultFeederPercent);
+		setFeederPercent(Constants.Intake.kDefaultFeederPercent);
 		return this;
 	}
 

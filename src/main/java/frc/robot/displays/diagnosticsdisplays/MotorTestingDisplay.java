@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
@@ -97,7 +97,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						retractorDegreeNumberSlider = retractorLayout
-							.add("Position", Intake.kDefaultRetractorDegree)
+							.add("Position", Constants.Intake.kDefaultRetractorDegree)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", 0, "Max", 360, "Block increment", 1))
 							.getEntry();
@@ -115,7 +115,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						feederPercentNumberSlider = feederLayout
-							.add("Percentage", Intake.kDefaultFeederPercent)
+							.add("Percentage", Constants.Intake.kDefaultFeederPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", -1.d, "Max", 1.d, "Block increment", 0.05d))
 							.getEntry();
