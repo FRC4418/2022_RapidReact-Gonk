@@ -2,7 +2,6 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -12,13 +11,6 @@ public class Robot extends TimedRobot {
 
 	
 	public static RobotContainer robotContainer;
-
-
-	// ----------------------------------------------------------
-	// Private resources
-	
-
-	private Command defaultAutoCommand;
 
 
 	// ----------------------------------------------------------
@@ -48,8 +40,11 @@ public class Robot extends TimedRobot {
 
 		robotContainer
 			.listenForRobotSelection()
+			
 			.listenForJoystickModes()
-			.listenForJoystickDevices();
+			.listenForJoystickDevices()
+			
+			.listenForAutoRoutine();
 		
 		if (RobotContainer.enableDiagnostics) {
 			// robotContainer
@@ -84,8 +79,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		defaultAutoCommand = robotContainer.defaultAutoCommand();
-		defaultAutoCommand.schedule();
+		robotContainer.getAutoCommand().schedule();
 	}
 
 	@Override
@@ -95,7 +89,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousExit() {
-		defaultAutoCommand.cancel();
+		robotContainer.getAutoCommand().cancel();
 	}
 
 
@@ -105,9 +99,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// stops auto before teleop starts running
-		// comment out to continue auto as another command starts
-		robotContainer.defaultAutoCommand().cancel();
+		
 	}
 
 	@Override

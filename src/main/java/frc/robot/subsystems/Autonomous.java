@@ -3,13 +3,26 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Conversion;
+import frc.robot.RobotContainer;
+
 
 public class Autonomous extends SubsystemBase {
+	// ----------------------------------------------------------
+	// Publicly static resources
+
+
+	// in seconds
+	public static double startDelayTime = 0.d;
+
+	// in meters
+	public static double tarmacLeavingDistanceMeters = Conversion.inchesToMeters(50.d);
+
+
 	// ----------------------------------------------------------
 	// Public constants
 
 
-	// TODO: P2 Figure out all the autonomous strategy options we should have
 	public enum AutonomousRoutine {
 		// 'PICKUP_CARGO' just directly runs intake to collect the cargo that's assumed to be right behind us
 		// 'RETRIEVE_CARGO' uses vision and the IMU to autonomously find the closest cargo and collect it 
@@ -33,22 +46,13 @@ public class Autonomous extends SubsystemBase {
 		}
 	}
 
-
-	// ----------------------------------------------------------
-	// Constructor
-
-	
-	public Autonomous() {
-		
+	public static void setStartDelayTime(double newDelayTime) {
+		startDelayTime = newDelayTime;
+		RobotContainer.instance.remakeAutoCommand();
 	}
 
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		// This method will be called once per scheduler run
+	public static void setTarmacLeavingDistance(double newDistance) {
+		tarmacLeavingDistanceMeters = newDistance;
+		RobotContainer.instance.remakeAutoCommand();
 	}
 }

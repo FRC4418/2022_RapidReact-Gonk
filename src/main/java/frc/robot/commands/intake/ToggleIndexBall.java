@@ -21,7 +21,7 @@ public class ToggleIndexBall extends CommandBase {
 	private final Manipulator m_manipulator;
 
 	// delay to keep the intake running for a few seconds, even after we trip the whisker sensor
-	private final Timer m_postWhiskerSensorDelayTimer = new Timer();
+	private final Timer m_timer = new Timer();
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -43,11 +43,6 @@ public class ToggleIndexBall extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
-
-	}
-
-	@Override
 	public void end(boolean interrupted) {
 		m_intake.stopFeeder();
 		m_manipulator.stopIndexer();
@@ -56,12 +51,12 @@ public class ToggleIndexBall extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		if (m_intake.whiskerSensorIsActive()) {
-			m_postWhiskerSensorDelayTimer.start();
+			m_timer.start();
 		}
 
-		if (m_postWhiskerSensorDelayTimer.hasElapsed(DELAY_TIME)) {
-			m_postWhiskerSensorDelayTimer.stop();
-			m_postWhiskerSensorDelayTimer.reset();
+		if (m_timer.hasElapsed(DELAY_TIME)) {
+			m_timer.stop();
+			m_timer.reset();
 			return true;
 		}
 

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.joystickcontrols.IO.JoystickDeviceType;
@@ -18,11 +17,12 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeC
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
-import frc.robot.commands.drivetrain.DriveStraightForDistance;
+import frc.robot.commands.autonomous.LH_LT;
+import frc.robot.commands.autonomous.LH_PC_LT;
+import frc.robot.commands.autonomous.LH_RC_LT;
+import frc.robot.commands.autonomous.LeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
-import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
-import frc.robot.commands.intake.RunFeederWithTrigger;
-import frc.robot.commands.manipulator.AutoRunLauncherDemo;
+import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
@@ -38,10 +38,18 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
 public class RobotContainer {
+	// ----------------------------------------------------------
+    // Singleton instance
+
+
+	public static RobotContainer instance;
+
+
 	// ----------------------------------------------------------
     // Robot-configuration constants
 
@@ -100,22 +108,26 @@ public class RobotContainer {
 	// ----------------------------------------------------------
     // Public resources
 
-
-	public static TeamRobot teamRobot;
-
+	
 	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
 	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
-
-
+	
+	
     // ----------------------------------------------------------
     // Private resources
+	
 
+	private static TeamRobot teamRobot;
+
+	private static AutonomousRoutine autoRoutine;
+	private static Command autoCommand;
 
 	private DisplaysGrid hudDisplaysGrid = new DisplaysGrid();
 	private DisplaysGrid diagnosticDisplaysGrid = new DisplaysGrid();
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
+	private final AutonomousDisplay autonomousDisplay;
 
 	// has default USB values
 	private JoystickDeviceType
@@ -142,7 +154,7 @@ public class RobotContainer {
 
     // ----------------------------------------------------------
     // Constructor and display helpers
-
+	
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
@@ -151,9 +163,9 @@ public class RobotContainer {
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-			.reserveNextRowAtColumn(0, new AutonomousDisplay(2, 3))
+			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3))
 			.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
-			.show()
+			.initialize()
 			.addEntryListeners();
 		
 		if (enableDiagnostics) {
@@ -161,7 +173,7 @@ public class RobotContainer {
 				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 7, 3))
 				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
 				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
-				.show()
+				.initialize()
 				.addEntryListeners();
 		}
 
@@ -169,19 +181,12 @@ public class RobotContainer {
 		setupSpotterJoystickControls();
 
 		drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain));
-		intake.setDefaultCommand(new RunFeederWithTrigger(intake, manipulator));
+		intake.setDefaultCommand(new RunFeederAndIndexerWithTrigger(intake, manipulator));
+
+		assert instance == null;
+		instance = this;
     }
 
-	// ----------------------------------------------------------
-    // Command getters
-
-
-	public Command defaultAutoCommand() {
-		return new SequentialCommandGroup(
-			new AutoRunLauncherDemo(manipulator, 1.5d),
-			new DriveStraightForDistance(drivetrain, 3d, DriveStraightDirection.BACKWARDS));
-		// return getExampleTrajectory();
-	}
 	
 	// ----------------------------------------------------------
     // Print-out joystick for debugging
@@ -215,22 +220,64 @@ public class RobotContainer {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
-			configureRobotSpecificDrivetrain();
+			switch (teamRobot) {
+				default:
+					DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
+					break;
+				case VERSACHASSIS_TWO:
+					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kLeft);
+					break;
+				case VERSACHASSIS_ONE:
+					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kRight);
+					break;
+			}
 		}
 		return this;
 	}
-	
-	private RobotContainer configureRobotSpecificDrivetrain() {
-		switch (teamRobot) {
+
+
+	// ----------------------------------------------------------
+	// Autonomous-routine listeners
+
+
+	public Command getAutoCommand() {
+		return autoCommand;
+	}
+
+	public RobotContainer setAutoCommand(AutonomousRoutine autoRoutine) {
+		switch (autoRoutine) {
 			default:
-				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
+				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
 				break;
-			case VERSACHASSIS_TWO:
-				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kLeft);
+			case LEAVE_TARMAC:
+				autoCommand = new LeaveTarmac(drivetrain);
 				break;
-			case VERSACHASSIS_ONE:
-				drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kRight);
+			case SCORE_LH_AND_LEAVE_TARMAC:
+				// LH_LT = score Low Hub and Leave Tarmac
+				autoCommand = new LH_LT(drivetrain, manipulator);
 				break;
+			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
+				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
+				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
+				break;
+			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
+				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
+				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
+				break;
+		}
+		return this;
+	}
+
+	public RobotContainer remakeAutoCommand() {
+		setAutoCommand(autoRoutine);
+		return this;
+	}
+
+	public RobotContainer listenForAutoRoutine() {
+		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
+		if (autoRoutine != newAutoRoutineSelection) {
+			autoRoutine = newAutoRoutineSelection;
+			setAutoCommand(autoRoutine);
 		}
 		return this;
 	}
