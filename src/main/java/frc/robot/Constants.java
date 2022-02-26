@@ -191,8 +191,8 @@ public class Constants {
         public static final double
             kDefaultIndexerPercent = 1.0d;
 
-        public static final int
-            kDefaultLauncherRPM = Falcon500.maxRPM;
+        public static final int kDefaultLauncherRPM = Falcon500.maxRPM;
+        public static final double kDefaultLauncherPercent = 1.d;
 
         public static class CAN_ID {
             public static final int

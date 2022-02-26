@@ -24,7 +24,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry indexerPercentNumberSlider;
 
 	private NetworkTableEntry launcherToggleSwitch;
-	private NetworkTableEntry launcherRPMNumberSlider;
+	private NetworkTableEntry launcherPercentNumberSlider;
 
 	private NetworkTableEntry feederToggleSwitch;
 	private NetworkTableEntry feederPercentNumberSlider;
@@ -46,7 +46,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			indexerPercentNumberSlider,
 
 			launcherToggleSwitch,
-			launcherRPMNumberSlider,
+			launcherPercentNumberSlider,
 
 			feederToggleSwitch,
 			feederPercentNumberSlider,
@@ -156,10 +156,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						launcherRPMNumberSlider = launcherLayout
-							.add("RPM", Constants.Manipulator.kDefaultLauncherRPM)
+						launcherPercentNumberSlider = launcherLayout
+							.add("Percent", Constants.Manipulator.kDefaultLauncherPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", 0, "Max", 6380, "Block increment", 20))
+							.withProperties(Map.of("Min", 0.d, "Max", 1.d, "Block increment", 0.05))
 							.getEntry();
 					}
 				}
@@ -239,10 +239,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				launcherRPMNumberSlider.addListener(event -> {
+				launcherPercentNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& launcherToggleSwitch.getBoolean(false)) {
-						m_manipulator.setLauncherRPM(event.value.getDouble());
+						m_manipulator.setLauncherPercent(event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
