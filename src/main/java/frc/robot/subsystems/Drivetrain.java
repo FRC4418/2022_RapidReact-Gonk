@@ -108,8 +108,10 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// horizontal distance between the left and right-side wheels
-	private static final double kTrackWidthMeters = 0.62484;
-	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
+	// private static final double kTrackWidthMeters = 0.62484d;
+	private static final double kTrackWidthMetersV2 = 0.60960d;
+	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
+	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(kTrackWidthMetersV2);
 
 
 	// ----------------------------------------------------------
@@ -134,8 +136,10 @@ public class Drivetrain extends SubsystemBase {
 		// wheel diameter * pi = circumference of 1 revolution
 		// wheel diameter is 6 inches (which is 0.1524 meters)
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
-		kMetersPerSecondToTicksPer100ms = 427.7550177d;
+		// kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
+		kTicksToMetersV2  = ( (0.1016d * Math.PI) / 2048.0d ) / 7.75d,
+		// kMetersPerSecondToTicksPer100ms = 427.7550177d,
+		kMetersPerSecondToTicksPer100msV2 = 641.6325265d;
 	
 
 	// ----------------------------------------------------------
@@ -144,12 +148,16 @@ public class Drivetrain extends SubsystemBase {
 
 	public static final double
 		// Feedforward gains
-		ksVolts = 0.67701,
-		kvVoltSecondsPerMeter = 0.041828,
-		kaVoltSecondsSquaredPerMeter = 0.020568,
+		// ksVolts = 0.67701,
+		ksVoltsV2 = 0.69552d,
+		// kvVoltSecondsPerMeter = 0.041828,
+		kvVoltSecondsPerMeterV2 = 0.066546d,
+		// kaVoltSecondsSquaredPerMeter = 0.020568,
+		kaVoltSecondsSquaredPerMeterV2 = 0.010455d,
 		
 		// Feedback gains
-		kPDriveVel = 0.96111;
+		// kPDriveVelocity = 0.96111;
+		kPDriveVelocityV2 = 0.45563d;
 
 	private static final int
 		kLeftSlotIdx = 0,
@@ -162,12 +170,12 @@ public class Drivetrain extends SubsystemBase {
 	private static final Gains kLeftMotorVelocityGains
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+		= new Gains(kPDriveVelocityV2, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 	private static final Gains kRightMotorVelocityGains 
 		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
 		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+		= new Gains(kPDriveVelocityV2, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 
 
 	// ----------------------------------------------------------
@@ -535,7 +543,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMetersV2 * leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -544,7 +552,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistanceMeters() {
-		return m_frontRightMotor.getSelectedSensorPosition() * kTicksToMeters * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorPosition() * kTicksToMetersV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {

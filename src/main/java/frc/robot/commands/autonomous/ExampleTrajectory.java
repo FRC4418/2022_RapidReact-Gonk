@@ -38,10 +38,10 @@ public class ExampleTrajectory extends CommandBase {
 		var autoVoltageConstraint =
 			new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
+					Drivetrain.ksVoltsV2,
+					Drivetrain.kvVoltSecondsPerMeterV2,
+					Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Drivetrain.kDriveKinematicsV2,
 				10);
 	
 		// Create config for trajectory
@@ -50,7 +50,7 @@ public class ExampleTrajectory extends CommandBase {
 				Drivetrain.kMaxSpeedMetersPerSecond,
 				Drivetrain.kMaxAccelerationMetersPerSecondSquared)
 				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Drivetrain.kDriveKinematics)
+				.setKinematics(Drivetrain.kDriveKinematicsV2)
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 	
@@ -72,13 +72,13 @@ public class ExampleTrajectory extends CommandBase {
 				m_drivetrain::getPose,
 				new RamseteController(Drivetrain.kRamseteB, Drivetrain.kRamseteZeta),
 				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
+					Drivetrain.ksVoltsV2,
+					Drivetrain.kvVoltSecondsPerMeterV2,
+					Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Drivetrain.kDriveKinematicsV2,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
+				new PIDController(Drivetrain.kPDriveVelocityV2, 0, 0),
+				new PIDController(Drivetrain.kPDriveVelocityV2, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);
