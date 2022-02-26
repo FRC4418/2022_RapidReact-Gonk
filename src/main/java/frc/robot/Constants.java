@@ -193,7 +193,7 @@ public class Constants {
 
         // TODO: P1 Tune default launcher RPM
         public static final int
-            kDefaultLauncherRPM = 5_000;
+            kDefaultLauncherRPM = Falcon500.maxRPM;
 
         public static class CAN_ID {
             public static final int
@@ -205,7 +205,7 @@ public class Constants {
         // Conversion
 
         // Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
-        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.d;
+        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * 3.d) / 600.d;
 
         // ----------------------------------------------------------
         // Closed-loop control
