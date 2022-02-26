@@ -20,8 +20,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
-
+		
 		robotContainer.drivetrain
+			.configureDrivetrain(RobotContainer.defaultRobot)
 			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
@@ -29,8 +30,7 @@ public class Robot extends TimedRobot {
 		// robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
-			robotContainer
-				.initializeJoystickValues();
+			robotContainer.initializeJoystickValues();
 		}
 	}
 

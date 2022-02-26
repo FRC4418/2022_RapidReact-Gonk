@@ -24,6 +24,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants;
 import frc.robot.Constants.Drivetrain.MotorGroup;
+import frc.robot.RobotContainer.TeamRobot;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -286,7 +287,22 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Drive methods
 
-	
+
+	public Drivetrain configureDrivetrain(TeamRobot teamRobot) {
+		switch (teamRobot) {
+			default:
+				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
+				break;
+			case VERSACHASSIS_TWO:
+				setOnlyMotorGroupToInverted(MotorGroup.kLeft);
+				break;
+			case VERSACHASSIS_ONE:
+				setOnlyMotorGroupToInverted(MotorGroup.kRight);
+				break;
+		}
+		return this;
+	}
+
 	public void arcadeDrive(double forward, double rotation) {
 		m_differentialDrive.arcadeDrive(forward, rotation);
 	}

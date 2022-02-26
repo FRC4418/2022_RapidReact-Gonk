@@ -40,7 +40,6 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
-import frc.robot.Constants.Drivetrain.MotorGroup;
 
 
 public class RobotContainer {
@@ -221,17 +220,7 @@ public class RobotContainer {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
-			switch (teamRobot) {
-				default:
-					DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
-					break;
-				case VERSACHASSIS_TWO:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kLeft);
-					break;
-				case VERSACHASSIS_ONE:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kRight);
-					break;
-			}
+			drivetrain.configureDrivetrain(teamRobot);
 		}
 		return this;
 	}
