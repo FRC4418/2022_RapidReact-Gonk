@@ -33,7 +33,7 @@ public class Autonomous extends SubsystemBase {
 		WAIT_AND_LEAVE_TARMAC									(1),	// Wait LT
 		WAIT_SCORE_LH_AND_LEAVE_TARMAC							(2),	// Wait LH LT
 		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC						(3),	// LH Wait LT
-		WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC		(4),	// Wait LH PC LT
+		WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH		(4),	// Wait LH PC LH
 		WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC	(5);	// Wait LH RC LT
 
 		private final int value;

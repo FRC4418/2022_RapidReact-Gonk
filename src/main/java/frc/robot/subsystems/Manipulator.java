@@ -42,7 +42,7 @@ public class Manipulator extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
+		// SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
 	}
 
 

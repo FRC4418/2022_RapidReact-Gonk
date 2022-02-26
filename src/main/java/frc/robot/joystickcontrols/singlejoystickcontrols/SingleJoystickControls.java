@@ -51,11 +51,11 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Drivetrain
 
-        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        if (reverseDrivetrainButton != null) {
-            reverseDrivetrainButton.whenPressed(new ReverseDrivetrain(drivetrain));
-            // reverseDrivetrainButton.whenReleased(new ReverseDrivetrain(drivetrain));
-        }
+        // reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
+        // if (reverseDrivetrainButton != null) {
+        //     reverseDrivetrainButton.whenPressed(new ReverseDrivetrain(drivetrain));
+        //     // reverseDrivetrainButton.whenReleased(new ReverseDrivetrain(drivetrain));
+        // }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);

@@ -134,13 +134,13 @@ public class Drivetrain extends SubsystemBase {
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
 
-		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
+		// SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
 
-		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
-		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+		// SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
+		// SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
 
-		SmartDashboard.putNumber("Left Motor", getLeftMPS());
-		SmartDashboard.putNumber("Right Motor", getRightMPS());
+		// SmartDashboard.putNumber("Left Motor", getLeftMPS());
+		// SmartDashboard.putNumber("Right Motor", getRightMPS());
 	}
 
 

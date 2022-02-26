@@ -147,7 +147,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	public final Vision vision = new Vision();
+	// public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 
@@ -164,7 +164,7 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
 			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3))
-			.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
+			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 			.initialize()
 			.addEntryListeners();
 		
@@ -248,11 +248,11 @@ public class RobotContainer {
 			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
 				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 				break;
-			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
+			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH:
 				autoCommand = new Wait_LH_PC_LH(drivetrain, intake, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
+				// autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;
