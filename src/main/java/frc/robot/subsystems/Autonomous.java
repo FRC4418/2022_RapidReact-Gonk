@@ -16,7 +16,7 @@ public class Autonomous extends SubsystemBase {
 	public static double startDelayTime = 0.d;
 
 	// in meters
-	public static double tarmacLeavingDistance = Conversion.inchesToMeters(50.d);
+	public static double tarmacLeavingDistanceMeters = Conversion.inchesToMeters(50.d);
 
 
 	// ----------------------------------------------------------
@@ -52,7 +52,7 @@ public class Autonomous extends SubsystemBase {
 	}
 
 	public static void setTarmacLeavingDistance(double newDistance) {
-		tarmacLeavingDistance = newDistance;
+		tarmacLeavingDistanceMeters = newDistance;
 		RobotContainer.instance.remakeAutoCommand();
 	}
 }

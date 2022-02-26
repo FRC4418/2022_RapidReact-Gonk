@@ -62,7 +62,7 @@ public class AutonomousDisplay extends HUDDisplay {
 				.getEntry();
 
 			tarmacLeavingDistanceNumberSlider = autonomousLayout
-				.add("Leave-Tarmac Distance (inches)", Autonomous.tarmacLeavingDistance)
+				.add("Leave-Tarmac Distance (inches)", Conversion.metersToInches(Autonomous.tarmacLeavingDistanceMeters))
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 35, "Max", 80, "Block increment", 1))
 				.getEntry();
