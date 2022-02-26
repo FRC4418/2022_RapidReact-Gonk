@@ -1,9 +1,14 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Gains;
+import frc.robot.Constants.Falcon500;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -14,35 +19,43 @@ public class Manipulator extends SubsystemBase {
 
 
 	public static final double
-		DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT = 1.0d,
-		DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT = 1.0d;
+		kDefaultIndexerPercent = 1.0d;
+	
+	// TODO: P1 Tune launcher RPM
+	public static final int
+		kDefaultLauncherRPM = 5_000;
 
 		
 	// ----------------------------------------------------------
 	// Private constants
 
 
+	private static class CAN_ID {
+		private static final int
+			kIndexer = 21,
+			kLauncher = 22;
+	}
+
 	private final int
-		INDEXER_CAN_ID = 21,
-		LAUNCHER_CAN_ID = 22;
+		kLauncherPidIdx = 0,
+		kTimeoutMs = 30;
+
+	// Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
+	private final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.d;
+
+	// TODO: !!!P1!!! tune launcher RPM PID gains
+	private final Gains kLauncherRPMGains
+		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
+		// kP, kI, kD, kF, kIzone, kPeakOutput
+		= new Gains(0.083708d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
 	
 
 	// ----------------------------------------------------------
 	// Resources
 	
 
-	private final WPI_TalonSRX m_indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
-	private final WPI_TalonFX m_launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
-	
-	/* Encoder.getRate() returns distance per second
-	distance per second * distance per pulse = pulse per second
-	pulse per second * decoding factor = degrees per second
-	degrees per second / 360 degrees = revolutions per second
-	revolutions per second * 60 seconds = revolutions per minute (RPM) */
-	// private static double distPerSecToRPM = 
-	//   Constants.DRIVE_ENCODER_DISTANCE_PER_PULSE
-	//   * (double) Constants.DRIVE_ENCODER_DECODING_SCALE_FACTOR 
-	//   / 60.0;
+	private final WPI_TalonSRX m_indexerMotor = new WPI_TalonSRX(CAN_ID.kIndexer);
+	private final WPI_TalonFX m_launcherMotor = new WPI_TalonFX(CAN_ID.kLauncher);
 
 
 	// ----------------------------------------------------------
@@ -50,17 +63,22 @@ public class Manipulator extends SubsystemBase {
 
 
 	public Manipulator() {
-		
+		m_launcherMotor.configFactoryDefault();
+		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kLauncherPidIdx, kTimeoutMs);
+		// m_launcherMotor.config_kF(kLauncherPidIdx, kLauncherRPMGains.kF);
+		m_launcherMotor.config_kP(kLauncherPidIdx, kLauncherRPMGains.kP);
+		// m_launcherMotor.config_kI(kLauncherPidIdx, kLauncherRPMGains.kI);
+        // m_launcherMotor.config_kD(kLauncherPidIdx, kLauncherRPMGains.kD);
 	}
 
 
 	// ----------------------------------------------------------
 	// Scheduler methods
 
-	
+
 	@Override
 	public void periodic() {
-		
+		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
 	}
 
 
@@ -68,21 +86,24 @@ public class Manipulator extends SubsystemBase {
 	// Indexer motor
 	
 
-	public double getIndexerSpeed() { return m_indexerMotor.get(); }
+	// -1 to 1
+	public double getIndexerPercent() {
+		return m_indexerMotor.get();
+	}
 
-	public Manipulator setIndexerToPercent(double percentOutput) {
+	public Manipulator setIndexerPercent(double percentOutput) {
 		m_indexerMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
 	// runs the indexer motor at the default output percent
 	public Manipulator runIndexer() {
-		setIndexerToPercent(DEFAULT_INDEXER_MOTOR_OUTPUT_PERCENT);
+		setIndexerPercent(kDefaultIndexerPercent);
 		return this;
 	}
 
 	public Manipulator stopIndexer() {
-		setIndexerToPercent(0.d);
+		setIndexerPercent(0.d);
 		return this;
 	}
 
@@ -91,21 +112,23 @@ public class Manipulator extends SubsystemBase {
 	// Launcher motor
 
 
-	public double getLauncherSpeed() { return m_launcherMotor.get(); }
+	public double getLauncherRPM() {
+		return m_launcherMotor.getSelectedSensorVelocity(kLauncherPidIdx) / kRpmToTicksPer100ms;
+	}
 
-	public Manipulator setLauncherToPercent(double percentOutput) {
-		m_launcherMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Manipulator setLauncherRPM(double rpm) {
+		m_launcherMotor.set(ControlMode.Velocity, rpm * kRpmToTicksPer100ms);
 		return this;
 	}
 
 	// runs the launcher motor at the default output percent
 	public Manipulator runLauncher() {
-		setLauncherToPercent(DEFAULT_LAUNCHER_MOTOR_OUTPUT_PERCENT);
+		setLauncherRPM(kDefaultLauncherRPM);
 		return this;
 	}
 
 	public Manipulator stopLauncher() {
-		setLauncherToPercent(0.d);
+		setLauncherRPM(0.d);
 		return this;
 	}
 }

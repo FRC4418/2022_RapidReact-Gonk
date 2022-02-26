@@ -52,15 +52,15 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeDriveForwardLimiterNumberSlider = arcadeDriveLayout
-					.add("Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD)
+					.add("Forward", Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
 					.getEntry();
 
 				arcadeDriveTurnLimiterNumberSlider = arcadeDriveLayout
-					.add("Turn", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN)
+					.add("Turn", Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
 					.getEntry();
 			}
 
@@ -69,15 +69,15 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			
 				tankDriveLeftForwardLimiterNumberSlider = tankDriveLayout
-					.add("Left Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
+					.add("Left Forward", Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
 					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
 					.getEntry();
 
 				tankDriveRightForwardLimiterNumberSlider = tankDriveLayout
-					.add("Right Forward", Drivetrain.NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD)
+					.add("Right Forward", Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.MAXIMUM_SLEW_RATE_ALLOWED, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0.d, "Max", Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
 					.getEntry();
 			}
 		}

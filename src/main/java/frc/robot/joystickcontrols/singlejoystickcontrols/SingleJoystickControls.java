@@ -64,7 +64,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Intake
 
-        runFeederDisposalButton = runFeederDisposalButton(primaryJoystick);
+        runFeederDisposalButton = runReverseFeederButton(primaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(primaryJoystick);
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));

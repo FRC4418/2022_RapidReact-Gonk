@@ -109,6 +109,8 @@ public class RobotContainer {
     // Public resources
 
 	
+	public static TeamRobot teamRobot = defaultRobot;
+
 	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
 	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
 	
@@ -116,8 +118,6 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Private resources
 	
-
-	private static TeamRobot teamRobot;
 
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
@@ -225,10 +225,10 @@ public class RobotContainer {
 					DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
 					break;
 				case VERSACHASSIS_TWO:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
+					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kLeft);
 					break;
 				case VERSACHASSIS_ONE:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
+					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.kRight);
 					break;
 			}
 		}

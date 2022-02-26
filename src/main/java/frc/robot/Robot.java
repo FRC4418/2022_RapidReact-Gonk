@@ -17,7 +17,6 @@ public class Robot extends TimedRobot {
 	// Robot-mode scheduler methods
 
 
-	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
@@ -35,11 +34,8 @@ public class Robot extends TimedRobot {
 		}
 	}
 
-	// called every robot packet (good for diagnostics), after mode-specific periodics
-	// runs before LiveWindow & SmartDashboard updates
 	@Override
 	public void robotPeriodic() {
-		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
 		robotContainer
