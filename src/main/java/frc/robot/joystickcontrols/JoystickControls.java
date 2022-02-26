@@ -58,7 +58,7 @@ public abstract class JoystickControls {
     protected abstract JoystickButton toggleFeederButton(Joystick joystick);
 
     protected JoystickButton runFeederDisposalButton;
-    protected abstract JoystickButton runFeederDisposalButton(Joystick joystick);
+    protected abstract JoystickButton runReverseFeederButton(Joystick joystick);
 
     protected JoystickButton runFeederIntakebutton;
     protected abstract JoystickButton runFeederButton(Joystick joystick);

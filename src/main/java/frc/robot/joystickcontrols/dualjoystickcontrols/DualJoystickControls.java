@@ -59,7 +59,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
         if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain));
 
-        runFeederDisposalButton = runFeederDisposalButton(secondaryJoystick);
+        runFeederDisposalButton = runReverseFeederButton(secondaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));

@@ -17,10 +17,11 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeC
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
-import frc.robot.commands.autonomous.LH_LT;
-import frc.robot.commands.autonomous.LH_PC_LT;
-import frc.robot.commands.autonomous.LH_RC_LT;
-import frc.robot.commands.autonomous.LeaveTarmac;
+import frc.robot.commands.autonomous.Wait_LH_LT;
+import frc.robot.commands.autonomous.Wait_LH_PC_LT;
+import frc.robot.commands.autonomous.Wait_LH_RC_LT;
+import frc.robot.commands.autonomous.LH_Wait_LT;
+import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
@@ -39,7 +40,6 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
-import frc.robot.subsystems.Drivetrain.MotorGroup;
 
 
 public class RobotContainer {
@@ -54,7 +54,7 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_ONE;
+	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_TWO;
 
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
@@ -109,6 +109,8 @@ public class RobotContainer {
     // Public resources
 
 	
+	public static TeamRobot teamRobot = defaultRobot;
+
 	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
 	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
 	
@@ -116,8 +118,6 @@ public class RobotContainer {
     // ----------------------------------------------------------
     // Private resources
 	
-
-	private static TeamRobot teamRobot;
 
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
@@ -220,17 +220,7 @@ public class RobotContainer {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
-			switch (teamRobot) {
-				default:
-					DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
-					break;
-				case VERSACHASSIS_TWO:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.LEFT);
-					break;
-				case VERSACHASSIS_ONE:
-					drivetrain.setOnlyMotorGroupToInverted(MotorGroup.RIGHT);
-					break;
-			}
+			drivetrain.configureDrivetrain(teamRobot);
 		}
 		return this;
 	}
@@ -249,20 +239,20 @@ public class RobotContainer {
 			default:
 				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
 				break;
-			case LEAVE_TARMAC:
-				autoCommand = new LeaveTarmac(drivetrain);
+			case WAIT_AND_LEAVE_TARMAC:
+				autoCommand = new WaitAndLeaveTarmac(drivetrain);
 				break;
-			case SCORE_LH_AND_LEAVE_TARMAC:
-				// LH_LT = score Low Hub and Leave Tarmac
-				autoCommand = new LH_LT(drivetrain, manipulator);
+			case WAIT_SCORE_LH_AND_LEAVE_TARMAC:
+				autoCommand = new Wait_LH_LT(drivetrain, manipulator);
 				break;
-			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
-				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
+			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
+				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 				break;
-			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
-				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
+			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
+				autoCommand = new Wait_LH_PC_LT(drivetrain, intake, manipulator);
+				break;
+			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
+				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;

@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Drivetrain;
 
@@ -48,7 +49,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 				.getEntry();
 			
 			kidsSafetyMaxOutputNumberSlider = kidsSafetyLayout
-				.add("Max Output", Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT)
+				.add("Max Output", Constants.Drivetrain.KidsSafetyOutputMode.kDefaultMaxOutput)
 				.withWidget(BuiltInWidgets.kNumberSlider)
 				.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
 				.getEntry();
@@ -63,7 +64,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 		kidsSafetyModeToggleSwitch.addListener(event -> {
 			if (event.value.getBoolean()) {
 				m_drivetrain
-					.setMaxOutput(kidsSafetyMaxOutputNumberSlider.getDouble(Drivetrain.KidsSafetyOutputMode.DEFAULT_MAXIMUM_OUTPUT))
+					.setMaxOutput(kidsSafetyMaxOutputNumberSlider.getDouble(Constants.Drivetrain.KidsSafetyOutputMode.kDefaultMaxOutput))
 					.useKidsSafetyModeSlewRates();
 			} else {
 				m_drivetrain

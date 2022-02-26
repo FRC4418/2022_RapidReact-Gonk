@@ -17,29 +17,25 @@ public class Robot extends TimedRobot {
 	// Robot-mode scheduler methods
 
 
-	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
 		robotContainer = new RobotContainer();
-
+		
 		robotContainer.drivetrain
+			.configureDrivetrain(RobotContainer.defaultRobot)
 			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
 
-		robotContainer.vision.startCameraStreams();
+		// robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
-			robotContainer
-				.initializeJoystickValues();
+			robotContainer.initializeJoystickValues();
 		}
 	}
 
-	// called every robot packet (good for diagnostics), after mode-specific periodics
-	// runs before LiveWindow & SmartDashboard updates
 	@Override
 	public void robotPeriodic() {
-		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
 		robotContainer
@@ -64,6 +60,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
+		
+		robotContainer.intake.retractIntakeArm();
 	}
 
 	@Override
@@ -74,6 +72,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
+
+		robotContainer.intake.extendIntakeArm();
 	}
 
 

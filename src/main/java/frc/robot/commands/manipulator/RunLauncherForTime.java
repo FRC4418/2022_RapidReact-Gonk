@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
 
-public class AutoRunLauncherDemo extends CommandBase {
+public class RunLauncherForTime extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
@@ -19,7 +19,7 @@ public class AutoRunLauncherDemo extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public AutoRunLauncherDemo(Manipulator manipulator, double duration) {	
+	public RunLauncherForTime(Manipulator manipulator, double duration) {	
 		m_manipulator = manipulator;
 		m_duration = duration;
 	}
