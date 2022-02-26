@@ -2,6 +2,16 @@ package frc.robot;
 
 
 public class Constants {
+    private static final double kMetersToinches = 39.37d;
+
+    public static double inchesToMeters(double inches) {
+        return inches / kMetersToinches;
+    }
+
+    public static double metersToInches(double meters) {
+        return meters * kMetersToinches;
+    }
+
     public static class Falcon500 {
         public static int ticksPerRevolution = 2048;
 
@@ -14,8 +24,8 @@ public class Constants {
         // General
 
         public static final double
-            // kWheelDiameterMeters = Conversion.inchesToMeters(6.d),
-            kWheelDiameterMetersV2 = Conversion.inchesToMeters(4.d);
+            // kWheelDiameterMeters = Constants.inchesToMeters(6.d),
+            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.d);
 
         public static enum MotorGroup {
             kLeft,
@@ -44,8 +54,8 @@ public class Constants {
         // Kinematics
 
         // horizontal distance between the left and right-side wheels
-        // private static final double kTrackWidthMeters = Conversion.inchesToMeters(24.6d);
-        public static final double kTrackWidthMetersV2 = Conversion.inchesToMeters(24.d);
+        // private static final double kTrackWidthMeters = Constants.inchesToMeters(24.6d);
+        public static final double kTrackWidthMetersV2 = Constants.inchesToMeters(24.d);
 
         // ----------------------------------------------------------
         // Open-loop control

@@ -39,7 +39,7 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
-import frc.robot.subsystems.Drivetrain.MotorGroup;
+import frc.robot.Constants.Drivetrain.MotorGroup;
 
 
 public class RobotContainer {

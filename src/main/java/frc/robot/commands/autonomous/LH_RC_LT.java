@@ -2,8 +2,7 @@ package frc.robot.commands.autonomous;
 
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.Conversion;
+import frc.robot.Constants;
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.manipulator.AutoRunLauncherDemo;
@@ -20,7 +19,7 @@ public class LH_RC_LT extends SequentialCommandGroup {
 			new Wait(Autonomous.startDelayTime),
 			new AutoRunLauncherDemo(manipulator, 1.5d),
 			new LocateAndCollectClosestCargo(drivetrain, intake, manipulator, vision),
-			new DriveStraightForDistance(drivetrain, Conversion.inchesToMeters(10), DriveStraightDirection.FORWARDS)
+			new DriveStraightForDistance(drivetrain, Constants.inchesToMeters(10), DriveStraightDirection.FORWARDS)
 		);
 	}
 }

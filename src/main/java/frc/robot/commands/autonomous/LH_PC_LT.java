@@ -2,7 +2,7 @@ package frc.robot.commands.autonomous;
 
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Conversion;
+import frc.robot.Constants;
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederAndIndexerForTime;
@@ -21,7 +21,7 @@ public class LH_PC_LT extends SequentialCommandGroup {
 			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS),
 			new Wait(0.5d),
 			new RunFeederAndIndexerForTime(intake, manipulator, 2.d),
-			new DriveStraightForDistance(drivetrain, Conversion.inchesToMeters(10), DriveStraightDirection.FORWARDS)
+			new DriveStraightForDistance(drivetrain, Constants.inchesToMeters(10), DriveStraightDirection.FORWARDS)
 		);
 	}
 }

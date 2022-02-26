@@ -28,32 +28,7 @@ import frc.robot.Constants.Drivetrain.MotorGroup;
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Motor group constants
-
-
-	// 1 is not inverted, -1 is inverted
-	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
-	private double leftMotorsDirectionMultiplier = 1.d;
-	private double rightMotorsDirectionMultiplier = 1.d;
-
-
-	// ----------------------------------------------------------
-	// Odometry constants
-
-
-	private static DifferentialDriveOdometry m_odometry;
-
-
-	// ----------------------------------------------------------
-	// Kinematics constants
-
-
-	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMetersV2);
-
-
-	// ----------------------------------------------------------
-	// Resources
+	// Motors and drivetrain
 
 
 	private final WPI_TalonFX
@@ -66,13 +41,45 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackRight);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
+	// 1 is not inverted, -1 is inverted
+	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
+	private double
+		leftMotorsDirectionMultiplier = 1.d,
+		rightMotorsDirectionMultiplier = 1.d;
+
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
+
+	// ----------------------------------------------------------
+	// Odometry
+
+
+	private static DifferentialDriveOdometry m_odometry;
+
+	
+	// ----------------------------------------------------------
+	// Kinematics
+
+
+	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
+	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMetersV2);
+
+
+	// ----------------------------------------------------------
+	// IMU
+
+
 	private final ADIS16448_IMU imu = new ADIS16448_IMU(ADIS16448_IMU.IMUAxis.kZ, SPI.Port.kMXP, ADIS16448_IMU.CalibrationTime._1s);
+	
 	private double
 		m_filteredXAccelOffset = 0.d,
 		m_filteredYAccelOffset = 0.d;
 
+
+	// ----------------------------------------------------------
+	// Slew rate limiters
+
+	
 	private SlewRateLimiter
 		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward),
 		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn),
