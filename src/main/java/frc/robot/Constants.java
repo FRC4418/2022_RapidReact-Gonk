@@ -191,7 +191,6 @@ public class Constants {
         public static final double
             kDefaultIndexerPercent = 1.0d;
 
-        // TODO: P1 Tune default launcher RPM
         public static final int
             kDefaultLauncherRPM = Falcon500.maxRPM;
 
