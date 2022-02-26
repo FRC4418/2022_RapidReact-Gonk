@@ -148,15 +148,15 @@ public class Drivetrain extends SubsystemBase {
 
 	public static final double
 		// Feedforward gains
-		// ksVolts = 0.67701,
+		// ksVolts = 0.63599d,
 		ksVoltsV2 = 0.69552d,
-		// kvVoltSecondsPerMeter = 0.041828,
+		// kvVoltSecondsPerMeter = 0.043021d,
 		kvVoltSecondsPerMeterV2 = 0.066546d,
-		// kaVoltSecondsSquaredPerMeter = 0.020568,
+		// kaVoltSecondsSquaredPerMeter = 0.018985d,
 		kaVoltSecondsSquaredPerMeterV2 = 0.010455d,
 		
 		// Feedback gains
-		// kPDriveVelocity = 0.96111;
+		// kPDriveVelocity = 0.89077d;
 		kPDriveVelocityV2 = 0.45563d;
 
 	private final int
