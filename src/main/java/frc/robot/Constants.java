@@ -188,8 +188,7 @@ public class Constants {
 
     public static class Manipulator {
         // ----------------------------------------------------------
-        // Public constants
-
+        // General
 
         public static final double
             kDefaultIndexerPercent = 1.0d;
@@ -198,23 +197,24 @@ public class Constants {
         public static final int
             kDefaultLauncherRPM = 5_000;
 
-            
-        // ----------------------------------------------------------
-        // Private constants
-
-
         public static class CAN_ID {
             public static final int
                 kIndexer = 21,
                 kLauncher = 22;
         }
 
-        public static final int
-            kLauncherPidIdx = 0,
-            kTimeoutMs = 30;
+        // ----------------------------------------------------------
+        // Conversion
 
         // Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
         public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.d;
+
+        // ----------------------------------------------------------
+        // Closed-loop control
+
+        public static final int
+            kLauncherPidIdx = 0,
+            kTimeoutMs = 30;
 
         // public static final Gains kLauncherRPMGains
         // 	= new Gains(0.083708d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
