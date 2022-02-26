@@ -17,9 +17,10 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeC
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
-import frc.robot.commands.autonomous.LH_LT;
+import frc.robot.commands.autonomous.Wait_LH_LT;
 import frc.robot.commands.autonomous.LH_PC_LT;
 import frc.robot.commands.autonomous.LH_RC_LT;
+import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.LeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
@@ -252,10 +253,11 @@ public class RobotContainer {
 			case LEAVE_TARMAC:
 				autoCommand = new LeaveTarmac(drivetrain);
 				break;
-			case SCORE_LH_AND_LEAVE_TARMAC:
-				// LH_LT = score Low Hub and Leave Tarmac
-				autoCommand = new LH_LT(drivetrain, manipulator);
+			case WAIT_SCORE_LH_AND_LEAVE_TARMAC:
+				autoCommand = new Wait_LH_LT(drivetrain, manipulator);
 				break;
+			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
+				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
 				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
 				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);

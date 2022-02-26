@@ -49,7 +49,8 @@ public class AutonomousDisplay extends HUDDisplay {
 			// setting default options for sendable choosers also adds the label-value pair as an option
 			autoRoutineChooser.setDefaultOption("LH PC LT", AutonomousRoutine.SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC);
 			autoRoutineChooser.addOption("LT", AutonomousRoutine.LEAVE_TARMAC);
-			autoRoutineChooser.addOption("LH LT", AutonomousRoutine.SCORE_LH_AND_LEAVE_TARMAC);
+			autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.WAIT_SCORE_LH_AND_LEAVE_TARMAC);
+			autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
 			// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 			autonomousLayout
 				.add("Routine", autoRoutineChooser)

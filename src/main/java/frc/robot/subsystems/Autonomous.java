@@ -31,9 +31,10 @@ public class Autonomous extends SubsystemBase {
 		// PC = pickup cargo
 		// RC = retrieve cargo
 		LEAVE_TARMAC									(1),	// LT
-		SCORE_LH_AND_LEAVE_TARMAC						(2),	// LH LT
-		SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC		(3),	// LH PC LT
-		SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC	(4);	// LH RC LT
+		WAIT_SCORE_LH_AND_LEAVE_TARMAC					(2),	// Wait LH LT
+		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC				(3),	// LH Wait LT
+		SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC		(4),	// LH PC LT
+		SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC	(5);	// LH RC LT
 
 		private final int value;
 
