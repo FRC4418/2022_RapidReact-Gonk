@@ -31,8 +31,8 @@ public class Manipulator extends SubsystemBase {
 	// Resources
 	
 
-	private final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
-	private final WPI_TalonFX launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
+	private final WPI_TalonSRX m_indexerMotor = new WPI_TalonSRX(INDEXER_CAN_ID);
+	private final WPI_TalonFX m_launcherMotor = new WPI_TalonFX(LAUNCHER_CAN_ID);
 	
 	/* Encoder.getRate() returns distance per second
 	distance per second * distance per pulse = pulse per second
@@ -50,7 +50,7 @@ public class Manipulator extends SubsystemBase {
 
 
 	public Manipulator() {
-
+		
 	}
 
 
@@ -68,10 +68,10 @@ public class Manipulator extends SubsystemBase {
 	// Indexer motor
 	
 
-	public double getIndexerSpeed() { return indexerMotor.get(); }
+	public double getIndexerSpeed() { return m_indexerMotor.get(); }
 
 	public Manipulator setIndexerToPercent(double percentOutput) {
-		indexerMotor.set(ControlMode.PercentOutput, percentOutput);
+		m_indexerMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
@@ -91,10 +91,10 @@ public class Manipulator extends SubsystemBase {
 	// Launcher motor
 
 
-	public double getLauncherSpeed() { return launcherMotor.get(); }
+	public double getLauncherSpeed() { return m_launcherMotor.get(); }
 
 	public Manipulator setLauncherToPercent(double percentOutput) {
-		launcherMotor.set(ControlMode.PercentOutput, percentOutput);
+		m_launcherMotor.set(ControlMode.PercentOutput, percentOutput);
 		return this;
 	}
 
