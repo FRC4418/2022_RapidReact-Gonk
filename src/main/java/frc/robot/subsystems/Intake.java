@@ -92,10 +92,10 @@ public class Intake extends SubsystemBase {
 		m_retractorMotor.configFactoryDefault();
 		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kRetractorPidIdx, kTimeoutMs);
-		// m_retractorMotor.config_kF(kRetractorSlotIdx, kRetractorPositionGains.kF);
-		m_retractorMotor.config_kP(kRetractorSlotIdx, kRetractorPositionGains.kP);
-		// m_retractorMotor.config_kI(kRetractorSlotIdx, kRetractorPositionGains.kI);
-        // m_retractorMotor.config_kD(kRetractorSlotIdx, kRetractorPositionGains.kD);
+		// m_retractorMotor.config_kF(kRetractorSlotIdx, kRetractorPositionGainsV2.kF);
+		m_retractorMotor.config_kP(kRetractorSlotIdx, kRetractorPositionGainsV2.kP);
+		// m_retractorMotor.config_kI(kRetractorSlotIdx, kRetractorPositionGainsV2.kI);
+        // m_retractorMotor.config_kD(kRetractorSlotIdx, kRetractorPositionGainsV2.kD);
 	}
 	
 
