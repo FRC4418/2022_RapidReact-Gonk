@@ -22,29 +22,11 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Conversion;
 import frc.robot.Gains;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.Falcon500;
 import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
 
 
 public class Drivetrain extends SubsystemBase {
-	// ----------------------------------------------------------
-	// Dimension constants
-
-
-	private static class V1 {
-		private final double kWheelDiameterInches = 6.d;
-		private final double kGearRatio = 1.d / 7.33d;
-	}
-
-	private static class V2 {
-		private final double kWheelDiameterInches = 4.d;
-		private final double kGearRatio = 1.d / 7.75d;
-	}
-
-
 	// ----------------------------------------------------------
 	// Motor group constants
 
@@ -156,8 +138,8 @@ public class Drivetrain extends SubsystemBase {
 		// 7.33 to 1 gearbox is big to small gear (means more torque)
 		// kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
 		kTicksToMetersV2  = ( (0.1016d * Math.PI) / 2048.0d ) / 7.75d,
-		// kMetersPerSecondToTicksPer100ms = 427.7550177d,
-		kMetersPerSecondToTicksPer100msV2 = 641.6325265d;
+		// kMPSToTicksPer100ms = 427.7550177d,
+		kMPSToTicksPer100msV2 = 641.6325265d;
 	
 
 	// ----------------------------------------------------------
@@ -367,21 +349,21 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain setLeftMPS(double mps) {
-		m_frontLeftMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100ms * leftMotorsDirectionMultiplier);
+		m_frontLeftMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public Drivetrain setRightMPS(double mps) {
-		m_frontRightMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100ms * rightMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity, mps * kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public double getLeftMPS() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorVelocity(kLeftPidIdx) / kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightMPS() {
-		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMPSToTicksPer100ms * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorVelocity(kRightPidIdx) / kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
