@@ -104,10 +104,10 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.configFactoryDefault();
 		m_backRightMotor.follow(m_frontRightMotor);
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kLeftPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kF);
+		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kF);
 		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGainsV2.kP);
-		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kI);
-        // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGainsV2.kD);
+		// m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kI);
+        // m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kD);
 
 		// ----------------------------------------------------------
 		// Right motor group configuration
@@ -116,10 +116,10 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor.configFactoryDefault();
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kRightPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGainsV2.kF);
+		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kF);
 		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGainsV2.kP);
-		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGainsV2.kI);
-        // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGainsV2.kD);
+		// m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kI);
+        // m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kD);
 
 		resetEncoders();
 	}
