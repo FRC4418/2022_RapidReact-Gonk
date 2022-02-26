@@ -145,8 +145,8 @@ public class Constants {
             kDefaultRetractorDegree = 0;
 
         public static final int
-            kExtendedIntakeRetractorPosition = 71,
-            kRetractedIntakeRetractorPosition = -71;
+            kRetractedIntakeRetractorPosition = -71,
+            kExtendedIntakeRetractorPosition = 71;
 
         public static class CAN_ID {
             public static final int
@@ -181,7 +181,7 @@ public class Constants {
         // private final Gains kRetractorPositionGains
         // 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
         public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.0013522d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+            = new Gains(0.01d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
     }
 
     public static class Manipulator {

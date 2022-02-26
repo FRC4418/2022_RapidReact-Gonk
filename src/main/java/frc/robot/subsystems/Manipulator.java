@@ -92,7 +92,8 @@ public class Manipulator extends SubsystemBase {
 
 	// runs the launcher motor at the default output percent
 	public Manipulator runLauncher() {
-		setLauncherPercent(Constants.Manipulator.kDefaultLauncherPercent);
+		// setLauncherPercent(Constants.Manipulator.kDefaultLauncherPercent);
+		setLauncherRPM(Constants.Manipulator.kDefaultLauncherRPM);
 		return this;
 	}
 

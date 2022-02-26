@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -80,15 +81,21 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
+	public Intake setRetractTicks(int positionTicks) {
+		m_retractorMotor.set(ControlMode.Position, positionTicks);
+		return this;
+	}
+
 	public Intake retractIntakeArm() {
-		brakeRetractor();
-		setRetractDegree(Constants.Intake.kRetractedIntakeRetractorPosition);
+		setRetractTicks(-16_800);
+		SmartDashboard.putString("Arm", "Retracting");
 		return this;
 	}
 
 	public Intake extendIntakeArm() {
-		coastRetractor();
-		setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
+		// setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
+		setRetractTicks(0);
+		SmartDashboard.putString("Arm", "Extending");
 		return this;
 	}
 

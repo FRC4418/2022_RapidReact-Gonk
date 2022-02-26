@@ -139,8 +139,8 @@ public class Drivetrain extends SubsystemBase {
 		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
 		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
 
-		SmartDashboard.putBoolean("Left is inverted", m_leftGroup.getInverted());
-		SmartDashboard.putBoolean("Right is inverted", m_rightGroup.getInverted());
+		SmartDashboard.putNumber("Left Motor", getLeftMPS());
+		SmartDashboard.putNumber("Right Motor", getRightMPS());
 	}
 
 

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.intake.RetractIntakeArm;
+import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
 import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
 import frc.robot.commands.intake.ToggleIndexBall;
@@ -72,8 +72,8 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));
         toggleFeederButton = toggleFeederButton(secondaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
-        retractIntakeArmButton = retractIntakeArmButton(primaryJoystick);
-        if (retractIntakeArmButton != null) retractIntakeArmButton.whenHeld(new RetractIntakeArm(intake));
+        extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);
+        if (extendIntakeArmButton != null) extendIntakeArmButton.whenHeld(new ExtendIntakeArmWhileHeld(intake));
 
         // ----------------------------------------------------------
         // Manipulator

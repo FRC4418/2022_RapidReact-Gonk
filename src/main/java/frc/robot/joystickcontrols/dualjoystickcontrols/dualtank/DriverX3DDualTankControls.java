@@ -95,7 +95,7 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
     }
 
     @Override
-    protected JoystickButton retractIntakeArmButton(Joystick joystick) {
+    protected JoystickButton extendIntakeArmButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_10_ID);
     }
 

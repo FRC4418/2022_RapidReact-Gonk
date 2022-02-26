@@ -60,8 +60,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
-		
-		robotContainer.intake.retractIntakeArm();
+
+		robotContainer.intake.coastRetractor();
 	}
 
 	@Override
@@ -73,7 +73,9 @@ public class Robot extends TimedRobot {
 	public void disabledExit() {
 		robotContainer.drivetrain.coastMotors();	// TODO: !!!P1!!! Coasting's a cool trick
 
-		robotContainer.intake.extendIntakeArm();
+		robotContainer.intake
+			.brakeRetractor()
+			.retractIntakeArm();
 	}
 
 
@@ -83,6 +85,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		robotContainer.intake.extendIntakeArm();
+
 		robotContainer.getAutoCommand().schedule();
 	}
 
@@ -94,6 +98,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousExit() {
 		robotContainer.getAutoCommand().cancel();
+
+		robotContainer.intake.retractIntakeArm();
 	}
 
 
@@ -126,5 +132,4 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		
 	}
-
 }

@@ -59,7 +59,7 @@ public class RobotContainer {
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
 
-	public static final boolean enableDiagnostics = true;
+	public static final boolean enableDiagnostics = false;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
 

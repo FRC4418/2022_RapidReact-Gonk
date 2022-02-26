@@ -95,7 +95,7 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    protected JoystickButton retractIntakeArmButton(Joystick joystick) {
+    protected JoystickButton extendIntakeArmButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
     }
 
