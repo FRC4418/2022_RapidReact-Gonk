@@ -445,30 +445,35 @@ public class RobotContainer {
 		return autoCommand;
 	}
 
+	public RobotContainer setAutoCommand(AutonomousRoutine autoRoutine) {
+		switch (autoRoutine) {
+			default:
+				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
+				break;
+			case LEAVE_TARMAC:
+				autoCommand = new LeaveTarmac(drivetrain);
+				break;
+			case SCORE_LH_AND_LEAVE_TARMAC:
+				// LH_LT = score Low Hub and Leave Tarmac
+				autoCommand = new LH_LT(drivetrain, manipulator);
+				break;
+			case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
+				// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
+				autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
+				break;
+			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
+				// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
+				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
+				break;
+		}
+		return this;
+	}
+
 	public RobotContainer listenForAutoRoutine() {
 		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
 		if (autoRoutine != newAutoRoutineSelection) {
 			autoRoutine = newAutoRoutineSelection;
-			switch (autoRoutine) {
-				default:
-					DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
-					break;
-				case LEAVE_TARMAC:
-					autoCommand = new LeaveTarmac(drivetrain);
-					break;
-				case SCORE_LH_AND_LEAVE_TARMAC:
-					// LH_LT = score Low Hub and Leave Tarmac
-					autoCommand = new LH_LT(drivetrain, manipulator);
-					break;
-				case SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-					// LH_PC_LT = score Low Hub and Pickup Cargo and Leave Tarmac
-					autoCommand = new LH_PC_LT(drivetrain, intake, manipulator);
-					break;
-				case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-					// LH_RC_LT = score Low Hub and Retrieve Cargo and Leave Tarmac
-					autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
-					break;
-			}
+			setAutoCommand(autoRoutine);
 		}
 		return this;
 	}
