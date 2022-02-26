@@ -9,8 +9,8 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class LeaveTarmac extends SequentialCommandGroup {
-	public LeaveTarmac(Drivetrain drivetrain) {
+public class WaitAndLeaveTarmac extends SequentialCommandGroup {
+	public WaitAndLeaveTarmac(Drivetrain drivetrain) {
 		super(
 			new Wait(Autonomous.startDelayTime),
 			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS)

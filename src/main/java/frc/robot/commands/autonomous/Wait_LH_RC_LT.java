@@ -13,8 +13,8 @@ import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 
 
-public class LH_RC_LT extends SequentialCommandGroup {
-	public LH_RC_LT(Drivetrain drivetrain, Intake intake, Manipulator manipulator, Vision vision) {
+public class Wait_LH_RC_LT extends SequentialCommandGroup {
+	public Wait_LH_RC_LT(Drivetrain drivetrain, Intake intake, Manipulator manipulator, Vision vision) {
 		super(
 			new Wait(Autonomous.startDelayTime),
 			new RunLauncherForTime(manipulator, 1.5d),

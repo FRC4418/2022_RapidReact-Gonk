@@ -19,9 +19,9 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxContr
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
 import frc.robot.commands.autonomous.Wait_LH_LT;
 import frc.robot.commands.autonomous.Wait_LH_PC_LT;
-import frc.robot.commands.autonomous.LH_RC_LT;
+import frc.robot.commands.autonomous.Wait_LH_RC_LT;
 import frc.robot.commands.autonomous.LH_Wait_LT;
-import frc.robot.commands.autonomous.LeaveTarmac;
+import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
@@ -239,8 +239,8 @@ public class RobotContainer {
 			default:
 				DriverStation.reportError("Unsupported auto routine detected in listenForAutoRoutine", true);
 				break;
-			case LEAVE_TARMAC:
-				autoCommand = new LeaveTarmac(drivetrain);
+			case WAIT_AND_LEAVE_TARMAC:
+				autoCommand = new WaitAndLeaveTarmac(drivetrain);
 				break;
 			case WAIT_SCORE_LH_AND_LEAVE_TARMAC:
 				autoCommand = new Wait_LH_LT(drivetrain, manipulator);
@@ -251,8 +251,8 @@ public class RobotContainer {
 			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
 				autoCommand = new Wait_LH_PC_LT(drivetrain, intake, manipulator);
 				break;
-			case SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new LH_RC_LT(drivetrain, intake, manipulator, vision);
+			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
+				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;
