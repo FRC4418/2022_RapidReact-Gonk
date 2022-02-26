@@ -94,6 +94,11 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
         return new JoystickButton(joystick, X3D.BUTTON_4_ID);
     }
 
+    @Override
+    protected JoystickButton retractIntakeArmButton(Joystick joystick) {
+        return new JoystickButton(joystick, X3D.BUTTON_10_ID);
+    }
+
     // ----------------------------------------------------------
     // Manipulator buttons
 

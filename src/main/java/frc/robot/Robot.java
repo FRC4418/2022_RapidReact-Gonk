@@ -66,12 +66,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-
+		
 	}
 
 	@Override
 	public void disabledExit() {
-		robotContainer.drivetrain.brakeMotors();
+		robotContainer.drivetrain.coastMotors();	// TODO: !!!P1!!! Coasting's a cool trick
 
 		robotContainer.intake.extendIntakeArm();
 	}

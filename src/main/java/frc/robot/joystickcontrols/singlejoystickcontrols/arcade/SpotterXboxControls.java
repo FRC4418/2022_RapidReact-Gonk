@@ -95,6 +95,11 @@ public class SpotterXboxControls extends SingleJoystickControls {
         return null;
     }
 
+    @Override
+    protected JoystickButton retractIntakeArmButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
+    }
+
     // ----------------------------------------------------------
     // Manipulator buttons
 
