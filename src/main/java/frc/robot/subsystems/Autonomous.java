@@ -44,23 +44,4 @@ public class Autonomous extends SubsystemBase {
 			return value;
 		}
 	}
-
-
-	// ----------------------------------------------------------
-	// Constructor
-
-	
-	public Autonomous() {
-		
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-	
-	@Override
-	public void periodic() {
-		
-	}
 }
