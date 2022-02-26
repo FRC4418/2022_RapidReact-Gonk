@@ -54,7 +54,7 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
-	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_ONE;
+	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_TWO;
 
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
