@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledExit() {
-		robotContainer.drivetrain.coastMotors();	// TODO: !!!P1!!! Coasting's a cool trick
+		robotContainer.drivetrain.brakeMotors();
 
 		robotContainer.intake
 			.brakeRetractor()
