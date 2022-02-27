@@ -18,7 +18,7 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcade
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
 import frc.robot.commands.autonomous.Wait_LH_LT;
-import frc.robot.commands.autonomous.Wait_LH_PC_LT;
+import frc.robot.commands.autonomous.Wait_LH_PC_LH;
 import frc.robot.commands.autonomous.Wait_LH_RC_LT;
 import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
@@ -59,7 +59,7 @@ public class RobotContainer {
 	// initial value is the start-up configuration
 	public static final boolean usingKidsSafetyMode = false;
 
-	public static final boolean enableDiagnostics = true;
+	public static final boolean enableDiagnostics = false;
 	
 	private final boolean disableJoystickConnectionWarnings = true;
 
@@ -147,7 +147,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	public final Vision vision = new Vision();
+	// public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 
@@ -164,7 +164,7 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
 			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3))
-			.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
+			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 			.initialize()
 			.addEntryListeners();
 		
@@ -248,11 +248,11 @@ public class RobotContainer {
 			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
 				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 				break;
-			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_PC_LT(drivetrain, intake, manipulator);
+			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH:
+				autoCommand = new Wait_LH_PC_LH(drivetrain, intake, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
+				// autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;

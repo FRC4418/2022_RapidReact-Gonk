@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -42,7 +41,7 @@ public class Manipulator extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
+		// SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
 	}
 
 
@@ -90,9 +89,8 @@ public class Manipulator extends SubsystemBase {
 		return this;
 	}
 
-	// runs the launcher motor at the default output percent
 	public Manipulator runLauncher() {
-		setLauncherPercent(Constants.Manipulator.kDefaultLauncherPercent);
+		setLauncherRPM(Constants.Manipulator.kDefaultLauncherRPM);
 		return this;
 	}
 

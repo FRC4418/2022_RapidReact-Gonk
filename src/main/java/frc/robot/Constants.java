@@ -144,9 +144,9 @@ public class Constants {
         public static final int
             kDefaultRetractorDegree = 0;
 
-        public static final int
-            kExtendedIntakeRetractorPosition = 71,
-            kRetractedIntakeRetractorPosition = -71;
+        public static final double
+            kRetractedIntakeRetractorPosition = -55.53d,
+            kExtendedIntakeRetractorPosition = 3.018d;
 
         public static class CAN_ID {
             public static final int
@@ -171,7 +171,7 @@ public class Constants {
 
         // ----------------------------------------------------------
         // Closed-loop control
-            
+        
         public static final int
             kRetractorPidIdx = 0,
             kRetractorSlotIdx = 0,
@@ -181,7 +181,7 @@ public class Constants {
         // private final Gains kRetractorPositionGains
         // 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
         public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.0013522d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+            = new Gains(0.012d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
     }
 
     public static class Manipulator {
@@ -204,7 +204,7 @@ public class Constants {
         // Conversion
 
         // Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
-        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * 3.d) / 600.d;
+        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * 4.d) / 600.d;
 
         // ----------------------------------------------------------
         // Closed-loop control

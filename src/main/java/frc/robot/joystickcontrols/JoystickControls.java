@@ -63,6 +63,9 @@ public abstract class JoystickControls {
     protected JoystickButton runFeederIntakebutton;
     protected abstract JoystickButton runFeederButton(Joystick joystick);
 
+    protected JoystickButton extendIntakeArmButton;
+    protected abstract JoystickButton extendIntakeArmButton(Joystick joystick);
+
     // ----------------------------------------------------------
     // Manipulator buttons
 

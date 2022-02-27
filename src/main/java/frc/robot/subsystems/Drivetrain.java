@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -134,13 +133,13 @@ public class Drivetrain extends SubsystemBase {
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
 
-		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
+		// SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
 
-		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
-		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+		// SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
+		// SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
 
-		SmartDashboard.putBoolean("Left is inverted", m_leftGroup.getInverted());
-		SmartDashboard.putBoolean("Right is inverted", m_rightGroup.getInverted());
+		// SmartDashboard.putNumber("Left Motor", getLeftMPS());
+		// SmartDashboard.putNumber("Right Motor", getRightMPS());
 	}
 
 
@@ -323,8 +322,6 @@ public class Drivetrain extends SubsystemBase {
 
 	public void stopDrive() {
 		tankDrive(0.d, 0.d);
-		// m_leftGroup.stopMotor();
-		// m_rightGroup.stopMotor();
 	}
 
 
