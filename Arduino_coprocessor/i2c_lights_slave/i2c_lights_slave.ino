@@ -65,7 +65,7 @@ void loop() {
 					leds[i] = CRGB::Green;
 				 }
 				 break;
-				 
+
 			case 2:
 				for (int i = NUM_LEDS/2; i < NUM_LEDS; i++) {
 					leds[i] = CRGB::FORWARD_COLOR;
