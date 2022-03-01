@@ -99,7 +99,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						retractorDegreeNumberSlider = retractorLayout
 							.add("Position", Constants.Intake.kDefaultRetractorDegree)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", 0, "Max", 360, "Block increment", 1))
+							.withProperties(Map.of("Min", 0.d, "Max", 360.d, "Block increment", 1))
 							.getEntry();
 					}
 

@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.intake.ExtendIntakeArmThenCoast;
 
 
 public class Robot extends TimedRobot {
@@ -30,7 +31,11 @@ public class Robot extends TimedRobot {
 			.calibrateIMU()
 			.resetIMU();
 
-		// robotContainer.vision.startCameraStreams();
+		if (RobotContainer.enableCameras) {
+			robotContainer.vision
+				.createCameras()
+				.startCameraStreams();
+		}
 
 		if (RobotContainer.enableDiagnostics) {
 			robotContainer.initializeJoystickValues();
@@ -64,10 +69,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		// robotContainer.intake.extendIntakeArm();
-
-
-		robotContainer.intake.coastRetractor();
+		(new ExtendIntakeArmThenCoast(robotContainer.intake)).schedule();
 	}
 
 	@Override
@@ -79,9 +81,7 @@ public class Robot extends TimedRobot {
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
 
-		robotContainer.intake
-			.brakeRetractor()
-			.retractIntakeArm();
+		robotContainer.intake.retractIntakeArm();
 	}
 
 

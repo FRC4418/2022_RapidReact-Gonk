@@ -87,6 +87,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake retractIntakeArm() {
+		brakeRetractor();
 		// should be around -18,400 ticks
 		// setRetractDegree(Constants.Intake.kDefaultRetractorDegree);
 		setRetractTicks(-18_500);
@@ -94,12 +95,25 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
+	// true means it is satisfiably close to the retracted-arm degree, false means it is not
+	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
+	public boolean intakeArmIsRetracted() {
+		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractedIntakeRetractorPosition) <= Constants.Intake.kRetractorDegreeTolerance;
+	}
+
 	public Intake extendIntakeArm() {
+		brakeRetractor();
 		// should be around -1,000 ticks
 		// setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
 		setRetractTicks(-1_000);
 		SmartDashboard.putString("Arm", "Extending");
 		return this;
+	}
+
+	// true means it is satisfiably close to the extended-arm degree, false means it is not
+	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
+	public boolean intakeArmIsExtended() {
+		return Math.abs(getRetractorDegree() - Constants.Intake.kExtendedIntakeRetractorPosition) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 

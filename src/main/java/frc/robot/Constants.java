@@ -141,13 +141,14 @@ public class Constants {
             kDefaultReverseFeederPercent = -0.5d,
             kDefaultFeederPercent = 0.5d;
             
-        public static final int
-            kDefaultRetractorDegree = 0;
-
         public static final double
             kRetractedIntakeRetractorPosition = -55.53d,
-            kExtendedIntakeRetractorPosition = 3.018d;
+            kExtendedIntakeRetractorPosition = 3.018d,
 
+            kRetractorDegreeTolerance = 1.5d,
+            // default degree is for the diagnostics Shuffleboard tweaker
+            kDefaultRetractorDegree = -55.53d;
+            
         public static class CAN_ID {
             public static final int
                 kFeeder = 11,
@@ -177,7 +178,7 @@ public class Constants {
             kRetractorSlotIdx = 0,
             kTimeoutMs = 30;
 
-        // TODO: !!!P1!!! tune V1 retractor gains
+        // TODO: P3 tune V1 retractor gains
         // private final Gains kRetractorPositionGains
         // 	= new Gains(0.1d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
         public static final Gains kRetractorPositionGainsV2

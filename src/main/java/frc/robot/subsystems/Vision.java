@@ -44,6 +44,25 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
+		
+	}
+
+
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+
+	@Override
+	public void periodic() {
+
+	}
+
+
+	// ----------------------------------------------------------
+	// Camera-creation methods
+
+
+	public Vision createCameras() {
 		// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
 
 		String frontCenterCameraName = "Front-Center";
@@ -73,16 +92,7 @@ public class Vision extends SubsystemBase {
 			frontCenterCameraName,
 			backCenterCameraName
 		));
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-
-	@Override
-	public void periodic() {
-
+		return this;
 	}
 
 
@@ -91,6 +101,7 @@ public class Vision extends SubsystemBase {
 
 
 	public Vision startCameraStreams() {
+		assert !cameras.isEmpty();
 		new Thread(() -> {
 			CvSink[] cvSinks = Arrays.stream(cameras.toArray()).map(
 				camera -> CameraServer.getVideo((VideoSource) camera)).toArray(CvSink[]::new);

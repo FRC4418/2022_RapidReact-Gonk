@@ -15,7 +15,8 @@ import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.joystickcontrols.dualjoystickcontrols.dualtank.DriverX3DDualTankControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverX3DArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcadeControls;
-import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxArcadeControls;
+import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxLoneTankControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
 import frc.robot.commands.autonomous.Wait_LH_LT;
 import frc.robot.commands.autonomous.Wait_LH_PC_LH;
@@ -56,12 +57,15 @@ public class RobotContainer {
 
 	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_TWO;
 
-	// initial value is the start-up configuration
-	public static final boolean usingKidsSafetyMode = false;
+	public static final boolean
+		// initial value is the start-up configuration
+		usingKidsSafetyMode = false,
+		
+		enableDiagnostics = false,
 
-	public static final boolean enableDiagnostics = false;
-	
-	private final boolean disableJoystickConnectionWarnings = true;
+		enableCameras = false,
+		
+		disableJoystickConnectionWarnings = true;
 
 
 	// ----------------------------------------------------------
@@ -147,7 +151,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	// public final Vision vision = new Vision();
+	public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 
@@ -163,8 +167,11 @@ public class RobotContainer {
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
 			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3))
-			// .reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
+			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3));
+		if (RobotContainer.enableCameras) {
+			hudDisplaysGrid.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2));
+		}
+		hudDisplaysGrid
 			.initialize()
 			.addEntryListeners();
 		
@@ -252,7 +259,7 @@ public class RobotContainer {
 				autoCommand = new Wait_LH_PC_LH(drivetrain, intake, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				// autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
+				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;
@@ -298,7 +305,7 @@ public class RobotContainer {
 		} else {
 			switch (DriverStation.getJoystickName(port)) {
 				default:
-					// DriverStation.reportWarning("Scanning for joystick device changes found an unrecognized device type", true);
+					DriverStation.reportWarning("Scanning for joystick device changes found an unrecognized device type", true);
 					return JoystickDeviceType.NULL;
 				case X3D.USB_DEVICE_NAME:
 					return JoystickDeviceType.X3D;
@@ -440,8 +447,6 @@ public class RobotContainer {
 	}
 
 	private RobotContainer setupSpotterJoystickControls(Joystick firstJoystick, Joystick secondJoystick) {
-		spotterJoystickControls = new SpotterXboxControls(firstJoystick, drivetrain, intake, manipulator);
-
 		// TODO: P1 If spotter should be allowed to drive, implement setup switch cases for spotter joystick modes
 		switch (spotterJoystickMode) {
 			default:
@@ -453,10 +458,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						
+						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 					case X3D:
-						
+						// TODO: P3 Implement X3D arcade spotter controls and add them to the spotter's configuring switch statement
 						break;
 				}
 				break;
@@ -466,8 +471,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						SmartDashboard.putString("Reached Lone Tank", "Xbox");
-						
+						spotterJoystickControls = new SpotterXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator);
 						break;
 				}
 				break;
@@ -477,7 +481,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-
+						// TODO: P3 Implement X3D dual-tank spotter controls and add them to the spotter's configuring switch statement
 						break;
 				}
 				break;

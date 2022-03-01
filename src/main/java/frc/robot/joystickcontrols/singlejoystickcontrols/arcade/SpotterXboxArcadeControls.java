@@ -11,7 +11,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class SpotterXboxControls extends SingleJoystickControls {
+public class SpotterXboxArcadeControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Joystick helpers
 
@@ -25,25 +25,24 @@ public class SpotterXboxControls extends SingleJoystickControls {
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return 0.d;
-    }
-
-    @Override
-    public double getArcadeDriveTurnAxis() {
-        return 0.d;
-    }
-
-    
-    @Override
-    public double getTankDriveLeftAxis() {
         // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
         return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
+    public double getArcadeDriveTurnAxis() {
+        return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
+    }
+
+    
+    @Override
+    public double getTankDriveLeftAxis() {
+        return 0.d;
+    }
+
+    @Override
     public double getTankDriveRightAxis() {
-        // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
-        return -m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
+        return 0.d;
     }
 
     // ----------------------------------------------------------
@@ -116,7 +115,7 @@ public class SpotterXboxControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public SpotterXboxControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public SpotterXboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
         super(primaryJoystick, drivetrain, intake, manipulator);
     }
 }
