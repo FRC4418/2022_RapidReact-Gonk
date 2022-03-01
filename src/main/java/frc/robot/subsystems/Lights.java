@@ -57,13 +57,6 @@ public class Lights extends SubsystemBase {
 
 	private void sendCommand(int register, byte command) {
 		arduino.write(register, command);
-
-		// one byte for the register address, one byte for the integer-value command
-		ByteBuffer data = ByteBuffer.allocateDirect(2);
-		data.put(VALUE_REGISTER);
-		data.put(command);
-
-		arduino.writeBulk(data, 2);
  	}
 
 	// private void sendSingleCommands(int register, int... commands) {
