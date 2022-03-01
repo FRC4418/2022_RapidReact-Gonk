@@ -403,17 +403,17 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	// rounds to two decimals
-	private double getRounded(double input) {
-		return Math.round(input * 100.0d) / 100.0d;
-	}
+	// private double getRounded(double input) {
+	// 	return Math.round(input * 100.0d) / 100.0d;
+	// }
 
-	private double getXAccelAngle() {
-		return imu.getXFilteredAccelAngle() - m_filteredXAccelOffset;
-	}
+	// private double getXAccelAngle() {
+	// 	return imu.getXFilteredAccelAngle() - m_filteredXAccelOffset;
+	// }
 	
-	private double getYAccelAngle() {
-		return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
-	}
+	// private double getYAccelAngle() {
+	// 	return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
+	// }
 
 	public Drivetrain calibrateIMU() {
 		imu.calibrate();	// just filters out noise (robot must be still)

@@ -51,11 +51,12 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Drivetrain
 
-        // reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        // if (reverseDrivetrainButton != null) {
-        //     reverseDrivetrainButton.whenPressed(new ReverseDrivetrain(drivetrain));
-        //     // reverseDrivetrainButton.whenReleased(new ReverseDrivetrain(drivetrain));
-        // }
+        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
+        if (reverseDrivetrainButton != null) {
+            reverseDrivetrainButton
+                .whenPressed(new ReverseDrivetrain(drivetrain))
+                .whenReleased(new ReverseDrivetrain(drivetrain));
+        }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
@@ -64,6 +65,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Intake
 
+ 
         runFeederDisposalButton = runReverseFeederButton(primaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(primaryJoystick);

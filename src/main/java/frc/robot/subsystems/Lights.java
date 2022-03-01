@@ -66,20 +66,20 @@ public class Lights extends SubsystemBase {
 		arduino.writeBulk(data, 2);
  	}
 
-	private void sendSingleCommands(int register, int... commands) {
-		for (int iii = 0; iii < commands.length; iii++) {
-			sendCommand(register, (byte) commands[iii]);
-		}
-	}
+	// private void sendSingleCommands(int register, int... commands) {
+	// 	for (int iii = 0; iii < commands.length; iii++) {
+	// 		sendCommand(register, (byte) commands[iii]);
+	// 	}
+	// }
 
-	private void sendBulkCommand(byte register, byte... commands) {
-		ByteBuffer data = ByteBuffer.allocateDirect(commands.length);
+	// private void sendBulkCommand(byte register, byte... commands) {
+	// 	ByteBuffer data = ByteBuffer.allocateDirect(commands.length);
 
-		data.put(register);
-		for (int iii = 0; iii < commands.length; iii++) {
-			data.put(commands[iii]);
-		}
+	// 	data.put(register);
+	// 	for (int iii = 0; iii < commands.length; iii++) {
+	// 		data.put(commands[iii]);
+	// 	}
 
-		arduino.writeBulk(data, commands.length);
-	}
+	// 	arduino.writeBulk(data, commands.length);
+	// }
 }

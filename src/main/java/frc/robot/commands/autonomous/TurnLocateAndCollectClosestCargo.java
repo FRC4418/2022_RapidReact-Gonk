@@ -9,7 +9,7 @@ import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 
 
-public class LocateAndCollectClosestCargo extends CommandBase {
+public class TurnLocateAndCollectClosestCargo extends CommandBase {
 	// TODO: P1 Implement this auto command for turning to, driving towards, and collecting closest cargo
 
 	private final Drivetrain m_drivetrain;
@@ -17,7 +17,7 @@ public class LocateAndCollectClosestCargo extends CommandBase {
 	private final Manipulator m_manipulator;
 	private final Vision m_vision;
 
-	public LocateAndCollectClosestCargo(Drivetrain drivetrain, Intake intake, Manipulator manipulator, Vision vision) {
+	public TurnLocateAndCollectClosestCargo(Drivetrain drivetrain, Intake intake, Manipulator manipulator, Vision vision) {
 		m_drivetrain = drivetrain;
 		m_intake = intake;
 		m_manipulator = manipulator;
