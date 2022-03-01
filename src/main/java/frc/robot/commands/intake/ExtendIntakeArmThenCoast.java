@@ -21,6 +21,11 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 	}
 
 	@Override
+	public boolean runsWhenDisabled() {
+		return true;
+	}
+
+	@Override
 	public void initialize() {
 		SmartDashboard.putString("Thing", "extending");
 		m_intake.extendIntakeArm();
