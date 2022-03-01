@@ -25,12 +25,12 @@ public class SpotterXboxLoneTankControls extends SingleJoystickControls {
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return 0.d;
+        return 0.;
     }
 
     @Override
     public double getArcadeDriveTurnAxis() {
-        return 0.d;
+        return 0.;
     }
 
     

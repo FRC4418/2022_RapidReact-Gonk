@@ -26,12 +26,12 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
 
     @Override
     public double getArcadeDriveForwardAxis() {
-        return 0.d;
+        return 0.;
     }
 
     @Override
     public double getArcadeDriveTurnAxis() {
-        return 0.d;
+        return 0.;
     }
 
     
@@ -68,12 +68,12 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
 
     @Override
     public double getReverseFeederAxis() {
-        return 0.d;
+        return 0.;
     }
 
     @Override
     public double getFeederAxis() {
-        return 0.d;
+        return 0.;
     }
 
     // ----------------------------------------------------------

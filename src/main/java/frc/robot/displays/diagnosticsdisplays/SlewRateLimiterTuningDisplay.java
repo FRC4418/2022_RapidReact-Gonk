@@ -54,13 +54,13 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				arcadeDriveForwardLimiterNumberSlider = arcadeDriveLayout
 					.add("Forward", Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0., "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05))
 					.getEntry();
 
 				arcadeDriveTurnLimiterNumberSlider = arcadeDriveLayout
 					.add("Turn", Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0., "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05))
 					.getEntry();
 			}
 
@@ -71,13 +71,13 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 				tankDriveLeftForwardLimiterNumberSlider = tankDriveLayout
 					.add("Left Forward", Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", 2.0d, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0., "Max", 2.0, "Block increment", 0.05))
 					.getEntry();
 
 				tankDriveRightForwardLimiterNumberSlider = tankDriveLayout
 					.add("Right Forward", Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kNumberSlider)
-					.withProperties(Map.of("Min", 0.d, "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05d))
+					.withProperties(Map.of("Min", 0., "Max", Constants.Drivetrain.kMaxSlewRateAllowed, "Block increment", 0.05))
 					.getEntry();
 			}
 		}

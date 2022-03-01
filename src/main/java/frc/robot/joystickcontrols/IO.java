@@ -15,7 +15,7 @@ public final class IO {
 		public static final double
 			// we use max(left-axis deadband, right-axis deadband)
 			// TODO: P3 Figure out the maximum X3D joystick deadband
-			JOYSTICK_DEADBAND	= 0.02d;
+			JOYSTICK_DEADBAND	= 0.02;
 
 		public static final int
 			// Joysticks
@@ -49,7 +49,7 @@ public final class IO {
 
 		public static final double
 			// we use max(left-axis deadband, right-axis deadband)
-			JOYSTICK_DEADBAND			= 0.056d;
+			JOYSTICK_DEADBAND			= 0.056;
 
 		public static final int
 			JOYSTICK_ID 				= 1,

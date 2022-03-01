@@ -28,6 +28,11 @@ public class RunFeederAndIndexer extends CommandBase {
 	// Scheduler methods
 
 	@Override
+	public boolean runsWhenDisabled() {
+		return false;
+	}
+
+	@Override
 	public void initialize() {
 		m_intake.runFeeder();
 		m_manipulator.runIndexer();

@@ -29,6 +29,11 @@ public class RunFeederAndIndexerWithTrigger extends CommandBase {
 	// Scheduler methods
 
 	@Override
+	public boolean runsWhenDisabled() {
+		return false;
+	}
+
+	@Override
 	public void execute() {
 		double driverFeederAxis = RobotContainer.driverJoystickControls.getFeederAxis();
 		double driverReverseFeederAxis = RobotContainer.driverJoystickControls.getReverseFeederAxis();
@@ -37,8 +42,8 @@ public class RunFeederAndIndexerWithTrigger extends CommandBase {
 		double spotterReverseFeederAxis = RobotContainer.spotterJoystickControls.getReverseFeederAxis();
 
 		// driver's triggers take priority over the spotter's triggers
-		if (driverFeederAxis == 0.d && driverReverseFeederAxis == 0.d) {
-			if (spotterFeederAxis == 0.d) {
+		if (driverFeederAxis == 0. && driverReverseFeederAxis == 0.) {
+			if (spotterFeederAxis == 0.) {
 				m_intake.setFeederPercent(-spotterReverseFeederAxis);
 				m_manipulator.setIndexerPercent(-spotterReverseFeederAxis);
 			} else {
@@ -47,7 +52,7 @@ public class RunFeederAndIndexerWithTrigger extends CommandBase {
 			}
 		} else {
 			// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
-			if (driverFeederAxis == 0.d) {
+			if (driverFeederAxis == 0.) {
 				m_intake.setFeederPercent(-driverReverseFeederAxis);
 				m_manipulator.setIndexerPercent(-driverReverseFeederAxis);
 			} else {

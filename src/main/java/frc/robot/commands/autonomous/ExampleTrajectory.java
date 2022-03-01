@@ -102,7 +102,7 @@ public class ExampleTrajectory extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.tankDriveVolts(0.d, 0.d);
+		m_drivetrain.tankDriveVolts(0., 0.);
 	}
 
 	@Override

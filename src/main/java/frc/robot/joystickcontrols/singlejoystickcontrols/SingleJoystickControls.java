@@ -28,7 +28,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
 
     @Override
     public boolean isActivelyDriving() {
-        return m_primaryJoystick.getMagnitude() > Math.sqrt(DEADBAND * 2.d);
+        return m_primaryJoystick.getMagnitude() > Math.sqrt(DEADBAND * 2.);
     }
 
     @Override

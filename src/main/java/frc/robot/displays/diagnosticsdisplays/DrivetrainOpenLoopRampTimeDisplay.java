@@ -43,7 +43,7 @@ public class DrivetrainOpenLoopRampTimeDisplay extends DiagnosticsDisplay {
 			rampTimeNumberSlider = drivetrainOpenLoopRampTimeLayout
 				.add("Ramp Time", Constants.Drivetrain.kJoystickOpenLoopRampTime)
 				.withWidget(BuiltInWidgets.kNumberSlider)
-				.withProperties(Map.of("Min", 0.d, "Max", 5.0d, "Block increment", 0.05d))
+				.withProperties(Map.of("Min", 0., "Max", 5.0, "Block increment", 0.05))
 				.getEntry();
 		}
 		return this;

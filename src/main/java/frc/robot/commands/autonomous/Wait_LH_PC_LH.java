@@ -19,13 +19,13 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 	public Wait_LH_PC_LH(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
 		super(
 			new Wait(Autonomous.startDelayTime),
-			new RunLauncherForTime(manipulator, 1.0d),
+			new RunLauncherForTime(manipulator, 1.0),
 			new ParallelCommandGroup(
-				new RunFeederAndIndexerForTime(intake, manipulator, 4.d),
+				new RunFeederAndIndexerForTime(intake, manipulator, 4.),
 				new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS)
 			),
 			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.BACKWARDS),
-			new RunLauncherForTime(manipulator, 1.0d)
+			new RunLauncherForTime(manipulator, 1.0)
 		);
 	}
 

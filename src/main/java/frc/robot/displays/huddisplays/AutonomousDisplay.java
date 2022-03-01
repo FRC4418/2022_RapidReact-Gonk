@@ -59,7 +59,7 @@ public class AutonomousDisplay extends HUDDisplay {
 			startDelayTimeNumberSlider = autonomousLayout
 				.add("Start Delay (seconds)", Autonomous.startDelayTime)
 				.withWidget(BuiltInWidgets.kNumberSlider)
-				.withProperties(Map.of("Min", 0.d, "Max", 15.0d, "Block increment", 0.5d))
+				.withProperties(Map.of("Min", 0., "Max", 15.0, "Block increment", 0.5))
 				.getEntry();
 
 			tarmacLeavingDistanceNumberSlider = autonomousLayout

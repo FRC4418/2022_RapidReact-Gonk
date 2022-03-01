@@ -66,7 +66,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator stopIndexer() {
-		setIndexerPercent(0.d);
+		setIndexerPercent(0.);
 		return this;
 	}
 
@@ -95,7 +95,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator stopLauncher() {
-		setLauncherPercent(0.d);
+		setLauncherPercent(0.);
 		return this;
 	}
 }

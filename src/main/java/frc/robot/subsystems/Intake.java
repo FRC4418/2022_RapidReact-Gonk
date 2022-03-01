@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -72,48 +71,46 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	public double getRetractorDegree() {
-		return m_retractorMotor.getSelectedSensorPosition() / Constants.Intake.kRetractorDegreesToTicks;
+	public int getRetractorTicks() {
+		return (int) m_retractorMotor.getSelectedSensorPosition();
 	}
 
-	public Intake setRetractDegree(double positionDegrees) {
+	public double getRetractorDegree() {
+		return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
+	}
+
+	public Intake setRetractorDegree(double positionDegrees) {
 		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks);
 		return this;
 	}
 
-	public Intake setRetractTicks(int positionTicks) {
+	public Intake setRetractorTicks(int positionTicks) {
 		m_retractorMotor.set(ControlMode.Position, positionTicks);
 		return this;
 	}
 
 	public Intake retractIntakeArm() {
 		brakeRetractor();
-		// should be around -18,400 ticks
-		// setRetractDegree(Constants.Intake.kDefaultRetractorDegree);
-		setRetractTicks(-18_500);
-		SmartDashboard.putString("Arm", "Retracting");
+		setRetractorTicks(Constants.Intake.kRetractedIntakeRetractorTicks);
 		return this;
 	}
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
 	public boolean intakeArmIsRetracted() {
-		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractedIntakeRetractorPosition) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kRetractedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 	public Intake extendIntakeArm() {
 		brakeRetractor();
-		// should be around -1,000 ticks
-		// setRetractDegree(Constants.Intake.kExtendedIntakeRetractorPosition);
-		setRetractTicks(-1_000);
-		SmartDashboard.putString("Arm", "Extending");
+		setRetractorTicks(Constants.Intake.kExtendedIntakeRetractorTicks);
 		return this;
 	}
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean intakeArmIsExtended() {
-		return Math.abs(getRetractorDegree() - Constants.Intake.kExtendedIntakeRetractorPosition) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 
@@ -143,7 +140,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake stopFeeder() {
-		setFeederPercent(0.d);
+		setFeederPercent(0.);
 		return this;
 	}
 }

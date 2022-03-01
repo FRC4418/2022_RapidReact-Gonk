@@ -44,8 +44,8 @@ public class Drivetrain extends SubsystemBase {
 	// 1 is not inverted, -1 is inverted
 	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
 	private double
-		leftMotorsDirectionMultiplier = 1.d,
-		rightMotorsDirectionMultiplier = 1.d;
+		leftMotorsDirectionMultiplier = 1.,
+		rightMotorsDirectionMultiplier = 1.;
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
@@ -72,8 +72,8 @@ public class Drivetrain extends SubsystemBase {
 	private final ADIS16448_IMU imu = new ADIS16448_IMU(ADIS16448_IMU.IMUAxis.kZ, SPI.Port.kMXP, ADIS16448_IMU.CalibrationTime._1s);
 	
 	private double
-		m_filteredXAccelOffset = 0.d,
-		m_filteredYAccelOffset = 0.d;
+		m_filteredXAccelOffset = 0.,
+		m_filteredYAccelOffset = 0.;
 
 
 	// ----------------------------------------------------------
@@ -172,15 +172,15 @@ public class Drivetrain extends SubsystemBase {
 				m_leftGroup.setInverted(true);
 				m_rightGroup.setInverted(false);
 
-				leftMotorsDirectionMultiplier = -1.d;
-				rightMotorsDirectionMultiplier = 1.d;
+				leftMotorsDirectionMultiplier = -1.;
+				rightMotorsDirectionMultiplier = 1.;
 				break;
 			case kRight:
 				m_leftGroup.setInverted(false);
 				m_rightGroup.setInverted(true);
 
-				leftMotorsDirectionMultiplier = 1.d;
-				rightMotorsDirectionMultiplier = -1.d;
+				leftMotorsDirectionMultiplier = 1.;
+				rightMotorsDirectionMultiplier = -1.;
 				break;
 		}
 		return this;
@@ -213,7 +213,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain disableOpenLoopRamp() {
-		setOpenLoopRampTimes(0.d);
+		setOpenLoopRampTimes(0.);
 		return this;
 	}
 
@@ -321,7 +321,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void stopDrive() {
-		tankDrive(0.d, 0.d);
+		tankDrive(0., 0.);
 	}
 
 
@@ -404,7 +404,7 @@ public class Drivetrain extends SubsystemBase {
 
 	// rounds to two decimals
 	// private double getRounded(double input) {
-	// 	return Math.round(input * 100.0d) / 100.0d;
+	// 	return Math.round(input * 100.0) / 100.0;
 	// }
 
 	// private double getXAccelAngle() {
@@ -440,7 +440,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain resetLeftEncoder() {
-		m_frontLeftMotor.setSelectedSensorPosition(0.d);
+		m_frontLeftMotor.setSelectedSensorPosition(0.);
 		return this;
 	}
 
@@ -449,7 +449,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain resetRightEncoder() {
-		m_frontRightMotor.setSelectedSensorPosition(0.d);
+		m_frontRightMotor.setSelectedSensorPosition(0.);
 		return this;
 	}
 
@@ -461,6 +461,6 @@ public class Drivetrain extends SubsystemBase {
 
 	// always returns a positive value
 	public double getAverageDistance() {
-		return (Math.abs(getLeftDistanceMeters()) + Math.abs(getRightDistanceMeters())) / 2.0d;
+		return (Math.abs(getLeftDistanceMeters()) + Math.abs(getRightDistanceMeters())) / 2.0;
 	}
 }

@@ -11,7 +11,7 @@ public class DriveStraight extends CommandBase {
 	// Private constants
 
 	// in meters per second
-	private final double MOTOR_SPEED = 0.7d;
+	private final double MOTOR_SPEED = 0.7;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -29,6 +29,11 @@ public class DriveStraight extends CommandBase {
 
 	// ----------------------------------------------------------
 	// Scheduler methods
+
+	@Override
+	public boolean runsWhenDisabled() {
+		return false;
+	}
 
 	@Override
 	public void initialize() {

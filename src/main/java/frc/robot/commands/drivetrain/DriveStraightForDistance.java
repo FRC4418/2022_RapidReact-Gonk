@@ -19,8 +19,8 @@ public class DriveStraightForDistance extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	private final double MOTOR_OUTPUT_PERCENT = 0.45d;
-	private final double kP = 0.05d;
+	private final double MOTOR_OUTPUT_PERCENT = 0.45;
+	private final double kP = 0.05;
 
 	// ----------------------------------------------------------
 	// Resources
@@ -43,6 +43,11 @@ public class DriveStraightForDistance extends CommandBase {
 
 	// ----------------------------------------------------------
 	// Scheduler methods
+
+	@Override
+	public boolean runsWhenDisabled() {
+		return false;
+	}
 
 	@Override
 	public void initialize() {

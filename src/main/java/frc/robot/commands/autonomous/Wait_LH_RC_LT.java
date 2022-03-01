@@ -17,7 +17,7 @@ public class Wait_LH_RC_LT extends SequentialCommandGroup {
 	public Wait_LH_RC_LT(Drivetrain drivetrain, Intake intake, Manipulator manipulator, Vision vision) {
 		super(
 			new Wait(Autonomous.startDelayTime),
-			new RunLauncherForTime(manipulator, 1.5d),
+			new RunLauncherForTime(manipulator, 1.5),
 			new TurnLocateAndCollectClosestCargo(drivetrain, intake, manipulator, vision),
 			new DriveStraightForDistance(drivetrain, Constants.inchesToMeters(10), DriveStraightDirection.FORWARDS)
 		);

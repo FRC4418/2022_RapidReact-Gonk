@@ -13,10 +13,10 @@ public class Autonomous extends SubsystemBase {
 
 
 	// in seconds
-	public static double startDelayTime = 0.d;
+	public static double startDelayTime = 0.;
 
 	// in meters
-	public static double tarmacLeavingDistanceMeters = Constants.inchesToMeters(72.d);
+	public static double tarmacLeavingDistanceMeters = Constants.inchesToMeters(72.);
 
 
 	// ----------------------------------------------------------

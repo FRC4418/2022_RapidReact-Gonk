@@ -51,7 +51,7 @@ public class KidsSafetyDisplay extends HUDDisplay {
 			kidsSafetyMaxOutputNumberSlider = kidsSafetyLayout
 				.add("Max Output", Constants.Drivetrain.KidsSafetyOutputMode.kDefaultMaxOutput)
 				.withWidget(BuiltInWidgets.kNumberSlider)
-				.withProperties(Map.of("Min", 0.d, "Max", 1.0d, "Block increment", 0.05d))
+				.withProperties(Map.of("Min", 0., "Max", 1.0, "Block increment", 0.05))
 				.getEntry();
 		}
 		return this;

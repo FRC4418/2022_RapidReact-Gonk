@@ -12,7 +12,7 @@ public class ToggleIndexBall extends CommandBase {
 	// ----------------------------------------------------------
 	// Constants
 
-	private final double DELAY_TIME = 0.25d;
+	private final double DELAY_TIME = 0.25;
 	
 	// ----------------------------------------------------------
 	// Resources
@@ -35,6 +35,11 @@ public class ToggleIndexBall extends CommandBase {
 
 	// ----------------------------------------------------------
 	// Scheduler methods
+
+	@Override
+	public boolean runsWhenDisabled() {
+		return false;
+	}
 
 	@Override
 	public void initialize() {

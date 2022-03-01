@@ -97,9 +97,9 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						retractorDegreeNumberSlider = retractorLayout
-							.add("Position", Constants.Intake.kDefaultRetractorDegree)
+							.add("Position", Constants.Intake.kExtendedIntakeRetractorTicks)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", 0.d, "Max", 360.d, "Block increment", 1))
+							.withProperties(Map.of("Min", -Constants.Intake.kMaxRetractorTicks, "Max", Constants.Intake.kMaxRetractorTicks, "Block increment", 200))
 							.getEntry();
 					}
 
@@ -117,7 +117,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						feederPercentNumberSlider = feederLayout
 							.add("Percentage", Constants.Intake.kDefaultFeederPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -1.d, "Max", 1.d, "Block increment", 0.05d))
+							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
 							.getEntry();
 					}
 				}
@@ -141,7 +141,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						indexerPercentNumberSlider = indexerLayout
 							.add("Percentage", Constants.Manipulator.kDefaultIndexerPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -1.d, "Max", 1.d, "Block increment", 0.05d))
+							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
 							.getEntry();
 					}
 
@@ -159,7 +159,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						launcherPercentNumberSlider = launcherLayout
 							.add("Percent", Constants.Manipulator.kDefaultLauncherPercent)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", 0.d, "Max", 1.d, "Block increment", 0.05))
+							.withProperties(Map.of("Min", 0., "Max", 1., "Block increment", 0.05))
 							.getEntry();
 					}
 				}
@@ -193,7 +193,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 				retractorDegreeNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
-						m_intake.setRetractDegree(event.value.getDouble());
+						m_intake.setRetractorTicks((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
