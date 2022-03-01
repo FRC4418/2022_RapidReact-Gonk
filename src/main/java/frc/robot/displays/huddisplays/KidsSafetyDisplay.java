@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.Constants;
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Drivetrain;
@@ -76,7 +76,6 @@ public class KidsSafetyDisplay extends HUDDisplay {
 		kidsSafetyMaxOutputNumberSlider.addListener(event -> {
 			if (kidsSafetyModeToggleSwitch.getBoolean(false)) {
 				m_drivetrain.setMaxOutput(event.value.getDouble());
-				SmartDashboard.putNumber("DOING THING", counter++);
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		return this;

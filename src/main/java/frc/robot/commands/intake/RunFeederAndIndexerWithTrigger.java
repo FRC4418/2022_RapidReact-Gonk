@@ -29,11 +29,6 @@ public class RunFeederAndIndexerWithTrigger extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public boolean runsWhenDisabled() {
-		return false;
-	}
-
-	@Override
 	public void execute() {
 		double driverFeederAxis = RobotContainer.driverJoystickControls.getFeederAxis();
 		double driverReverseFeederAxis = RobotContainer.driverJoystickControls.getReverseFeederAxis();

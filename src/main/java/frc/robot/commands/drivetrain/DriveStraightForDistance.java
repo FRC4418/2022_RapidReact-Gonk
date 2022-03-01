@@ -1,7 +1,6 @@
 package frc.robot.commands.drivetrain;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Drivetrain;
@@ -85,8 +84,6 @@ public class DriveStraightForDistance extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		SmartDashboard.putNumber("traveled average distance", m_drivetrain.getAverageDistance());
-
 		return m_drivetrain.getAverageDistance() >= m_distanceInMeters;
 	}
 }

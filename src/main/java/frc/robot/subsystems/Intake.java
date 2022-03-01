@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -46,6 +47,16 @@ public class Intake extends SubsystemBase {
 		// m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
         // m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
 	}
+
+
+	// ----------------------------------------------------------
+	// Scheduler methods
+
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("Ticks", getRetractorTicks());
+	}
 	
 
 	// ----------------------------------------------------------
@@ -72,7 +83,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public int getRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition();
+		return (int) (m_retractorMotor.getSelectedSensorPosition() * Constants.Intake.kToOutputRetractorTicksRatio);
 	}
 
 	public double getRetractorDegree() {

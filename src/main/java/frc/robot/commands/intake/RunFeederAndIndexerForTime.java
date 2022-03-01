@@ -34,11 +34,6 @@ public class RunFeederAndIndexerForTime extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public boolean runsWhenDisabled() {
-		return false;
-	}
-
-	@Override
 	public void initialize() {
 		m_timer.start();
 

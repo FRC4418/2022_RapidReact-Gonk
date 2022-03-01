@@ -139,11 +139,13 @@ public class Constants {
 
         public static final double
             kDefaultReverseFeederPercent = -0.5,
-            kDefaultFeederPercent = 0.5;
+            kDefaultFeederPercent = 0.5,
+
+            kToOutputRetractorTicksRatio = 58.25;
             
         // retractor has tick range of -((double) Falcon500.ticksPerRevolution * 58.25) to ((double) Falcon500.ticksPerRevolution * 58.25)
         public static final int
-            kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * 58.25),
+            kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * kToOutputRetractorTicksRatio),
 
             kRetractedIntakeRetractorTicks = -17_000,
             kExtendedIntakeRetractorTicks = -1_000,

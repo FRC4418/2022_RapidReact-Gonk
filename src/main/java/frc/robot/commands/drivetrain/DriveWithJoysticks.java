@@ -1,7 +1,6 @@
 package frc.robot.commands.drivetrain;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
@@ -29,11 +28,6 @@ public class DriveWithJoysticks extends CommandBase {
 	// Scheduler methods
 
 	@Override
-	public boolean runsWhenDisabled() {
-		return false;
-	}
-
-	@Override
 	public void initialize() {
 		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 	}
@@ -45,11 +39,9 @@ public class DriveWithJoysticks extends CommandBase {
 
 		// driver's driving takes priority over the spotter's driving
 		if (!RobotContainer.driverJoystickControls.isActivelyDriving()) {
-			SmartDashboard.putString("ACTIVE", "spotter");
 			activePilotJoystickMode = RobotContainer.spotterJoystickMode;
 			activePilotJoystickControls = RobotContainer.spotterJoystickControls;
 		} else {
-			SmartDashboard.putString("ACTIVE", "driver");
 			activePilotJoystickMode = RobotContainer.driverJoystickMode;
 			activePilotJoystickControls = RobotContainer.driverJoystickControls;
 		}
