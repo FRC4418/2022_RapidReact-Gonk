@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 
 		robotContainer
-			// .listenForRobotSelection()
+			.listenForRobotSelection()
 			
 			.listenForJoystickModes()
 			.listenForJoystickDevices()

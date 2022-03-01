@@ -55,6 +55,7 @@ public class Intake extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		// TODO: Remove this print once useless
 		SmartDashboard.putNumber("Ticks", getRetractorTicks());
 	}
 	
@@ -83,7 +84,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public int getRetractorTicks() {
-		return (int) (m_retractorMotor.getSelectedSensorPosition() * Constants.Intake.kToOutputRetractorTicksRatio);
+		return (int) m_retractorMotor.getSelectedSensorPosition();
 	}
 
 	public double getRetractorDegree() {

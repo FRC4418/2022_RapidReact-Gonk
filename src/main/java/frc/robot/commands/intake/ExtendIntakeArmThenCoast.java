@@ -27,6 +27,7 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 
 	@Override
 	public void initialize() {
+		// TODO: Remove this print once useless
 		SmartDashboard.putString("Thing", "extending");
 		m_intake.extendIntakeArm();
 	}
@@ -34,6 +35,7 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_intake.coastRetractor();
+		// TODO: Remove this print once useless
 		SmartDashboard.putString("Thing", "coasting");
 	}
 

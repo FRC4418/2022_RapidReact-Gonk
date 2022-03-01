@@ -28,10 +28,4 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 			new RunLauncherForTime(manipulator, 1.0)
 		);
 	}
-
-	@Override
-	public void end(boolean interrupted) {
-		super.end(interrupted);
-		SmartDashboard.putString("Auto Ended", "Ended properly");
-	}
 }
