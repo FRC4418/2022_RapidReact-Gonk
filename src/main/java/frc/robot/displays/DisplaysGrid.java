@@ -236,7 +236,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    public DisplaysGrid show() {
+    public DisplaysGrid initialize() {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
                 var display = get(row, column);

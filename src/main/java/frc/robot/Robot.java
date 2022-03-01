@@ -2,7 +2,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -15,31 +15,17 @@ public class Robot extends TimedRobot {
 
 
 	// ----------------------------------------------------------
-	// Private resources
-	
-
-	private Command defaultAutoCommand;
-
-
-	// ----------------------------------------------------------
-	// Constructor
-
-
-	public Robot() {
-		
-	}
-
-
-	// ----------------------------------------------------------
 	// Robot-mode scheduler methods
 
 
-	// run when robot is started, put initialization code here
 	@Override
 	public void robotInit() {
-		robotContainer = new RobotContainer();
+		LiveWindow.disableAllTelemetry();
 
+		robotContainer = new RobotContainer();
+		
 		robotContainer.drivetrain
+			.configureDrivetrain(RobotContainer.defaultRobot)
 			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
@@ -47,22 +33,21 @@ public class Robot extends TimedRobot {
 		// robotContainer.vision.startCameraStreams();
 
 		if (RobotContainer.enableDiagnostics) {
-			robotContainer
-				.initializeJoystickValues();
+			robotContainer.initializeJoystickValues();
 		}
 	}
 
-	// called every robot packet (good for diagnostics), after mode-specific periodics
-	// runs before LiveWindow & SmartDashboard updates
 	@Override
 	public void robotPeriodic() {
-		// runs base periodic functions. Do not delete/comment out
 		CommandScheduler.getInstance().run();
 
 		robotContainer
-			.listenForRobotSelection()
+			// .listenForRobotSelection()
+			
 			.listenForJoystickModes()
-			.listenForJoystickDevices();
+			.listenForJoystickDevices()
+			
+			.listenForAutoRoutine();
 		
 		if (RobotContainer.enableDiagnostics) {
 			// robotContainer
@@ -78,16 +63,25 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
+
+		// robotContainer.intake.extendIntakeArm();
+
+
+		robotContainer.intake.coastRetractor();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-
+		
 	}
 
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
+
+		robotContainer.intake
+			.brakeRetractor()
+			.retractIntakeArm();
 	}
 
 
@@ -97,8 +91,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		defaultAutoCommand = robotContainer.defaultAutoCommand();
-		defaultAutoCommand.schedule();
+		robotContainer.intake.extendIntakeArm();
+
+		robotContainer.getAutoCommand().schedule();
 	}
 
 	@Override
@@ -108,7 +103,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousExit() {
-		defaultAutoCommand.cancel();
+		robotContainer.getAutoCommand().cancel();
+
+		robotContainer.intake.retractIntakeArm();
 	}
 
 
@@ -118,9 +115,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// stops auto before teleop starts running
-		// comment out to continue auto as another command starts
-		robotContainer.defaultAutoCommand().cancel();
+		
 	}
 
 	@Override
@@ -143,5 +138,4 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		
 	}
-
 }

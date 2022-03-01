@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -22,181 +21,71 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Gains;
-import frc.robot.subsystems.Drivetrain.NormalOutputMode.SlewRates;
+import frc.robot.Constants;
+import frc.robot.Constants.Drivetrain.MotorGroup;
+import frc.robot.RobotContainer.TeamRobot;
 
 
 public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Motor group constants
+	// Motors and drivetrain
 
 
-	public enum MotorGroup {
-		LEFT,
-		RIGHT
-	}
+	private final WPI_TalonFX
+		m_frontLeftMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kFrontLeft),
+		m_backLeftMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackLeft);
+	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
+
+	private final WPI_TalonFX
+		m_frontRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kFrontRight),
+		m_backRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackRight);
+	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
 	// 1 is not inverted, -1 is inverted
 	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
-	private double leftMotorsDirectionMultiplier = 1.d;
-	private double rightMotorsDirectionMultiplier = 1.d;
+	private double
+		leftMotorsDirectionMultiplier = 1.d,
+		rightMotorsDirectionMultiplier = 1.d;
+
+	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
 
 	// ----------------------------------------------------------
-	// Open-loop ramp constants
-
-
-	public static final double
-		// units in seconds
-		JOYSTICK_DRIVING_OPEN_LOOP_TIME = 0.7d;
-
-
-	// ----------------------------------------------------------
-	// Max output mode constants
-
-
-	public static final double MAXIMUM_SLEW_RATE_ALLOWED = 3.d;
-
-	public static class NormalOutputMode {
-		public static final double DEFAULT_MAXIMUM_OUTPUT = 1.d;
-
-		public static class SlewRates {
-			public static final double
-				DEFAULT_ARCADE_DRIVE_FORWARD = 1.58d,
-				DEFAULT_ARCADE_DRIVE_TURN = 2.08d,
-	
-				DEFAULT_TANK_DRIVE_FORWARD = 1.0d;
-		}
-	}
-
-	public static class KidsSafetyOutputMode {
-		public static final double DEFAULT_MAXIMUM_OUTPUT = 0.1d;
-
-		public static class SlewRates {
-			public static final double
-				DEFAULT_ARCADE_DRIVE_FORWARD = 2.d,
-				DEFAULT_ARCADE_DRIVE_TURN = 2.d,
-
-				DEFAULT_TANK_DRIVE_FORWARD = 2.d;
-		}
-	}
-
-
-	// ----------------------------------------------------------
-	// ID constants
-
-
-	private static class CAN_IDs {
-		// These are how it's SUPPOSED to be on both V1 and V2
-		private static final int
-			FRONT_LEFT = 3,
-			BACK_LEFT = 2,
-			FRONT_RIGHT = 4,
-			BACK_RIGHT = 5;
-	}
-
-
-	// ----------------------------------------------------------
-	// Odometry constants
+	// Odometry
 
 
 	private static DifferentialDriveOdometry m_odometry;
 
-
-	// ----------------------------------------------------------
-	// Kinematics constants
-
-
-	// horizontal distance between the left and right-side wheels
-	private static final double kTrackWidthMeters = 0.62484;
-	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-
-
-	// ----------------------------------------------------------
-	// Trajectory constsants
-
-
-	public static final double
-		kMaxSpeedMetersPerSecond = 3.d,
-    	kMaxAccelerationMetersPerSecondSquared = 3.d;
-
-	public static final double
-		kRamseteB = 2,
-		kRamseteZeta = 0.7;
-
-
-	// ----------------------------------------------------------
-	// Conversion constants
-
-
-	private static final double
-		// 2048 ticks in 1 revolution for Falcon 500s
-		// wheel diameter * pi = circumference of 1 revolution
-		// wheel diameter is 6 inches (which is 0.1524 meters)
-		// 7.33 to 1 gearbox is big to small gear (means more torque)
-		kTicksToMeters  = ( (0.1524d * Math.PI) / 2048.0d ) / 7.33d,
-		kMetersPerSecondToTicksPer100ms = 427.7550177d;
 	
-
 	// ----------------------------------------------------------
-	// Closed-loop control constants
+	// Kinematics
 
 
-	public static final double
-		// Feedforward gains
-		ksVolts = 0.67701,
-		kvVoltSecondsPerMeter = 0.041828,
-		kaVoltSecondsSquaredPerMeter = 0.020568,
-		
-		// Feedback gains
-		kPDriveVel = 0.96111;
-
-	private static final int
-		kLeftSlotIdx = 0,
-		kRightSlotIdx = 0,
-		// Set to zero to skip waiting for confirmation, set to nonzero to wait and report to DS if action fails.
-		kTimeoutMs = 10;
-
-	// ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
-
-	private static final Gains kLeftMotorVelocityGains
-		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
-		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
-	
-	private static final Gains kRightMotorVelocityGains 
-		// = new Gains(0.1d,	0.001d,	5.d,	1023.d/20660.d,	300,	1.00d);
-		// kP, kI, kD, kF, kIzone, kPeakOutput
-		= new Gains(0.96111d, 0.d, 0.d, 1023.d/20660.d, 300, 1.00d);
+	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
+	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMetersV2);
 
 
 	// ----------------------------------------------------------
-	// Resources
+	// IMU
 
-
-	private final WPI_TalonFX
-		m_frontLeftMotor = new WPI_TalonFX(CAN_IDs.FRONT_LEFT),
-		m_backLeftMotor = new WPI_TalonFX(CAN_IDs.BACK_LEFT);
-	private MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeftMotor, m_backLeftMotor);
-
-	private final WPI_TalonFX
-		m_frontRightMotor = new WPI_TalonFX(CAN_IDs.FRONT_RIGHT),
-		m_backRightMotor = new WPI_TalonFX(CAN_IDs.BACK_RIGHT);
-	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
-
-	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
 	private final ADIS16448_IMU imu = new ADIS16448_IMU(ADIS16448_IMU.IMUAxis.kZ, SPI.Port.kMXP, ADIS16448_IMU.CalibrationTime._1s);
+	
 	private double
 		m_filteredXAccelOffset = 0.d,
 		m_filteredYAccelOffset = 0.d;
 
-	private SlewRateLimiter
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD),
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(SlewRates.DEFAULT_ARCADE_DRIVE_TURN),
 
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD),
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+	// ----------------------------------------------------------
+	// Slew rate limiters
+
+	
+	private SlewRateLimiter
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward),
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn),
+
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward),
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
 
 
 	// ----------------------------------------------------------
@@ -209,30 +98,28 @@ public class Drivetrain extends SubsystemBase {
 		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getAngle()));
 
 		// ----------------------------------------------------------
-		// Initialize motor controllers and followers
+		// Left motor group configuration
 
 		m_frontLeftMotor.configFactoryDefault();
 		m_backLeftMotor.configFactoryDefault();
-		m_frontRightMotor.configFactoryDefault();
-		m_backRightMotor.configFactoryDefault();
-
-		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_backRightMotor.follow(m_frontRightMotor);
+		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kLeftPidIdx, Constants.Drivetrain.kTimeoutMs);
+		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kF);
+		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGainsV2.kP);
+		// m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kI);
+        // m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kD);
 
 		// ----------------------------------------------------------
-		// Config closed-loop controls
+		// Right motor group configuration
 
-		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
-		// m_frontLeftMotor.config_kF(kLeftSlotIdx, kLeftMotorVelocityGains.kF);
-		m_frontLeftMotor.config_kP(kLeftSlotIdx, kLeftMotorVelocityGains.kP);
-		// m_frontLeftMotor.config_kI(kLeftSlotIdx, kLeftMotorVelocityGains.kI);
-        // m_frontLeftMotor.config_kD(kLeftSlotIdx, kLeftMotorVelocityGains.kD);
-
-		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, kTimeoutMs);
-		// m_frontRightMotor.config_kF(kLeftSlotIdx, kRightMotorVelocityGains.kF);
-		m_frontRightMotor.config_kP(kLeftSlotIdx, kRightMotorVelocityGains.kP);
-		// m_frontRightMotor.config_kI(kLeftSlotIdx, kRightMotorVelocityGains.kI);
-        // m_frontRightMotor.config_kD(kLeftSlotIdx, kRightMotorVelocityGains.kD);
+		m_frontRightMotor.configFactoryDefault();
+		m_backRightMotor.configFactoryDefault();
+		m_backLeftMotor.follow(m_frontLeftMotor);
+		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kRightPidIdx, Constants.Drivetrain.kTimeoutMs);
+		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kF);
+		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGainsV2.kP);
+		// m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kI);
+        // m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kD);
 
 		resetEncoders();
 	}
@@ -246,13 +133,13 @@ public class Drivetrain extends SubsystemBase {
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
 
-		SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
+		// SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
 
-		SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
-		SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+		// SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
+		// SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
 
-		SmartDashboard.putBoolean("Left is inverted", m_leftGroup.getInverted());
-		SmartDashboard.putBoolean("Right is inverted", m_rightGroup.getInverted());
+		// SmartDashboard.putNumber("Left Motor", getLeftMPS());
+		// SmartDashboard.putNumber("Right Motor", getRightMPS());
 	}
 
 
@@ -266,7 +153,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useNormalMaximumOutput() {
-		m_differentialDrive.setMaxOutput(Drivetrain.NormalOutputMode.DEFAULT_MAXIMUM_OUTPUT);
+		m_differentialDrive.setMaxOutput(Constants.Drivetrain.NormalOutputMode.kDefaultMaxOutput);
 		return this;
 	}
 
@@ -281,14 +168,14 @@ public class Drivetrain extends SubsystemBase {
 			default:
 				DriverStation.reportError("Unsupported motor group detected in setOnlyMotorGroupToInverted", true);
 				break;
-			case LEFT:
+			case kLeft:
 				m_leftGroup.setInverted(true);
 				m_rightGroup.setInverted(false);
 
 				leftMotorsDirectionMultiplier = -1.d;
 				rightMotorsDirectionMultiplier = 1.d;
 				break;
-			case RIGHT:
+			case kRight:
 				m_leftGroup.setInverted(false);
 				m_rightGroup.setInverted(true);
 
@@ -321,7 +208,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
-		setOpenLoopRampTimes(JOYSTICK_DRIVING_OPEN_LOOP_TIME);
+		setOpenLoopRampTimes(Constants.Drivetrain.kJoystickOpenLoopRampTime);
 		return this;
 	}
 
@@ -339,22 +226,22 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setLeftMotors(double velocity) {
-		m_frontLeftMotor.set(ControlMode.Velocity, velocity * leftMotorsDirectionMultiplier);
+	public Drivetrain setLeftMPS(double mps) {
+		m_frontLeftMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier);
 		return this;
 	}
 
-	public Drivetrain setRightMotors(double velocity) {
-		m_frontRightMotor.set(ControlMode.Velocity, velocity * rightMotorsDirectionMultiplier);
+	public Drivetrain setRightMPS(double mps) {
+		m_frontRightMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier);
 		return this;
 	}
 
-	public double getLeftPercent() {
-		return m_frontLeftMotor.getMotorOutputPercent() * leftMotorsDirectionMultiplier;
+	public double getLeftMPS() {
+		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier;
 	}
 
-	public double getRightPercent() {
-		return m_frontRightMotor.getMotorOutputPercent() * rightMotorsDirectionMultiplier;
+	public double getRightMPS() {
+		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -386,8 +273,8 @@ public class Drivetrain extends SubsystemBase {
 
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		return new DifferentialDriveWheelSpeeds(
-			m_frontLeftMotor.getSelectedSensorVelocity(kLeftSlotIdx),
-			m_frontRightMotor.getSelectedSensorVelocity(kRightSlotIdx));
+			m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftSlotIdx),
+			m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightSlotIdx));
 	}
 
 	public void resetOdometry(Pose2d pose) {
@@ -399,7 +286,22 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Drive methods
 
-	
+
+	public Drivetrain configureDrivetrain(TeamRobot teamRobot) {
+		switch (teamRobot) {
+			default:
+				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
+				break;
+			case VERSACHASSIS_TWO:
+				setOnlyMotorGroupToInverted(MotorGroup.kLeft);
+				break;
+			case VERSACHASSIS_ONE:
+				setOnlyMotorGroupToInverted(MotorGroup.kRight);
+				break;
+		}
+		return this;
+	}
+
 	public void arcadeDrive(double forward, double rotation) {
 		m_differentialDrive.arcadeDrive(forward, rotation);
 	}
@@ -420,8 +322,6 @@ public class Drivetrain extends SubsystemBase {
 
 	public void stopDrive() {
 		tankDrive(0.d, 0.d);
-		m_leftGroup.stopMotor();
-		m_rightGroup.stopMotor();
 	}
 
 
@@ -432,20 +332,20 @@ public class Drivetrain extends SubsystemBase {
 	// Output-mode configurations
 
 	public Drivetrain useNormalOutputModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
-		setArcadeDriveTurnLimiterRate(NormalOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
-		setTankDriveRightForwardLimiterRate(NormalOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
 	public Drivetrain useKidsSafetyModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_FORWARD);
-		setArcadeDriveTurnLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_ARCADE_DRIVE_TURN);
+		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
-		setTankDriveRightForwardLimiterRate(KidsSafetyOutputMode.SlewRates.DEFAULT_TANK_DRIVE_FORWARD);
+		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
 		return this;
 	}
 
@@ -507,11 +407,11 @@ public class Drivetrain extends SubsystemBase {
 		return Math.round(input * 100.0d) / 100.0d;
 	}
 
-	private double getXFilteredAccelAngle() {
+	private double getXAccelAngle() {
 		return imu.getXFilteredAccelAngle() - m_filteredXAccelOffset;
 	}
 	
-	private double getYFilteredAccelAngle() {
+	private double getYAccelAngle() {
 		return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
 	}
 
@@ -525,7 +425,8 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain resetIMU() {
-		imu.reset();		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
+		imu.reset();
 		return this;
 	}
 
@@ -535,7 +436,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * kTicksToMeters * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -544,7 +445,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistanceMeters() {
-		return m_frontRightMotor.getSelectedSensorPosition() * kTicksToMeters * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {

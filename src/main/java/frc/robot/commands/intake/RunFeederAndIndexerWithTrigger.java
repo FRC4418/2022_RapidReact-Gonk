@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class RunFeederWithTrigger extends CommandBase {
+public class RunFeederAndIndexerWithTrigger extends CommandBase {
 	// ----------------------------------------------------------
 	// Resource
 
@@ -18,7 +18,7 @@ public class RunFeederWithTrigger extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunFeederWithTrigger(Intake intake, Manipulator manipulator) {
+	public RunFeederAndIndexerWithTrigger(Intake intake, Manipulator manipulator) {
 		m_intake = intake;
 		m_manipulator = manipulator;
 
@@ -27,9 +27,6 @@ public class RunFeederWithTrigger extends CommandBase {
 
 	// ----------------------------------------------------------
 	// Scheduler methods
-
-	@Override
-	public void initialize() {}
 
 	@Override
 	public void execute() {
@@ -42,27 +39,24 @@ public class RunFeederWithTrigger extends CommandBase {
 		// driver's triggers take priority over the spotter's triggers
 		if (driverFeederAxis == 0.d && driverReverseFeederAxis == 0.d) {
 			if (spotterFeederAxis == 0.d) {
-				m_intake.setFeederMotorPercent(-spotterReverseFeederAxis);
-				m_manipulator.setIndexerToPercent(-spotterReverseFeederAxis);
+				m_intake.setFeederPercent(-spotterReverseFeederAxis);
+				m_manipulator.setIndexerPercent(-spotterReverseFeederAxis);
 			} else {
-				m_intake.setFeederMotorPercent(spotterFeederAxis);
-				m_manipulator.setIndexerToPercent(spotterFeederAxis);
+				m_intake.setFeederPercent(spotterFeederAxis);
+				m_manipulator.setIndexerPercent(spotterFeederAxis);
 			}
 		} else {
 			// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
 			if (driverFeederAxis == 0.d) {
-				m_intake.setFeederMotorPercent(-driverReverseFeederAxis);
-				m_manipulator.setIndexerToPercent(-driverReverseFeederAxis);
+				m_intake.setFeederPercent(-driverReverseFeederAxis);
+				m_manipulator.setIndexerPercent(-driverReverseFeederAxis);
 			} else {
-				m_intake.setFeederMotorPercent(driverFeederAxis);
-				m_manipulator.setIndexerToPercent(driverFeederAxis);
+				m_intake.setFeederPercent(driverFeederAxis);
+				m_manipulator.setIndexerPercent(driverFeederAxis);
 			}
 		}
 	}
-
-	@Override
-	public void end(boolean interrupted) {}
-
+	
 	@Override
 	public boolean isFinished() {
 		return false;

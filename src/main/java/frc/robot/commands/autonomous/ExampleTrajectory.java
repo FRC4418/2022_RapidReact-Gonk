@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -38,19 +38,19 @@ public class ExampleTrajectory extends CommandBase {
 		var autoVoltageConstraint =
 			new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
+					Constants.Drivetrain.ksVoltsV2,
+					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Drivetrain.kDriveKinematicsV2,
 				10);
 	
 		// Create config for trajectory
 		var config =
 			new TrajectoryConfig(
-				Drivetrain.kMaxSpeedMetersPerSecond,
-				Drivetrain.kMaxAccelerationMetersPerSecondSquared)
+				Constants.Drivetrain.kMaxSpeedMetersPerSecond,
+				Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared)
 				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Drivetrain.kDriveKinematics)
+				.setKinematics(Drivetrain.kDriveKinematicsV2)
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 	
@@ -70,15 +70,15 @@ public class ExampleTrajectory extends CommandBase {
 			new RamseteCommand(
 				exampleTrajectory,
 				m_drivetrain::getPose,
-				new RamseteController(Drivetrain.kRamseteB, Drivetrain.kRamseteZeta),
+				new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
 				new SimpleMotorFeedforward(
-					Drivetrain.ksVolts,
-					Drivetrain.kvVoltSecondsPerMeter,
-					Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematics,
+					Constants.Drivetrain.ksVoltsV2,
+					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Drivetrain.kDriveKinematicsV2,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
-				new PIDController(Drivetrain.kPDriveVel, 0, 0),
+				new PIDController(Constants.Drivetrain.kLeftVelocityGainsV2.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kRightVelocityGainsV2.kP, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);

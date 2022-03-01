@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.intake.RunFeeder;
+import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
+import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
@@ -50,12 +51,11 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Drivetrain
 
-        reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
-        if (reverseDrivetrainButton != null) {
-            reverseDrivetrainButton
-                .whenPressed(new ReverseDrivetrain(drivetrain))
-                .whenReleased(new ReverseDrivetrain(drivetrain));
-        }
+        // reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
+        // if (reverseDrivetrainButton != null) {
+        //     reverseDrivetrainButton.whenPressed(new ReverseDrivetrain(drivetrain));
+        //     // reverseDrivetrainButton.whenReleased(new ReverseDrivetrain(drivetrain));
+        // }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
@@ -64,12 +64,14 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Intake
 
-        runFeederDisposalButton = runFeederDisposalButton(primaryJoystick);
+        runFeederDisposalButton = runReverseFeederButton(primaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(primaryJoystick);
-        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeeder(intake));
+        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));
         toggleFeederButton = toggleFeederButton(primaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
+        extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);
+        if (extendIntakeArmButton != null) extendIntakeArmButton.whenHeld(new ExtendIntakeArmWhileHeld(intake));
 
         // ----------------------------------------------------------
         // Manipulator

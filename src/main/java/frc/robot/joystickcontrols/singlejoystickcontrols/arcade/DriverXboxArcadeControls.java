@@ -80,7 +80,7 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    public JoystickButton runFeederDisposalButton(Joystick joystick) {
+    public JoystickButton runReverseFeederButton(Joystick joystick) {
         return null;
     }
 
@@ -92,6 +92,11 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
     @Override
     public JoystickButton toggleFeederButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
+    }
+
+    @Override
+    protected JoystickButton extendIntakeArmButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
     }
 
     // ----------------------------------------------------------

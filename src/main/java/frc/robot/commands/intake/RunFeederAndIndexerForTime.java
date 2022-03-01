@@ -1,27 +1,33 @@
-package frc.robot.commands.manipulator;
+package frc.robot.commands.intake;
 
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class AutoRunLauncherDemo extends CommandBase {
+public class RunFeederAndIndexerForTime extends CommandBase {
 	// ----------------------------------------------------------
-	// Resource
+	// Resources
 
+	private final Intake m_intake;
 	private final Manipulator m_manipulator;
-	
-	private final double m_duration;
+
 	private final Timer m_timer = new Timer();
+	private final double m_durationSeconds;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public AutoRunLauncherDemo(Manipulator manipulator, double duration) {	
+	public RunFeederAndIndexerForTime(Intake intake, Manipulator manipulator, double durationSeconds) {
+		m_intake = intake;
 		m_manipulator = manipulator;
-		m_duration = duration;
+
+		m_durationSeconds = durationSeconds;
+
+		addRequirements(m_intake);
 	}
 
 	// ----------------------------------------------------------
@@ -30,23 +36,22 @@ public class AutoRunLauncherDemo extends CommandBase {
 	@Override
 	public void initialize() {
 		m_timer.start();
-		m_manipulator.runLauncher();
-	}
 
-	@Override
-	public void execute() {
-		
+		m_intake.runFeeder();
+		m_manipulator.runIndexer();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_manipulator.stopLauncher();
+		m_intake.stopFeeder();
+		m_manipulator.stopIndexer();
+		
 		m_timer.stop();
 		m_timer.reset();
-	}	
+	}
 
 	@Override
 	public boolean isFinished() {
-		return m_timer.hasElapsed(m_duration);
+		return m_timer.hasElapsed(m_durationSeconds);
 	}
 }

@@ -81,7 +81,7 @@ public class SpotterXboxControls extends SingleJoystickControls {
     // Intake buttons
 
     @Override
-    protected JoystickButton runFeederDisposalButton(Joystick joystick) {
+    protected JoystickButton runReverseFeederButton(Joystick joystick) {
         return null;
     }
 
@@ -93,6 +93,11 @@ public class SpotterXboxControls extends SingleJoystickControls {
     @Override
     public JoystickButton toggleFeederButton(Joystick joystick) {
         return null;
+    }
+
+    @Override
+    protected JoystickButton extendIntakeArmButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
     }
 
     // ----------------------------------------------------------
