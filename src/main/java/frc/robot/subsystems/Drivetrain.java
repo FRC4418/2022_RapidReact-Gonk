@@ -41,6 +41,8 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor = new WPI_TalonFX(Constants.Drivetrain.CAN_ID.kBackRight);
 	private MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRightMotor, m_backRightMotor);
 
+	private boolean m_reverseDrivetrain = false;
+
 	// 1 is not inverted, -1 is inverted
 	// this multiplier is used to maintain the correct inversion when direct phoenix-level motor-setting is needed (like the setLeftMotors and setRightMotors functions)
 	private double
@@ -187,25 +189,24 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain reverseDrivetrain() {
-		invertMotors();
-		swapMotorGroups();
+		m_reverseDrivetrain = !m_reverseDrivetrain;
 		return this;
 	}
 
-	private Drivetrain swapMotorGroups() {
-		var tempLeftGroup = m_leftGroup;
-		m_leftGroup = m_rightGroup;
-		m_rightGroup = tempLeftGroup;
+	// private Drivetrain swapMotorGroups() {
+	// 	var tempLeftGroup = m_leftGroup;
+	// 	m_leftGroup = m_rightGroup;
+	// 	m_rightGroup = tempLeftGroup;
 
-		m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
-		return this;
-	}
+	// 	m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
+	// 	return this;
+	// }
 
-	private Drivetrain invertMotors() {
-		m_leftGroup.setInverted(!m_leftGroup.getInverted());
-		m_rightGroup.setInverted(!m_rightGroup.getInverted());
-		return this;
-	}
+	// private Drivetrain invertMotors() {
+	// 	m_leftGroup.setInverted(!m_leftGroup.getInverted());
+	// 	m_rightGroup.setInverted(!m_rightGroup.getInverted());
+	// 	return this;
+	// }
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
 		setOpenLoopRampTimes(Constants.Drivetrain.kJoystickOpenLoopRampTime);
@@ -303,21 +304,41 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void arcadeDrive(double forward, double rotation) {
-		m_differentialDrive.arcadeDrive(forward, rotation);
+		if (!m_reverseDrivetrain) {
+			m_differentialDrive.arcadeDrive(forward, rotation);
+		} else {
+			m_differentialDrive.arcadeDrive(-forward, rotation);
+		}
+		m_differentialDrive.feed();
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
-		m_leftGroup.setVoltage(leftVolts);
-		m_rightGroup.setVoltage(rightVolts);
+		if (!m_reverseDrivetrain) {
+			m_leftGroup.setVoltage(leftVolts);
+			m_rightGroup.setVoltage(rightVolts);
+		} else {
+			m_leftGroup.setVoltage(-rightVolts);
+			m_rightGroup.setVoltage(-leftVolts);
+		}
 		m_differentialDrive.feed();
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		if (!m_reverseDrivetrain) {
+			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		} else {
+			m_differentialDrive.tankDrive(-rightSpeed, -leftSpeed);
+		}
+		m_differentialDrive.feed();
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
-		m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
+		if (!m_reverseDrivetrain) {
+			m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
+		} else {
+			m_differentialDrive.curvatureDrive(-xSpeed, zRotation, allowTurnInPlace);
+		}
+		m_differentialDrive.feed();
 	}
 
 	public void stopDrive() {
