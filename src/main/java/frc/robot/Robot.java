@@ -69,19 +69,22 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		(new ExtendIntakeArmThenCoast(robotContainer.intake)).schedule();
+		robotContainer.intake.coastRetractor();
+		// (new ExtendIntakeArmThenCoast(robotContainer.intake)).schedule();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		
+		robotContainer.intake.updateRetractorOrigin();
 	}
 
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
 
-		robotContainer.intake.retractIntakeArm();
+		robotContainer.intake.brakeRetractor();
+
+		// robotContainer.intake.retractIntakeArm();
 	}
 
 
@@ -91,7 +94,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		robotContainer.intake.extendIntakeArm();
+		// robotContainer.intake.extendIntakeArm();
 
 		robotContainer.getAutoCommand().schedule();
 	}
@@ -105,7 +108,7 @@ public class Robot extends TimedRobot {
 	public void autonomousExit() {
 		robotContainer.getAutoCommand().cancel();
 
-		robotContainer.intake.retractIntakeArm();
+		// robotContainer.intake.retractIntakeArm();
 	}
 
 

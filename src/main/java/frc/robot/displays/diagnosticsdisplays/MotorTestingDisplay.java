@@ -31,7 +31,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry feederPercentNumberSlider;
 
 	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorDegreeNumberSlider;
+	private NetworkTableEntry retractorTicksNumberSlider;
 
     public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
 		super(width, height);
@@ -53,7 +53,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			feederPercentNumberSlider,
 
 			retractorToggleSwitch,
-			retractorDegreeNumberSlider
+			retractorTicksNumberSlider
 		));
 		return this;
 	}
@@ -97,10 +97,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						retractorDegreeNumberSlider = retractorLayout
+						retractorTicksNumberSlider = retractorLayout
 							.add("Ticks", Constants.Intake.kExtendedIntakeRetractorTicks)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -Constants.Intake.kMaxRetractorTicks, "Max", Constants.Intake.kMaxRetractorTicks, "Block increment", 200))
+							.withProperties(Map.of("Min", -20_000, "Max", 3_000, "Block increment", 200))
 							.getEntry();
 					}
 
@@ -191,7 +191,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-				retractorDegreeNumberSlider.addListener(event -> {
+				retractorTicksNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractorTicks((int) event.value.getDouble());

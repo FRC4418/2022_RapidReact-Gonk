@@ -147,8 +147,10 @@ public class Constants {
         public static final int
             kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * kToOutputRetractorTicksRatio),
 
-            kRetractedIntakeRetractorTicks = -17_000,
-            kExtendedIntakeRetractorTicks = -1_000,
+            kRetractedIntakeRetractorTicks = 0,
+            kExtendedIntakeRetractorTicks = 2_000,
+
+            kRetractorOriginOffsetBufferMargin = 150,
 
             kRetractorDegreeTolerance = (int) (kMaxRetractorTicks * 0.02);
 
@@ -185,7 +187,7 @@ public class Constants {
         // private final Gains kRetractorPositionGains
         // 	= new Gains(0.1, 0., 0., 1023./20660., 300, 1.00);
         public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.012, 0., 0., 1023./20660., 300, 1.00);
+            = new Gains(0.04, 0., 0., 1023./20660., 300, 1.00);
     }
 
     public static class Manipulator {

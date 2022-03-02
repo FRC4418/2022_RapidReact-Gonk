@@ -61,7 +61,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDiagnostics = true,
+		enableDiagnostics = false,
 
 		enableCameras = false,
 		
@@ -162,7 +162,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
-
+		
 		hudDisplaysGrid
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
