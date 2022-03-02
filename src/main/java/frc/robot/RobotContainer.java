@@ -61,7 +61,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDiagnostics = false,
+		enableDiagnostics = true,
 
 		enableCameras = false,
 		
@@ -177,7 +177,7 @@ public class RobotContainer {
 		
 		if (enableDiagnostics) {
 			diagnosticDisplaysGrid
-				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 7, 3))
+				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 8, 3))
 				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
 				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
 				.initialize()
