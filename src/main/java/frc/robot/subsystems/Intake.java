@@ -24,9 +24,6 @@ public class Intake extends SubsystemBase {
 	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
 	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
-	// the origin (0 ticks, or 0 degrees) is supposed to be the retractor's retracted angle when using this offset
-	private int retractorTicksOriginOffset = 1_000_000;
-
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -60,9 +57,7 @@ public class Intake extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// TODO: Remove these prints once useless
-		SmartDashboard.putNumber("Raw ticks", getRawRetractorTicks());
 		SmartDashboard.putNumber("Offset ticks", getRetractorTicks());
-		SmartDashboard.putNumber("Origin offset", retractorTicksOriginOffset);
 
 		updateRetractorOrigin();
 	}
@@ -82,9 +77,8 @@ public class Intake extends SubsystemBase {
 
 	
 	public Intake updateRetractorOrigin() {
-		int newMostRetractedPosition = getRawRetractorTicks();
-		if (newMostRetractedPosition < retractorTicksOriginOffset) {
-			retractorTicksOriginOffset = newMostRetractedPosition;
+		if (getRetractorTicks() < 0) {
+			m_retractorMotor.setSelectedSensorPosition(0.);
 		}
 		return this;
 	}
@@ -99,28 +93,21 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	// 'raw' because there's no origin offset
-	public int getRawRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition();
-	}
-
 	public int getRetractorTicks() {
-		return getRawRetractorTicks() - retractorTicksOriginOffset;
+		return (int) m_retractorMotor.getSelectedSensorPosition();
 	}
 
 	public double getRetractorDegree() {
 		return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
 	}
 
-	// offset + safety buffer --> positionDegrees = 0 means going to the retracted position
 	public Intake setRetractorDegree(double positionDegrees) {
 		setRetractorTicks((int) (positionDegrees * Constants.Intake.kRetractorDegreesToTicks));
 		return this;
 	}
 
-	// offset + safety buffer --> positionTicks = 0 means going to the retracted position
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position, positionTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
+		m_retractorMotor.set(ControlMode.Position, positionTicks + Constants.Intake.kRetractorOriginBufferTicks);
 		return this;
 	}
 

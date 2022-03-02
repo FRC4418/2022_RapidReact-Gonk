@@ -147,10 +147,10 @@ public class Constants {
         public static final int
             kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * kToOutputRetractorTicksRatio),
 
-            kRetractedIntakeRetractorTicks = -2_300,
-            kExtendedIntakeRetractorTicks = 7_346,
+            kRetractedIntakeRetractorTicks = 0,
+            kExtendedIntakeRetractorTicks = 9_000,
 
-            kRetractorOriginOffsetBufferMargin = 150,
+            kRetractorOriginBufferTicks = 100,
 
             kRetractorDegreeTolerance = (int) (kMaxRetractorTicks * 0.05);
 
