@@ -101,7 +101,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public int getRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition() - retractorTicksOriginOffset;
+		return getRawRetractorTicks() - retractorTicksOriginOffset;
 	}
 
 	public double getRetractorDegree() {
@@ -110,13 +110,13 @@ public class Intake extends SubsystemBase {
 
 	// offset + safety buffer --> positionDegrees = 0 means going to the retracted position
 	public Intake setRetractorDegree(double positionDegrees) {
-		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks - retractorTicksOriginOffset);
+		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
 		return this;
 	}
 
 	// offset + safety buffer --> positionTicks = 0 means going to the retracted position
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position, positionTicks - retractorTicksOriginOffset);
+		m_retractorMotor.set(ControlMode.Position, positionTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
 		return this;
 	}
 

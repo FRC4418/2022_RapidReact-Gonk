@@ -100,7 +100,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						retractorTicksNumberSlider = retractorLayout
 							.add("Ticks", Constants.Intake.kExtendedIntakeRetractorTicks)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -20_000, "Max", 3_000, "Block increment", 200))
+							.withProperties(Map.of("Min", -35_000, "Max", 35_000, "Block increment", 200))
 							.getEntry();
 					}
 
