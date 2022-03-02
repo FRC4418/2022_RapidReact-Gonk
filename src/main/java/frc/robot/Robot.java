@@ -4,7 +4,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.intake.ExtendIntakeArmThenCoast;
 
 
 public class Robot extends TimedRobot {
@@ -70,7 +69,6 @@ public class Robot extends TimedRobot {
 		robotContainer.drivetrain.coastMotors();
 
 		robotContainer.intake.extendIntakeArm();
-		// (new ExtendIntakeArmThenCoast(robotContainer.intake)).schedule();
 	}
 
 	@Override
