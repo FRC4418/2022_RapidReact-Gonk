@@ -61,7 +61,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDiagnostics = false,
+		enableDiagnostics = true,
 
 		enableCameras = false,
 		
