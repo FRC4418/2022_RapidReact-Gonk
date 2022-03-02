@@ -12,7 +12,7 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 	private final Intake m_intake;
 
 	private final Timer m_timer = new Timer();
-	private final double endDelaySeconds = 0.25;
+	private final double endDelaySeconds = 1.5;
 
 	public ExtendIntakeArmThenCoast(Intake intake) {
 		m_intake = intake;

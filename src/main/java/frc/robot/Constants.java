@@ -147,12 +147,12 @@ public class Constants {
         public static final int
             kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * kToOutputRetractorTicksRatio),
 
-            kRetractedIntakeRetractorTicks = 0,
-            kExtendedIntakeRetractorTicks = 2_000,
+            kRetractedIntakeRetractorTicks = -2_300,
+            kExtendedIntakeRetractorTicks = 7_346,
 
             kRetractorOriginOffsetBufferMargin = 150,
 
-            kRetractorDegreeTolerance = (int) (kMaxRetractorTicks * 0.02);
+            kRetractorDegreeTolerance = (int) (kMaxRetractorTicks * 0.05);
 
         public static class CAN_ID {
             public static final int
@@ -167,6 +167,11 @@ public class Constants {
 
         public static final double
             kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution * 58.25) / 360.;
+
+        // ----------------------------------------------------------
+        // Open-loop controls
+
+        public static final double kRetractorOpenLoopRampSeconds = 1.d;
 
         // ----------------------------------------------------------
         // Closed-loop control
@@ -187,7 +192,7 @@ public class Constants {
         // private final Gains kRetractorPositionGains
         // 	= new Gains(0.1, 0., 0., 1023./20660., 300, 1.00);
         public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.04, 0., 0., 1023./20660., 300, 1.00);
+            = new Gains(0.03, 0., 0., 1023./20660., 300, 1.00);
     }
 
     public static class Manipulator {

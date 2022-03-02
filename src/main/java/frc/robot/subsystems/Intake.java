@@ -43,6 +43,7 @@ public class Intake extends SubsystemBase {
 		// Retractor motor configuration
 
 		m_retractorMotor.configFactoryDefault();
+		m_retractorMotor.configOpenloopRamp(Constants.Intake.kRetractorOpenLoopRampSeconds);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
 		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kP);
@@ -61,6 +62,8 @@ public class Intake extends SubsystemBase {
 		SmartDashboard.putNumber("Raw ticks", getRawRetractorTicks());
 		SmartDashboard.putNumber("Offset ticks", getRetractorTicks());
 		SmartDashboard.putNumber("Origin offset", retractorTicksOriginOffset);
+
+		updateRetractorOrigin();
 	}
 	
 
