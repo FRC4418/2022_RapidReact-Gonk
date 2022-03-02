@@ -24,6 +24,7 @@ public class Intake extends SubsystemBase {
 	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
 	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
+	// the origin (0 ticks, or 0 degrees) is supposed to be the retractor's retracted angle when using this offset
 	private int retractorTicksOriginOffset = 1_000_000;
 
 
@@ -113,7 +114,7 @@ public class Intake extends SubsystemBase {
 
 	// offset + safety buffer --> positionDegrees = 0 means going to the retracted position
 	public Intake setRetractorDegree(double positionDegrees) {
-		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
+		setRetractorTicks((int) (positionDegrees * Constants.Intake.kRetractorDegreesToTicks));
 		return this;
 	}
 
