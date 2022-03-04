@@ -82,7 +82,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator setLauncherRPM(int rpm) {
-		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kRpmToTicksPer100ms);
+		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherTicksReductionRatio + Constants.Manipulator.kRpmToTicksPer100ms);
 		return this;
 	}
 
