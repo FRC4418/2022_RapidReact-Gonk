@@ -16,7 +16,7 @@ public class Constants {
         public static int ticksPerRevolution = 2048;
 
         // AKA the free RPM
-        public static int maxRPM = 6380;
+        public static int kMaxRPM = 6380;
     }
 
     public static class Drivetrain {
@@ -206,7 +206,7 @@ public class Constants {
             kLauncherTicksReductionRatio = 3.;
             
 
-        public static final int kDefaultLauncherRPM = Falcon500.maxRPM;
+        public static final int kDefaultLauncherRPM = Falcon500.kMaxRPM;
         public static final double kDefaultLauncherPercent = 1.;
 
         public static class CAN_ID {
