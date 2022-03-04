@@ -54,8 +54,8 @@ public class Robot extends TimedRobot {
 			.listenForAutoRoutine();
 		
 		if (RobotContainer.enableDiagnostics) {
-			// robotContainer
-			// 	.printJoystickValues();
+			robotContainer
+				.printJoystickValues();
 		}
 	}
 

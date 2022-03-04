@@ -61,7 +61,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDiagnostics = false,
+		enableDiagnostics = true,
 
 		enableCameras = false,
 		
@@ -211,8 +211,8 @@ public class RobotContainer {
 		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
 		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
 
-		SmartDashboard.putNumber("Raw Left Trigger", m_printOutjoystick.getRawAxis(2));
-		SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
+		// SmartDashboard.putNumber("Raw Left Trigger", m_printOutjoystick.getRawAxis(2));
+		// SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
 		return this;
