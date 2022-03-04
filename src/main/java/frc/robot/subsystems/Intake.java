@@ -113,7 +113,7 @@ public class Intake extends SubsystemBase {
 
 	// offset + safety buffer --> positionDegrees = 0 means going to the retracted position
 	public Intake setRetractorDegree(double positionDegrees) {
-		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
+		setRetractorTicks((int) (positionDegrees * Constants.Intake.kRetractorDegreesToTicks));
 		return this;
 	}
 
