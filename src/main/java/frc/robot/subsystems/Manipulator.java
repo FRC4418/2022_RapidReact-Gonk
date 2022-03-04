@@ -81,8 +81,8 @@ public class Manipulator extends SubsystemBase {
 		return m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Manipulator.kRpmToTicksPer100ms;
 	}
 
-	public Manipulator setLauncherRPM(double rpm) {
-		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kRpmToTicksPer100ms);
+	public Manipulator setLauncherRPM(int rpm) {
+		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherTicksReductionRatio + Constants.Manipulator.kRpmToTicksPer100ms);
 		return this;
 	}
 
@@ -97,7 +97,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator stopLauncher() {
-		setLauncherPercent(0.);
+		setLauncherRPM(0);
 		return this;
 	}
 }

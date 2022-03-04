@@ -16,7 +16,7 @@ public class Constants {
         public static int ticksPerRevolution = 2048;
 
         // AKA the free RPM
-        public static int maxRPM = 6380;
+        public static int kMaxRPM = 6380;
     }
 
     public static class Drivetrain {
@@ -141,6 +141,7 @@ public class Constants {
             kDefaultReverseFeederPercent = -0.5,
             kDefaultFeederPercent = 0.5,
 
+            // means that for every 58.25 input ticks, the mechanism outputs 1 tick
             kRetractorTicksReductionRatio = 58.25;
             
         // retractor has tick range of -((double) Falcon500.ticksPerRevolution * 58.25) to ((double) Falcon500.ticksPerRevolution * 58.25)
@@ -150,7 +151,7 @@ public class Constants {
 
             kRetractorOriginBufferTicks = 100,
 
-            kRetractorTicksTolerance = (int) (Falcon500.maxRPM * 0.03);
+            kRetractorTicksTolerance = (int) (Falcon500.kMaxRPM * 0.03);
 
         public static class CAN_ID {
             public static final int
@@ -198,9 +199,12 @@ public class Constants {
         // General
 
         public static final double
-            kDefaultIndexerPercent = 1.0;
+            kDefaultIndexerPercent = 1.0,
 
-        public static final int kDefaultLauncherRPM = Falcon500.maxRPM;
+            kLauncherTicksReductionRatio = 3.;
+            
+
+        public static final int kDefaultLauncherRPM = Falcon500.kMaxRPM;
         public static final double kDefaultLauncherPercent = 1.;
 
         public static class CAN_ID {
@@ -213,7 +217,7 @@ public class Constants {
         // Conversion
 
         // Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
-        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * 4.) / 600.;
+        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * kLauncherTicksReductionRatio) / 600.;
 
         // ----------------------------------------------------------
         // Closed-loop control
