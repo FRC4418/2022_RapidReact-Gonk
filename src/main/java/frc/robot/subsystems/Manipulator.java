@@ -67,14 +67,13 @@ public class Manipulator extends SubsystemBase {
 		return this;
 	}
 
-	// runs the indexer motor at the default output percent
 	public Manipulator runIndexer() {
-		setIndexerPercent(Constants.Manipulator.kDefaultIndexerPercent);
+		setIndexerRPM(Constants.Manipulator.kDefaultIndexerRPM);
 		return this;
 	}
 
 	public Manipulator stopIndexer() {
-		setIndexerPercent(0.);
+		setIndexerRPM(0);
 		return this;
 	}
 

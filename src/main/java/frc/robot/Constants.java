@@ -203,12 +203,12 @@ public class Constants {
         // General
 
         public static final double
-            kDefaultIndexerPercent = 1.,
-
             kLauncherTicksReductionRatio = 3.,
             kIndexerTicksReductionRatio = 9.;
 
-        public static final int kDefaultLauncherRPM = Falcon500.kMaxRPM;
+        public static final int
+            kDefaultIndexerRPM = Falcon500.kMaxRPM,
+            kDefaultLauncherRPM = Falcon500.kMaxRPM;
 
         public static class CAN_ID {
             public static final int
