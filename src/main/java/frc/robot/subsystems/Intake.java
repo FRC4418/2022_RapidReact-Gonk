@@ -107,7 +107,9 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position, positionTicks * Constants.Intake.kToOutputRetractorTicksRatio + Constants.Intake.kRetractorOriginBufferTicks);
+		m_retractorMotor.set(ControlMode.Position,
+			positionTicks * Constants.Intake.kRetractorTicksReductionRatio
+			+ Constants.Intake.kRetractorOriginBufferTicks);
 		return this;
 	}
 
@@ -120,7 +122,7 @@ public class Intake extends SubsystemBase {
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
 	public boolean intakeArmIsRetracted() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kRetractedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kRetractedIntakeRetractorTicks) <= Constants.Intake.kRetractorTicksTolerance;
 	}
 
 	public Intake extendIntakeArm() {
@@ -132,7 +134,7 @@ public class Intake extends SubsystemBase {
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean intakeArmIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorTicks) <= Constants.Intake.kRetractorTicksTolerance;
 	}
 
 
