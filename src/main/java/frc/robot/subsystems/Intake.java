@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// TODO: Remove these prints once useless
-		SmartDashboard.putNumber("Offset ticks", getRetractorTicks());
+		SmartDashboard.putNumber("Ticks", getRetractorTicks());
 
 		updateRetractorOrigin();
 	}

@@ -447,7 +447,6 @@ public class RobotContainer {
 	}
 
 	private RobotContainer setupSpotterJoystickControls(Joystick firstJoystick, Joystick secondJoystick) {
-		// TODO: P1 If spotter should be allowed to drive, implement setup switch cases for spotter joystick modes
 		switch (spotterJoystickMode) {
 			default:
 				DriverStation.reportError("Unsupported joystick mode detected while setting up spotter joystick controls", true);
@@ -459,9 +458,6 @@ public class RobotContainer {
 						break;
 					case XboxController:
 						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator);
-						break;
-					case X3D:
-						// TODO: P3 Implement X3D arcade spotter controls and add them to the spotter's configuring switch statement
 						break;
 				}
 				break;
@@ -479,9 +475,6 @@ public class RobotContainer {
 				switch (spotterJoystickDeviceType) {
 					default:
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for dual-tank mode", true);
-						break;
-					case X3D:
-						// TODO: P3 Implement X3D dual-tank spotter controls and add them to the spotter's configuring switch statement
 						break;
 				}
 				break;
