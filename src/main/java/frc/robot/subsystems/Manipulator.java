@@ -51,9 +51,15 @@ public class Manipulator extends SubsystemBase {
 	// Indexer motor
 	
 
-	// -1 to 1
-	public double getIndexerPercent() {
-		return m_indexerMotor.get();
+	public int getIndexerRPM() {
+		return (int) (m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx) / Constants.Falcon500.kRpmToTicksPer100ms);
+	}
+
+	public Manipulator setIndexerRPM(int rpm) {
+		m_indexerMotor.set(ControlMode.Velocity,
+			rpm * Constants.Manipulator.kIndexerTicksReductionRatio
+			* Constants.Falcon500.kRpmToTicksPer100ms);
+		return this;
 	}
 
 	public Manipulator setIndexerPercent(double percentOutput) {
@@ -77,14 +83,14 @@ public class Manipulator extends SubsystemBase {
 	// Launcher motor
 
 
-	public double getLauncherRPM() {
-		return m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Manipulator.kRpmToTicksPer100ms;
+	public int getLauncherRPM() {
+		return (int) (m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
 	public Manipulator setLauncherRPM(int rpm) {
 		m_launcherMotor.set(ControlMode.Velocity,
 			rpm * Constants.Manipulator.kLauncherTicksReductionRatio
-			* Constants.Manipulator.kRpmToTicksPer100ms);
+			* Constants.Falcon500.kRpmToTicksPer100ms);
 		return this;
 	}
 
