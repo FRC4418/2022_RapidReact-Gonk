@@ -107,7 +107,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position, positionTicks + Constants.Intake.kRetractorOriginBufferTicks);
+		m_retractorMotor.set(ControlMode.Position, positionTicks * Constants.Intake.kToOutputRetractorTicksRatio + Constants.Intake.kRetractorOriginBufferTicks);
 		return this;
 	}
 
