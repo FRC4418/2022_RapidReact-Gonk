@@ -228,12 +228,18 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain setLeftMPS(double mps) {
-		m_frontLeftMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier);
+		m_frontLeftMotor.set(ControlMode.Velocity,
+			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kMPSToTicksPer100msV2
+			* leftMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public Drivetrain setRightMPS(double mps) {
-		m_frontRightMotor.set(ControlMode.Velocity, mps * Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity,
+			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kMPSToTicksPer100msV2
+			* rightMotorsDirectionMultiplier);
 		return this;
 	}
 

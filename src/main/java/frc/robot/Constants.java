@@ -27,7 +27,9 @@ public class Constants {
 
         public static final double
             // kWheelDiameterMeters = Constants.inchesToMeters(6.),
-            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.);
+            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.),
+
+            kDrivetrainMPSReductionRatio = 7.75;
 
         public static enum MotorGroup {
             kLeft,
