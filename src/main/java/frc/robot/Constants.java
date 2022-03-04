@@ -25,7 +25,9 @@ public class Constants {
 
         public static final double
             // kWheelDiameterMeters = Constants.inchesToMeters(6.),
-            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.);
+            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.),
+
+            kDrivetrainMPSReductionRatio = 7.75;
 
         public static enum MotorGroup {
             kLeft,
@@ -46,7 +48,7 @@ public class Constants {
 
         public static final double
             // kTicksToMeters  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution) / 7.33,
-            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution) / 7.75,
+            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution) * kDrivetrainMPSReductionRatio,
             // kMPSToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMeters * Math.PI),
             kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
 
