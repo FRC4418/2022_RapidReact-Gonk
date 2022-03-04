@@ -29,10 +29,10 @@ public class Manipulator extends SubsystemBase {
 		m_launcherMotor.configFactoryDefault();
 		m_launcherMotor.setInverted(true);
 		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kTimeoutMs);
-		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kF);
 		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kP);
-		// m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kI);
-        // m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kD);
+		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kI);
+        m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kD);
+		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kF);
 	}
 
 
@@ -82,7 +82,9 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator setLauncherRPM(int rpm) {
-		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherTicksReductionRatio + Constants.Manipulator.kRpmToTicksPer100ms);
+		m_launcherMotor.set(ControlMode.Velocity,
+			rpm * Constants.Manipulator.kLauncherTicksReductionRatio
+			* Constants.Manipulator.kRpmToTicksPer100ms);
 		return this;
 	}
 

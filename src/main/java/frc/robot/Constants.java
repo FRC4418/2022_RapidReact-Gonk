@@ -201,11 +201,10 @@ public class Constants {
         public static final double
             kDefaultIndexerPercent = 1.0,
 
-            kLauncherTicksReductionRatio = 3.;
-            
+            kLauncherTicksReductionRatio = 3.,
+            kIndexerTicksReductionRatio = 9.;
 
         public static final int kDefaultLauncherRPM = Falcon500.kMaxRPM;
-        public static final double kDefaultLauncherPercent = 1.;
 
         public static class CAN_ID {
             public static final int
@@ -230,5 +229,9 @@ public class Constants {
         // 	= new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00);
         public static final Gains kLauncherRPMGainsV2
             = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
+
+        // TODO: !!!P1!!! Tune V2 indexer RPM gains
+        public static final Gains kIndexerRPMGains
+            = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
     }
 }

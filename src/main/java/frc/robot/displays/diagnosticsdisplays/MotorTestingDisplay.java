@@ -158,7 +158,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 
 						launcherRPMNumberSlider = launcherLayout
-							.add("RPM", Constants.Manipulator.kDefaultLauncherPercent)
+							.add("RPM", Constants.Manipulator.kDefaultLauncherRPM)
 							.withWidget(BuiltInWidgets.kNumberSlider)
 							.withProperties(Map.of("Min", -Constants.Falcon500.kMaxRPM, "Max", Constants.Falcon500.kMaxRPM, "Block increment", 50))
 							.getEntry();
