@@ -43,10 +43,10 @@ public class Intake extends SubsystemBase {
 		m_retractorMotor.configFactoryDefault();
 		m_retractorMotor.configOpenloopRamp(Constants.Intake.kRetractorOpenLoopRampSeconds);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
-		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kP);
-		// m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
-        // m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
+		m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
+        m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
+		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 	}
 
 
@@ -94,12 +94,12 @@ public class Intake extends SubsystemBase {
 	}
 
 	public int getRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition();
+		return (int) m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx);
 	}
 
-	public double getRetractorDegree() {
-		return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
-	}
+	// public double getRetractorDegree() {
+	// 	return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
+	// }
 
 	public Intake setRetractorDegree(double positionDegrees) {
 		setRetractorTicks((int) (positionDegrees * Constants.Intake.kRetractorDegreesToTicks));
