@@ -104,15 +104,23 @@ public class Intake extends SubsystemBase {
 		return (double) getRetractorTicks() / Constants.Falcon500.kDegreesToTicks;
 	}
 
+	private boolean withinRetractorDegreeRange(double degree) {
+		return (degree >= Constants.Intake.kRetractorMinDegree && degree <= Constants.Intake.kRetractorMaxDegree);
+	}
+
 	public Intake setRetractorDegree(double positionDegrees) {
-		setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));
+		if (withinRetractorDegreeRange(positionDegrees)) {
+			setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));
+		}
 		return this;
 	}
 
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position,
-			positionTicks * Constants.Intake.kRetractorTicksReductionRatio
-			+ Constants.Intake.kRetractorOriginBufferTicks);
+		if (withinRetractorDegreeRange(positionTicks / Constants.Falcon500.kDegreesToTicks)) {
+			m_retractorMotor.set(ControlMode.Position,
+				positionTicks * Constants.Intake.kRetractorTicksReductionRatio
+				+ Constants.Intake.kRetractorOriginBufferTicks);
+		}
 		return this;
 	}
 
@@ -151,8 +159,8 @@ public class Intake extends SubsystemBase {
 	}
 
 	// -1 to 1
-	public Intake setFeederPercent(double percentOutput) {
-		m_feederMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Intake setFeederPercent(double percent) {
+		m_feederMotor.set(ControlMode.PercentOutput, percent);
 		return this;
 	}
 

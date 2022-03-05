@@ -58,15 +58,23 @@ public class Manipulator extends SubsystemBase {
 			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
+	private boolean withinIndexerRPMRange(int rpm) {
+		return (rpm >= Constants.Manipulator.kIndexerMinRPM && rpm <= Constants.Manipulator.kIndexerMaxRPM);
+	}
+
 	public Manipulator setIndexerRPM(int rpm) {
-		m_indexerMotor.set(ControlMode.Velocity,
-			rpm * Constants.Manipulator.kIndexerTicksReductionRatio
-			* Constants.Falcon500.kRpmToTicksPer100ms);
+		if (withinIndexerRPMRange(rpm)) {
+			m_indexerMotor.set(ControlMode.Velocity,
+				rpm * Constants.Manipulator.kIndexerTicksReductionRatio
+				* Constants.Falcon500.kRpmToTicksPer100ms);
+		}
 		return this;
 	}
 
-	public Manipulator setIndexerPercent(double percentOutput) {
-		m_indexerMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Manipulator setIndexerPercent(double percent) {
+		if (withinIndexerRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
+			m_indexerMotor.set(ControlMode.PercentOutput, percent);
+		}
 		return this;
 	}
 
@@ -92,15 +100,23 @@ public class Manipulator extends SubsystemBase {
 			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
+	private boolean withinLauncherRPMRange(int rpm) {
+		return (rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM);
+	}
+
 	public Manipulator setLauncherRPM(int rpm) {
-		m_launcherMotor.set(ControlMode.Velocity,
-			rpm * Constants.Manipulator.kLauncherTicksReductionRatio
-			* Constants.Falcon500.kRpmToTicksPer100ms);
+		if (withinLauncherRPMRange(rpm)) {
+			m_launcherMotor.set(ControlMode.Velocity,
+				rpm * Constants.Manipulator.kLauncherTicksReductionRatio
+				* Constants.Falcon500.kRpmToTicksPer100ms);
+		}
 		return this;
 	}
 
 	public Manipulator setLauncherPercent(double percent) {
-		m_launcherMotor.set(ControlMode.PercentOutput, percent);
+		if (withinLauncherRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
+			m_launcherMotor.set(ControlMode.PercentOutput, percent);
+		}
 		return this;
 	}
 

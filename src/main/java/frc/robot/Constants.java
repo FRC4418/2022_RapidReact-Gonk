@@ -149,7 +149,10 @@ public class Constants {
             kDefaultFeederPercent = 0.5,
 
             // means that for every 58.25 input ticks, the mechanism outputs 1 tick
-            kRetractorTicksReductionRatio = 58.25;
+            kRetractorTicksReductionRatio = 58.25,
+
+            kRetractorMinDegree = -180.,
+            kRetractorMaxDegree = 180.;
             
         public static final int
             kRetractedIntakeRetractorTicks = 0,
@@ -200,7 +203,13 @@ public class Constants {
 
         public static final double
             kLauncherTicksReductionRatio = 3.,
-            kIndexerTicksReductionRatio = 9.;
+            kIndexerTicksReductionRatio = 9.,
+
+            kLauncherMinRPM = -Constants.Falcon500.kMaxRPM,
+            kLauncherMaxRPM = Constants.Falcon500.kMaxRPM,
+
+            kIndexerMinRPM = -Constants.Falcon500.kMaxRPM,
+            kIndexerMaxRPM = Constants.Falcon500.kMaxRPM;
 
         public static final int
             kDefaultIndexerRPM = Falcon500.kMaxRPM,
