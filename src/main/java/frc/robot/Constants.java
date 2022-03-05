@@ -296,4 +296,16 @@ public class Constants {
             // TODO: !!!P1!!! Tune V2 indexer RPM gains
             kIndexerRPMGainsV2 = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
     }
+
+    public static class Climber {
+        // ----------------------------------------------------------
+        // General
+
+        public static final int
+            kLeftServoPWMChannel = 0,
+            kRightServoPWMChannel = 2;
+
+        public static final double kPinOutAngle = 30.;
+    }
+
 }
