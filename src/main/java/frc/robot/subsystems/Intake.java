@@ -43,10 +43,24 @@ public class Intake extends SubsystemBase {
 		m_retractorMotor.configFactoryDefault();
 		m_retractorMotor.configOpenloopRamp(Constants.Intake.kRetractorOpenLoopRampSeconds);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
+
+		// ----------------------------------------------------------
+		// Final setup
+
+		configurePIDs();
+	}
+
+
+	// ----------------------------------------------------------
+	// Constants-reconfiguration methods
+
+
+	public Intake configurePIDs() {
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kP);
 		m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kI);
         m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kD);
 		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kF);
+		return this;
 	}
 
 

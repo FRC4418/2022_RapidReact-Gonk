@@ -63,8 +63,7 @@ public class Drivetrain extends SubsystemBase {
 	// Kinematics
 
 
-	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMeters);
+	public static DifferentialDriveKinematics kDriveKinematics;
 
 
 	// ----------------------------------------------------------
@@ -95,6 +94,8 @@ public class Drivetrain extends SubsystemBase {
 
 
 	public Drivetrain() {
+		configureDriveKinematics();
+
 		imu.setYawAxis(IMUAxis.kZ);
 
 		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getAngle()));
@@ -106,10 +107,6 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.configFactoryDefault();
 		m_backRightMotor.follow(m_frontRightMotor);
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kLeftPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGains.kF);
-		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kP);
-		// m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGains.kI);
-        // m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGains.kD);
 
 		// ----------------------------------------------------------
 		// Right motor group configuration
@@ -118,12 +115,34 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor.configFactoryDefault();
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kRightPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGains.kF);
-		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kP);
-		// m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGains.kI);
-        // m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGains.kD);
 
+		// ----------------------------------------------------------
+		// Final setup
+
+		configureMotorPIDs();
 		resetEncoders();
+	}
+
+
+	// ----------------------------------------------------------
+	// Constants-reconfiguration methods
+
+
+	public static void configureDriveKinematics() {
+		kDriveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMeters);
+	}
+
+	public Drivetrain configureMotorPIDs() {
+		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kP);
+		m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kI);
+        m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kD);
+		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kF);
+
+		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kP);
+		m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kI);
+        m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kD);
+		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kF);
+		return this;
 	}
 
 

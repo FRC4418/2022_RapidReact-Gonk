@@ -31,6 +31,7 @@ public class ExampleTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
+	// TODO: !!!P1!!! Rebuild any example trajectory instances after switching robot constants
 	public ExampleTrajectory(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
 
@@ -41,7 +42,7 @@ public class ExampleTrajectory extends CommandBase {
 					Constants.Drivetrain.ksVolts,
 					Constants.Drivetrain.kvVoltSecondsPerMeter,
 					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematicsV2,
+					Drivetrain.kDriveKinematics,
 				10);
 	
 		// Create config for trajectory
@@ -50,7 +51,7 @@ public class ExampleTrajectory extends CommandBase {
 				Constants.Drivetrain.kMaxSpeedMetersPerSecond,
 				Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared)
 				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Drivetrain.kDriveKinematicsV2)
+				.setKinematics(Drivetrain.kDriveKinematics)
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 	
@@ -75,7 +76,7 @@ public class ExampleTrajectory extends CommandBase {
 					Constants.Drivetrain.ksVolts,
 					Constants.Drivetrain.kvVoltSecondsPerMeter,
 					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
-					Drivetrain.kDriveKinematicsV2,
+					Drivetrain.kDriveKinematics,
 					m_drivetrain::getWheelSpeeds,
 				new PIDController(Constants.Drivetrain.kLeftVelocityGains.kP, 0, 0),
 				new PIDController(Constants.Drivetrain.kRightVelocityGains.kP, 0, 0),

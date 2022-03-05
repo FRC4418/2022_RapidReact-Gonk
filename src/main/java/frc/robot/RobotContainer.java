@@ -157,7 +157,7 @@ public class RobotContainer {
 
 
     // ----------------------------------------------------------
-    // Constructor and display helpers
+    // Constructor, display helpers, and constants-dependencies configuration
 	
 
     public RobotContainer() {
@@ -193,6 +193,19 @@ public class RobotContainer {
 		assert instance == null;
 		instance = this;
     }
+
+	public static void configureConstantsDependencies() {
+		Drivetrain.configureDriveKinematics();
+	}
+
+	public RobotContainer configureNonStaticConstantsDependencies() {
+		drivetrain.configureMotorPIDs();
+
+		intake.configurePIDs();
+
+		manipulator.configurePIDs();
+		return this;
+	}
 
 	
 	// ----------------------------------------------------------
@@ -232,8 +245,13 @@ public class RobotContainer {
 				Constants.useV1Constants();
 				break;
 			case VERSACHASSIS_TWO:
-			Constants.useV2Constants();
+				Constants.useV2Constants();
 				break;
+		}
+
+		configureConstantsDependencies();
+		if (instance != null) {
+			instance.configureNonStaticConstantsDependencies();
 		}
 	}
 
