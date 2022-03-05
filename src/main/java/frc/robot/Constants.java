@@ -18,7 +18,10 @@ public class Constants {
             // AKA the free RPM
             kMaxRPM = 6380;
 
-        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.;
+        public static final double
+            kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.,
+            // 180 instead of 360 because our degree range is -180 to 180
+            kDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 180.;
     }
 
     public static class Drivetrain {
@@ -148,10 +151,9 @@ public class Constants {
             // means that for every 58.25 input ticks, the mechanism outputs 1 tick
             kRetractorTicksReductionRatio = 58.25;
             
-        // retractor has tick range of -((double) Falcon500.ticksPerRevolution * 58.25) to ((double) Falcon500.ticksPerRevolution * 58.25)
         public static final int
             kRetractedIntakeRetractorTicks = 0,
-            kExtendedIntakeRetractorTicks = 9_000,
+            kExtendedIntakeRetractorTicks = 500,
 
             kRetractorOriginBufferTicks = 100,
 
@@ -164,12 +166,6 @@ public class Constants {
         }
 
         public static final int kWhiskerSensorDIOPort = 8;
-
-        // ----------------------------------------------------------
-        // Conversion
-
-        public static final double
-            kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution * 58.25) / 360.;
 
         // ----------------------------------------------------------
         // Open-loop controls

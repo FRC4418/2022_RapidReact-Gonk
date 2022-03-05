@@ -102,7 +102,7 @@ public class Intake extends SubsystemBase {
 	// }
 
 	public Intake setRetractorDegree(double positionDegrees) {
-		setRetractorTicks((int) (positionDegrees * Constants.Intake.kRetractorDegreesToTicks));
+		setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));
 		return this;
 	}
 

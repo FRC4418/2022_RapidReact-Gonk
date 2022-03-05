@@ -31,7 +31,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	private NetworkTableEntry feederPercentNumberSlider;
 
 	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorTicksNumberSlider;
+	private NetworkTableEntry retractorDegreesNumberSlider;
 
     public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
 		super(width, height);
@@ -53,7 +53,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 			feederPercentNumberSlider,
 
 			retractorToggleSwitch,
-			retractorTicksNumberSlider
+			retractorDegreesNumberSlider
 		));
 		return this;
 	}
@@ -97,10 +97,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						retractorTicksNumberSlider = retractorLayout
-							.add("Ticks", Constants.Intake.kExtendedIntakeRetractorTicks)
+						retractorDegreesNumberSlider = retractorLayout
+							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorTicks * Constants.Falcon500.kDegreesToTicks)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -35_000, "Max", 35_000, "Block increment", 200))
+							// our range is -360 to 360 because this slider is not using an offset, which means that the robot could start at any angle
+							.withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
 							.getEntry();
 					}
 
@@ -191,7 +192,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-				retractorTicksNumberSlider.addListener(event -> {
+				retractorDegreesNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractorTicks((int) event.value.getDouble());
