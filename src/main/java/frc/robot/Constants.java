@@ -20,8 +20,8 @@ public class Constants {
 
         public static final double
             kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.,
-            // 180 instead of 360 because our degree range is -180 to 180
-            kDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 180.;
+            // 720 instead of 360 because our degree range is -180 to 180
+            kDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 720.;
     }
 
     public static class Drivetrain {

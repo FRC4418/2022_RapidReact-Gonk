@@ -58,6 +58,7 @@ public class Intake extends SubsystemBase {
 	public void periodic() {
 		// TODO: Remove these prints once useless
 		SmartDashboard.putNumber("Ticks", getRetractorTicks());
+		SmartDashboard.putNumber("Degrees", getRetractorDegree());
 
 		updateRetractorOrigin();
 	}
@@ -97,9 +98,9 @@ public class Intake extends SubsystemBase {
 		return (int) m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx);
 	}
 
-	// public double getRetractorDegree() {
-	// 	return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
-	// }
+	public double getRetractorDegree() {
+		return (double) getRetractorTicks() / Constants.Falcon500.kDegreesToTicks;
+	}
 
 	public Intake setRetractorDegree(double positionDegrees) {
 		setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));

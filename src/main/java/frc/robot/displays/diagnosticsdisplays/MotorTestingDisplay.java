@@ -100,7 +100,6 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						retractorDegreesNumberSlider = retractorLayout
 							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorTicks * Constants.Falcon500.kDegreesToTicks)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							// our range is -360 to 360 because this slider is not using an offset, which means that the robot could start at any angle
 							.withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
 							.getEntry();
 					}
@@ -118,8 +117,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						
 						feederPercentNumberSlider = feederLayout
 							.add("Percentage", Constants.Intake.kDefaultFeederPercent)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
+							.withWidget(BuiltInWidgets.kTextView)
+							// .withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
 							.getEntry();
 					}
 				}
@@ -195,7 +194,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 				retractorDegreesNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
-						m_intake.setRetractorTicks((int) event.value.getDouble());
+						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
