@@ -76,6 +76,12 @@ public abstract class JoystickControls {
     protected abstract JoystickButton runLauncherButton(Joystick joystick);
 
     // ----------------------------------------------------------
+    // Climber buttons
+
+    protected JoystickButton extendClimberButton;
+    protected abstract JoystickButton extendClimberButton(Joystick joystick);
+
+    // ----------------------------------------------------------
     // Constructor
 
     public JoystickControls() {

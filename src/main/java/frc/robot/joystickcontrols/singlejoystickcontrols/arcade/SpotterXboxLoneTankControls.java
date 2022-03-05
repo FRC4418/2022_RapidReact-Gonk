@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
@@ -114,9 +115,17 @@ public class SpotterXboxLoneTankControls extends SingleJoystickControls {
     }
 
     // ----------------------------------------------------------
+    // Climber buttons
+
+    @Override
+    protected JoystickButton extendClimberButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
+    }
+
+    // ----------------------------------------------------------
     // Constructor
 
-    public SpotterXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, drivetrain, intake, manipulator);
+    public SpotterXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
+        super(primaryJoystick, drivetrain, intake, manipulator, climber);
     }
 }

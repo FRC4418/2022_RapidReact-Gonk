@@ -3,6 +3,7 @@ package frc.robot.joystickcontrols.dualjoystickcontrols;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
@@ -12,6 +13,7 @@ import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
@@ -45,7 +47,7 @@ public abstract class DualJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
         
@@ -82,5 +84,11 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
         runLauncherButton = runLauncherButton(primaryJoystick);
         if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
+
+        // ----------------------------------------------------------
+        // Climber
+
+        extendClimberButton = extendClimberButton(primaryJoystick);
+        if (extendClimberButton != null) extendClimberButton.whenPressed(new ExtendClimber(climber));
     }
 }

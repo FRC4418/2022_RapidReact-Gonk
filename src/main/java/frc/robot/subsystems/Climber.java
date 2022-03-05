@@ -13,7 +13,7 @@ public class Climber extends SubsystemBase {
 	private final Servo m_leftPinServo = new Servo(0);
 	private final Servo m_rightPinServo = new Servo(2);
 
-	private final double m_pintOutAngle = 30.;
+	private final double m_pinOutAngle = 30.;
 
 
 	// ----------------------------------------------------------
@@ -28,6 +28,7 @@ public class Climber extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Scheduler methods
 
+
 	@Override
 	public void periodic() {
 
@@ -35,5 +36,12 @@ public class Climber extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// 
+	// Extension methods
+
+
+	public Climber extend() {
+		m_leftPinServo.setAngle(m_pinOutAngle);
+		m_rightPinServo.setAngle(m_pinOutAngle);
+		return this;
+	}
 }
