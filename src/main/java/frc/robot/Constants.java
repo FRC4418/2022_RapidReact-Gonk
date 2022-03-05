@@ -148,6 +148,11 @@ public class Constants {
             kDefaultReverseFeederPercent = -0.5,
             kDefaultFeederPercent = 0.5,
 
+            kRetractedIntakeRetractorDegree = 0.,
+            kExtendedIntakeRetractorDegree = 82.,
+
+            kRetractorDegreeTolerance = 1.5,
+
             // means that for every 58.25 input ticks, the mechanism outputs 1 tick
             kRetractorTicksReductionRatio = 58.25,
 
@@ -155,12 +160,7 @@ public class Constants {
             kRetractorMaxDegree = 180.;
             
         public static final int
-            kRetractedIntakeRetractorTicks = 0,
-            kExtendedIntakeRetractorTicks = 500,
-
-            kRetractorOriginBufferTicks = 100,
-
-            kRetractorTicksTolerance = (int) (Falcon500.kMaxRPM * 0.03);
+            kRetractorOriginBufferTicks = 100;
 
         public static class CAN_ID {
             public static final int

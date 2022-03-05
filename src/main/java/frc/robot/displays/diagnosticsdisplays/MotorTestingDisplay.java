@@ -98,7 +98,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.getEntry();
 						
 						retractorDegreesNumberSlider = retractorLayout
-							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorTicks * Constants.Falcon500.kDegreesToTicks)
+							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorDegree)
 							.withWidget(BuiltInWidgets.kTextView)
 							// .withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
 							.getEntry();
