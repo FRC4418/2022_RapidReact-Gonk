@@ -2,6 +2,42 @@ package frc.robot;
 
 
 public class Constants {
+    public static void useV1Constants() {
+        Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV1;
+        Drivetrain.kDrivetrainMPSReductionRatio = Drivetrain.kDrivetrainMPSReductionRatioV1;
+        Drivetrain.kTicksToMeters = Drivetrain.kTicksToMetersV1;
+        Drivetrain.kMPSToTicksPer100ms = Drivetrain.kMPSToTicksPer100msV1;
+        Drivetrain.kTrackWidthMeters = Drivetrain.kTrackWidthMetersV1;
+        Drivetrain.ksVolts = Drivetrain.ksVoltsV1;
+        Drivetrain.kvVoltSecondsPerMeter = Drivetrain.kvVoltSecondsPerMeterV1;
+        Drivetrain.kaVoltSecondsSquaredPerMeter = Drivetrain.kaVoltSecondsSquaredPerMeterV1;
+        Drivetrain.kLeftVelocityGains = Drivetrain.kLeftVelocityGainsV1;
+        Drivetrain.kRightVelocityGains = Drivetrain.kRightVelocityGainsV1;
+        
+        Intake.kRetractorPositionGains = Intake.kRetractorPositionGainsV1;
+        
+        Manipulator.kLauncherRPMGains = Manipulator.kLauncherRPMGainsV1;
+        Manipulator.kIndexerRPMGains = Manipulator.kIndexerRPMGainsV1;
+    }
+
+    public static void useV2Constants() {
+        Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV2;
+        Drivetrain.kDrivetrainMPSReductionRatio = Drivetrain.kDrivetrainMPSReductionRatioV2;
+        Drivetrain.kTicksToMeters = Drivetrain.kTicksToMetersV2;
+        Drivetrain.kMPSToTicksPer100ms = Drivetrain.kMPSToTicksPer100msV2;
+        Drivetrain.kTrackWidthMeters = Drivetrain.kTrackWidthMetersV2;
+        Drivetrain.ksVolts = Drivetrain.ksVoltsV2;
+        Drivetrain.kvVoltSecondsPerMeter = Drivetrain.kvVoltSecondsPerMeterV2;
+        Drivetrain.kaVoltSecondsSquaredPerMeter = Drivetrain.kaVoltSecondsSquaredPerMeterV2;
+        Drivetrain.kLeftVelocityGains = Drivetrain.kLeftVelocityGainsV2;
+        Drivetrain.kRightVelocityGains = Drivetrain.kRightVelocityGainsV2;
+        
+        Intake.kRetractorPositionGains = Intake.kRetractorPositionGainsV2;
+        
+        Manipulator.kLauncherRPMGains = Manipulator.kLauncherRPMGainsV2;
+        Manipulator.kIndexerRPMGains = Manipulator.kIndexerRPMGainsV2;
+    }
+
     private static final double kMetersToinches = 39.37;
 
     public static double inchesToMeters(double inches) {
@@ -28,11 +64,16 @@ public class Constants {
         // ----------------------------------------------------------
         // General
 
-        public static final double
-            // kWheelDiameterMeters = Constants.inchesToMeters(6.),
+        public static double
+            kWheelDiameterMeters,
+
+            kDrivetrainMPSReductionRatio;
+        private static final double
+            kWheelDiameterMetersV1 = Constants.inchesToMeters(6.),
             kWheelDiameterMetersV2 = Constants.inchesToMeters(4.),
 
-            kDrivetrainMPSReductionRatio = 7.75;
+            kDrivetrainMPSReductionRatioV1 = 7.33,
+            kDrivetrainMPSReductionRatioV2 = 7.75;
 
         public static enum MotorGroup {
             kLeft,
@@ -51,18 +92,26 @@ public class Constants {
         // ----------------------------------------------------------
         // Conversions
 
-        public static final double
-            // kTicksToMeters  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
-            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
-            // kMPSToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMeters * Math.PI),
-            kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
+        public static double
+            kTicksToMeters,
+
+            kMPSToTicksPer100ms;
+        private static final double
+            kTicksToMetersV1  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
+            kTicksToMetersV2  = (kWheelDiameterMeters * Math.PI) / ((double) Falcon500.ticksPerRevolution),
+            
+            kMPSToTicksPer100msV1 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV1 * Math.PI),
+            kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMeters * Math.PI);
 
         // ----------------------------------------------------------
         // Kinematics
 
         // horizontal distance between the left and right-side wheels
-        // private static final double kTrackWidthMeters = Constants.inchesToMeters(24.6);
-        public static final double kTrackWidthMetersV2 = Constants.inchesToMeters(24.);
+        public static double
+            kTrackWidthMeters;
+        private static final double
+            kTrackWidthMetersV1 = Constants.inchesToMeters(24.6),
+            kTrackWidthMetersV2 = Constants.inchesToMeters(24.);
 
         // ----------------------------------------------------------
         // Open-loop control
@@ -74,12 +123,16 @@ public class Constants {
         // ----------------------------------------------------------
         // Closed-loop control
 
-        public static final double
-            // ksVolts = 0.63599,
+        public static double
+            ksVolts,
+            kvVoltSecondsPerMeter,
+            kaVoltSecondsSquaredPerMeter;
+        private static final double
+            ksVoltsV1 = 0.63599,
             ksVoltsV2 = 0.69552,
-            // kvVoltSecondsPerMeter = 0.043021,
+            kvVoltSecondsPerMeterV1 = 0.043021,
             kvVoltSecondsPerMeterV2 = 0.066546,
-            // kaVoltSecondsSquaredPerMeter = 0.018985,
+            kaVoltSecondsSquaredPerMeterV1 = 0.018985,
             kaVoltSecondsSquaredPerMeterV2 = 0.010455;
 
         public static final int
@@ -92,10 +145,13 @@ public class Constants {
             kTimeoutMs = 30;
 
         // ID Gains may have to be adjusted based on the responsiveness of control loop. kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
-        // public static final Gains
-        //     kLeftVelocityGains = new Gains(0.89077, 0., 0., 1023./20660., 300, 1.00),
-        //     kRightVelocityGains = new Gains(kLeftMotorVelocityGains);
-        public static final Gains
+        public static Gains
+            kLeftVelocityGains,
+            kRightVelocityGains;
+        private static final Gains
+            kLeftVelocityGainsV1 = new Gains(0.89077, 0., 0., 1023./20660., 300, 1.00),
+            kRightVelocityGainsV1 = new Gains(kLeftVelocityGainsV1),
+
             kLeftVelocityGainsV2 = new Gains(0.45563, 0., 0., 1023./20660., 300, 1.00),
             kRightVelocityGainsV2 = new Gains(kLeftVelocityGainsV2);
 
@@ -158,9 +214,6 @@ public class Constants {
 
             kRetractorMinDegree = -180.,
             kRetractorMaxDegree = 180.;
-            
-        public static final int
-            kRetractorOriginBufferTicks = 100;
 
         public static class CAN_ID {
             public static final int
@@ -190,11 +243,12 @@ public class Constants {
             kRetractorSlotIdx = 0,
             kTimeoutMs = 30;
 
-        // TODO: P3 tune V1 retractor gains
-        // private final Gains kRetractorPositionGains
-        // 	= new Gains(0.1, 0., 0., 1023./20660., 300, 1.00);
-        public static final Gains kRetractorPositionGainsV2
-            = new Gains(0.03, 0., 0., 1023./20660., 300, 1.00);
+        public static Gains
+            kRetractorPositionGains;
+        private static final Gains
+            // TODO: P3 tune V1 retractor gains
+            kRetractorPositionGainsV1 = new Gains(0.1, 0., 0., 1023./20660., 300, 1.00),
+            kRetractorPositionGainsV2 = new Gains(0.03, 0., 0., 1023./20660., 300, 1.00);
     }
 
     public static class Manipulator {
@@ -229,13 +283,17 @@ public class Constants {
             kLauncherPidIdx = 0,
             kTimeoutMs = 30;
 
-        // public static final Gains kLauncherRPMGains
-        // 	= new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00);
-        public static final Gains kLauncherRPMGainsV2
-            = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
+        public static Gains
+            kLauncherRPMGains;
+        private static final Gains
+            kLauncherRPMGainsV1 = new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00),
+            kLauncherRPMGainsV2 = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
 
-        // TODO: !!!P1!!! Tune V2 indexer RPM gains
-        public static final Gains kIndexerRPMGains
-            = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
+        public static Gains
+            kIndexerRPMGains;
+        private static final Gains
+            kIndexerRPMGainsV1 = new Gains(0., 0., 0., 1023./20660., 300, 1.00),
+            // TODO: !!!P1!!! Tune V2 indexer RPM gains
+            kIndexerRPMGainsV2 = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
     }
 }
