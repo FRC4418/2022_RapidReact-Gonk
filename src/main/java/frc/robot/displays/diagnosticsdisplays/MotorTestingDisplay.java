@@ -99,8 +99,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						
 						retractorDegreesNumberSlider = retractorLayout
 							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorTicks * Constants.Falcon500.kDegreesToTicks)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
+							.withWidget(BuiltInWidgets.kTextView)
+							// .withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
 							.getEntry();
 					}
 
@@ -117,8 +117,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 						
 						feederPercentNumberSlider = feederLayout
 							.add("Percentage", Constants.Intake.kDefaultFeederPercent)
-							.withWidget(BuiltInWidgets.kTextView)
-							// .withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
+							.withWidget(BuiltInWidgets.kNumberSlider)
+							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
 							.getEntry();
 					}
 				}

@@ -52,7 +52,10 @@ public class Manipulator extends SubsystemBase {
 	
 
 	public int getIndexerRPM() {
-		return (int) (m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx) / Constants.Falcon500.kRpmToTicksPer100ms);
+		return (int) (
+			m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx)
+			/ Constants.Manipulator.kIndexerTicksReductionRatio
+			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
 	public Manipulator setIndexerRPM(int rpm) {
@@ -83,7 +86,10 @@ public class Manipulator extends SubsystemBase {
 
 
 	public int getLauncherRPM() {
-		return (int) (m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Falcon500.kRpmToTicksPer100ms);
+		return (int) (
+			m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx)
+			/ Constants.Manipulator.kLauncherTicksReductionRatio
+			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
 	public Manipulator setLauncherRPM(int rpm) {

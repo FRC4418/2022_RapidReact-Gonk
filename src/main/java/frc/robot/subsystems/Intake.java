@@ -95,7 +95,9 @@ public class Intake extends SubsystemBase {
 	}
 
 	public int getRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx);
+		return (int) (
+			m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx)
+			/ Constants.Intake.kRetractorTicksReductionRatio);
 	}
 
 	public double getRetractorDegree() {
