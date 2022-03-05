@@ -18,15 +18,16 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	protected final double kMotorMPS = 3.;
 	protected final double kP = 0.03;
-
+	
 	// ----------------------------------------------------------
 	// Resources
-
+	
 	protected final Drivetrain m_drivetrain;
-
+	
 	protected final DriveStraightDirection m_direction;
+	
+	protected double m_motorMPS = 1.;
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -58,8 +59,8 @@ public class DriveStraight extends CommandBase {
 	public void execute() {
 		var error = m_drivetrain.getHeading();
 
-		var leftTankMPS = kMotorMPS + kP * error;
-		var rightTankMPS = kMotorMPS - kP * error;
+		var leftTankMPS = m_motorMPS + kP * error;
+		var rightTankMPS = m_motorMPS - kP * error;
 
 		m_drivetrain
 			.setLeftMPS(leftTankMPS)

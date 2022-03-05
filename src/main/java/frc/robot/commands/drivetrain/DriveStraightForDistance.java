@@ -13,8 +13,10 @@ public class DriveStraightForDistance extends DriveStraight {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
+	// TODO: !!!P1!!! find a way to centralize all the motorMPS values passed by auto routine constructors
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double motorMPS) {
 		super(drivetrain, direction);
+		m_motorMPS = motorMPS;
 
 		m_distanceInMeters = distanceInMeters;
 	}

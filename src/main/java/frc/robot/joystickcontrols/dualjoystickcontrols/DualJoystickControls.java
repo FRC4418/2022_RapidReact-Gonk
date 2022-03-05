@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
+import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
 import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
@@ -61,9 +62,9 @@ public abstract class DualJoystickControls extends JoystickControls {
                 .whenReleased(new ReverseDrivetrain(drivetrain));
         }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain));
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
 
         // ----------------------------------------------------------
         // Intake
