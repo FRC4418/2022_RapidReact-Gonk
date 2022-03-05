@@ -157,7 +157,7 @@ public class RobotContainer {
 
 
     // ----------------------------------------------------------
-    // Constructor and display helpers
+    // Constructor, display helpers, and constants-dependencies configuration
 	
 
     public RobotContainer() {
@@ -194,6 +194,19 @@ public class RobotContainer {
 		instance = this;
     }
 
+	public static void configureConstantsDependencies() {
+		Drivetrain.configureDriveKinematics();
+	}
+
+	public RobotContainer configureNonStaticConstantsDependencies() {
+		drivetrain.configureMotorPIDs();
+
+		intake.configurePIDs();
+
+		manipulator.configurePIDs();
+		return this;
+	}
+
 	
 	// ----------------------------------------------------------
     // Print-out joystick for debugging
@@ -220,13 +233,33 @@ public class RobotContainer {
 
 
 	// ----------------------------------------------------------
-    // Robot-drivetrain listeners
+    // Robot-selection listeners
 
+
+	public static void configureConstants() {
+		switch (RobotContainer.teamRobot) {
+			default:
+				assert 0 == 1;
+				break;
+			case VERSACHASSIS_ONE:
+				Constants.useV1Constants();
+				break;
+			case VERSACHASSIS_TWO:
+				Constants.useV2Constants();
+				break;
+		}
+
+		configureConstantsDependencies();
+		if (instance != null) {
+			instance.configureNonStaticConstantsDependencies();
+		}
+	}
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
+			configureConstants();
 			drivetrain.configureDrivetrain(teamRobot);
 		}
 		return this;

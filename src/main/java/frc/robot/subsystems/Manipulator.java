@@ -26,13 +26,41 @@ public class Manipulator extends SubsystemBase {
 
 
 	public Manipulator() {
+		// ----------------------------------------------------------
+		// Indexer motor configuration
+
+		m_indexerMotor.configFactoryDefault();
+		m_indexerMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kTimeoutMs);
+
+		// ----------------------------------------------------------
+		// Launcher motor configuration
+
 		m_launcherMotor.configFactoryDefault();
 		m_launcherMotor.setInverted(true);
 		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kTimeoutMs);
-		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kP);
-		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kI);
-        m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kD);
-		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kF);
+
+		// ----------------------------------------------------------
+		// Final setup
+		
+		configurePIDs();
+	}
+
+
+	// ----------------------------------------------------------
+	// Constants-reconfiguration methods
+
+
+	public Manipulator configurePIDs() {
+		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kP);
+		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kI);
+        m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kD);
+		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kF);
+
+		m_indexerMotor.config_kP(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kP);
+		m_indexerMotor.config_kI(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kI);
+        m_indexerMotor.config_kD(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kD);
+		// m_indexerMotor.config_kF(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kF);
+		return this;
 	}
 
 

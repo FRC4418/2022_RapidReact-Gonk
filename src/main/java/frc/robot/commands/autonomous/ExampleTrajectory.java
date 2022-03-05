@@ -31,6 +31,7 @@ public class ExampleTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
+	// TODO: !!!P1!!! Rebuild any example trajectory instances after switching robot constants
 	public ExampleTrajectory(Drivetrain drivetrain) {
 		m_drivetrain = drivetrain;
 
@@ -38,10 +39,10 @@ public class ExampleTrajectory extends CommandBase {
 		var autoVoltageConstraint =
 			new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(
-					Constants.Drivetrain.ksVoltsV2,
-					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
-					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
-					Drivetrain.kDriveKinematicsV2,
+					Constants.Drivetrain.ksVolts,
+					Constants.Drivetrain.kvVoltSecondsPerMeter,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
+					Drivetrain.kDriveKinematics,
 				10);
 	
 		// Create config for trajectory
@@ -50,7 +51,7 @@ public class ExampleTrajectory extends CommandBase {
 				Constants.Drivetrain.kMaxSpeedMetersPerSecond,
 				Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared)
 				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(Drivetrain.kDriveKinematicsV2)
+				.setKinematics(Drivetrain.kDriveKinematics)
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 	
@@ -72,13 +73,13 @@ public class ExampleTrajectory extends CommandBase {
 				m_drivetrain::getPose,
 				new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
 				new SimpleMotorFeedforward(
-					Constants.Drivetrain.ksVoltsV2,
-					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
-					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
-					Drivetrain.kDriveKinematicsV2,
+					Constants.Drivetrain.ksVolts,
+					Constants.Drivetrain.kvVoltSecondsPerMeter,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
+					Drivetrain.kDriveKinematics,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Constants.Drivetrain.kLeftVelocityGainsV2.kP, 0, 0),
-				new PIDController(Constants.Drivetrain.kRightVelocityGainsV2.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kLeftVelocityGains.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kRightVelocityGains.kP, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);

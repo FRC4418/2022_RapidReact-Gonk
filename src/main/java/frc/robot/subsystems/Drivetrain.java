@@ -63,8 +63,7 @@ public class Drivetrain extends SubsystemBase {
 	// Kinematics
 
 
-	// public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-	public static final DifferentialDriveKinematics kDriveKinematicsV2 = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMetersV2);
+	public static DifferentialDriveKinematics kDriveKinematics;
 
 
 	// ----------------------------------------------------------
@@ -95,6 +94,8 @@ public class Drivetrain extends SubsystemBase {
 
 
 	public Drivetrain() {
+		configureDriveKinematics();
+
 		imu.setYawAxis(IMUAxis.kZ);
 
 		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getAngle()));
@@ -106,10 +107,6 @@ public class Drivetrain extends SubsystemBase {
 		m_backLeftMotor.configFactoryDefault();
 		m_backRightMotor.follow(m_frontRightMotor);
 		m_frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kLeftPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kF);
-		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGainsV2.kP);
-		// m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kI);
-        // m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftMotorVelocityGainsV2.kD);
 
 		// ----------------------------------------------------------
 		// Right motor group configuration
@@ -118,12 +115,34 @@ public class Drivetrain extends SubsystemBase {
 		m_backRightMotor.configFactoryDefault();
 		m_backLeftMotor.follow(m_frontLeftMotor);
 		m_frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Drivetrain.kRightPidIdx, Constants.Drivetrain.kTimeoutMs);
-		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kF);
-		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGainsV2.kP);
-		// m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kI);
-        // m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightMotorVelocityGainsV2.kD);
 
+		// ----------------------------------------------------------
+		// Final setup
+
+		configureMotorPIDs();
 		resetEncoders();
+	}
+
+
+	// ----------------------------------------------------------
+	// Constants-reconfiguration methods
+
+
+	public static void configureDriveKinematics() {
+		kDriveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.kTrackWidthMeters);
+	}
+
+	public Drivetrain configureMotorPIDs() {
+		m_frontLeftMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kP);
+		m_frontLeftMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kI);
+        m_frontLeftMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kD);
+		// m_frontLeftMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kLeftVelocityGains.kF);
+
+		m_frontRightMotor.config_kP(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kP);
+		m_frontRightMotor.config_kI(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kI);
+        m_frontRightMotor.config_kD(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kD);
+		// m_frontRightMotor.config_kF(Constants.Drivetrain.kLeftSlotIdx, Constants.Drivetrain.kRightVelocityGains.kF);
+		return this;
 	}
 
 
@@ -230,7 +249,7 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain setLeftMPS(double mps) {
 		m_frontLeftMotor.set(ControlMode.Velocity,
 			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100msV2
+			* Constants.Drivetrain.kMPSToTicksPer100ms
 			* leftMotorsDirectionMultiplier);
 		return this;
 	}
@@ -238,17 +257,17 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain setRightMPS(double mps) {
 		m_frontRightMotor.set(ControlMode.Velocity,
 			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100msV2
+			* Constants.Drivetrain.kMPSToTicksPer100ms
 			* rightMotorsDirectionMultiplier);
 		return this;
 	}
 
 	public double getLeftMPS() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightMPS() {
-		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100msV2 * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -463,7 +482,7 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMeters * leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -472,7 +491,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistanceMeters() {
-		return m_frontRightMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMetersV2 * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMeters * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {
