@@ -24,8 +24,6 @@ public class Intake extends SubsystemBase {
 	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
 	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
-	private int retractorTicksOriginOffset = 1_000_000;
-
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -45,10 +43,10 @@ public class Intake extends SubsystemBase {
 		m_retractorMotor.configFactoryDefault();
 		m_retractorMotor.configOpenloopRamp(Constants.Intake.kRetractorOpenLoopRampSeconds);
 		m_retractorMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Intake.kRetractorPidIdx, Constants.Intake.kTimeoutMs);
-		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kP);
-		// m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
-        // m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
+		m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kI);
+        m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kD);
+		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGainsV2.kF);
 	}
 
 
@@ -59,9 +57,8 @@ public class Intake extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// TODO: Remove these prints once useless
-		SmartDashboard.putNumber("Raw ticks", getRawRetractorTicks());
-		SmartDashboard.putNumber("Offset ticks", getRetractorTicks());
-		SmartDashboard.putNumber("Origin offset", retractorTicksOriginOffset);
+		SmartDashboard.putNumber("Ticks", getRetractorTicks());
+		SmartDashboard.putNumber("Degrees", getRetractorDegree());
 
 		updateRetractorOrigin();
 	}
@@ -81,9 +78,8 @@ public class Intake extends SubsystemBase {
 
 	
 	public Intake updateRetractorOrigin() {
-		int newMostRetractedPosition = getRawRetractorTicks();
-		if (newMostRetractedPosition < retractorTicksOriginOffset) {
-			retractorTicksOriginOffset = newMostRetractedPosition;
+		if (getRetractorTicks() < 0) {
+			m_retractorMotor.setSelectedSensorPosition(0.);
 		}
 		return this;
 	}
@@ -98,53 +94,58 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	// 'raw' because there's no origin offset
-	public int getRawRetractorTicks() {
-		return (int) m_retractorMotor.getSelectedSensorPosition();
-	}
-
 	public int getRetractorTicks() {
-		return getRawRetractorTicks() - retractorTicksOriginOffset;
+		return (int) (
+			m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx)
+			/ Constants.Intake.kRetractorTicksReductionRatio);
 	}
 
 	public double getRetractorDegree() {
-		return (double) getRetractorTicks() / Constants.Intake.kRetractorDegreesToTicks;
+		return (double) getRetractorTicks() / Constants.Falcon500.kDegreesToTicks;
 	}
 
-	// offset + safety buffer --> positionDegrees = 0 means going to the retracted position
+	private boolean withinRetractorDegreeRange(double degree) {
+		return (degree >= Constants.Intake.kRetractorMinDegree && degree <= Constants.Intake.kRetractorMaxDegree);
+	}
+
 	public Intake setRetractorDegree(double positionDegrees) {
-		m_retractorMotor.set(ControlMode.Position, positionDegrees * Constants.Intake.kRetractorDegreesToTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
+		if (withinRetractorDegreeRange(positionDegrees)) {
+			setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));
+		}
 		return this;
 	}
 
-	// offset + safety buffer --> positionTicks = 0 means going to the retracted position
 	public Intake setRetractorTicks(int positionTicks) {
-		m_retractorMotor.set(ControlMode.Position, positionTicks + retractorTicksOriginOffset + Constants.Intake.kRetractorOriginOffsetBufferMargin);
+		if (withinRetractorDegreeRange(positionTicks / Constants.Falcon500.kDegreesToTicks)) {
+			m_retractorMotor.set(ControlMode.Position,
+				positionTicks * Constants.Intake.kRetractorTicksReductionRatio
+				+ Constants.Intake.kRetractorOriginBufferTicks);
+		}
 		return this;
 	}
 
 	public Intake retractIntakeArm() {
 		brakeRetractor();
-		setRetractorTicks(Constants.Intake.kRetractedIntakeRetractorTicks);
+		setRetractorDegree(Constants.Intake.kRetractedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
 	public boolean intakeArmIsRetracted() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kRetractedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 	public Intake extendIntakeArm() {
 		brakeRetractor();
-		setRetractorTicks(Constants.Intake.kExtendedIntakeRetractorTicks);
+		setRetractorDegree(Constants.Intake.kExtendedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean intakeArmIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorTicks) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 
@@ -158,8 +159,8 @@ public class Intake extends SubsystemBase {
 	}
 
 	// -1 to 1
-	public Intake setFeederPercent(double percentOutput) {
-		m_feederMotor.set(ControlMode.PercentOutput, percentOutput);
+	public Intake setFeederPercent(double percent) {
+		m_feederMotor.set(ControlMode.PercentOutput, percent);
 		return this;
 	}
 

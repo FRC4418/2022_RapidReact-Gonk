@@ -22,16 +22,16 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
     private NetworkTableEntry motorTestingModeToggleSwitch;
 
 	private NetworkTableEntry indexerToggleSwitch;
-	private NetworkTableEntry indexerPercentNumberSlider;
+	private NetworkTableEntry indexerRPMNumberSlider;
 
 	private NetworkTableEntry launcherToggleSwitch;
-	private NetworkTableEntry launcherPercentNumberSlider;
+	private NetworkTableEntry launcherRPMNumberSlider;
 
 	private NetworkTableEntry feederToggleSwitch;
 	private NetworkTableEntry feederPercentNumberSlider;
 
 	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorTicksNumberSlider;
+	private NetworkTableEntry retractorDegreesNumberSlider;
 
     public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
 		super(width, height);
@@ -44,16 +44,16 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	protected DiagnosticsDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
-			indexerPercentNumberSlider,
+			indexerRPMNumberSlider,
 
 			launcherToggleSwitch,
-			launcherPercentNumberSlider,
+			launcherRPMNumberSlider,
 
 			feederToggleSwitch,
 			feederPercentNumberSlider,
 
 			retractorToggleSwitch,
-			retractorTicksNumberSlider
+			retractorDegreesNumberSlider
 		));
 		return this;
 	}
@@ -97,10 +97,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 						
-						retractorTicksNumberSlider = retractorLayout
-							.add("Ticks", Constants.Intake.kExtendedIntakeRetractorTicks)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -35_000, "Max", 35_000, "Block increment", 200))
+						retractorDegreesNumberSlider = retractorLayout
+							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorDegree)
+							.withWidget(BuiltInWidgets.kTextView)
+							// .withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
 							.getEntry();
 					}
 
@@ -139,10 +139,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						indexerPercentNumberSlider = indexerLayout
-							.add("Percentage", Constants.Manipulator.kDefaultIndexerPercent)
+						indexerRPMNumberSlider = indexerLayout
+							.add("RPM", Constants.Manipulator.kDefaultIndexerRPM)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
+							.withProperties(Map.of("Min", -Constants.Falcon500.kMaxRPM, "Max", Constants.Falcon500.kMaxRPM, "Block increment", 50))
 							.getEntry();
 					}
 
@@ -157,10 +157,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 							.withWidget(BuiltInWidgets.kToggleSwitch)
 							.getEntry();
 
-						launcherPercentNumberSlider = launcherLayout
-							.add("Percent", Constants.Manipulator.kDefaultLauncherPercent)
+						launcherRPMNumberSlider = launcherLayout
+							.add("RPM", Constants.Manipulator.kDefaultLauncherRPM)
 							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", 0., "Max", 1., "Block increment", 0.05))
+							.withProperties(Map.of("Min", -Constants.Falcon500.kMaxRPM, "Max", Constants.Falcon500.kMaxRPM, "Block increment", 50))
 							.getEntry();
 					}
 				}
@@ -191,10 +191,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
-				retractorTicksNumberSlider.addListener(event -> {
+				retractorDegreesNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
-						m_intake.setRetractorTicks((int) event.value.getDouble());
+						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -224,11 +224,11 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				indexerPercentNumberSlider.addListener(event -> {
+				indexerRPMNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)) {
-						m_manipulator.setIndexerPercent(event.value.getDouble());
+						m_manipulator.setIndexerRPM((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -240,10 +240,10 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				launcherPercentNumberSlider.addListener(event -> {
+				launcherRPMNumberSlider.addListener(event -> {
 					if (motorTestingModeToggleSwitch.getBoolean(false)
 					&& launcherToggleSwitch.getBoolean(false)) {
-						m_manipulator.setLauncherPercent(event.value.getDouble());
+						m_manipulator.setLauncherRPM((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}

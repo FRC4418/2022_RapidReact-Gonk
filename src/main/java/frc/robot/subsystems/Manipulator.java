@@ -29,10 +29,10 @@ public class Manipulator extends SubsystemBase {
 		m_launcherMotor.configFactoryDefault();
 		m_launcherMotor.setInverted(true);
 		m_launcherMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kTimeoutMs);
-		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kF);
 		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kP);
-		// m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kI);
-        // m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kD);
+		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kI);
+        m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kD);
+		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGainsV2.kF);
 	}
 
 
@@ -51,24 +51,40 @@ public class Manipulator extends SubsystemBase {
 	// Indexer motor
 	
 
-	// -1 to 1
-	public double getIndexerPercent() {
-		return m_indexerMotor.get();
+	public int getIndexerRPM() {
+		return (int) (
+			m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx)
+			/ Constants.Manipulator.kIndexerTicksReductionRatio
+			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
-	public Manipulator setIndexerPercent(double percentOutput) {
-		m_indexerMotor.set(ControlMode.PercentOutput, percentOutput);
+	private boolean withinIndexerRPMRange(int rpm) {
+		return (rpm >= Constants.Manipulator.kIndexerMinRPM && rpm <= Constants.Manipulator.kIndexerMaxRPM);
+	}
+
+	public Manipulator setIndexerRPM(int rpm) {
+		if (withinIndexerRPMRange(rpm)) {
+			m_indexerMotor.set(ControlMode.Velocity,
+				rpm * Constants.Manipulator.kIndexerTicksReductionRatio
+				* Constants.Falcon500.kRpmToTicksPer100ms);
+		}
 		return this;
 	}
 
-	// runs the indexer motor at the default output percent
+	public Manipulator setIndexerPercent(double percent) {
+		if (withinIndexerRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
+			m_indexerMotor.set(ControlMode.PercentOutput, percent);
+		}
+		return this;
+	}
+
 	public Manipulator runIndexer() {
-		setIndexerPercent(Constants.Manipulator.kDefaultIndexerPercent);
+		setIndexerRPM(Constants.Manipulator.kDefaultIndexerRPM);
 		return this;
 	}
 
 	public Manipulator stopIndexer() {
-		setIndexerPercent(0.);
+		setIndexerRPM(0);
 		return this;
 	}
 
@@ -77,17 +93,30 @@ public class Manipulator extends SubsystemBase {
 	// Launcher motor
 
 
-	public double getLauncherRPM() {
-		return m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Manipulator.kRpmToTicksPer100ms;
+	public int getLauncherRPM() {
+		return (int) (
+			m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx)
+			/ Constants.Manipulator.kLauncherTicksReductionRatio
+			/ Constants.Falcon500.kRpmToTicksPer100ms);
 	}
 
-	public Manipulator setLauncherRPM(double rpm) {
-		m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kRpmToTicksPer100ms);
+	private boolean withinLauncherRPMRange(int rpm) {
+		return (rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM);
+	}
+
+	public Manipulator setLauncherRPM(int rpm) {
+		if (withinLauncherRPMRange(rpm)) {
+			m_launcherMotor.set(ControlMode.Velocity,
+				rpm * Constants.Manipulator.kLauncherTicksReductionRatio
+				* Constants.Falcon500.kRpmToTicksPer100ms);
+		}
 		return this;
 	}
 
 	public Manipulator setLauncherPercent(double percent) {
-		m_launcherMotor.set(ControlMode.PercentOutput, percent);
+		if (withinLauncherRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
+			m_launcherMotor.set(ControlMode.PercentOutput, percent);
+		}
 		return this;
 	}
 
@@ -97,7 +126,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator stopLauncher() {
-		setLauncherPercent(0.);
+		setLauncherRPM(0);
 		return this;
 	}
 }

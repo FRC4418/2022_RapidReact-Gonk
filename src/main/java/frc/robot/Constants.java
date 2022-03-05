@@ -13,10 +13,15 @@ public class Constants {
     }
 
     public static class Falcon500 {
-        public static int ticksPerRevolution = 2048;
+        public static final int
+            ticksPerRevolution = 2048,
+            // AKA the free RPM
+            kMaxRPM = 6380;
 
-        // AKA the free RPM
-        public static int maxRPM = 6380;
+        public static final double
+            kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.,
+            // 720 instead of 360 because our degree range is -180 to 180
+            kDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 720.;
     }
 
     public static class Drivetrain {
@@ -25,7 +30,9 @@ public class Constants {
 
         public static final double
             // kWheelDiameterMeters = Constants.inchesToMeters(6.),
-            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.);
+            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.),
+
+            kDrivetrainMPSReductionRatio = 7.75;
 
         public static enum MotorGroup {
             kLeft,
@@ -45,8 +52,8 @@ public class Constants {
         // Conversions
 
         public static final double
-            // kTicksToMeters  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution) / 7.33,
-            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution) / 7.75,
+            // kTicksToMeters  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
+            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
             // kMPSToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMeters * Math.PI),
             kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
 
@@ -141,18 +148,19 @@ public class Constants {
             kDefaultReverseFeederPercent = -0.5,
             kDefaultFeederPercent = 0.5,
 
-            kToOutputRetractorTicksRatio = 58.25;
+            kRetractedIntakeRetractorDegree = 0.,
+            kExtendedIntakeRetractorDegree = 82.,
+
+            kRetractorDegreeTolerance = 1.5,
+
+            // means that for every 58.25 input ticks, the mechanism outputs 1 tick
+            kRetractorTicksReductionRatio = 58.25,
+
+            kRetractorMinDegree = -180.,
+            kRetractorMaxDegree = 180.;
             
-        // retractor has tick range of -((double) Falcon500.ticksPerRevolution * 58.25) to ((double) Falcon500.ticksPerRevolution * 58.25)
         public static final int
-            kMaxRetractorTicks = (int) (Falcon500.ticksPerRevolution * kToOutputRetractorTicksRatio),
-
-            kRetractedIntakeRetractorTicks = -2_300,
-            kExtendedIntakeRetractorTicks = 7_346,
-
-            kRetractorOriginOffsetBufferMargin = 150,
-
-            kRetractorDegreeTolerance = (int) (kMaxRetractorTicks * 0.05);
+            kRetractorOriginBufferTicks = 100;
 
         public static class CAN_ID {
             public static final int
@@ -161,12 +169,6 @@ public class Constants {
         }
 
         public static final int kWhiskerSensorDIOPort = 8;
-
-        // ----------------------------------------------------------
-        // Conversion
-
-        public static final double
-            kRetractorDegreesToTicks = ((double) Falcon500.ticksPerRevolution * 58.25) / 360.;
 
         // ----------------------------------------------------------
         // Open-loop controls
@@ -200,10 +202,18 @@ public class Constants {
         // General
 
         public static final double
-            kDefaultIndexerPercent = 1.0;
+            kLauncherTicksReductionRatio = 3.,
+            kIndexerTicksReductionRatio = 9.,
 
-        public static final int kDefaultLauncherRPM = Falcon500.maxRPM;
-        public static final double kDefaultLauncherPercent = 1.;
+            kLauncherMinRPM = -Constants.Falcon500.kMaxRPM,
+            kLauncherMaxRPM = Constants.Falcon500.kMaxRPM,
+
+            kIndexerMinRPM = -Constants.Falcon500.kMaxRPM,
+            kIndexerMaxRPM = Constants.Falcon500.kMaxRPM;
+
+        public static final int
+            kDefaultIndexerRPM = Falcon500.kMaxRPM,
+            kDefaultLauncherRPM = Falcon500.kMaxRPM;
 
         public static class CAN_ID {
             public static final int
@@ -212,15 +222,10 @@ public class Constants {
         }
 
         // ----------------------------------------------------------
-        // Conversion
-
-        // Falcon 500s have a free speed of 6380 RPM, which means a maximum of 21,777 ticks per 100ms
-        public static final double kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution * 4.) / 600.;
-
-        // ----------------------------------------------------------
         // Closed-loop control
 
         public static final int
+            kIndexerPidIdx = 0,
             kLauncherPidIdx = 0,
             kTimeoutMs = 30;
 
@@ -228,5 +233,9 @@ public class Constants {
         // 	= new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00);
         public static final Gains kLauncherRPMGainsV2
             = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
+
+        // TODO: !!!P1!!! Tune V2 indexer RPM gains
+        public static final Gains kIndexerRPMGains
+            = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
     }
 }
