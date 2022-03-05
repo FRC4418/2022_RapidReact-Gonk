@@ -70,8 +70,9 @@ public class Manipulator extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// TODO: Remove this print once useless
+		// TODO: Remove these print once useless
 		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
+		SmartDashboard.putNumber("Indexer RPM", getIndexerRPM());
 	}
 
 
