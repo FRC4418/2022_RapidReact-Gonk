@@ -220,13 +220,28 @@ public class RobotContainer {
 
 
 	// ----------------------------------------------------------
-    // Robot-drivetrain listeners
+    // Robot-selection listeners
 
+
+	public static void configureConstants() {
+		switch (RobotContainer.teamRobot) {
+			default:
+				assert 0 == 1;
+				break;
+			case VERSACHASSIS_ONE:
+				Constants.useV1Constants();
+				break;
+			case VERSACHASSIS_TWO:
+			Constants.useV2Constants();
+				break;
+		}
+	}
 
 	public RobotContainer listenForRobotSelection() {
 		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
 		if (teamRobot != newRobotSelection) {
 			teamRobot = newRobotSelection;
+			configureConstants();
 			drivetrain.configureDrivetrain(teamRobot);
 		}
 		return this;

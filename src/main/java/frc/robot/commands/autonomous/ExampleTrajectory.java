@@ -38,9 +38,9 @@ public class ExampleTrajectory extends CommandBase {
 		var autoVoltageConstraint =
 			new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(
-					Constants.Drivetrain.ksVoltsV2,
-					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
-					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Constants.Drivetrain.ksVolts,
+					Constants.Drivetrain.kvVoltSecondsPerMeter,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
 					Drivetrain.kDriveKinematicsV2,
 				10);
 	
@@ -72,13 +72,13 @@ public class ExampleTrajectory extends CommandBase {
 				m_drivetrain::getPose,
 				new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
 				new SimpleMotorFeedforward(
-					Constants.Drivetrain.ksVoltsV2,
-					Constants.Drivetrain.kvVoltSecondsPerMeterV2,
-					Constants.Drivetrain.kaVoltSecondsSquaredPerMeterV2),
+					Constants.Drivetrain.ksVolts,
+					Constants.Drivetrain.kvVoltSecondsPerMeter,
+					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
 					Drivetrain.kDriveKinematicsV2,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Constants.Drivetrain.kLeftVelocityGainsV2.kP, 0, 0),
-				new PIDController(Constants.Drivetrain.kRightVelocityGainsV2.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kLeftVelocityGains.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kRightVelocityGains.kP, 0, 0),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);
