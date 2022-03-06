@@ -26,7 +26,7 @@ public class RobotChooserDisplay extends GeneralDisplay {
 
 	@Override
 	protected GeneralDisplay createDisplayAt(int column, int row) {
-		{ var robotSelectionLayout = tab
+		{ var layout = tab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
@@ -40,7 +40,7 @@ public class RobotChooserDisplay extends GeneralDisplay {
 				teamRobotChooser.setDefaultOption("Versa-Two", TeamRobot.VERSACHASSIS_TWO);
 				teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
 			}
-			robotSelectionLayout
+			layout
 				.add("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);
 		}

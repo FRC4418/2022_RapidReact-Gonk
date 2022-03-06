@@ -33,14 +33,14 @@ public class CamerasDisplay extends VisionDisplay {
 
 	@Override
 	protected VisionDisplay createDisplayAt(int column, int row) {
-		{ var camerasLayout = tab
+		{ var layout = tab
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 			
 			// Front-center
-			{ var frontCenterCameraLayout = camerasLayout
+			{ var frontCenterCameraLayout = layout
 				.getLayout("Front-Center", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -55,9 +55,9 @@ public class CamerasDisplay extends VisionDisplay {
 			}
 
 			// Back-center
-			{ var backCenterCameraLayout = camerasLayout
+			{ var backCenterCameraLayout = layout
 				.getLayout("Back-Center", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				enableBackCenterCameraToggleSwitch = backCenterCameraLayout
 					.add("On-Off", Constants.Vision.kDefaultEnableBackCenterCamera)

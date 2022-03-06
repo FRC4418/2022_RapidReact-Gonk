@@ -15,25 +15,27 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class MotorTestingDisplay extends MotorTuningDisplay {
+public class MainMotorsDisplay extends MotorTuningDisplay {
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
-    private NetworkTableEntry motorTestingModeToggleSwitch;
+    private NetworkTableEntry
+		// ex. when tuning mode is enabled, retractorTuningDegreesTextField controls the retractor. When disabled, retractorFinalDegreesTextField controls the retractor
+		tuningModeToggleSwitch,
 
-	private NetworkTableEntry indexerToggleSwitch;
-	private NetworkTableEntry indexerRPMNumberSlider;
+		launcherTuningRPMTextField,
+		launcherFinalRPMTextField,
 
-	private NetworkTableEntry launcherToggleSwitch;
-	private NetworkTableEntry launcherRPMNumberSlider;
+		indexerTuningRPMTextField,
+		indexerFinalRPMTextField,
 
-	private NetworkTableEntry feederToggleSwitch;
-	private NetworkTableEntry feederPercentNumberSlider;
+		retractorTuningDegreesTextField,
+		retractorFinalDegreesTextField,
 
-	private NetworkTableEntry retractorToggleSwitch;
-	private NetworkTableEntry retractorDegreesNumberSlider;
+		feederTuningPercentTextField,
+		feederFinalPercentTextField;
 
-    public MotorTestingDisplay(Intake intake, Manipulator manipulator, int width, int height) {
+    public MainMotorsDisplay(Intake intake, Manipulator manipulator, int width, int height) {
 		super(width, height);
 
 		m_intake = intake;
@@ -43,38 +45,61 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 	@Override
 	protected MotorTuningDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
-			indexerToggleSwitch,
-			indexerRPMNumberSlider,
+			tuningModeToggleSwitch,
 
-			launcherToggleSwitch,
-			launcherRPMNumberSlider,
+			launcherTuningRPMTextField,
+			launcherFinalRPMTextField,
 
-			feederToggleSwitch,
-			feederPercentNumberSlider,
+			indexerTuningRPMTextField,
+			indexerFinalRPMTextField,
 
-			retractorToggleSwitch,
-			retractorDegreesNumberSlider
+			retractorTuningDegreesTextField,
+			retractorFinalDegreesTextField,
+
+			feederTuningPercentTextField,
+			feederFinalPercentTextField
 		));
 		return this;
 	}
 
 	@Override
 	protected MotorTuningDisplay createDisplayAt(int column, int row) {
-        { var motorTestingLayout = tab
+        { var layout = tab
 			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
 			// Enable/disable motor testing
-			motorTestingModeToggleSwitch = motorTestingLayout
+			tuningModeToggleSwitch = layout
 				.add("CLICK ME! Red = enabled", false)
 				.withWidget(BuiltInWidgets.kToggleButton)
 				.getEntry();
 
+			// Horizontal stack
+			{ var hstack = layout
+				.getLayout(" ", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
+
+				// Tuning column
+				{ var tuningColumn = hstack
+					.getLayout("Tuning Mode", BuiltInLayouts.kGrid)
+					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
+
+
+				}
+
+				// Final column
+				{ var finalColumn = hstack
+					.getLayout("Final Mode", BuiltInLayouts.kGrid)
+					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
+
+				}
+			}
+
 			// put into the 2nd slot of motorTestingLayout's vertical stack
-			{ var horizontalStack = motorTestingLayout
+			{ var horizontalStack = layout
 				.getLayout("Horizontal Stack", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
 
@@ -170,8 +195,8 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 	}
 
 	@Override
-	public MotorTestingDisplay addEntryListeners() {
-		motorTestingModeToggleSwitch.addListener(event -> {
+	public MainMotorsDisplay addEntryListeners() {
+		tuningModeToggleSwitch.addListener(event -> {
 			// means if the toggle switch's boolean is false (AKA disabled)
 			if (!event.value.getBoolean()) {
 				m_intake.retractIntakeArm();
@@ -185,14 +210,14 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 		{ // Intake
 			{ // Retractor motor
 				retractorToggleSwitch.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& !event.value.getBoolean()) {
 						m_intake.retractIntakeArm();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 				retractorDegreesNumberSlider.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& retractorToggleSwitch.getBoolean(false)) {
 						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
@@ -200,14 +225,14 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 			}
 			{ // Feeder motor
 				feederToggleSwitch.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& !event.value.getBoolean()) {
 						m_intake.stopFeeder();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				feederPercentNumberSlider.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& feederToggleSwitch.getBoolean(false)) {
 						m_intake.setFeederPercent(event.value.getDouble());
 					}
@@ -218,14 +243,14 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 		{ // Manipulator
 			{ // Indexer motor
 				indexerToggleSwitch.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& !event.value.getBoolean()) {
 						m_manipulator.stopIndexer();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				indexerRPMNumberSlider.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)
 					&& indexerToggleSwitch.getBoolean(false)) {
 						m_manipulator.setIndexerRPM((int) event.value.getDouble());
@@ -234,14 +259,14 @@ public class MotorTestingDisplay extends MotorTuningDisplay {
 			}
 			{ // Launcher motor
 				launcherToggleSwitch.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& !event.value.getBoolean()) {
 						m_manipulator.stopLauncher();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				launcherRPMNumberSlider.addListener(event -> {
-					if (motorTestingModeToggleSwitch.getBoolean(false)
+					if (tuningModeToggleSwitch.getBoolean(false)
 					&& launcherToggleSwitch.getBoolean(false)) {
 						m_manipulator.setLauncherRPM((int) event.value.getDouble());
 					}

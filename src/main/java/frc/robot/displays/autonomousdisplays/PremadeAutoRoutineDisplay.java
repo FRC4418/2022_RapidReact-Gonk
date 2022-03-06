@@ -45,14 +45,14 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 
 	@Override
 	protected AutonomousDisplay createDisplayAt(int column, int row) {
-		{ var autonomousLayout = tab
+		{ var layout = tab
 			.getLayout("Autonomous", BuiltInLayouts.kGrid)
-			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
+			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)
 			.withSize(width, height);
 			
 			// Column 1
-			{ var column1 = autonomousLayout
+			{ var column1 = layout
 				.getLayout(" ", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
@@ -73,7 +73,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			}
 
 			// Column 2
-			{ var column2 = autonomousLayout
+			{ var column2 = layout
 				.getLayout(" ", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
 

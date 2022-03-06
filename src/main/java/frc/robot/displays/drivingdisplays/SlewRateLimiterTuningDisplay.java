@@ -47,7 +47,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 
 	@Override
 	protected DrivingDisplay createDisplayAt(int column, int row) {
-		{ var slewRateLimiterLayout = tab
+		{ var layout = tab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"))
 			.withPosition(column, row)
@@ -58,7 +58,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();
 
-			{ var arcadeDriveLayout = slewRateLimiterLayout
+			{ var arcadeDriveLayout = layout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -73,7 +73,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 					.getEntry();
 			}
 
-			{ var tankDriveLayout = slewRateLimiterLayout
+			{ var tankDriveLayout = layout
 				.getLayout("Tank Drive", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			

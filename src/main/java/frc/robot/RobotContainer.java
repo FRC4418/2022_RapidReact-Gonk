@@ -32,7 +32,7 @@ import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivingdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.generaldisplays.JoysticksDisplay;
 import frc.robot.displays.generaldisplays.RobotChooserDisplay;
-import frc.robot.displays.motortuningdisplays.MotorTestingDisplay;
+import frc.robot.displays.motortuningdisplays.MainMotorsDisplay;
 import frc.robot.displays.visiondisplays.CamerasDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
@@ -195,22 +195,12 @@ public class RobotContainer {
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		motorTuningDisplaysGrid
-			.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 8, 3));
+			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 8, 3));
 
 		for (var grid: displaysGrids) {
 			grid.initialize().addEntryListeners();
 		}
-
-		// hudDisplaysGrid
-		// 	.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-		// if (RobotContainer.enableCameras) {
-		// 	hudDisplaysGrid.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
 		
-		// if (enableDiagnostics) {
-		// 	diagnosticDisplaysGrid
-		// 		.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
-		// 		.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
-
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
 

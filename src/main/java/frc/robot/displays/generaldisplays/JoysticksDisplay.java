@@ -39,15 +39,15 @@ public class JoysticksDisplay extends GeneralDisplay {
 
     @Override
     protected GeneralDisplay createDisplayAt(int column, int row) {
-        { var joysticksLayout = tab
+        { var layout = tab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
-            { var driverLayout = joysticksLayout
+            { var driverLayout = layout
                 .getLayout("Driver", BuiltInLayouts.kGrid)
-                .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
+                .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
                 driverJoystickModeChooser.setDefaultOption("Arcade", RobotContainer.defaultDriverJoystickMode);
                 driverJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
@@ -61,9 +61,9 @@ public class JoysticksDisplay extends GeneralDisplay {
                     .getEntry();
             }
 
-            { var spotterLayout = joysticksLayout
+            { var spotterLayout = layout
                 .getLayout("Spotter", BuiltInLayouts.kGrid)
-                .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
+                .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
                 spotterJoystickModeChooser.setDefaultOption("Lone Tank", JoystickMode.LONE_TANK);
                 spotterJoystickModeChooser.addOption("Arcade", RobotContainer.defaultSpotterJoystickMode);
