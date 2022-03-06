@@ -116,9 +116,24 @@ public class Constants {
         // ----------------------------------------------------------
         // Open-loop control
 
-        public static final double
+        public static double
             // units in seconds
-            kJoystickOpenLoopRampTime = 0.7;
+            kDefaultOpenLoopRampTime = 0.7;
+
+        public static class ArcadePolynomial {
+            public static double
+                kDefaultForwardMultiplier = 1.0,
+                kDefaultForwardExponential = 1.0,
+
+                kDefaultTurnMultiplier = 0.8,
+                kDefaultTurnExponential = 1.0;
+        }
+
+        public static class TankPolynomial {
+            public static double
+                kDefaultForwardMultiplier = 1.0,
+                kDefaultForwardExponential = 1.0;
+        }
 
         // ----------------------------------------------------------
         // Closed-loop control
@@ -158,30 +173,15 @@ public class Constants {
         // ----------------------------------------------------------
         // Max-output modes
 
-        public static final double kMaxSlewRateAllowed = 3.;
+        public static double
+            kDefaultMaxOutput = 1.;
 
-        public static class NormalOutputMode {
-            public static final double kDefaultMaxOutput = 1.;
-
-            public static class SlewRates {
-                public static final double
-                    kDefaultArcadeForward = 1.58,
-                    kDefaultArcadeTurn = 2.08,
-        
-                    kDefaultTankForward = 1.0;
-            }
-        }
-
-        public static class KidsSafetyOutputMode {
-            public static final double kDefaultMaxOutput = 0.1;
-
-            public static class SlewRates {
-                public static final double
-                    kDefaultArcadeForward = 2.,
-                    kDefaultArcadeTurn = 2.,
-
-                    kDefaultTankForward = 2.;
-            }
+        public static class SlewRates {
+            public static final double
+                kDefaultArcadeForward = 1.58,
+                kDefaultArcadeTurn = 2.08,
+    
+                kDefaultTankForward = 1.0;
         }
 
         // ----------------------------------------------------------

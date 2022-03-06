@@ -78,15 +78,32 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Polynomial ramp functions (ax^b)
+
+
+	private double
+		arcadeForwardMultiplier = Constants.Drivetrain.ArcadePolynomial.kDefaultForwardMultiplier,
+		arcadeForwardExponential = Constants.Drivetrain.ArcadePolynomial.kDefaultForwardExponential,
+
+		arcadeTurnMultiplier = Constants.Drivetrain.ArcadePolynomial.kDefaultTurnMultiplier,
+		arcadeTurnExponential = Constants.Drivetrain.ArcadePolynomial.kDefaultTurnExponential,
+
+		tankForwardMultiplier = Constants.Drivetrain.TankPolynomial.kDefaultForwardMultiplier,
+		tankForwardExponential = Constants.Drivetrain.TankPolynomial.kDefaultForwardExponential;
+
+
+	// ----------------------------------------------------------
 	// Slew rate limiters
 
 	
-	private SlewRateLimiter
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward),
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn),
+	public static boolean useSlewRateLimiters = false;
 
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward),
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
+	private SlewRateLimiter
+		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kDefaultArcadeForward),
+		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kDefaultArcadeTurn),
+
+		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kDefaultTankForward),
+		m_tankDriveRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kDefaultTankForward);
 
 
 	// ----------------------------------------------------------
@@ -173,12 +190,13 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain useNormalMaximumOutput() {
-		m_differentialDrive.setMaxOutput(Constants.Drivetrain.NormalOutputMode.kDefaultMaxOutput);
+	public Drivetrain useDefaultMaxOutput() {
+		m_differentialDrive.setMaxOutput(Constants.Drivetrain.kDefaultMaxOutput);
 		return this;
 	}
 
 	public Drivetrain setMaxOutput(double maxOutput) {
+		Constants.Drivetrain.kDefaultMaxOutput = maxOutput;
 		m_differentialDrive.setMaxOutput(maxOutput);
 		return this;
 	}
@@ -228,7 +246,7 @@ public class Drivetrain extends SubsystemBase {
 	// }
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
-		setOpenLoopRampTimes(Constants.Drivetrain.kJoystickOpenLoopRampTime);
+		setOpenLoopRampTimes(Constants.Drivetrain.kDefaultOpenLoopRampTime);
 		return this;
 	}
 
@@ -238,6 +256,8 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
+		Constants.Drivetrain.kDefaultOpenLoopRampTime = timeInSeconds;
+
 		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
 		m_backLeftMotor.configOpenloopRamp(timeInSeconds);
 
@@ -328,11 +348,14 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public void arcadeDrive(double forward, double rotation) {
+	public void arcadeDrive(double forward, double turn) {
+		forward = Math.pow(arcadeForwardMultiplier * forward, arcadeForwardExponential);
+		turn = Math.pow(arcadeTurnMultiplier * turn, arcadeTurnExponential);
+
 		if (!m_reverseDrivetrain) {
-			m_differentialDrive.arcadeDrive(forward, rotation);
+			m_differentialDrive.arcadeDrive(forward, turn);
 		} else {
-			m_differentialDrive.arcadeDrive(-forward, rotation);
+			m_differentialDrive.arcadeDrive(-forward, turn);
 		}
 		m_differentialDrive.feed();
 	}
@@ -372,26 +395,53 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Polynomial ramp setters
+
+
+	public Drivetrain setArcadeForwardMultiplier(double multiplier) {
+		Constants.Drivetrain.ArcadePolynomial.kDefaultForwardMultiplier = multiplier;
+		arcadeForwardMultiplier = multiplier;
+		return this;
+	}
+
+	public Drivetrain setArcadeForwardExponential(double exponential) {
+		arcadeForwardExponential = exponential;
+		return this;
+	}
+
+	public Drivetrain setArcadeTurnMultiplier(double multiplier) {
+		arcadeTurnMultiplier = multiplier;
+		return this;
+	}
+
+	public Drivetrain setArcadeTurnExponential(double exponential) {
+		arcadeForwardExponential = exponential;
+		return this;
+	}
+
+	public Drivetrain setTankForwardMultiplier(double multiplier) {
+		tankForwardMultiplier = multiplier;
+		return this;
+	}
+
+	public Drivetrain setTankForwardExponential(double exponential) {
+		tankForwardExponential = exponential;
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
 	// Slew rate limiters
 
 
 	// Output-mode configurations
 
-	public Drivetrain useNormalOutputModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeForward);
-		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultArcadeTurn);
+	public Drivetrain useDefaultSlewRates() {
+		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.SlewRates.kDefaultArcadeForward);
+		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.SlewRates.kDefaultArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
-		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.NormalOutputMode.SlewRates.kDefaultTankForward);
-		return this;
-	}
-
-	public Drivetrain useKidsSafetyModeSlewRates() {
-		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeForward);
-		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultArcadeTurn);
-
-		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
-		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.KidsSafetyOutputMode.SlewRates.kDefaultTankForward);
+		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.SlewRates.kDefaultTankForward);
+		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.SlewRates.kDefaultTankForward);
 		return this;
 	}
 

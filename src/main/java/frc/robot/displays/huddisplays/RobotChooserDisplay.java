@@ -6,12 +6,14 @@ import java.util.Map;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.TeamRobot;
 import frc.robot.displays.Display;
+import frc.robot.displays.generaldisplays.GeneralDisplay;
 
 
-public class RobotChooserDisplay extends HUDDisplay {
+public class RobotChooserDisplay extends GeneralDisplay {
     public SendableChooser<TeamRobot> teamRobotChooser = new SendableChooser<>();
 
     public RobotChooserDisplay(int width, int height) {
@@ -26,7 +28,7 @@ public class RobotChooserDisplay extends HUDDisplay {
 
 	@Override
 	protected Display createDisplayAt(int column, int row) {
-		{ var robotSelectionLayout = hudTab
+		{ var robotSelectionLayout = tab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
 			.withPosition(column, row)

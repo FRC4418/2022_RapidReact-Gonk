@@ -26,13 +26,12 @@ import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
-import frc.robot.displays.diagnosticsdisplays.DrivetrainOpenLoopRampTimeDisplay;
+import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
 import frc.robot.displays.huddisplays.CamerasDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
-import frc.robot.displays.huddisplays.KidsSafetyDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
@@ -93,8 +92,8 @@ public class RobotContainer {
 	// Private constants
 
 
-	private static final int[] driverJoystickPorts = new int[] {0, 1};
-	private static final int[] spotterJoystickPorts = new int[] {2, 3};
+	private static final int[] driverJoystickPorts = {0, 1};
+	private static final int[] spotterJoystickPorts = {2, 3};
 
 
 	// ----------------------------------------------------------
@@ -126,8 +125,12 @@ public class RobotContainer {
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
 
-	private DisplaysGrid hudDisplaysGrid = new DisplaysGrid();
-	private DisplaysGrid diagnosticDisplaysGrid = new DisplaysGrid();
+	private DisplaysGrid
+		generalDisplaysGrid = new DisplaysGrid(),
+		drivingDisplaysGrid = new DisplaysGrid(),
+		autonomousDisplaysGrid = new DisplaysGrid(),
+		visionDisplaysGrid = new DisplaysGrid(),
+		motorTuningDisplaysGrid = new DisplaysGrid();
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
@@ -163,26 +166,47 @@ public class RobotContainer {
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
 		
-		hudDisplaysGrid
+		// add new display grids here
+		DisplaysGrid[] displaysGrids = {
+			generalDisplaysGrid,
+			drivingDisplaysGrid,
+			autonomousDisplaysGrid,
+			visionDisplaysGrid,
+			motorTuningDisplaysGrid
+		};
+
+		generalDisplaysGrid
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
-			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2))
-			.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
-			.reserveNextRowAtColumn(0, autonomousDisplay = new AutonomousDisplay(2, 3));
-		if (RobotContainer.enableCameras) {
-			hudDisplaysGrid.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2));
-		}
-		hudDisplaysGrid
-			.initialize()
-			.addEntryListeners();
+			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2));
+			
+		drivingDisplaysGrid
+			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
+			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
+			.reserveNextRowAtColumn(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
+
+		autonomousDisplaysGrid
+			.makeOriginWith(autonomousDisplay = new AutonomousDisplay(2, 3));
 		
-		if (enableDiagnostics) {
-			diagnosticDisplaysGrid
-				.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 8, 3))
-				.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
-				.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
-				.initialize()
-				.addEntryListeners();
+		visionDisplaysGrid
+			.makeOriginWith(new CamerasDisplay(6, 2))
+			.reserveNextRowAtColumn(0, new JevoisParametersDisplay());
+
+		motorTuningDisplaysGrid
+			.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 8, 3));
+
+		for (var grid: displaysGrids) {
+			grid.initialize().addEntryListeners();
 		}
+
+		// hudDisplaysGrid
+		// 	.reserveNextColumnAtRow(0, new KidsSafetyDisplay(drivetrain, 2, 2))
+		// if (RobotContainer.enableCameras) {
+		// 	hudDisplaysGrid.reserveNextRowAtColumn(1, new CamerasDisplay(6, 2))
+		
+		// if (enableDiagnostics) {
+		// 	diagnosticDisplaysGrid
+		// 		.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4))
+		// 		.reserveNextRowAtColumn(0, new DrivetrainOpenLoopRampTimeDisplay(drivetrain, 3, 1))
 
 		setupDriverJoystickControls();
 		setupSpotterJoystickControls();
@@ -352,9 +376,9 @@ public class RobotContainer {
 
 	
 	public RobotContainer listenForJoystickDevices() {
-		var pilotPrimaryPorts = new int[] {driverJoystickPorts[0], spotterJoystickPorts[0]};
-		var pilotJoystickTypes = new JoystickDeviceType[] {driverJoystickDeviceType, spotterJoystickDeviceType};
-		Runnable[] setupPilotJoystickControls = new Runnable[] {() -> setupDriverJoystickControls(), () -> setupSpotterJoystickControls()};
+		int[] pilotPrimaryPorts = {driverJoystickPorts[0], spotterJoystickPorts[0]};
+		JoystickDeviceType[] pilotJoystickTypes = {driverJoystickDeviceType, spotterJoystickDeviceType};
+		Runnable[] setupPilotJoystickControls = {() -> setupDriverJoystickControls(), () -> setupSpotterJoystickControls()};
 
 		for (int pilotIndex: new int[] {0, 1}) {
 			var newJoystickDeviceType = getJoystickDeviceTypeFor(pilotPrimaryPorts[pilotIndex]);

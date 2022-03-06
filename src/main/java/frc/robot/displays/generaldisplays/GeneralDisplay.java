@@ -8,7 +8,7 @@ import frc.robot.displays.Display;
 
 
 public abstract class GeneralDisplay extends Display {
-    protected static final ShuffleboardTab hudTab = Shuffleboard.getTab("General");
+    protected static final ShuffleboardTab tab = Shuffleboard.getTab("General");
 
     public GeneralDisplay(int width, int height) {
         super(width, height);

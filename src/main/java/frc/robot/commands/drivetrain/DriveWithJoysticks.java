@@ -48,15 +48,27 @@ public class DriveWithJoysticks extends CommandBase {
 
 		switch (activePilotJoystickMode) {
 			case ARCADE:
-				m_drivetrain.arcadeDrive(
-					m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
-					m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()));
+				if (Drivetrain.useSlewRateLimiters) {
+					m_drivetrain.arcadeDrive(
+						m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
+						m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()));
+				} else {
+					m_drivetrain.arcadeDrive(
+						activePilotJoystickControls.getArcadeDriveForwardAxis(),
+						activePilotJoystickControls.getArcadeDriveTurnAxis());
+				}
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
-				m_drivetrain.tankDrive(
-					m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
-					m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));
+				if (Drivetrain.useSlewRateLimiters) {
+					m_drivetrain.tankDrive(
+						m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
+						m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));
+				} else {
+					m_drivetrain.tankDrive(
+						activePilotJoystickControls.getTankDriveLeftAxis(),
+						activePilotJoystickControls.getTankDriveRightAxis());
+				}
 				break;
 		}
 	}
