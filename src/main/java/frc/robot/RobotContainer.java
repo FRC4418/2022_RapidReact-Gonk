@@ -332,12 +332,13 @@ public class RobotContainer {
 	}
 
 	public RobotContainer listenForPremadeAutoRoutine() {
-		if (autonomous.usingPremadeRoutine()) {
-			var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
-			if (autoRoutine != newAutoRoutineSelection) {
-				autoRoutine = newAutoRoutineSelection;
-				setAutoCommand(autoRoutine);
-			}
+		if (!autonomous.usingPremadeRoutine()) {
+			return this;
+		}
+		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
+		if (autoRoutine != newAutoRoutineSelection) {
+			autoRoutine = newAutoRoutineSelection;
+			setAutoCommand(autoRoutine);
 		}
 		return this;
 	}
