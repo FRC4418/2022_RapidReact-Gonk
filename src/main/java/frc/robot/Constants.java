@@ -313,4 +313,16 @@ public class Constants {
             kPinInAngle = 50.;
     }
 
+
+    public static class Autonomous {
+        // ----------------------------------------------------------
+        // General
+
+        public static boolean
+            kDefaultUsePremadeRoutine = true;
+
+        public static double
+            kDefaultStartDelaySeconds = 0.,
+            kDefaultTarmacLeavingMeters = Constants.inchesToMeters(72.);
+    }
 }

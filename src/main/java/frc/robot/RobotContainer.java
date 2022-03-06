@@ -30,7 +30,7 @@ import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivingdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
-import frc.robot.displays.huddisplays.AutonomousDisplay;
+import frc.robot.displays.huddisplays.PremadeAutoRoutineDisplay;
 import frc.robot.displays.huddisplays.CamerasDisplay;
 import frc.robot.displays.huddisplays.JoysticksDisplay;
 import frc.robot.displays.huddisplays.RobotChooserDisplay;
@@ -136,7 +136,7 @@ public class RobotContainer {
 
 	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
-	private final AutonomousDisplay autonomousDisplay;
+	private final PremadeAutoRoutineDisplay autonomousDisplay;
 
 	// has default USB values
 	private JoystickDeviceType
@@ -189,7 +189,7 @@ public class RobotContainer {
 			.reserveNextRowAtColumn(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
 
 		autonomousDisplaysGrid
-			.makeOriginWith(autonomousDisplay = new AutonomousDisplay(2, 3));
+			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 2, 3));
 		
 		visionDisplaysGrid
 			.makeOriginWith(new CamerasDisplay(6, 2))
@@ -331,11 +331,13 @@ public class RobotContainer {
 		return this;
 	}
 
-	public RobotContainer listenForAutoRoutine() {
-		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
-		if (autoRoutine != newAutoRoutineSelection) {
-			autoRoutine = newAutoRoutineSelection;
-			setAutoCommand(autoRoutine);
+	public RobotContainer listenForPremadeAutoRoutine() {
+		if (autonomous.usingPremadeRoutine()) {
+			var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();
+			if (autoRoutine != newAutoRoutineSelection) {
+				autoRoutine = newAutoRoutineSelection;
+				setAutoCommand(autoRoutine);
+			}
 		}
 		return this;
 	}

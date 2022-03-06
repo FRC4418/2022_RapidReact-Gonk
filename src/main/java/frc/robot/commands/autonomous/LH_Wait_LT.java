@@ -15,8 +15,8 @@ public class LH_Wait_LT extends SequentialCommandGroup {
 	public LH_Wait_LT(Drivetrain drivetrain, Manipulator manipulator) {
 		super(
 			new RunLauncherForTime(manipulator, 1.5),
-			new Wait(Autonomous.startDelayTime),
-			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS, 3.)
+			new Wait(Autonomous.getStartDelaySeconds()),
+			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS, 3.)
 		);
 	}
 }

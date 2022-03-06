@@ -12,11 +12,11 @@ public class Autonomous extends SubsystemBase {
 	// Publicly static resources
 
 
-	// in seconds
-	public static double startDelayTime = 0.;
+	private boolean usePremadeRoutine = Constants.Autonomous.kDefaultUsePremadeRoutine;
 
-	// in meters
-	public static double tarmacLeavingDistanceMeters = Constants.inchesToMeters(72.);
+	private static double
+		startDelaySeconds = Constants.Autonomous.kDefaultStartDelaySeconds,
+		tarmacLeavingMeters = Constants.Autonomous.kDefaultTarmacLeavingMeters;
 
 
 	// ----------------------------------------------------------
@@ -47,13 +47,42 @@ public class Autonomous extends SubsystemBase {
 		}
 	}
 
-	public static void setStartDelayTime(double newDelayTime) {
-		startDelayTime = newDelayTime;
+
+	// ----------------------------------------------------------
+	// Routine-parameter getters
+
+
+	public boolean usingPremadeRoutine() {
+		return usePremadeRoutine;
+	}
+
+	public static double getStartDelaySeconds() {
+		return startDelaySeconds;
+	}
+
+	public static double getTarmacLeavingMeters() {
+		return tarmacLeavingMeters;
+	}
+
+
+	// ----------------------------------------------------------
+	// Routine-parameter setters
+
+
+	public Autonomous setUsePremadeRoutine(boolean bool) {
+		usePremadeRoutine = bool;
+		return this;
+	}
+
+	public static void setStartDelaySeconds(double delaySeconds) {
+		Constants.Autonomous.kDefaultStartDelaySeconds = delaySeconds;
+		startDelaySeconds = delaySeconds;
 		RobotContainer.instance.remakeAutoCommand();
 	}
 
-	public static void setTarmacLeavingDistance(double newDistance) {
-		tarmacLeavingDistanceMeters = newDistance;
+	public static void setTarmacLeavingMeters(double distance) {
+		Constants.Autonomous.kDefaultTarmacLeavingMeters = distance;
+		tarmacLeavingMeters = distance;
 		RobotContainer.instance.remakeAutoCommand();
 	}
 }

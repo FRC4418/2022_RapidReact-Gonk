@@ -12,8 +12,8 @@ import frc.robot.subsystems.Drivetrain;
 public class WaitAndLeaveTarmac extends SequentialCommandGroup {
 	public WaitAndLeaveTarmac(Drivetrain drivetrain) {
 		super(
-			new Wait(Autonomous.startDelayTime),
-			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS, 3.)
+			new Wait(Autonomous.getStartDelaySeconds()),
+			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS, 3.)
 		);
 	}
 }
