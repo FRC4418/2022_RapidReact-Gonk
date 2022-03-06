@@ -1,4 +1,4 @@
-package frc.robot.displays.diagnosticsdisplays;
+package frc.robot.displays.drivingdisplays;
 
 
 import java.util.ArrayList;
@@ -9,11 +9,12 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
+public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 	private final Drivetrain m_drivetrain;
 
     private NetworkTableEntry arcadeDriveForwardLimiterTextView;
@@ -29,7 +30,7 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
     }
 
 	@Override
-	protected DiagnosticsDisplay createEntriesArray() {
+	protected DrivingDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			arcadeDriveForwardLimiterTextView,
 			arcadeDriveTurnLimiterTextView,
@@ -40,8 +41,8 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	}
 
 	@Override
-	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
-		{ var slewRateLimiterLayout = diagnosticsTab
+	protected DrivingDisplay createDisplayAt(int column, int row) {
+		{ var slewRateLimiterLayout = tab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
@@ -81,7 +82,7 @@ public class SlewRateLimiterTuningDisplay extends DiagnosticsDisplay {
 	}
 
 	@Override
-	public DiagnosticsDisplay addEntryListeners() {
+	public DrivingDisplay addEntryListeners() {
 		{	// Arcade drive
 			arcadeDriveForwardLimiterTextView.addListener(event -> {
 				m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());

@@ -27,6 +27,7 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
+import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.diagnosticsdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.huddisplays.AutonomousDisplay;
