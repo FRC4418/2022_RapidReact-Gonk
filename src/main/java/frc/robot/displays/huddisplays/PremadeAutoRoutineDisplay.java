@@ -13,11 +13,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.Constants;
 import frc.robot.displays.Display;
+import frc.robot.displays.autonomousdisplays.AutonomousDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 
 
-public class PremadeAutoRoutineDisplay extends HUDDisplay {
+public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	private final Autonomous m_autonomous;
 
     public SendableChooser<AutonomousRoutine> autoRoutineChooser = new SendableChooser<>();
@@ -35,7 +36,7 @@ public class PremadeAutoRoutineDisplay extends HUDDisplay {
     }
 
 	@Override
-	protected Display createEntriesArray() {
+	protected AutonomousDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			usePremadeRoutineToggleSwitch,
 			startDelayTimeTextView,
@@ -45,8 +46,8 @@ public class PremadeAutoRoutineDisplay extends HUDDisplay {
 	}
 
 	@Override
-	protected Display createDisplayAt(int column, int row) {
-		{ var autonomousLayout = hudTab
+	protected AutonomousDisplay createDisplayAt(int column, int row) {
+		{ var autonomousLayout = tab
 			.getLayout("Autonomous", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
@@ -93,7 +94,7 @@ public class PremadeAutoRoutineDisplay extends HUDDisplay {
 	}
 
 	@Override
-	public Display addEntryListeners() {
+	public AutonomousDisplay addEntryListeners() {
 		{ // Column 1
 			usePremadeRoutineToggleSwitch.addListener(event -> {
 				m_autonomous.setUsePremadeRoutine(event.value.getBoolean());

@@ -325,4 +325,13 @@ public class Constants {
             kDefaultStartDelaySeconds = 0.,
             kDefaultTarmacLeavingMeters = Constants.inchesToMeters(72.);
     }
+
+    public static class Vision {
+        // ----------------------------------------------------------
+        // General
+
+        public static boolean
+            kDefaultEnableFrontCenterCamera = false,
+            kDefaultEnableBackCenterCamera = false;
+    }
 }

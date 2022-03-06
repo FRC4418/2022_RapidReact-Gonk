@@ -1,4 +1,4 @@
-package frc.robot.displays.huddisplays;
+package frc.robot.displays.generaldisplays;
 
 
 import java.util.Map;
@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.TeamRobot;
-import frc.robot.displays.Display;
-import frc.robot.displays.generaldisplays.GeneralDisplay;
 
 
 public class RobotChooserDisplay extends GeneralDisplay {
@@ -21,13 +19,13 @@ public class RobotChooserDisplay extends GeneralDisplay {
     }
 
 	@Override
-	protected Display createEntriesArray() {
+	protected GeneralDisplay createEntriesArray() {
 
 		return this;
 	}
 
 	@Override
-	protected Display createDisplayAt(int column, int row) {
+	protected GeneralDisplay createDisplayAt(int column, int row) {
 		{ var robotSelectionLayout = tab
 			.getLayout("Robot Chooser", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "HIDDEN"))
@@ -50,7 +48,7 @@ public class RobotChooserDisplay extends GeneralDisplay {
 	}
 
 	@Override
-	public Display addEntryListeners() {
+	public GeneralDisplay addEntryListeners() {
 
 		return this;
 	}

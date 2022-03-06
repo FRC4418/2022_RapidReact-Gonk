@@ -29,11 +29,11 @@ import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivingdisplays.SlewRateLimiterTuningDisplay;
+import frc.robot.displays.generaldisplays.JoysticksDisplay;
+import frc.robot.displays.generaldisplays.RobotChooserDisplay;
 import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
 import frc.robot.displays.huddisplays.PremadeAutoRoutineDisplay;
 import frc.robot.displays.huddisplays.CamerasDisplay;
-import frc.robot.displays.huddisplays.JoysticksDisplay;
-import frc.robot.displays.huddisplays.RobotChooserDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -63,8 +63,6 @@ public class RobotContainer {
 		usingKidsSafetyMode = false,
 		
 		enableDiagnostics = true,
-
-		enableCameras = false,
 		
 		disableJoystickConnectionWarnings = true;
 
@@ -190,10 +188,11 @@ public class RobotContainer {
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 2, 3));
+			// TODO: !P1! Add the auto-routine maker display here
 		
 		visionDisplaysGrid
-			.makeOriginWith(new CamerasDisplay(6, 2))
-			.reserveNextRowAtColumn(0, new JevoisParametersDisplay());
+			.makeOriginWith(new CamerasDisplay(vision, 6, 2));
+			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		motorTuningDisplaysGrid
 			.makeOriginWith(new MotorTestingDisplay(intake, manipulator, 8, 3));

@@ -1,4 +1,4 @@
-package frc.robot.displays.huddisplays;
+package frc.robot.displays.generaldisplays;
 
 
 import java.util.ArrayList;
@@ -14,10 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.JoystickMode;
 import frc.robot.RobotContainer.Pilot;
-import frc.robot.displays.Display;
 
 
-public class JoysticksDisplay extends HUDDisplay {
+public class JoysticksDisplay extends GeneralDisplay {
     public SendableChooser<JoystickMode> driverJoystickModeChooser = new SendableChooser<>();
     private NetworkTableEntry driverSwapLeftAndRightJoysticksToggleSwitch;
 
@@ -29,7 +28,7 @@ public class JoysticksDisplay extends HUDDisplay {
     }
 
     @Override
-    protected Display createEntriesArray() {
+    protected GeneralDisplay createEntriesArray() {
         entries = new ArrayList<>(Arrays.asList(
             driverSwapLeftAndRightJoysticksToggleSwitch,
 
@@ -39,8 +38,8 @@ public class JoysticksDisplay extends HUDDisplay {
     }
 
     @Override
-    protected Display createDisplayAt(int column, int row) {
-        { var joysticksLayout = hudTab
+    protected GeneralDisplay createDisplayAt(int column, int row) {
+        { var joysticksLayout = tab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
 			.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
@@ -84,7 +83,7 @@ public class JoysticksDisplay extends HUDDisplay {
     int counter = 0;
 
     @Override
-    public Display addEntryListeners() {        
+    public GeneralDisplay addEntryListeners() {        
         {   // Driver
             driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
                 RobotContainer.swapJoysticksFor(Pilot.DRIVER);

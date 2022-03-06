@@ -1,8 +1,7 @@
 package frc.robot.subsystems;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -17,6 +16,8 @@ import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Constants;
+
 
 public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
@@ -24,9 +25,11 @@ public class Vision extends SubsystemBase {
 
 
 	private UsbCamera frontCenterCamera;
+	private String frontCenterCameraName;
 	public static MjpegServer frontCenterCameraServer;
 
 	private UsbCamera backCenterCamera;
+	private String backCenterCameraName;
 	public static MjpegServer backCenterCameraServer;
 
 
@@ -34,9 +37,12 @@ public class Vision extends SubsystemBase {
 	// Private resources
 
 
-	private ArrayList<String> cameraNames = new ArrayList<>();
-	private ArrayList<UsbCamera> cameras = new ArrayList<>();
-	private ArrayList<Mat> outputMats = new ArrayList<>();
+	// maps camera name to camera object
+	private HashMap<String, UsbCamera> cameras = new HashMap<>();
+	// maps camera name to output mat
+	private HashMap<String, Mat> outputMats = new HashMap<>();
+	// maps camera name to dedicated streaming-thread
+	private HashMap<String, Thread> streamingThreads = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -44,7 +50,33 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
+		// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
+
+		// ----------------------------------------------------------
+		// Front-center camera
+
+		frontCenterCameraName = "Front-Center";
+		if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+			frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
+			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
+			frontCenterCameraServer.setSource(frontCenterCamera);
+			frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		}
+		cameras.put(frontCenterCameraName, frontCenterCamera);
 		
+		// ----------------------------------------------------------
+		// Back-center camera
+
+		backCenterCameraName = "Back-Center";
+		if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+			backCenterCamera = new UsbCamera(backCenterCameraName, 1);
+			backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
+			backCenterCameraServer.setSource(backCenterCamera);
+			backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		}
+		cameras.put(backCenterCameraName, backCenterCamera);
 	}
 
 
@@ -59,74 +91,73 @@ public class Vision extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Camera-creation methods
-
-
-	public Vision createCameras() {
-		// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
-
-		String frontCenterCameraName = "Front-Center";
-		frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
-		frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-		frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
-		frontCenterCameraServer.setSource(frontCenterCamera);
-		
-		String backCenterCameraName = "Back-Center";
-		backCenterCamera = new UsbCamera(backCenterCameraName, 1);
-		backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-		backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
-		backCenterCameraServer.setSource(backCenterCamera);
-
-		// add more UsbCameras to this list as needed
-		cameras.addAll(Arrays.asList(
-			frontCenterCamera,
-			backCenterCamera
-		));
-
-		for (var camera: cameras) {
-			camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-		}
-
-		// add more camera String names to this list as needed
-		cameraNames.addAll(Arrays.asList(
-			frontCenterCameraName,
-			backCenterCameraName
-		));
-		return this;
-	}
-
-
-	// ----------------------------------------------------------
 	// Camera-streaming methods
 
 
-	public Vision startCameraStreams() {
-		assert !cameras.isEmpty();
-		new Thread(() -> {
-			CvSink[] cvSinks = Arrays.stream(cameras.toArray()).map(
-				camera -> CameraServer.getVideo((VideoSource) camera)).toArray(CvSink[]::new);
+	public Vision enableFrontCenterCameraStream(boolean enable) {
+		enableCameraStreamFor(frontCenterCameraName, enable);
+		Constants.Vision.kDefaultEnableFrontCenterCamera = enable;
+		return this;
+	}
 
-			// MJPEG server name is same as camera name
-			CvSource[] outputStreams = Arrays.stream(cameraNames.toArray()).map(
-				cameraName -> CameraServer.putVideo((String) cameraName, 640, 480)).toArray(CvSource[]::new);
+	public Vision enableBackCenterCameraStream(boolean enable) {
+		enableCameraStreamFor(backCenterCameraName, enable);
+		Constants.Vision.kDefaultEnableBackCenterCamera = enable;
+		return this;
+	}
 
-			ArrayList<Mat> sources = new ArrayList<>();
-			for (int iii = 0; iii < cameras.size(); iii++) {
-				sources.add(new Mat());
-				outputMats.add(new Mat());
+	public Vision startDefaultCameraStreams() {
+		if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+			enableFrontCenterCameraStream(true);
+		}
+		
+		if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+			enableBackCenterCameraStream(true);
+		}
+		return this;
+	}
+
+	private Vision enableCameraStreamFor(String cameraName, boolean enable) {
+		if (enable) {
+			startStreamForCamera(cameraName);
+		} else {
+			stopStreamForCamera(cameraName);
+		}
+		return this;
+	}
+
+	private Vision startStreamForCamera(String cameraName) {
+		var camera = cameras.get(cameraName);
+		assert camera != null;
+
+		var thread = new Thread(() -> {
+			CvSink cvSink = CameraServer.getVideo((VideoSource) camera);
+			// MJPEG stream name is the same as the camera name
+			CvSource outputStream = CameraServer.putVideo((String) cameraName, 640, 480);
+
+			Mat source = new Mat();
+			Mat output = new Mat();
+			outputMats.put(cameraName, output);
+
+			while (!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+				outputStream.putFrame(output);
 			}
+		});
+		thread.start();
 
-			while(!Thread.interrupted()) {
-				for (int iii = 0; iii < cameras.size(); iii++) {
-					var source = sources.get(iii);
-					var output = outputMats.get(iii);
+		streamingThreads.put(cameraName, thread);
+		return this;
+	}
 
-					cvSinks[iii].grabFrame(source);
-					Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-					outputStreams[iii].putFrame(output);
-				}
-			}
-		}).start();
+	private Vision stopStreamForCamera(String cameraName) {
+		var camera = cameras.get(cameraName);
+		assert camera != null;
+
+		streamingThreads.get(cameraName).interrupt();
+		CameraServer.removeServer(cameraName);
+		
 		return this;
 	}
 }
