@@ -106,6 +106,7 @@ public class Vision extends SubsystemBase {
 			CvSink[] cvSinks = Arrays.stream(cameras.toArray()).map(
 				camera -> CameraServer.getVideo((VideoSource) camera)).toArray(CvSink[]::new);
 
+			// MJPEG server name is same as camera name
 			CvSource[] outputStreams = Arrays.stream(cameraNames.toArray()).map(
 				cameraName -> CameraServer.putVideo((String) cameraName, 640, 480)).toArray(CvSource[]::new);
 
