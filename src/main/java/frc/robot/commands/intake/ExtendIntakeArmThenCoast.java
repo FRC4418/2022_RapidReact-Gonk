@@ -2,7 +2,6 @@ package frc.robot.commands.intake;
 
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Intake;
@@ -27,16 +26,12 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 
 	@Override
 	public void initialize() {
-		// TODO: Remove this print once useless
-		SmartDashboard.putString("Thing", "extending");
 		m_intake.extendIntakeArm();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		m_intake.coastRetractor();
-		// TODO: Remove this print once useless
-		SmartDashboard.putString("Thing", "coasting");
 	}
 
 	@Override

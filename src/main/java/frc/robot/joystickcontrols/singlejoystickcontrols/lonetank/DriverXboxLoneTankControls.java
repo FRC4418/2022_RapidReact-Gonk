@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
@@ -116,10 +117,18 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
     }
 
     // ----------------------------------------------------------
+    // Climber buttons
+
+    @Override
+    protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
+        return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
+    }
+
+    // ----------------------------------------------------------
     // Constructor
 
-    public DriverXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
-        super(primaryJoystick, drivetrain, intake, manipulator);
+    public DriverXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
+        super(primaryJoystick, drivetrain, intake, manipulator, climber);
 
         m_primaryJoystick.setXChannel(XboxController.LEFT_Y_AXIS);
         m_primaryJoystick.setYChannel(XboxController.RIGHT_Y_AXIS);

@@ -3,8 +3,10 @@ package frc.robot.joystickcontrols.singlejoystickcontrols;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+import frc.robot.commands.climber.ToggleClimberPins;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
+import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
 import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
@@ -12,6 +14,7 @@ import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
 import frc.robot.joystickcontrols.JoystickControls;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
@@ -45,7 +48,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public SingleJoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+    public SingleJoystickControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
         m_primaryJoystick = primaryJoystick;
 
         // ----------------------------------------------------------
@@ -58,9 +61,9 @@ public abstract class SingleJoystickControls extends JoystickControls {
             reverseDrivetrainButton.whenReleased(new ReverseDrivetrain(drivetrain));
         }
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain));
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain));
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
 
         // ----------------------------------------------------------
         // Intake
@@ -81,5 +84,11 @@ public abstract class SingleJoystickControls extends JoystickControls {
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
         runLauncherButton = runLauncherButton(primaryJoystick);
         if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
+
+        // ----------------------------------------------------------
+        // Climber
+
+        toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
+        if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ToggleClimberPins(climber));
     }
 }

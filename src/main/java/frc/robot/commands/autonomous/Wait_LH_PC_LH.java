@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
-import frc.robot.commands.drivetrain.DriveStraightForDistance.DriveStraightDirection;
+import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.RunFeederAndIndexerForTime;
 import frc.robot.commands.manipulator.RunLauncherForTime;
 import frc.robot.subsystems.Autonomous;
@@ -21,9 +21,9 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 			new RunLauncherForTime(manipulator, 1.0),
 			new ParallelCommandGroup(
 				new RunFeederAndIndexerForTime(intake, manipulator, 4.),
-				new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS)
+				new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.FORWARDS, 3.)
 			),
-			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.BACKWARDS),
+			new DriveStraightForDistance(drivetrain, Autonomous.tarmacLeavingDistanceMeters, DriveStraightDirection.BACKWARDS, 3.),
 			new RunLauncherForTime(manipulator, 1.0)
 		);
 	}
