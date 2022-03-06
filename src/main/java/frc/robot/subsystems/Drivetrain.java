@@ -96,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
 	// Slew rate limiters
 
 	
-	public static boolean useSlewRateLimiters = false;
+	private boolean useSlewRateLimiters = Constants.Drivetrain.kDefaultUseSlewRateLimiters;
 
 	private SlewRateLimiter
 		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kDefaultArcadeForward),
@@ -433,6 +433,15 @@ public class Drivetrain extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Slew rate limiters
 
+
+	public boolean usingSlewRateLimiters() {
+		return useSlewRateLimiters;
+	}
+
+	public Drivetrain setUseSlewRateLimiters(boolean bool) {
+		useSlewRateLimiters = bool;
+		return this;
+	}
 
 	// Output-mode configurations
 

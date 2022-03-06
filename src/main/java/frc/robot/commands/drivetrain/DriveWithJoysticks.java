@@ -48,7 +48,7 @@ public class DriveWithJoysticks extends CommandBase {
 
 		switch (activePilotJoystickMode) {
 			case ARCADE:
-				if (Drivetrain.useSlewRateLimiters) {
+				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.arcadeDrive(
 						m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
 						m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()));
@@ -60,7 +60,7 @@ public class DriveWithJoysticks extends CommandBase {
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
-				if (Drivetrain.useSlewRateLimiters) {
+				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.tankDrive(
 						m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
 						m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));

@@ -17,11 +17,14 @@ import frc.robot.subsystems.Drivetrain;
 public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 	private final Drivetrain m_drivetrain;
 
-    private NetworkTableEntry arcadeDriveForwardLimiterTextView;
-	private NetworkTableEntry arcadeDriveTurnLimiterTextView;
+	private NetworkTableEntry
+		useSlewRateLimitersToggleSwitch,
 
-	private NetworkTableEntry tankDriveLeftForwardLimiterTextView;
-	private NetworkTableEntry tankDriveRightForwardLimiterTextView;
+    	arcadeDriveForwardLimiterTextView,
+		arcadeDriveTurnLimiterTextView,
+
+		tankDriveLeftForwardLimiterTextView,
+		tankDriveRightForwardLimiterTextView;
 
     public SlewRateLimiterTuningDisplay(Drivetrain drivetrain, int width, int height) {
 		super(width, height);
@@ -32,6 +35,8 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 	@Override
 	protected DrivingDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
+			useSlewRateLimitersToggleSwitch,
+
 			arcadeDriveForwardLimiterTextView,
 			arcadeDriveTurnLimiterTextView,
 
@@ -44,9 +49,14 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 	protected DrivingDisplay createDisplayAt(int column, int row) {
 		{ var slewRateLimiterLayout = tab
 			.getLayout("Slew Rate Limiters", BuiltInLayouts.kGrid)
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
+
+			useSlewRateLimitersToggleSwitch = tab
+				.add("On-Off", Constants.Drivetrain.kDefaultUseSlewRateLimiters)
+				.withWidget(BuiltInWidgets.kToggleSwitch)
+				.getEntry();
 
 			{ var arcadeDriveLayout = slewRateLimiterLayout
 				.getLayout("Arcade Drive", BuiltInLayouts.kGrid)
@@ -83,6 +93,10 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 
 	@Override
 	public DrivingDisplay addEntryListeners() {
+		useSlewRateLimitersToggleSwitch.addListener(event -> {
+			m_drivetrain.setUseSlewRateLimiters(event.value.getBoolean());
+		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
 		{	// Arcade drive
 			arcadeDriveForwardLimiterTextView.addListener(event -> {
 				m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());

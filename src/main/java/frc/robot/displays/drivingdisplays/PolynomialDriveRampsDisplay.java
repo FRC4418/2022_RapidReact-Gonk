@@ -58,7 +58,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 			.withPosition(column, row)
 			.withSize(width, height);
 
-			{ var arcadeForwardLayout = tab
+			{ var arcadeForwardLayout = layout
 				.getLayout("Arcade Forward", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -73,7 +73,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 					.getEntry();
 			}
 
-			{ var arcadeTurnLayout = tab
+			{ var arcadeTurnLayout = layout
 				.getLayout("Arcade Turn", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
@@ -88,7 +88,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 					.getEntry();
 			}
 
-			{ var tankForwardLayout = tab
+			{ var tankForwardLayout = layout
 				.getLayout("Tank Forward", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 

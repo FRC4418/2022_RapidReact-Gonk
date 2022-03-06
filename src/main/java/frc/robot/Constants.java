@@ -176,6 +176,9 @@ public class Constants {
         public static double
             kDefaultMaxOutput = 1.;
 
+        public static boolean
+            kDefaultUseSlewRateLimiters = false;
+
         public static class SlewRates {
             public static final double
                 kDefaultArcadeForward = 1.58,
