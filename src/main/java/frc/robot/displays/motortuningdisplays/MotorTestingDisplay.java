@@ -1,4 +1,4 @@
-package frc.robot.displays.diagnosticsdisplays;
+package frc.robot.displays.motortuningdisplays;
 
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class MotorTestingDisplay extends DiagnosticsDisplay {
+public class MotorTestingDisplay extends MotorTuningDisplay {
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
@@ -41,7 +41,7 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
     }
 
 	@Override
-	protected DiagnosticsDisplay createEntriesArray() {
+	protected MotorTuningDisplay createEntriesArray() {
 		entries = new ArrayList<>(Arrays.asList(
 			indexerToggleSwitch,
 			indexerRPMNumberSlider,
@@ -59,8 +59,8 @@ public class MotorTestingDisplay extends DiagnosticsDisplay {
 	}
 
 	@Override
-	protected DiagnosticsDisplay createDisplayAt(int column, int row) {
-        { var motorTestingLayout = diagnosticsTab
+	protected MotorTuningDisplay createDisplayAt(int column, int row) {
+        { var motorTestingLayout = tab
 			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))

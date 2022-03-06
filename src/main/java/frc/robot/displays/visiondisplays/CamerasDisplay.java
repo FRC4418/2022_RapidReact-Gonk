@@ -1,4 +1,4 @@
-package frc.robot.displays.huddisplays;
+package frc.robot.displays.visiondisplays;
 
 
 import java.util.Map;
@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 import frc.robot.Constants;
-import frc.robot.displays.visiondisplays.VisionDisplay;
 import frc.robot.subsystems.Vision;
 
 

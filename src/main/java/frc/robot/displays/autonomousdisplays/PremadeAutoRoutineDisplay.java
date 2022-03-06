@@ -1,4 +1,4 @@
-package frc.robot.displays.huddisplays;
+package frc.robot.displays.autonomousdisplays;
 
 
 import java.util.ArrayList;
@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.Constants;
-import frc.robot.displays.Display;
-import frc.robot.displays.autonomousdisplays.AutonomousDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Autonomous.AutonomousRoutine;
 

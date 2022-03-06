@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 
 		robotContainer.vision.startDefaultCameraStreams();
 
-		if (RobotContainer.enableDiagnostics) {
+		if (RobotContainer.enableDeveloperMode) {
 			robotContainer.initializeJoystickValues();
 		}
 	}
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 			
 			.listenForPremadeAutoRoutine();
 		
-		if (RobotContainer.enableDiagnostics) {
+		if (RobotContainer.enableDeveloperMode) {
 			robotContainer
 				.printJoystickValues();
 		}

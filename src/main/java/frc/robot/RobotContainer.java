@@ -26,14 +26,14 @@ import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
+import frc.robot.displays.autonomousdisplays.PremadeAutoRoutineDisplay;
 import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivingdisplays.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.generaldisplays.JoysticksDisplay;
 import frc.robot.displays.generaldisplays.RobotChooserDisplay;
-import frc.robot.displays.diagnosticsdisplays.MotorTestingDisplay;
-import frc.robot.displays.huddisplays.PremadeAutoRoutineDisplay;
-import frc.robot.displays.huddisplays.CamerasDisplay;
+import frc.robot.displays.motortuningdisplays.MotorTestingDisplay;
+import frc.robot.displays.visiondisplays.CamerasDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -62,7 +62,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDiagnostics = true,
+		enableDeveloperMode = true,
 		
 		disableJoystickConnectionWarnings = true;
 
