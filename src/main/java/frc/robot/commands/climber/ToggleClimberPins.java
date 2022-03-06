@@ -1,16 +1,15 @@
 package frc.robot.commands.climber;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Climber;
 
 
-public class ExtendClimber extends CommandBase {
+public class ToggleClimberPins extends CommandBase {
 	private final Climber m_climber;
 
-	public ExtendClimber(Climber climber) {
+	public ToggleClimberPins(Climber climber) {
 		m_climber = climber;
 		
 		addRequirements(m_climber);
@@ -18,8 +17,7 @@ public class ExtendClimber extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_climber.extend();
-		SmartDashboard.putString("Climber", "extending");
+		m_climber.toggleClimberPins();
 	}
 
 	@Override

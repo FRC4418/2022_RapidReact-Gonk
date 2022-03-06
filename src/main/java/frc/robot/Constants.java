@@ -307,7 +307,7 @@ public class Constants {
 
         public static final double
             kPinOutAngle = 0.,
-            kPinInAngle = 40.;
+            kPinInAngle = 50.;
     }
 
 }

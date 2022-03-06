@@ -3,7 +3,7 @@ package frc.robot.joystickcontrols.dualjoystickcontrols;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-import frc.robot.commands.climber.ExtendClimber;
+import frc.robot.commands.climber.ToggleClimberPins;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
@@ -89,7 +89,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         // ----------------------------------------------------------
         // Climber
 
-        extendClimberButton = extendClimberButton(primaryJoystick);
-        if (extendClimberButton != null) extendClimberButton.whenPressed(new ExtendClimber(climber));
+        toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
+        if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ToggleClimberPins(climber));
     }
 }

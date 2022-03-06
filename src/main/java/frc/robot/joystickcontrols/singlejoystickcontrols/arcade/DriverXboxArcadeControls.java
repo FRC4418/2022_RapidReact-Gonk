@@ -117,7 +117,7 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
     // Climber buttons
 
     @Override
-    protected JoystickButton extendClimberButton(Joystick joystick) {
+    protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
         return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
     }
 

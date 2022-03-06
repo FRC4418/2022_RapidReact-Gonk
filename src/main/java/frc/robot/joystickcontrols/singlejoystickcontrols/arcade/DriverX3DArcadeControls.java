@@ -117,7 +117,7 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
     // Climber buttons
 
     @Override
-    protected JoystickButton extendClimberButton(Joystick joystick) {
+    protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_5_ID);
     }
 

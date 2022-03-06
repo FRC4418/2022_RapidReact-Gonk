@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
 	// Extension methods
 
 
-	public Climber extend() {
+	public Climber toggleClimberPins() {
 		if (!pinsReleased) {
 			m_leftPinServo.setAngle(Constants.Climber.kPinOutAngle);
 			m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
