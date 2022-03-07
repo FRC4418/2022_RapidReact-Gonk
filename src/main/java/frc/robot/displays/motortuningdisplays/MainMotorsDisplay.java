@@ -29,8 +29,11 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		indexerTuningRPMTextField,
 		indexerFinalRPMTextField,
 
-		retractorTuningDegreeTextField,
-		retractorFinalDegreeTextField,
+		retractorTuningUpDegreeTextField,
+		retractorFinalUpDegreeTextField,
+
+		retractorTuningDownDegreeTextField,
+		retractorFinalDownDegreeTextField,
 
 		feederTuningPercentTextField,
 		feederFinalPercentTextField;
@@ -53,8 +56,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			indexerTuningRPMTextField,
 			indexerFinalRPMTextField,
 
-			retractorTuningDegreeTextField,
-			retractorFinalDegreeTextField,
+			retractorTuningUpDegreeTextField,
+			retractorFinalUpDegreeTextField,
 
 			feederTuningPercentTextField,
 			feederFinalPercentTextField
@@ -97,10 +100,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
-					retractorTuningDegreeTextField = tuningColumn
-						.add("Retractor Degree", 0)
+					retractorTuningUpDegreeTextField = tuningColumn
+						.add("Retractor Up Degree", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
+
+					retractorTuningDownDegreeTextField = tuningColumn
+						.add("Retractor Down Degree", )
+						.with
 					
 					feederTuningPercentTextField = tuningColumn
 						.add("Feeder Percent", 0)
@@ -123,7 +130,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
-					retractorFinalDegreeTextField = finalColumn
+					retractorFinalUpDegreeTextField = finalColumn
 						.add("Retractor Degree", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
@@ -180,13 +187,13 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		}
 
 		{ // Retractor motor
-			retractorTuningDegreeTextField.addListener(event -> {
+			retractorTuningUpDegreeTextField.addListener(event -> {
 				if (Constants.kDefaultUsingTuningMode) {
 					m_intake.setRetractorDegree((int) event.value.getDouble());
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			retractorFinalDegreeTextField.addListener(event -> {
+			retractorFinalUpDegreeTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					m_intake.setRetractorDegree((int) event.value.getDouble());
 				}
