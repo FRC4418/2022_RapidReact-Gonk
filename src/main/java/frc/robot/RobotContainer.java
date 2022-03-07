@@ -184,7 +184,7 @@ public class RobotContainer {
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
-			.reserveNextRowAtColumn(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
+			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 2, 3));
@@ -195,7 +195,7 @@ public class RobotContainer {
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		motorTuningDisplaysGrid
-			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 8, 3));
+			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3));
 
 		for (var grid: displaysGrids) {
 			grid.initialize().addEntryListeners();

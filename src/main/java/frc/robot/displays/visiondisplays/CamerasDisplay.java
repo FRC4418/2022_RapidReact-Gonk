@@ -49,9 +49,9 @@ public class CamerasDisplay extends VisionDisplay {
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 
-				frontCenterCameraLayout
-					.add(" ", Vision.frontCenterCameraServer.getSource())
-					.withWidget(BuiltInWidgets.kCameraStream);
+				// frontCenterCameraLayout
+				// 	.add(" ", Vision.frontCenterCameraServer.getSource())
+				// 	.withWidget(BuiltInWidgets.kCameraStream);
 			}
 
 			// Back-center
@@ -64,11 +64,16 @@ public class CamerasDisplay extends VisionDisplay {
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 
-				backCenterCameraLayout
-					.add(" ", Vision.backCenterCameraServer.getSource())
-					.withWidget(BuiltInWidgets.kCameraStream);
+				// backCenterCameraLayout
+				// 	.add(" ", Vision.backCenterCameraServer.getSource())
+				// 	.withWidget(BuiltInWidgets.kCameraStream);
 			}
 		}
+		return this;
+	}
+
+	private CamerasDisplay remakeFrontCenterCameraFeed() {
+		
 		return this;
 	}
 
