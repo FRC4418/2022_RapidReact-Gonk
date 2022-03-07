@@ -53,7 +53,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			
 			// Column 1
 			{ var column1 = layout
-				.getLayout(" ", BuiltInLayouts.kGrid)
+				.getLayout("Column 1", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
@@ -74,7 +74,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 
 			// Column 2
 			{ var column2 = layout
-				.getLayout(" ", BuiltInLayouts.kGrid)
+				.getLayout("Column 2", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
 
 				// setting default options for sendable choosers also adds the label-value pair as an option

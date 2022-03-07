@@ -82,7 +82,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			// Horizontal stack
 			{ var hstack = layout
-				.getLayout(" ", BuiltInLayouts.kGrid)
+				.getLayout("H-stack", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
 
 				// Tuning column
