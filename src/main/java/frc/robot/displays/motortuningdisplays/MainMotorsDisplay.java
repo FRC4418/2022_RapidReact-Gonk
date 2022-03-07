@@ -76,7 +76,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			// Enable/disable motor testing
 			tuningModeToggleSwitch = layout
-				.add("CLICK ME! Red = Tuning Mode", false)
+				.add("CLICK ME! (Red = Tuning Mode)", false)
 				.withWidget(BuiltInWidgets.kToggleButton)
 				.getEntry();
 
@@ -132,7 +132,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.add("Retractor Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
+						.add("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
