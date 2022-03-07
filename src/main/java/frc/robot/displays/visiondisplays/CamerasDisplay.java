@@ -79,15 +79,19 @@ public class CamerasDisplay extends VisionDisplay {
 	@Override
 	public VisionDisplay addEntryListeners() {
 		{ // Front-center
-			enableFrontCenterCameraToggleSwitch.addListener(event -> {
-				m_vision.enableFrontCenterCameraStream(event.value.getBoolean());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+				enableFrontCenterCameraToggleSwitch.addListener(event -> {
+					m_vision.enableFrontCenterCameraStream(event.value.getBoolean());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
 		}
 
 		{ // Back-center
-			enableBackCenterCameraToggleSwitch.addListener(event -> {
-				m_vision.enableBackCenterCameraStream(event.value.getBoolean());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+				enableBackCenterCameraToggleSwitch.addListener(event -> {
+					m_vision.enableBackCenterCameraStream(event.value.getBoolean());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
 		}
 		return this;
 	}
