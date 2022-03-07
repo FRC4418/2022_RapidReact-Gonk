@@ -258,7 +258,7 @@ public class Constants {
         private static final Gains
             // TODO: P3 tune V1 retractor gains
             kRetractorPositionGainsV1 = new Gains(0.1, 0., 0., 1023./20660., 300, 1.00),
-            kRetractorPositionGainsV2 = new Gains(0.03, 0., 0., 1023./20660., 300, 1.00);
+            kRetractorPositionGainsV2 = new Gains(0.023, 0., 0., 1023./20660., 300, 1.00);
     }
 
     public static class Manipulator {
@@ -276,7 +276,7 @@ public class Constants {
             kIndexerMaxRPM = Falcon500.kMaxRPM;
 
         public static double
-            kDefaultIndexerPercent = Falcon500.kMaxRPM;
+            kDefaultIndexerPercent = 1.0;
 
         public static int
             kDefaultLauncherRPM = Falcon500.kMaxRPM;

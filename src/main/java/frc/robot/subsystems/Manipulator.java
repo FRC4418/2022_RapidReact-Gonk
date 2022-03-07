@@ -20,6 +20,9 @@ public class Manipulator extends SubsystemBase {
 	private final WPI_TalonSRX m_indexerMotor = new WPI_TalonSRX(Constants.Manipulator.CAN_ID.kIndexer);
 	private final WPI_TalonFX m_launcherMotor = new WPI_TalonFX(Constants.Manipulator.CAN_ID.kLauncher);
 
+	// an override boolean for setting the indexer's speed in which special behavior should happen when true
+	private boolean m_indexerIsLocked = false;
+
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -114,6 +117,20 @@ public class Manipulator extends SubsystemBase {
 	public Manipulator stopIndexer() {
 		setIndexerPercent(0.);
 		return this;
+	}
+
+	public Manipulator lockIndexer() {
+		m_indexerIsLocked = true;
+		return this;
+	}
+
+	public Manipulator unlockIndexer() {
+		m_indexerIsLocked = false;
+		return this;
+	}
+
+	public boolean indexerIsLocked() {
+		return m_indexerIsLocked;
 	}
 
 

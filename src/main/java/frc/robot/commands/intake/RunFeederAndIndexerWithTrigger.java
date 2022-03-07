@@ -36,25 +36,28 @@ public class RunFeederAndIndexerWithTrigger extends CommandBase {
 		double spotterFeederAxis = RobotContainer.spotterJoystickControls.getFeederAxis();
 		double spotterReverseFeederAxis = RobotContainer.spotterJoystickControls.getReverseFeederAxis();
 
-		// driver's triggers take priority over the spotter's triggers
-		if (driverFeederAxis == 0. && driverReverseFeederAxis == 0.) {
-			if (spotterFeederAxis == 0.) {
-				m_intake.setFeederPercent(-spotterReverseFeederAxis);
-				m_manipulator.setIndexerPercent(-spotterReverseFeederAxis);
+		if (!m_manipulator.indexerIsLocked()) {
+			// driver's triggers take priority over the spotter's triggers
+			if (driverFeederAxis == 0. && driverReverseFeederAxis == 0.) {
+				if (spotterFeederAxis == 0.) {
+					m_intake.setFeederPercent(-spotterReverseFeederAxis);
+					m_manipulator.setIndexerPercent(-spotterReverseFeederAxis);
+				} else {
+					m_intake.setFeederPercent(spotterFeederAxis);
+					m_manipulator.setIndexerPercent(spotterFeederAxis);
+				}
 			} else {
-				m_intake.setFeederPercent(spotterFeederAxis);
-				m_manipulator.setIndexerPercent(spotterFeederAxis);
-			}
-		} else {
-			// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
-			if (driverFeederAxis == 0.) {
-				m_intake.setFeederPercent(-driverReverseFeederAxis);
-				m_manipulator.setIndexerPercent(-driverReverseFeederAxis);
-			} else {
-				m_intake.setFeederPercent(driverFeederAxis);
-				m_manipulator.setIndexerPercent(driverFeederAxis);
+				// feeder axis (meaning that feeder is spinning to take IN a ball) takes priority over reverse feeder axis
+				if (driverFeederAxis == 0.) {
+					m_intake.setFeederPercent(-driverReverseFeederAxis);
+					m_manipulator.setIndexerPercent(-driverReverseFeederAxis);
+				} else {
+					m_intake.setFeederPercent(driverFeederAxis);
+					m_manipulator.setIndexerPercent(driverFeederAxis);
+				}
 			}
 		}
+
 	}
 	
 	@Override
