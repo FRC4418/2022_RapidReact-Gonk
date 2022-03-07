@@ -266,22 +266,6 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain setLeftMPS(double mps) {
-		m_frontLeftMotor.set(ControlMode.Velocity,
-			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* leftMotorsDirectionMultiplier);
-		return this;
-	}
-
-	public Drivetrain setRightMPS(double mps) {
-		m_frontRightMotor.set(ControlMode.Velocity,
-			mps * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* rightMotorsDirectionMultiplier);
-		return this;
-	}
-
 	public double getLeftMPS() {
 		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
@@ -358,6 +342,20 @@ public class Drivetrain extends SubsystemBase {
 			m_differentialDrive.arcadeDrive(-forward, turn);
 		}
 		m_differentialDrive.feed();
+	}
+
+	public Drivetrain tankDriveMPS(double leftMPS, double rightMPS) {
+		m_frontLeftMotor.set(ControlMode.Velocity,
+			leftMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kMPSToTicksPer100ms
+			* leftMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity,
+			rightMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kMPSToTicksPer100ms
+			* rightMotorsDirectionMultiplier);
+		
+		m_differentialDrive.feed();
+		return this;
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {

@@ -62,9 +62,7 @@ public class DriveStraight extends CommandBase {
 		var leftTankMPS = m_motorMPS + kP * error;
 		var rightTankMPS = m_motorMPS - kP * error;
 
-		m_drivetrain
-			.setLeftMPS(leftTankMPS)
-			.setRightMPS(rightTankMPS);
+		m_drivetrain.tankDriveMPS(leftTankMPS, rightTankMPS);
 	}
 
 	@Override

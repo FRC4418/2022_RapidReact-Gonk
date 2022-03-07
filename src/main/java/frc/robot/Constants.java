@@ -100,10 +100,10 @@ public class Constants {
             kMPSToTicksPer100ms;
         private static final double
             kTicksToMetersV1  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
-            kTicksToMetersV2  = (kWheelDiameterMeters * Math.PI) / ((double) Falcon500.ticksPerRevolution),
+            kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
             
             kMPSToTicksPer100msV1 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV1 * Math.PI),
-            kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMeters * Math.PI);
+            kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
 
         // ----------------------------------------------------------
         // Kinematics
