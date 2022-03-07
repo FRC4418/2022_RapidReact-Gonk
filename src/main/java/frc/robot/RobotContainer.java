@@ -62,7 +62,7 @@ public class RobotContainer {
 		// initial value is the start-up configuration
 		usingKidsSafetyMode = false,
 		
-		enableDeveloperMode = true,
+		enableDeveloperMode = false,
 		
 		disableJoystickConnectionWarnings = true;
 
