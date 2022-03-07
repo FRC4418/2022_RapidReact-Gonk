@@ -46,6 +46,10 @@ public class Constants {
         return inches / kMetersToinches;
     }
 
+    public static double feetToMeters(double feet) {
+        return feet * 12. / kMetersToinches;
+    }
+
     public static double metersToInches(double meters) {
         return meters * kMetersToinches;
     }
@@ -71,8 +75,8 @@ public class Constants {
 
             kDrivetrainMPSReductionRatio;
         private static final double
-            kWheelDiameterMetersV1 = Constants.inchesToMeters(6.),
-            kWheelDiameterMetersV2 = Constants.inchesToMeters(4.),
+            kWheelDiameterMetersV1 = inchesToMeters(6.),
+            kWheelDiameterMetersV2 = inchesToMeters(4.),
 
             kDrivetrainMPSReductionRatioV1 = 7.33,
             kDrivetrainMPSReductionRatioV2 = 7.75;
@@ -112,8 +116,8 @@ public class Constants {
         public static double
             kTrackWidthMeters;
         private static final double
-            kTrackWidthMetersV1 = Constants.inchesToMeters(24.6),
-            kTrackWidthMetersV2 = Constants.inchesToMeters(24.);
+            kTrackWidthMetersV1 = inchesToMeters(24.6),
+            kTrackWidthMetersV2 = inchesToMeters(24.);
 
         // ----------------------------------------------------------
         // Open-loop control
@@ -264,11 +268,11 @@ public class Constants {
             kLauncherTicksReductionRatio = 3.,
             kIndexerTicksReductionRatio = 9.,
 
-            kLauncherMinRPM = -Constants.Falcon500.kMaxRPM,
-            kLauncherMaxRPM = Constants.Falcon500.kMaxRPM,
+            kLauncherMinRPM = -Falcon500.kMaxRPM,
+            kLauncherMaxRPM = Falcon500.kMaxRPM,
 
-            kIndexerMinRPM = -Constants.Falcon500.kMaxRPM,
-            kIndexerMaxRPM = Constants.Falcon500.kMaxRPM;
+            kIndexerMinRPM = -Falcon500.kMaxRPM,
+            kIndexerMaxRPM = Falcon500.kMaxRPM;
 
         public static final int
             kDefaultIndexerRPM = Falcon500.kMaxRPM,
@@ -324,8 +328,11 @@ public class Constants {
             kDefaultUsePremadeRoutine = true;
 
         public static double
+            // converting from feet per second (FPS) to meters per second (MPS)
+            kDefaultDriveStraightMPS = feetToMeters(1.5) / 1.,
+
             kDefaultStartDelaySeconds = 0.,
-            kDefaultTarmacLeavingMeters = Constants.inchesToMeters(72.);
+            kDefaultTarmacLeavingMeters = inchesToMeters(72.);
     }
 
     public static class Vision {

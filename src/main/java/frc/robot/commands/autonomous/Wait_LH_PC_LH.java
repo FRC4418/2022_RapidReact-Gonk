@@ -21,9 +21,9 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 			new RunLauncherForTime(manipulator, 1.0),
 			new ParallelCommandGroup(
 				new RunFeederAndIndexerForTime(intake, manipulator, 4.),
-				new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS, 3.)
+				new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS)
 			),
-			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.BACKWARDS, 3.),
+			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.BACKWARDS),
 			new RunLauncherForTime(manipulator, 1.0)
 		);
 	}

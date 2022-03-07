@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -173,8 +174,8 @@ public class Drivetrain extends SubsystemBase {
 
 		// SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
 
-		// SmartDashboard.putNumber("Left Encoder", getLeftDistanceMeters());
-		// SmartDashboard.putNumber("Right Encoder", getRightDistanceMeters());
+		SmartDashboard.putNumber("Left Encoder", Constants.metersToInches(getLeftDistanceMeters()));
+		SmartDashboard.putNumber("Right Encoder", Constants.metersToInches(getRightDistanceMeters()));
 
 		// SmartDashboard.putNumber("Left Motor", getLeftMPS());
 		// SmartDashboard.putNumber("Right Motor", getRightMPS());
@@ -539,7 +540,11 @@ public class Drivetrain extends SubsystemBase {
 	
 
 	public double getLeftDistanceMeters() {
-		return m_frontLeftMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMeters * leftMotorsDirectionMultiplier;
+		return 
+			m_frontLeftMotor.getSelectedSensorPosition() 
+			/ Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kTicksToMeters
+			* leftMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetLeftEncoder() {
@@ -548,7 +553,11 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getRightDistanceMeters() {
-		return m_frontRightMotor.getSelectedSensorPosition() * Constants.Drivetrain.kTicksToMeters * rightMotorsDirectionMultiplier;
+		return
+			m_frontRightMotor.getSelectedSensorPosition()
+			/ Constants.Drivetrain.kDrivetrainMPSReductionRatio
+			* Constants.Drivetrain.kTicksToMeters
+			* rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain resetRightEncoder() {
@@ -563,7 +572,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	// always returns a positive value
-	public double getAverageDistance() {
+	public double getAverageDistanceMeters() {
 		return (Math.abs(getLeftDistanceMeters()) + Math.abs(getRightDistanceMeters())) / 2.0;
 	}
 }

@@ -1,6 +1,7 @@
 package frc.robot.commands.drivetrain;
 
 
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -13,7 +14,6 @@ public class DriveStraightForDistance extends DriveStraight {
 	// ----------------------------------------------------------
 	// Constructor
 
-	// TODO: !!!P1!!! find a way to centralize all the motorMPS values passed by auto routine constructors
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double motorMPS) {
 		super(drivetrain, direction);
 		m_motorMPS = motorMPS;
@@ -21,11 +21,15 @@ public class DriveStraightForDistance extends DriveStraight {
 		m_distanceInMeters = distanceInMeters;
 	}
 
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
+		this(drivetrain, distanceInMeters, direction, Constants.Autonomous.kDefaultDriveStraightMPS);
+	}
+
 	// ----------------------------------------------------------
 	// Scheduler methods
 
 	@Override
 	public boolean isFinished() {
-		return m_drivetrain.getAverageDistance() >= m_distanceInMeters;
+		return m_drivetrain.getAverageDistanceMeters() >= m_distanceInMeters;
 	}
 }

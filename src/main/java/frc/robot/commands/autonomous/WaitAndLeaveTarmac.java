@@ -13,7 +13,7 @@ public class WaitAndLeaveTarmac extends SequentialCommandGroup {
 	public WaitAndLeaveTarmac(Drivetrain drivetrain) {
 		super(
 			new Wait(Autonomous.getStartDelaySeconds()),
-			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS, 3.)
+			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS)
 		);
 	}
 }
