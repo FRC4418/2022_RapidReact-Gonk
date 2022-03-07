@@ -26,8 +26,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		launcherTuningRPMTextField,
 		launcherFinalRPMTextField,
 
-		indexerTuningRPMTextField,
-		indexerFinalRPMTextField,
+		indexerTuningPercentTextField,
+		indexerFinalPercentTextField,
 
 		retractorTuningUpDegreeTextField,
 		retractorFinalUpDegreeTextField,
@@ -53,8 +53,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			launcherTuningRPMTextField,
 			launcherFinalRPMTextField,
 
-			indexerTuningRPMTextField,
-			indexerFinalRPMTextField,
+			indexerTuningPercentTextField,
+			indexerFinalPercentTextField,
 
 			retractorTuningUpDegreeTextField,
 			retractorFinalUpDegreeTextField,
@@ -95,8 +95,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
-					indexerTuningRPMTextField = tuningColumn
-						.add("Indexer RPM", 0)
+					indexerTuningPercentTextField = tuningColumn
+						.add("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
@@ -126,8 +126,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
-					indexerFinalRPMTextField = finalColumn
-						.add("Indexer RPM", 0)
+					indexerFinalPercentTextField = finalColumn
+						.add("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
@@ -179,15 +179,15 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		}
 
 		{ // Indexer motor
-			indexerTuningRPMTextField.addListener(event -> {
+			indexerTuningPercentTextField.addListener(event -> {
 				if (Constants.kDefaultUsingTuningMode) {
-					m_manipulator.setIndexerRPM((int) event.value.getDouble());
+					m_manipulator.setIndexerPercent(event.value.getDouble());
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			indexerFinalRPMTextField.addListener(event -> {
+			indexerFinalPercentTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Manipulator.kDefaultIndexerRPM = (int) event.value.getDouble();
+					Constants.Manipulator.kDefaultIndexerPercent = event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}

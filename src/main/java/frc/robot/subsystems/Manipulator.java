@@ -108,12 +108,12 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	public Manipulator runIndexer() {
-		setIndexerRPM(Constants.Manipulator.kDefaultIndexerRPM);
+		setIndexerPercent(Constants.Manipulator.kDefaultIndexerPercent);
 		return this;
 	}
 
 	public Manipulator stopIndexer() {
-		setIndexerRPM(0);
+		setIndexerPercent(0.);
 		return this;
 	}
 
