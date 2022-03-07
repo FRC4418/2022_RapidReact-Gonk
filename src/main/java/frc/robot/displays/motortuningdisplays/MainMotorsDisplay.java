@@ -88,7 +88,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				// Tuning column
 				{ var tuningColumn = hstack
 					.getLayout("Tuning Mode", BuiltInLayouts.kGrid)
-					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
+					.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 					launcherTuningRPMTextField = tuningColumn
 						.add("Launcher RPM", 0)
@@ -101,13 +101,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorTuningUpDegreeTextField = tuningColumn
-						.add("Retractor Up Degree", 0)
+						.add("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningDownDegreeTextField = tuningColumn
-						.add("Retractor Down Degree", )
-						.with
+						.add("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 					
 					feederTuningPercentTextField = tuningColumn
 						.add("Feeder Percent", 0)
@@ -118,7 +119,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				// Final column
 				{ var finalColumn = hstack
 					.getLayout("Final Mode", BuiltInLayouts.kGrid)
-					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
+					.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 					launcherFinalRPMTextField = finalColumn
 						.add("Launcher RPM", 0)
@@ -131,7 +132,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.add("Retractor Degree", 0)
+						.add("Retractor Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
+
+					retractorFinalDownDegreeTextField = finalColumn
+						.add("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -167,7 +173,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			launcherFinalRPMTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
-					m_manipulator.setLauncherRPM((int) event.value.getDouble());
+					Constants.Manipulator.kDefaultLauncherRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
@@ -181,23 +187,39 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			indexerFinalRPMTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
-					m_manipulator.setIndexerRPM((int) event.value.getDouble());
+					Constants.Manipulator.kDefaultIndexerRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Retractor motor
-			retractorTuningUpDegreeTextField.addListener(event -> {
-				if (Constants.kDefaultUsingTuningMode) {
-					m_intake.setRetractorDegree((int) event.value.getDouble());
-				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			{
+				retractorTuningUpDegreeTextField.addListener(event -> {
+					if (Constants.kDefaultUsingTuningMode) {
+						m_intake.setRetractorDegree((int) event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			retractorFinalUpDegreeTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					m_intake.setRetractorDegree((int) event.value.getDouble());
-				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+				retractorFinalUpDegreeTextField.addListener(event -> {
+					if (!Constants.kDefaultUsingTuningMode) {
+						Constants.Intake.kDefaultRetractedIntakeRetractorDegree = (int) event.value.getDouble();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+			
+			{
+				retractorTuningDownDegreeTextField.addListener(event -> {
+					if (Constants.kDefaultUsingTuningMode) {
+						m_intake.setRetractorDegree((int) event.value.getDouble());
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+				retractorFinalDownDegreeTextField.addListener(event -> {
+					if (!Constants.kDefaultUsingTuningMode) {
+						Constants.Intake.kDefaultExtendedIntakeRetractorDegree = (int) event.value.getDouble();
+					}
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
 		}
 
 		{ // Feeder motor
@@ -209,7 +231,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			feederFinalPercentTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
-					m_intake.setFeederPercent(event.value.getDouble());
+					Constants.Intake.kDefaultFeederPercent = event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}

@@ -133,26 +133,26 @@ public class Intake extends SubsystemBase {
 
 	public Intake retractIntakeArm() {
 		brakeRetractor();
-		setRetractorDegree(Constants.Intake.kRetractedIntakeRetractorDegree);
+		setRetractorDegree(Constants.Intake.kDefaultRetractedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
 	public boolean intakeArmIsRetracted() {
-		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorDegree() - Constants.Intake.kDefaultRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 	public Intake extendIntakeArm() {
 		brakeRetractor();
-		setRetractorDegree(Constants.Intake.kExtendedIntakeRetractorDegree);
+		setRetractorDegree(Constants.Intake.kDefaultExtendedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean intakeArmIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kDefaultExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 
