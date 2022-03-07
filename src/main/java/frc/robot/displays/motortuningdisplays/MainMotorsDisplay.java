@@ -204,6 +204,11 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					if (!Constants.kDefaultUsingTuningMode) {
 						Constants.Intake.kDefaultRetractedIntakeRetractorDegree = (int) event.value.getDouble();
 					}
+
+					// update to the new angle if we're already retracted
+					if (m_intake.armIsRetracted()) {
+						m_intake.retractIntakeArm();
+					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			
@@ -217,6 +222,11 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				retractorFinalDownDegreeTextField.addListener(event -> {
 					if (!Constants.kDefaultUsingTuningMode) {
 						Constants.Intake.kDefaultExtendedIntakeRetractorDegree = (int) event.value.getDouble();
+					}
+
+					// update to the new angle if we're already extended
+					if (m_intake.armIsExtended()) {
+						m_intake.extendIntakeArm();
 					}
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}

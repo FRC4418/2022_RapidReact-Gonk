@@ -139,7 +139,7 @@ public class Intake extends SubsystemBase {
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
-	public boolean intakeArmIsRetracted() {
+	public boolean armIsRetracted() {
 		return Math.abs(getRetractorDegree() - Constants.Intake.kDefaultRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
@@ -151,7 +151,7 @@ public class Intake extends SubsystemBase {
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
-	public boolean intakeArmIsExtended() {
+	public boolean armIsExtended() {
 		return Math.abs(getRetractorTicks() - Constants.Intake.kDefaultExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 

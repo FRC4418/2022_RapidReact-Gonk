@@ -36,7 +36,7 @@ public class ExtendIntakeArmThenCoast extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		if (m_intake.intakeArmIsExtended()) {
+		if (m_intake.armIsExtended()) {
 			m_timer.start();
 			if (m_timer.hasElapsed(endDelaySeconds)) {
 				m_timer.stop();
