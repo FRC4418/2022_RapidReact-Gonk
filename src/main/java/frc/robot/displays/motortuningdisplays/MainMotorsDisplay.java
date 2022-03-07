@@ -101,12 +101,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorTuningUpDegreeTextField = tuningColumn
-						.add("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
+						.add("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningDownDegreeTextField = tuningColumn
-						.add("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
+						.add("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -132,12 +132,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.add("Retractor Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
+						.add("Retractor Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalDownDegreeTextField = finalColumn
-						.add("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
+						.add("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					

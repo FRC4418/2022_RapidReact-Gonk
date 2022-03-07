@@ -275,7 +275,7 @@ public class Constants {
             kIndexerMinRPM = -Falcon500.kMaxRPM,
             kIndexerMaxRPM = Falcon500.kMaxRPM;
 
-        public static final int
+        public static int
             kDefaultIndexerRPM = Falcon500.kMaxRPM,
             kDefaultLauncherRPM = Falcon500.kMaxRPM;
 
