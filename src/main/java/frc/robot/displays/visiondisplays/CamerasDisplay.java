@@ -44,14 +44,16 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Front-Center", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				enableFrontCenterCameraToggleSwitch = frontCenterCameraLayout
-					.add("On-Off", Constants.Vision.kDefaultEnableFrontCenterCamera)
-					.withWidget(BuiltInWidgets.kToggleSwitch)
-					.getEntry();
+				if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+					enableFrontCenterCameraToggleSwitch = frontCenterCameraLayout
+						.add("On-Off", Constants.Vision.kDefaultEnableFrontCenterCamera)
+						.withWidget(BuiltInWidgets.kToggleSwitch)
+						.getEntry();
 
-				// frontCenterCameraLayout
-				// 	.add(" ", Vision.frontCenterCameraServer.getSource())
-				// 	.withWidget(BuiltInWidgets.kCameraStream);
+					frontCenterCameraLayout
+						.add(" ", Vision.frontCenterCameraServer.getSource())
+						.withWidget(BuiltInWidgets.kCameraStream);
+				}
 			}
 
 			// Back-center
@@ -59,21 +61,18 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Back-Center", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				enableBackCenterCameraToggleSwitch = backCenterCameraLayout
-					.add("On-Off", Constants.Vision.kDefaultEnableBackCenterCamera)
-					.withWidget(BuiltInWidgets.kToggleSwitch)
-					.getEntry();
+				if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+					enableBackCenterCameraToggleSwitch = backCenterCameraLayout
+						.add("On-Off", Constants.Vision.kDefaultEnableBackCenterCamera)
+						.withWidget(BuiltInWidgets.kToggleSwitch)
+						.getEntry();
 
-				// backCenterCameraLayout
-				// 	.add(" ", Vision.backCenterCameraServer.getSource())
-				// 	.withWidget(BuiltInWidgets.kCameraStream);
+					backCenterCameraLayout
+						.add(" ", Vision.backCenterCameraServer.getSource())
+						.withWidget(BuiltInWidgets.kCameraStream);
+				}
 			}
 		}
-		return this;
-	}
-
-	private CamerasDisplay remakeFrontCenterCameraFeed() {
-		
 		return this;
 	}
 
