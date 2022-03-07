@@ -29,8 +29,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		indexerTuningRPMTextField,
 		indexerFinalRPMTextField,
 
-		retractorTuningDegreesTextField,
-		retractorFinalDegreesTextField,
+		retractorTuningDegreeTextField,
+		retractorFinalDegreeTextField,
 
 		feederTuningPercentTextField,
 		feederFinalPercentTextField;
@@ -53,8 +53,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			indexerTuningRPMTextField,
 			indexerFinalRPMTextField,
 
-			retractorTuningDegreesTextField,
-			retractorFinalDegreesTextField,
+			retractorTuningDegreeTextField,
+			retractorFinalDegreeTextField,
 
 			feederTuningPercentTextField,
 			feederFinalPercentTextField
@@ -87,7 +87,25 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					.getLayout("Tuning Mode", BuiltInLayouts.kGrid)
 					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 
+					launcherTuningRPMTextField = tuningColumn
+						.add("Launcher RPM", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
+					
+					indexerTuningRPMTextField = tuningColumn
+						.add("Indexer RPM", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 
+					retractorTuningDegreeTextField = tuningColumn
+						.add("Retractor Degree", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
+					
+					feederTuningPercentTextField = tuningColumn
+						.add("Feeder Percent", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 				}
 
 				// Final column
@@ -95,99 +113,25 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					.getLayout("Final Mode", BuiltInLayouts.kGrid)
 					.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 
-				}
-			}
-
-			// put into the 2nd slot of motorTestingLayout's vertical stack
-			{ var horizontalStack = layout
-				.getLayout("Horizontal Stack", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
-
-				// ----------------------------------------------------------
-				// Testing the intake motors
-
-				{ var intakeLayout = horizontalStack
-					.getLayout("Intake", BuiltInLayouts.kGrid)
-					.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
-
-					// Intake retractor motor
-
-					{ var retractorLayout = intakeLayout
-						.getLayout("Retractor", BuiltInLayouts.kGrid)
-						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
-
-						// I have no fucking clue why the textView entry is always added before (to the 2nd row) the toggleSwitch but it's good enough
-						retractorToggleSwitch = retractorLayout
-							.add("On-Off", false)
-							.withWidget(BuiltInWidgets.kToggleSwitch)
-							.getEntry();
-						
-						retractorDegreesNumberSlider = retractorLayout
-							.add("Degrees", Constants.Intake.kExtendedIntakeRetractorDegree)
-							.withWidget(BuiltInWidgets.kTextView)
-							// .withProperties(Map.of("Min", -360., "Max", 360., "Block increment", 0.5))
-							.getEntry();
-					}
-
-					// intake feeder motor
+					launcherFinalRPMTextField = finalColumn
+						.add("Launcher RPM", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 					
-					{ var feederLayout = intakeLayout
-						.getLayout("Feeder", BuiltInLayouts.kGrid)
-						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
+					indexerFinalRPMTextField = finalColumn
+						.add("Indexer RPM", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 
-						feederToggleSwitch = feederLayout
-							.add("On-Off", false)
-							.withWidget(BuiltInWidgets.kToggleSwitch)
-							.getEntry();
-						
-						feederPercentNumberSlider = feederLayout
-							.add("Percentage", Constants.Intake.kDefaultFeederPercent)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -1., "Max", 1., "Block increment", 0.05))
-							.getEntry();
-					}
-				}
-
-				// ----------------------------------------------------------
-				// Testing the conveyor-shooter motors
-
-				{ var manipulatorLayout = horizontalStack
-					.getLayout("Manipulator", BuiltInLayouts.kGrid)
-					.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"));
-
-					{ var indexerLayout = manipulatorLayout
-						.getLayout("Indexer", BuiltInLayouts.kGrid)
-						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
-
-						indexerToggleSwitch = indexerLayout
-							.add("On-Off", false)
-							.withWidget(BuiltInWidgets.kToggleSwitch)
-							.getEntry();
-
-						indexerRPMNumberSlider = indexerLayout
-							.add("RPM", Constants.Manipulator.kDefaultIndexerRPM)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -Constants.Falcon500.kMaxRPM, "Max", Constants.Falcon500.kMaxRPM, "Block increment", 50))
-							.getEntry();
-					}
-
-					// Manipulator launcher motor
+					retractorFinalDegreeTextField = finalColumn
+						.add("Retractor Degree", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 					
-					{ var launcherLayout = manipulatorLayout
-						.getLayout("Launcher", BuiltInLayouts.kGrid)
-						.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
-
-						launcherToggleSwitch = launcherLayout
-							.add("On-Off", false)
-							.withWidget(BuiltInWidgets.kToggleSwitch)
-							.getEntry();
-
-						launcherRPMNumberSlider = launcherLayout
-							.add("RPM", Constants.Manipulator.kDefaultLauncherRPM)
-							.withWidget(BuiltInWidgets.kNumberSlider)
-							.withProperties(Map.of("Min", -Constants.Falcon500.kMaxRPM, "Max", Constants.Falcon500.kMaxRPM, "Block increment", 50))
-							.getEntry();
-					}
+					feederFinalPercentTextField = finalColumn
+						.add("Feeder Percent", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
 				}
 			}
 		}
@@ -197,81 +141,70 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 	@Override
 	public MainMotorsDisplay addEntryListeners() {
 		tuningModeToggleSwitch.addListener(event -> {
-			// means if the toggle switch's boolean is false (AKA disabled)
-			if (!event.value.getBoolean()) {
+			Constants.kDefaultUsingTuningMode = event.value.getBoolean();
+			if (!Constants.kDefaultUsingTuningMode) {
 				m_intake.retractIntakeArm();
 				m_intake.stopFeeder();
-
+				
 				m_manipulator.stopIndexer();
 				m_manipulator.stopLauncher();
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		
-		{ // Intake
-			{ // Retractor motor
-				retractorToggleSwitch.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& !event.value.getBoolean()) {
-						m_intake.retractIntakeArm();
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-	
-				retractorDegreesNumberSlider.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& retractorToggleSwitch.getBoolean(false)) {
-						m_intake.setRetractorDegree((int) event.value.getDouble());
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
-			{ // Feeder motor
-				feederToggleSwitch.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& !event.value.getBoolean()) {
-						m_intake.stopFeeder();
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		{ // Launcher motor
+			launcherTuningRPMTextField.addListener(event -> {
+				if (Constants.kDefaultUsingTuningMode) {
+					m_manipulator.setLauncherRPM((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				feederPercentNumberSlider.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& feederToggleSwitch.getBoolean(false)) {
-						m_intake.setFeederPercent(event.value.getDouble());
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
+			launcherFinalRPMTextField.addListener(event -> {
+				if (!Constants.kDefaultUsingTuningMode) {
+					m_manipulator.setLauncherRPM((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-		
-		{ // Manipulator
-			{ // Indexer motor
-				indexerToggleSwitch.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& !event.value.getBoolean()) {
-						m_manipulator.stopIndexer();
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				indexerRPMNumberSlider.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& indexerToggleSwitch.getBoolean(false)
-					&& indexerToggleSwitch.getBoolean(false)) {
-						m_manipulator.setIndexerRPM((int) event.value.getDouble());
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
-			{ // Launcher motor
-				launcherToggleSwitch.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& !event.value.getBoolean()) {
-						m_manipulator.stopLauncher();
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		{ // Indexer motor
+			indexerTuningRPMTextField.addListener(event -> {
+				if (Constants.kDefaultUsingTuningMode) {
+					m_manipulator.setIndexerRPM((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-				launcherRPMNumberSlider.addListener(event -> {
-					if (tuningModeToggleSwitch.getBoolean(false)
-					&& launcherToggleSwitch.getBoolean(false)) {
-						m_manipulator.setLauncherRPM((int) event.value.getDouble());
-					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
+			indexerFinalRPMTextField.addListener(event -> {
+				if (!Constants.kDefaultUsingTuningMode) {
+					m_manipulator.setIndexerRPM((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}
+
+		{ // Retractor motor
+			retractorTuningDegreeTextField.addListener(event -> {
+				if (Constants.kDefaultUsingTuningMode) {
+					m_intake.setRetractorDegree((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			retractorFinalDegreeTextField.addListener(event -> {
+				if (!Constants.kDefaultUsingTuningMode) {
+					m_intake.setRetractorDegree((int) event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}
+
+		{ // Feeder motor
+			feederTuningPercentTextField.addListener(event -> {
+				if (Constants.kDefaultUsingTuningMode) {
+					m_intake.setFeederPercent(event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			feederFinalPercentTextField.addListener(event -> {
+				if (!Constants.kDefaultUsingTuningMode) {
+					m_intake.setFeederPercent(event.value.getDouble());
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;
 	}

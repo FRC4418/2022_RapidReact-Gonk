@@ -2,6 +2,8 @@ package frc.robot;
 
 
 public class Constants {
+    public static boolean kDefaultUsingTuningMode = false;
+    
     public static void useV1Constants() {
         Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV1;
         Drivetrain.kDrivetrainMPSReductionRatio = Drivetrain.kDrivetrainMPSReductionRatioV1;
