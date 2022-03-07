@@ -70,9 +70,8 @@ public class Manipulator extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// TODO: Remove these print once useless
+		// TODO: Remove this print once useless
 		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
-		SmartDashboard.putNumber("Indexer RPM", getIndexerRPM());
 	}
 
 
@@ -122,6 +121,7 @@ public class Manipulator extends SubsystemBase {
 	// Launcher motor
 
 
+	// TODO: P2 Fix the math for getLauncherRPM(), it's not outputting the correct RPM
 	public int getLauncherRPM() {
 		return (int) (
 			m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx)

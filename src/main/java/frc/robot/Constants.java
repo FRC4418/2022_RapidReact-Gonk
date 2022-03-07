@@ -304,9 +304,9 @@ public class Constants {
         public static Gains
             kIndexerRPMGains;
         private static final Gains
-            kIndexerRPMGainsV1 = new Gains(0., 0., 0., 1023./20660., 300, 1.00),
-            // TODO: !!!P1!!! Tune V2 indexer RPM gains
-            kIndexerRPMGainsV2 = new Gains(0., 0., 0., 1023./20660., 300, 1.00);
+            kIndexerRPMGainsV1 = new Gains(0.012, 0., 0., 1023./20660., 300, 1.00),
+            // TODO: P3 Tune V2 indexer RPM gains
+            kIndexerRPMGainsV2 = new Gains(0.012, 0., 0., 1023./20660., 300, 1.00);
     }
 
     public static class Climber {
