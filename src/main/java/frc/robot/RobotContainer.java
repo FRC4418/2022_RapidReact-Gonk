@@ -187,11 +187,11 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
 
 		autonomousDisplaysGrid
-			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 2, 3));
+			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 3, 3));
 			// TODO: !P1! Add the auto-routine maker display here
 		
 		visionDisplaysGrid
-			.makeOriginWith(new CamerasDisplay(vision, 6, 2));
+			.makeOriginWith(new CamerasDisplay(vision, 6, 4));
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		motorTuningDisplaysGrid
