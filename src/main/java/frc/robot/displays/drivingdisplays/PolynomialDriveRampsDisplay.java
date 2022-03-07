@@ -92,12 +92,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.getLayout("Tank Forward", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				arcadeForwardMultiplierTextView = tankForwardLayout
+				tankForwardMultiplierTextView = tankForwardLayout
 					.add("Multiplier", Constants.Drivetrain.TankPolynomial.kDefaultForwardMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
-				arcadeForwardExponentialTextView = tankForwardLayout
+				tankForwardExponentialTextView = tankForwardLayout
 					.add("Exponential", Constants.Drivetrain.TankPolynomial.kDefaultForwardExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
