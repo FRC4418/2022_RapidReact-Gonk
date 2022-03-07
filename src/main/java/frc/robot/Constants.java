@@ -213,11 +213,11 @@ public class Constants {
             kDefaultReverseFeederPercent = -0.5,
             kDefaultFeederPercent = 0.5,
 
-            kDefaultRetractedIntakeRetractorDegree = 0.,
+            kDefaultRetractedIntakeRetractorDegree = -4.,
             kDefaultExtendedIntakeRetractorDegree = 82.;
 
         public static final double
-            kRetractorDegreeTolerance = 1.5,
+            kRetractorDegreeTolerance = 4.,
 
             // means that for every 58.25 input ticks, the mechanism outputs 1 tick
             kRetractorTicksReductionRatio = 58.25,
