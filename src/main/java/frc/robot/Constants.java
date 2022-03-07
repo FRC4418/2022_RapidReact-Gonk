@@ -344,4 +344,13 @@ public class Constants {
             kDefaultEnableFrontCenterCamera = false,
             kDefaultEnableBackCenterCamera = false;
     }
+
+    public static class Lights {
+        // ----------------------------------------------------------
+        // General
+
+        public static final byte
+            I2C_DEVICE_ADDRESS = 0x44,
+            VALUE_REGISTER = 0x0;
+    }
 }
