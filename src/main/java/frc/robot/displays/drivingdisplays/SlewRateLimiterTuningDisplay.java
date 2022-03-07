@@ -53,7 +53,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 			.withPosition(column, row)
 			.withSize(width, height);
 
-			useSlewRateLimitersToggleSwitch = tab
+			useSlewRateLimitersToggleSwitch = layout
 				.add("On-Off", Constants.Drivetrain.kDefaultUseSlewRateLimiters)
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();

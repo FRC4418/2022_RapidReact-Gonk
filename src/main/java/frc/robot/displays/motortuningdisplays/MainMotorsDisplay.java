@@ -70,13 +70,13 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
         { var layout = tab
 			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
 			// Enable/disable motor testing
 			tuningModeToggleSwitch = layout
-				.add("CLICK ME! Red = enabled", false)
+				.add("CLICK ME! Red = Tuning Mode", false)
 				.withWidget(BuiltInWidgets.kToggleButton)
 				.getEntry();
 
