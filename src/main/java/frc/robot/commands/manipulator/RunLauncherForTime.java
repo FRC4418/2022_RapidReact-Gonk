@@ -35,7 +35,7 @@ public class RunLauncherForTime extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_manipulator.stopLauncher();
+		m_manipulator.idleLauncher();
 		m_timer.stop();
 		m_timer.reset();
 	}	

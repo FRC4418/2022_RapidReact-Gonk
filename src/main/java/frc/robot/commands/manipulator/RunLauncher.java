@@ -29,7 +29,7 @@ public class RunLauncher extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		m_manipulator.stopLauncher();
+		m_manipulator.idleLauncher();
 	}	
 
 	@Override

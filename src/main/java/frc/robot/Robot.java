@@ -65,6 +65,8 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
+		robotContainer.manipulator.stopLauncher();
+
 		robotContainer.lights.sendCommand(Pattern.UNDERGLOW_BLUE.value());
 	}
 
@@ -76,6 +78,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
+		
+		robotContainer.manipulator.idleLauncher();
+
+		robotContainer.intake.retractIntakeArm();
 	}
 
 
