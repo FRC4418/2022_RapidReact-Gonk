@@ -1,7 +1,7 @@
 package frc.robot.commands.drivetrain;
 
 
-import frc.robot.Constants;
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -15,14 +15,13 @@ public class DriveStraightForDistance extends DriveStraight {
 	// Constructor
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double motorMPS) {
-		super(drivetrain, direction);
-		m_motorMPS = motorMPS;
+		super(drivetrain, direction, motorMPS);
 
 		m_distanceInMeters = distanceInMeters;
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
-		this(drivetrain, distanceInMeters, direction, Constants.Autonomous.kDriveStraightMPS);
+		this(drivetrain, distanceInMeters, direction, Autonomous.getDriveStraightMPS());
 	}
 
 	// ----------------------------------------------------------

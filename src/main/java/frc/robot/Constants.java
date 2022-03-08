@@ -321,23 +321,17 @@ public class Constants {
 
 		public static final double
 			kPinOutAngle = 0.,
-			kPinInAngle = 50.;
-	}
+			kPinInAngle = 50.,
 
+			kDriveStraightMPS = feetToMeters(1.) / 1.;
+	}
 
 	public static class Autonomous {
 		// ----------------------------------------------------------
 		// General
 
-		public static boolean
-			kUsePremadeRoutine = true;
-
 		public static double
-			// converting from feet per second (FPS) to meters per second (MPS)
-			kDriveStraightMPS = feetToMeters(1.5) / 1.,
-
-			kStartDelaySeconds = 0.,
-			kTarmacLeavingMeters = inchesToMeters(72.);
+			kLauncherFiringDuration = 1.25;
 	}
 
 	public static class Vision {

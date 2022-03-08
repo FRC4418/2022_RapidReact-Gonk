@@ -3,13 +3,14 @@ package frc.robot.joystickcontrols.dualjoystickcontrols;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+import frc.robot.Constants;
 import frc.robot.commands.climber.ToggleClimberPins;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
-import frc.robot.commands.intake.RunFeederAndIndexer;
+import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
 import frc.robot.commands.intake.RunReverseFeeder;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
@@ -62,10 +63,6 @@ public abstract class DualJoystickControls extends JoystickControls {
                 .whenPressed(new ReverseDrivetrain(drivetrain))
                 .whenReleased(new ReverseDrivetrain(drivetrain));
         }
-        driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
-        driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS));
 
         // ----------------------------------------------------------
         // Intake
@@ -73,7 +70,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         runFeederDisposalButton = runReverseFeederButton(secondaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
-        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexer(intake, manipulator));
+        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexerWhileHeld(intake, manipulator));
         toggleFeederButton = toggleFeederButton(secondaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
         extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);
@@ -98,5 +95,9 @@ public abstract class DualJoystickControls extends JoystickControls {
 
         toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
         if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ToggleClimberPins(climber));
+        driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
+        driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
     }
 }

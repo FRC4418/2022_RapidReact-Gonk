@@ -27,14 +27,15 @@ public class DriveStraight extends CommandBase {
 	
 	protected final DriveStraightDirection m_direction;
 	
-	protected double m_motorMPS = 1.;
+	protected final double m_motorMPS;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction) {
+	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double motorMPS) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
+		m_motorMPS = motorMPS;
 		
 		addRequirements(drivetrain);
 	}

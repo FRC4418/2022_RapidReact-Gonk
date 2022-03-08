@@ -24,6 +24,8 @@ import frc.robot.commands.autonomous.Wait_LH_RC_LT;
 import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
+import frc.robot.commands.intake.ExtendIntakeArm;
+import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.autonomousdisplays.PremadeAutoRoutineDisplay;
@@ -250,6 +252,21 @@ public class RobotContainer {
 
 
 	// ----------------------------------------------------------
+    // Generated-command schedulers
+
+
+	public RobotContainer retractIntkeArm() {
+		(new RetractIntakeArm(intake, true)).schedule();
+		return this;
+	}
+
+	public RobotContainer extendIntakeArm() {
+		(new ExtendIntakeArm(intake, true)).schedule();
+		return this;
+	}
+
+
+	// ----------------------------------------------------------
     // Robot-selection listeners
 
 
@@ -321,7 +338,7 @@ public class RobotContainer {
 	}
 
 	public RobotContainer listenForPremadeAutoRoutine() {
-		if (!autonomous.usingPremadeRoutine()) {
+		if (!Autonomous.usingPremadeRoutine()) {
 			return this;
 		}
 		var newAutoRoutineSelection = autonomousDisplay.autoRoutineChooser.getSelected();

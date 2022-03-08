@@ -57,17 +57,17 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
-					.add("Use Premade Routine", Constants.Autonomous.kUsePremadeRoutine)
+					.add("Use Premade Routine", Autonomous.usingPremadeRoutine())
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 				
 				startDelayTimeTextView = column1
-					.add("Start Delay [s]", Constants.Autonomous.kStartDelaySeconds)
+					.add("Start Delay [s]", Autonomous.getStartDelaySeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.add("Leave-Tarmac Distance [in]", Constants.Autonomous.kTarmacLeavingMeters)
+					.add("Leave-Tarmac Distance [in]", Autonomous.getTarmacLeavingMeters())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -99,11 +99,11 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			startDelayTimeTextView.addListener(event -> {
-				Autonomous.setStartDelaySeconds(event.value.getDouble());
+				m_autonomous.setStartDelaySeconds(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 			tarmacLeavingDistanceTextView.addListener(event -> {
-				Autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
+				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 

@@ -26,7 +26,7 @@ public class ExtendIntakeArm extends CommandBase {
 
 	@Override
 	public void initialize() {
-		if (m_intake.retractorIsLocked()) {
+		if (m_intake.retractorIsLocked() || m_intake.armIsExtended()) {
 			end(true);
 		} else {
 			m_intake

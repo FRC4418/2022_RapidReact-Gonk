@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.subsystems.Lights.Pattern;
 
 
@@ -65,6 +66,8 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
+		robotContainer.retractIntkeArm();
+
 		robotContainer.lights.sendCommand(Pattern.UNDERGLOW_BLUE.value());
 	}
 
@@ -85,7 +88,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		robotContainer.getAutoCommand().schedule();
+		robotContainer
+			.retractIntkeArm()
+			.getAutoCommand().schedule();
 	}
 
 	@Override
