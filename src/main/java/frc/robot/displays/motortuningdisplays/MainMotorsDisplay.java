@@ -167,7 +167,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				m_intake.stopFeeder();
 				
 				m_manipulator.stopIndexer();
-				m_manipulator.stopLauncher();
+				m_manipulator.idleLauncher();
 			}
 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		
