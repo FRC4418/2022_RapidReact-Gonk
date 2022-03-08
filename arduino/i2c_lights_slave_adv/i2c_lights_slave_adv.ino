@@ -223,12 +223,41 @@ void allFastRGBCycle(int index, byte state) {
 
 
 void allSlowRGBCycle(int index, byte state) {
-  
+
 }
 
 
 void allGreen(int index, byte state) {
 
+}
+
+
+void allIdleOn(int index, byte state) {
+	ledsUnderglow[beatsin16(19, 0, NUM_LEDS_UNDERGLOW - 1, 0, 0)] = CRGB::Green;
+	ledsUnderglow[beatsin16(23, 0, NUM_LEDS_UNDERGLOW - 1, 0, 85)] = CRGB::Red;
+	ledsUnderglow[beatsin16(31, 0, NUM_LEDS_UNDERGLOW - 1, 0, 170)] = CRGB::Yellow;
+
+	ledsUpper[beatsin16(20, 0, NUM_LEDS_UPPERS - 1, 0, 0)] = CRGB::Green;
+	ledsUpper[beatsin16(25, 0, NUM_LEDS_UPPERS - 1, 0, 85)] = CRGB::Red;
+	ledsUpper[beatsin16(30, 0, NUM_LEDS_UPPERS - 1, 0, 170)] = CRGB::Yellow;
+
+	// fadeToBlackBy(ledsUnderglow, NUM_LEDS_UNDERGLOW, 8);
+	// fadeToBlackBy(ledsUpper, NUM_LEDS_UPPERS, 8);
+	for (int i = 0; i < 5; i++) {
+		blur1d(ledsUpper, NUM_LEDS_UPPERS, 50);
+		blur1d(ledsUnderglow, NUM_LEDS_UNDERGLOW, 50);
+	}
+
+  	FastLED.show();
+}
+
+
+void allIdleOff(int index, byte state) {
+	patternEnabled[10] = false;
+	patternEnabled[index] = false;
+	setAll(0, 0, 0, UPPER);
+	setAll(0, 0, 0, UNDERGLOW);
+	FastLED.show();
 }
 
 
@@ -239,47 +268,6 @@ void allOff(int index, byte state) {
 
 // ----------------------------------------------------------
 // Underglow-lights patterns
-
-
-// ----------------------------------------------------------
-// Upper-lights patterns
-
-
-void upperOff(int index, byte state) {
-  
-}
-
-
-// ----------------------------------------------------------
-// Unofficial patterns
-
-
-void frontUpperOn(int index, byte state) {
-	int startLED = 0;
-	int stopLED = 60;
-
-	setAll(0, 0, 0, UPPER);
-
-	for (int j = startLED; j <= stopLED; j++) {
-		setPixel(j, 0, 0, 255, UPPER);
-	}
-	FastLED.show();
-	patternEnabled[index] = false;
-}
-
-
-void backUpperOn(int index, byte state) {
-	int startLED = 60;
-	int stopLED = 120;
-
-	setAll(0, 0, 0, UPPER);
-
-	for (int j=startLED; j <= stopLED; j++) {
-		setPixel(j, 0, 0, 255, UPPER);
-	}
-	FastLED.show();
-	patternEnabled[index] = false;
-}
 
 
 void underglowRed(int index, byte state) {
@@ -307,33 +295,35 @@ void underglowOff(int index, byte state) {
 }
 
 
-void idleOn(int index, byte state) {
-	ledsUnderglow[beatsin16(19, 0, NUM_LEDS_UNDERGLOW - 1, 0, 0)] = CRGB::Green;
-	ledsUnderglow[beatsin16(23, 0, NUM_LEDS_UNDERGLOW - 1, 0, 85)] = CRGB::Red;
-	ledsUnderglow[beatsin16(31, 0, NUM_LEDS_UNDERGLOW - 1, 0, 170)] = CRGB::Yellow;
+// ----------------------------------------------------------
+// Upper-lights patterns
 
-	ledsUpper[beatsin16(20, 0, NUM_LEDS_UPPERS - 1, 0, 0)] = CRGB::Green;
-	ledsUpper[beatsin16(25, 0, NUM_LEDS_UPPERS - 1, 0, 85)] = CRGB::Red;
-	ledsUpper[beatsin16(30, 0, NUM_LEDS_UPPERS - 1, 0, 170)] = CRGB::Yellow;
 
-	// fadeToBlackBy(ledsUnderglow, NUM_LEDS_UNDERGLOW, 8);
-	// fadeToBlackBy(ledsUpper, NUM_LEDS_UPPERS, 8);
-	for (int i = 0; i < 5; i++) {
-		blur1d(ledsUpper, NUM_LEDS_UPPERS, 50);
-		blur1d(ledsUnderglow, NUM_LEDS_UNDERGLOW, 50);
+void frontUpperOn(int index, byte state) {
+	for (int j = FRONT_UPPER_START; j <= FRONT_UPPER_END; j++) {
+		setPixel(j, 0, 0, 255, UPPER);
 	}
-
-  	FastLED.show();
-}
-
-
-void idleOff(int index, byte state) {
-	patternEnabled[10] = false;
-	patternEnabled[index] = false;
-	setAll(0, 0, 0, UPPER);
-	setAll(0, 0, 0, UNDERGLOW);
 	FastLED.show();
+	patternEnabled[index] = false;
 }
+
+
+void backUpperOn(int index, byte state) {
+	for (int j = BACK_UPPER_START; j <= BACK_UPPER_END; j++) {
+		setPixel(j, 0, 0, 255, UPPER);
+	}
+	FastLED.show();
+	patternEnabled[index] = false;
+}
+
+
+void upperOff(int index, byte state) {
+
+}
+
+
+// ----------------------------------------------------------
+// Example patterns
 
 
 void fadeAllStrips(int index, byte state) {
