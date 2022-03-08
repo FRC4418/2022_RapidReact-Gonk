@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 
 
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

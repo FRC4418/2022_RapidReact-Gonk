@@ -248,7 +248,7 @@ void allIdleOn(int index, byte state) {
 		blur1d(ledsUnderglow, NUM_LEDS_UNDERGLOW, 50);
 	}
 
-  	FastLED.show();
+		FastLED.show();
 }
 
 
@@ -478,15 +478,16 @@ void fadeToBlack(int ledNo, byte fadeValue, int strip) {
 
 
 // These are the pattern functions written as a state machine
+
 // this is the Blink program in FastLED's example folder
-void blinkOne(int index,byte state) {
+void underglowBlinkOne(int index,byte state) {
 	if (state == 0) {
-		leds[3] = CRGB::Blue;
+		ledsUnderglow[3] = CRGB::Blue;
 		FastLED.show();
 		patternState[index] = 1; // move on the state machine for the next call
 	}
 	if (state == 1) {
-		leds[3] = CRGB::Black;
+		ledsUnderglow[3] = CRGB::Black;
 		FastLED.show();
 		patternState[index] = 0;
 	}
@@ -494,16 +495,16 @@ void blinkOne(int index,byte state) {
 
 // this is the Cylon program in FastLED's example folder
 // we will use LEDs 8 to 15 to show this
-void cylon(int index,byte state) {
+void underGlowCylon(int index,byte state) {
 	static int i = 8; // replaces the loop index
 	if (state == 0) {
-		leds[i] = CRGB::Red;
+		ledsUnderglow[i] = CRGB::Red;
 		FastLED.show();
 		patternState[index] = 1; // move on the state machine for the next call
 	}
 	if (state == 1) {
 		// now that we've shown the leds, reset the i'th led to black
-		leds[i] = CRGB::Black;
+		ledsUnderglow[i] = CRGB::Black;
 		i++; // increment what was the loop variable
 		if (i >= 16) { // we have finished one direction
 			patternState[index] = 2;
@@ -512,15 +513,15 @@ void cylon(int index,byte state) {
 			patternState[index] = 0;
 		}
 	}
-  	// Now go in the other direction only green
+		// Now go in the other direction only green
 	if (state == 2) {
-		leds[i] = CRGB::Green;
+		ledsUnderglow[i] = CRGB::Green;
 		FastLED.show();
 		patternState[index] = 3; // move on the state machine for the next call
 	}
 	if (state == 3) {
 		// now that we've shown the leds, reset the i'th led to black
-		leds[i] = CRGB::Black;
+		ledsUnderglow[i] = CRGB::Black;
 		i--; // decrement what was the loop variable
 		if (i < 8) { // we have finished the return, go back to the start
 			patternState[index] = 0;
@@ -536,34 +537,34 @@ void cylon(int index,byte state) {
 
 //colorWipe  modified from Adafruit example to make it a state machine
 // uses LEDs 32 to 40
-void colorWipe(int index,byte state) {
+void underglowColorWipe(int index,byte state) {
 	static int i =0; // used as state variable
 	static byte firstLED = 32;
 	static byte numLEDs = 8;
 
-	leds[i+firstLED] = CRGB::Yellow;
+	ledsUnderglow[i+firstLED] = CRGB::Yellow;
 	FastLED.show();
 	i++;
 	if (i >= numLEDs) {
 		i = 0;
 		for (int j;j<numLEDs; j++) {
 			// blank out strip
-			leds[j+firstLED] = CRGB::Black;
+			ledsUnderglow[j+firstLED] = CRGB::Black;
 		}
 	}
 }
 
- // rainbowCycle modified from Adafruit example to make it a state machine
- // uses LEDs 48 to 64
-void rainbowCycle(int index,byte state) {
+// rainbowCycle modified from Adafruit example to make it a state machine
+// uses LEDs 48 to 64
+void underglowRainbowCycle(int index,byte state) {
 	static uint16_t j=0; // used as state variable
 	static byte firstLED = 48;
 	static byte numLEDs = 16;
 
 	for (int i=0; i< numLEDs; i++) {
-		leds[i+firstLED].setHSV( (((i * 256 / numLEDs) + j) & 255), 255, 255);
+		ledsUnderglow[i+firstLED].setHSV( (((i * 256 / numLEDs) + j) & 255), 255, 255);
 	}
-  
+	
 	FastLED.show();
 	j++;
 
