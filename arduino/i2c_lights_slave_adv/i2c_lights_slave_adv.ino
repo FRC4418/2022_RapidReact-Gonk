@@ -252,7 +252,7 @@ void allSlowRGBCycle(int index, byte state) {
 
 	FastLED.show();
 
-	EVERY_N_SECONDS(3) {
+	EVERY_N_SECONDS(6) {
 		targetPalette = CRGBPalette16(
 		CHSV(random8(), 255, random8(128,255)),
 		CHSV(random8(), 255, random8(128,255)),
