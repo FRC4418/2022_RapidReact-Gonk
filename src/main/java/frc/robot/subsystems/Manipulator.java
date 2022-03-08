@@ -170,7 +170,7 @@ public class Manipulator extends SubsystemBase {
 
 	// sets the launcher to it's idle speed
 	public Manipulator idleLauncher() {
-		setLauncherRPM(Constants.Manipulator.kDefaultLauncherIdleRPM);
+		setLauncherRPM(Constants.Manipulator.kLauncherIdleRPM);
 		return this;
 	}
 

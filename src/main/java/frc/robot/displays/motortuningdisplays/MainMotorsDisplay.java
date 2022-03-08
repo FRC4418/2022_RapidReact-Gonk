@@ -185,8 +185,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalIdleRPMTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Manipulator.kDefaultLauncherIdleRPM = (int) event.value.getDouble();
+				if (!Constants.kUsingTuningMode) {
+					Constants.Manipulator.kLauncherIdleRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
