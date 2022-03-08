@@ -53,7 +53,7 @@ public class JoysticksDisplay extends GeneralDisplay {
                 driverJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
                 driverJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 driverLayout
-                    .addPersistent("Mode", driverJoystickModeChooser)
+                    .add("Mode", driverJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
                 driverSwapLeftAndRightJoysticksToggleSwitch = driverLayout
                     .add("Swap Left & Right", false)
@@ -69,7 +69,7 @@ public class JoysticksDisplay extends GeneralDisplay {
                 spotterJoystickModeChooser.addOption("Arcade", RobotContainer.defaultSpotterJoystickMode);
                 spotterJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 spotterLayout
-                    .addPersistent("Mode", spotterJoystickModeChooser)
+                    .add("Mode", spotterJoystickModeChooser)
                     .withWidget(BuiltInWidgets.kComboBoxChooser);
                 spotterSwapLeftAndRightJoysticksToggleSwitch = spotterLayout
                     .add("Swap Left & Right", false)

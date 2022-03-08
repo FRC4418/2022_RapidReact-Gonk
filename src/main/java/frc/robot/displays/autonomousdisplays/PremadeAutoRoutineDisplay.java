@@ -84,7 +84,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
 				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 				column2
-					.addPersistent("Routine", autoRoutineChooser)
+					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
 			}
 		}
