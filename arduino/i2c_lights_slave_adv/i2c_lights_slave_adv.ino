@@ -82,30 +82,26 @@ void setup() {
 	FastLED.addLeds<LED_TYPE, DATA_PIN_UNDERGLOW, COLOR_ORDER>(ledsUnderglow, NUM_LEDS_UNDERGLOW).setCorrection(TypicalLEDStrip);
 	FastLED.setBrightness(ON_BRIGHTNESS);
 
-	// initialises the array of pattern pointers
-	
-	patternPtrs = {
-		// example patterns
-		meteorRainRight,
-		meteorRainRight,
-		wave,
-		solid,
-		fadeAllStrips,
+	// example patterns
+	patternPtrs[0] = meteorRainRight;
+	patternPtrs[1] = meteorRainRight;
+	patternPtrs[2] = wave;
+	patternPtrs[3] = solid;
+	patternPtrs[4] = fadeAllStrips;
 
-		// patterns for all the lights
-		allFastRGBCycle,
-		allSlowRGBCycle,
-		allGreen,
-		allOff,
+	// patterns for all the lights
+	patternPtrs[5] = allFastRGBCycle;
+	patternPtrs[6] = allSlowRGBCycle;
+	patternPtrs[7] = allGreen;
+	patternPtrs[8] = allOff;
 
-		// patterns for the underglow lights
-		underglowRed,
-		underglowBlue,
-		underglowOff,
+	// patterns for the underglow lights
+	patternPtrs[9] = underglowRed;
+	patternPtrs[10] = underglowBlue;
+	patternPtrs[11] = underglowOff;
 
-		// patterns for the upper lights
-		upperOff
-	};
+	// patterns for the upper lights
+	patternPtrs[12] = upperOff;
 
 	startupEffect();
 }
@@ -211,23 +207,23 @@ void allFastRGBCycle(int index, byte state) {
 		ledsUpper[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending); 
 	}
 	for (int i=0; i<NUM_LEDS_UNDERGLOW; i++) {
-    	ledsUnderglow[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending);
+		ledsUnderglow[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending);
 	}
 
 	FastLED.show();
 
 	EVERY_N_SECONDS(3) {
-    	targetPalette = CRGBPalette16(
-			CHSV(random8(), 255, random8(128,255)),
-			CHSV(random8(), 255, random8(128,255)),
-			CHSV(random8(), 192, random8(128,255)),
-			CHSV(random8(), 255, random8(128,255)));
+		targetPalette = CRGBPalette16(
+		CHSV(random8(), 255, random8(128,255)),
+		CHSV(random8(), 255, random8(128,255)),
+		CHSV(random8(), 192, random8(128,255)),
+		CHSV(random8(), 255, random8(128,255)));
 	}
 }
 
 
 void allSlowRGBCycle(int index, byte state) {
-	
+  
 }
 
 
@@ -250,7 +246,7 @@ void allOff(int index, byte state) {
 
 
 void upperOff(int index, byte state) {
-	
+  
 }
 
 
@@ -323,11 +319,11 @@ void idleOn(int index, byte state) {
 	// fadeToBlackBy(ledsUnderglow, NUM_LEDS_UNDERGLOW, 8);
 	// fadeToBlackBy(ledsUpper, NUM_LEDS_UPPERS, 8);
 	for (int i = 0; i < 5; i++) {
-    blur1d(ledsUpper, NUM_LEDS_UPPERS, 50);
+		blur1d(ledsUpper, NUM_LEDS_UPPERS, 50);
 		blur1d(ledsUnderglow, NUM_LEDS_UNDERGLOW, 50);
-  	}
+	}
 
-	FastLED.show();
+  	FastLED.show();
 }
 
 
@@ -347,7 +343,7 @@ void fadeAllStrips(int index, byte state) {
 		fadeToBlackStrip(UNDERGLOW, NUM_LEDS_UNDERGLOW, 10);
 		FastLED.show();
 		i++;
-		// once the for loop condition is met change to the next state
+	// once the for loop condition is met change to the next state
 	} else {
 		// patternState[index] = 0;
 		i = 0;
@@ -359,8 +355,8 @@ void fadeAllStrips(int index, byte state) {
 
 
 void solid(int index, byte state) {
-	static int strip = UNDERGLOW;	
-	static int startLED	= 0;
+	static int strip = UNDERGLOW; 
+	static int startLED = 0;
 	static int stopLED = NUM_LEDS_UNDERGLOW;
 	for (int j=startLED; j < stopLED; j++) {
 		setPixel(j, 255, 255, 255, strip);
@@ -375,7 +371,7 @@ void wave(int index, byte state) {
 	static float loopcount = 0;
 	static float translate_speed = 2;
 
-	for (int i = 0; i < NUM_LEDS_UNDERGLOW; i++) {
+	for (int i=0; i < NUM_LEDS_UNDERGLOW; i++) {
 		//sin8 take 0-256 and gives 0-256
 		if (sin8((i * 10) - 0.8 * pow(loopcount,translate_speed))>128) {
 			value = 1;
@@ -388,12 +384,12 @@ void wave(int index, byte state) {
 	loopcount++;
 	FastLED.show();
 	if (loopcount >= 200) {
-		patternEnabled[index] = false;
+	patternEnabled[index] = false;
 	}
 }
 
 
-void meteorRainRight(int index, byte state) {	
+void meteorRainRight(int index, byte state) { 
 	static byte red = 0xff;
 	static byte green = 0xff;
 	static byte blue = 0xff;
@@ -404,10 +400,10 @@ void meteorRainRight(int index, byte state) {
 
 	int startLED = meteorStartLED[index];
 	int stopLED = meteorStopLED[index];
-	static int localNUM_LEDS[2];	
-	localNUM_LEDS[index] = abs(startLED	- stopLED);
+	static int localNUM_LEDS[2];  
+	localNUM_LEDS[index] = abs(startLED - stopLED);
 
-	if (state == 0) {	//set to all black
+	if (state == 0) { //set to all black
 		for (int j = startLED; j <= startLED + localNUM_LEDS[index]; j++) {
 			setPixel(j, 0, 0, 0, strip);
 		}
@@ -416,17 +412,16 @@ void meteorRainRight(int index, byte state) {
 		return;
 	}
 
-	if (state == 1){	//draw the meteors 
+	if (state == 1){  //draw the meteors 
 		static int i[] = {meteorStartLED[0], meteorStartLED[1]};
-		if (i[index] < stopLED + 30) {	//if the for loop statement is true do the stuff in it
-
+		if (i[index] < stopLED + 30) {  //if the for loop statement is true do the stuff in it
 			for (int j = startLED; j <= stopLED; j++) {    // fade brightness all LEDs one step
 				if ((!meteorRandomDecay) || (random(10)>5)) {
 					fadeToBlack(j, meteorTrailDecay, strip);        
 				}
 			}
 
-			for (int j = 0; j < meteorSize; j++) {		// draw meteor
+			for (int j = 0; j < meteorSize; j++) {    // draw meteor
 				if ((i[index] - j <= stopLED) && (i[index] - j >= startLED)) {
 					setPixel(i[index]-j, red, green, blue, strip);
 				}
@@ -445,7 +440,7 @@ void meteorRainRight(int index, byte state) {
 		return;
 	}
 
-	if (state == 2) {	//fill the strip with the color starting from the end
+	if (state == 2) { //fill the strip with the color starting from the end
 		static int i[] = {meteorStopLED[0], meteorStopLED[1]};
 		static int skips = 8;
 
@@ -501,9 +496,9 @@ void blinkOne(int index,byte state) {
 		patternState[index] = 1; // move on the state machine for the next call
 	}
 	if (state == 1) {
-		 leds[3] = CRGB::Black;
-		 FastLED.show();
-		 patternState[index] = 0;
+		leds[3] = CRGB::Black;
+		FastLED.show();
+		patternState[index] = 0;
 	}
 }
 
@@ -523,12 +518,11 @@ void cylon(int index,byte state) {
 		if (i >= 16) { // we have finished one direction
 			patternState[index] = 2;
 			i--;
-		}
-		else {
+		} else {
 			patternState[index] = 0;
 		}
 	}
-	// Now go in the other direction only green
+  	// Now go in the other direction only green
 	if (state == 2) {
 		leds[i] = CRGB::Green;
 		FastLED.show();
@@ -556,7 +550,7 @@ void colorWipe(int index,byte state) {
 	static int i =0; // used as state variable
 	static byte firstLED = 32;
 	static byte numLEDs = 8;
-	
+
 	leds[i+firstLED] = CRGB::Yellow;
 	FastLED.show();
 	i++;
@@ -579,12 +573,11 @@ void rainbowCycle(int index,byte state) {
 	for (int i=0; i< numLEDs; i++) {
 		leds[i+firstLED].setHSV( (((i * 256 / numLEDs) + j) & 255), 255, 255);
 	}
-	
+  
 	FastLED.show();
 	j++;
+
 	if (j >= 256*5) {
 		j=0;
 	}
 }
-
-
