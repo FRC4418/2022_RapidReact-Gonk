@@ -41,7 +41,7 @@ public class RobotChooserDisplay extends GeneralDisplay {
 				teamRobotChooser.addOption("Versa-One", TeamRobot.VERSACHASSIS_ONE);
 			}
 			layout
-				.add("Sendable Chooser", teamRobotChooser)
+				.addPersistent("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);
 		}
 		return this;

@@ -57,17 +57,17 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
-					.add("Use Premade Routine", Constants.Autonomous.kDefaultUsePremadeRoutine)
+					.addPersistent("Use Premade Routine", Constants.Autonomous.kDefaultUsePremadeRoutine)
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 				
 				startDelayTimeTextView = column1
-					.add("Start Delay [s]", Constants.Autonomous.kDefaultStartDelaySeconds)
+					.addPersistent("Start Delay [s]", Constants.Autonomous.kDefaultStartDelaySeconds)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.add("Leave-Tarmac Distance [in]", Constants.Autonomous.kDefaultTarmacLeavingMeters)
+					.addPersistent("Leave-Tarmac Distance [in]", Constants.Autonomous.kDefaultTarmacLeavingMeters)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -84,7 +84,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
 				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 				column2
-					.add("Routine", autoRoutineChooser)
+					.addPersistent("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
 			}
 		}

@@ -91,27 +91,27 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 					launcherTuningRPMTextField = tuningColumn
-						.add("Launcher RPM", 0)
+						.addPersistent("Launcher RPM", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
 					indexerTuningPercentTextField = tuningColumn
-						.add("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
+						.addPersistent("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningUpDegreeTextField = tuningColumn
-						.add("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningDownDegreeTextField = tuningColumn
-						.add("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
 					feederTuningPercentTextField = tuningColumn
-						.add("Feeder Percent", 0)
+						.addPersistent("Feeder Percent", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 				}
@@ -122,27 +122,27 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 					launcherFinalRPMTextField = finalColumn
-						.add("Launcher RPM", 0)
+						.addPersistent("Launcher RPM", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
 					indexerFinalPercentTextField = finalColumn
-						.add("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
+						.addPersistent("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.add("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalDownDegreeTextField = finalColumn
-						.add("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
 					feederFinalPercentTextField = finalColumn
-						.add("Feeder Percent", 0)
+						.addPersistent("Feeder Percent", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 				}
