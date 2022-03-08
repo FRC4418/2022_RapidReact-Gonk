@@ -45,12 +45,12 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 			.withSize(width, height);
 
 			rampTimeTextView = layout
-				.add("Ramp Time", Constants.Drivetrain.kDefaultOpenLoopRampTime)
+				.add("Ramp Time", Constants.Drivetrain.kOpenLoopRampTime)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 			
 			maxOutputTextView = layout
-				.add("Max Output", Constants.Drivetrain.kDefaultMaxOutput)
+				.add("Max Output", Constants.Drivetrain.kMaxOutput)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 		}

@@ -4,43 +4,46 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
 
-public class ExtendIntakeArmThenCoast extends CommandBase {
+public class ExtendIntakeArm extends CommandBase {
 	private final Intake m_intake;
+	private final boolean m_runWhenDisabled;
 
 	private final Timer m_timer = new Timer();
-	private final double endDelaySeconds = 1.5;
 
-	public ExtendIntakeArmThenCoast(Intake intake) {
+	public ExtendIntakeArm(Intake intake, boolean runWhenDisabled) {
 		m_intake = intake;
-
-		addRequirements(m_intake);
+		m_runWhenDisabled = runWhenDisabled;
 	}
 
 	@Override
 	public boolean runsWhenDisabled() {
-		return true;
+		return m_runWhenDisabled;
 	}
 
 	@Override
 	public void initialize() {
-		m_intake.extendIntakeArm();
-	}
-
-	@Override
-	public void end(boolean interrupted) {
-		m_intake.coastRetractor();
+		if (m_intake.retractorIsLocked()) {
+			end(true);
+		} else {
+			m_intake
+				.lockRetractor()
+				.extendIntakeArm();
+		}
 	}
 
 	@Override
 	public boolean isFinished() {
 		if (m_intake.armIsExtended()) {
 			m_timer.start();
-			if (m_timer.hasElapsed(endDelaySeconds)) {
+			if (m_timer.hasElapsed(Constants.Intake.kRetractorLockEndDelaySeconds)) {
 				m_timer.stop();
 				m_timer.reset();
+
+				m_intake.unlockRetractor();
 				return true;
 			}
 		}

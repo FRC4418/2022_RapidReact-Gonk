@@ -57,17 +57,17 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
-					.add("Use Premade Routine", Constants.Autonomous.kDefaultUsePremadeRoutine)
+					.add("Use Premade Routine", Constants.Autonomous.kUsePremadeRoutine)
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 				
 				startDelayTimeTextView = column1
-					.add("Start Delay [s]", Constants.Autonomous.kDefaultStartDelaySeconds)
+					.add("Start Delay [s]", Constants.Autonomous.kStartDelaySeconds)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.add("Leave-Tarmac Distance [in]", Constants.Autonomous.kDefaultTarmacLeavingMeters)
+					.add("Leave-Tarmac Distance [in]", Constants.Autonomous.kTarmacLeavingMeters)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}

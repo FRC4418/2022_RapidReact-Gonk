@@ -44,9 +44,9 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Front-Center", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+				if (Constants.Vision.kEnableFrontCenterCamera) {
 					enableFrontCenterCameraToggleSwitch = frontCenterCameraLayout
-						.add("On-Off", Constants.Vision.kDefaultEnableFrontCenterCamera)
+						.add("On-Off", Constants.Vision.kEnableFrontCenterCamera)
 						.withWidget(BuiltInWidgets.kToggleSwitch)
 						.getEntry();
 
@@ -61,9 +61,9 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Back-Center", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-				if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+				if (Constants.Vision.kEnableBackCenterCamera) {
 					enableBackCenterCameraToggleSwitch = backCenterCameraLayout
-						.add("On-Off", Constants.Vision.kDefaultEnableBackCenterCamera)
+						.add("On-Off", Constants.Vision.kEnableBackCenterCamera)
 						.withWidget(BuiltInWidgets.kToggleSwitch)
 						.getEntry();
 
@@ -79,7 +79,7 @@ public class CamerasDisplay extends VisionDisplay {
 	@Override
 	public VisionDisplay addEntryListeners() {
 		{ // Front-center
-			if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+			if (Constants.Vision.kEnableFrontCenterCamera) {
 				enableFrontCenterCameraToggleSwitch.addListener(event -> {
 					m_vision.enableFrontCenterCameraStream(event.value.getBoolean());
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -87,7 +87,7 @@ public class CamerasDisplay extends VisionDisplay {
 		}
 
 		{ // Back-center
-			if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+			if (Constants.Vision.kEnableBackCenterCamera) {
 				enableBackCenterCameraToggleSwitch.addListener(event -> {
 					m_vision.enableBackCenterCameraStream(event.value.getBoolean());
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);

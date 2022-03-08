@@ -22,7 +22,7 @@ public class DriveStraightForDistance extends DriveStraight {
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
-		this(drivetrain, distanceInMeters, direction, Constants.Autonomous.kDefaultDriveStraightMPS);
+		this(drivetrain, distanceInMeters, direction, Constants.Autonomous.kDriveStraightMPS);
 	}
 
 	// ----------------------------------------------------------

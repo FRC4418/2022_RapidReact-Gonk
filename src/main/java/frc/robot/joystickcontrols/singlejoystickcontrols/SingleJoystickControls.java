@@ -7,7 +7,8 @@ import frc.robot.commands.climber.ToggleClimberPins;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
-import frc.robot.commands.intake.ExtendIntakeArmWhileHeld;
+import frc.robot.commands.intake.ExtendIntakeArm;
+import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexer;
 import frc.robot.commands.intake.RunReverseFeeder;
 import frc.robot.commands.intake.ToggleIndexBall;
@@ -75,7 +76,12 @@ public abstract class SingleJoystickControls extends JoystickControls {
         toggleFeederButton = toggleFeederButton(primaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
         extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);
-        if (extendIntakeArmButton != null) extendIntakeArmButton.whenHeld(new ExtendIntakeArmWhileHeld(intake));
+        if (extendIntakeArmButton != null) {
+            extendIntakeArmButton
+                // the boolean second-param specifies if the command should run when the robot is disabled
+                .whenPressed(new ExtendIntakeArm(intake, false))
+                .whenReleased(new RetractIntakeArm(intake, false));
+        }
 
         // ----------------------------------------------------------
         // Manipulator

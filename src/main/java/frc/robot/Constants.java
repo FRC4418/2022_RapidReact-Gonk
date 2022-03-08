@@ -2,7 +2,7 @@ package frc.robot;
 
 
 public class Constants {
-	public static boolean kDefaultUsingTuningMode = false;
+	public static boolean kUsingTuningMode = false;
 	
 	public static void useV1Constants() {
 		Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV1;
@@ -124,21 +124,21 @@ public class Constants {
 
 		public static double
 			// units in seconds
-			kDefaultOpenLoopRampTime = 0.7;
+			kOpenLoopRampTime = 0.7;
 
 		public static class ArcadePolynomial {
 			public static double
-				kDefaultForwardMultiplier = 1.0,
-				kDefaultForwardExponential = 1.0,
+				kForwardMultiplier = 1.0,
+				kForwardExponential = 1.0,
 
-				kDefaultTurnMultiplier = 0.8,
-				kDefaultTurnExponential = 1.0;
+				kTurnMultiplier = 0.8,
+				kTurnExponential = 1.0;
 		}
 
 		public static class TankPolynomial {
 			public static double
-				kDefaultForwardMultiplier = 1.0,
-				kDefaultForwardExponential = 1.0;
+				kForwardMultiplier = 1.0,
+				kForwardExponential = 1.0;
 		}
 
 		// ----------------------------------------------------------
@@ -180,17 +180,17 @@ public class Constants {
 		// Max-output modes
 
 		public static double
-			kDefaultMaxOutput = 1.;
+			kMaxOutput = 1.;
 
 		public static boolean
-			kDefaultUseSlewRateLimiters = false;
+			kUseSlewRateLimiters = false;
 
 		public static class SlewRates {
 			public static final double
-				kDefaultArcadeForward = 1.58,
-				kDefaultArcadeTurn = 2.08,
+				kArcadeForward = 1.58,
+				kArcadeTurn = 2.08,
 	
-				kDefaultTankForward = 1.0;
+				kTankForward = 1.0;
 		}
 
 		// ----------------------------------------------------------
@@ -210,11 +210,11 @@ public class Constants {
 		// General
 
 		public static double
-			kDefaultReverseFeederPercent = -0.5,
-			kDefaultFeederPercent = 0.5,
+			kReverseFeederPercent = -0.5,
+			kFeederPercent = 0.5,
 
-			kDefaultRetractedIntakeRetractorDegree = -4.,
-			kDefaultExtendedIntakeRetractorDegree = 82.;
+			kRetractedIntakeRetractorDegree = -4.,
+			kExtendedIntakeRetractorDegree = 82.;
 
 		public static final double
 			kRetractorDegreeTolerance = 4.,
@@ -223,7 +223,9 @@ public class Constants {
 			kRetractorTicksReductionRatio = 58.25,
 
 			kRetractorMinDegree = -180.,
-			kRetractorMaxDegree = 180.;
+			kRetractorMaxDegree = 180.,
+
+			kRetractorLockEndDelaySeconds = 0.75;
 
 		public static class CAN_ID {
 			public static final int
@@ -276,10 +278,10 @@ public class Constants {
 			kIndexerMaxRPM = Falcon500.kMaxRPM;
 
 		public static double
-			kDefaultIndexerPercent = 1.0;
+			kIndexerPercent = 1.0;
 
 		public static int
-			kDefaultLauncherRPM = Falcon500.kMaxRPM;
+			kLauncherRPM = Falcon500.kMaxRPM;
 
 		public static class CAN_ID {
 			public static final int
@@ -314,7 +316,7 @@ public class Constants {
 		// General
 
 		public static final int
-			kLeftServoPWMChannel = 0,
+			kLeftServoPWMChannel = 4,
 			kRightServoPWMChannel = 2;
 
 		public static final double
@@ -328,14 +330,14 @@ public class Constants {
 		// General
 
 		public static boolean
-			kDefaultUsePremadeRoutine = true;
+			kUsePremadeRoutine = true;
 
 		public static double
 			// converting from feet per second (FPS) to meters per second (MPS)
-			kDefaultDriveStraightMPS = feetToMeters(1.5) / 1.,
+			kDriveStraightMPS = feetToMeters(1.5) / 1.,
 
-			kDefaultStartDelaySeconds = 0.,
-			kDefaultTarmacLeavingMeters = inchesToMeters(72.);
+			kStartDelaySeconds = 0.,
+			kTarmacLeavingMeters = inchesToMeters(72.);
 	}
 
 	public static class Vision {
@@ -343,8 +345,8 @@ public class Constants {
 		// General
 
 		public static boolean
-			kDefaultEnableFrontCenterCamera = false,
-			kDefaultEnableBackCenterCamera = false;
+			kEnableFrontCenterCamera = false,
+			kEnableBackCenterCamera = false;
 	}
 
 	public static class Lights {

@@ -56,7 +56,7 @@ public class Vision extends SubsystemBase {
 		// Front-center camera
 
 		frontCenterCameraName = "Front-Center";
-		if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+		if (Constants.Vision.kEnableFrontCenterCamera) {
 			frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
 			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
@@ -69,7 +69,7 @@ public class Vision extends SubsystemBase {
 		// Back-center camera
 
 		backCenterCameraName = "Back-Center";
-		if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+		if (Constants.Vision.kEnableBackCenterCamera) {
 			backCenterCamera = new UsbCamera(backCenterCameraName, 1);
 			backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
@@ -96,22 +96,22 @@ public class Vision extends SubsystemBase {
 
 	public Vision enableFrontCenterCameraStream(boolean enable) {
 		enableCameraStreamFor(frontCenterCameraName, enable);
-		Constants.Vision.kDefaultEnableFrontCenterCamera = enable;
+		Constants.Vision.kEnableFrontCenterCamera = enable;
 		return this;
 	}
 
 	public Vision enableBackCenterCameraStream(boolean enable) {
 		enableCameraStreamFor(backCenterCameraName, enable);
-		Constants.Vision.kDefaultEnableBackCenterCamera = enable;
+		Constants.Vision.kEnableBackCenterCamera = enable;
 		return this;
 	}
 
 	public Vision startDefaultCameraStreams() {
-		if (Constants.Vision.kDefaultEnableFrontCenterCamera) {
+		if (Constants.Vision.kEnableFrontCenterCamera) {
 			enableFrontCenterCameraStream(true);
 		}
 		
-		if (Constants.Vision.kDefaultEnableBackCenterCamera) {
+		if (Constants.Vision.kEnableBackCenterCamera) {
 			enableBackCenterCameraStream(true);
 		}
 		return this;

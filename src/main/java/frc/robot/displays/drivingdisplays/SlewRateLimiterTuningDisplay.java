@@ -54,7 +54,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 			.withSize(width, height);
 
 			useSlewRateLimitersToggleSwitch = layout
-				.add("On-Off", Constants.Drivetrain.kDefaultUseSlewRateLimiters)
+				.add("On-Off", Constants.Drivetrain.kUseSlewRateLimiters)
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();
 
@@ -63,12 +63,12 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeDriveForwardLimiterTextView = arcadeDriveLayout
-					.add("Forward", Constants.Drivetrain.SlewRates.kDefaultArcadeForward)
+					.add("Forward", Constants.Drivetrain.SlewRates.kArcadeForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				arcadeDriveTurnLimiterTextView = arcadeDriveLayout
-					.add("Turn", Constants.Drivetrain.SlewRates.kDefaultArcadeTurn)
+					.add("Turn", Constants.Drivetrain.SlewRates.kArcadeTurn)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -78,12 +78,12 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			
 				tankDriveLeftForwardLimiterTextView = tankDriveLayout
-					.add("Left Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
+					.add("Left Forward", Constants.Drivetrain.SlewRates.kTankForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				tankDriveRightForwardLimiterTextView = tankDriveLayout
-					.add("Right Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
+					.add("Right Forward", Constants.Drivetrain.SlewRates.kTankForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}

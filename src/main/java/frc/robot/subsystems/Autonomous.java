@@ -12,11 +12,11 @@ public class Autonomous extends SubsystemBase {
 	// Publicly static resources
 
 
-	private boolean usePremadeRoutine = Constants.Autonomous.kDefaultUsePremadeRoutine;
+	private boolean usePremadeRoutine = Constants.Autonomous.kUsePremadeRoutine;
 
 	private static double
-		startDelaySeconds = Constants.Autonomous.kDefaultStartDelaySeconds,
-		tarmacLeavingMeters = Constants.Autonomous.kDefaultTarmacLeavingMeters;
+		startDelaySeconds = Constants.Autonomous.kStartDelaySeconds,
+		tarmacLeavingMeters = Constants.Autonomous.kTarmacLeavingMeters;
 
 
 	// ----------------------------------------------------------
@@ -75,13 +75,13 @@ public class Autonomous extends SubsystemBase {
 	}
 
 	public static void setStartDelaySeconds(double delaySeconds) {
-		Constants.Autonomous.kDefaultStartDelaySeconds = delaySeconds;
+		Constants.Autonomous.kStartDelaySeconds = delaySeconds;
 		startDelaySeconds = delaySeconds;
 		RobotContainer.instance.remakeAutoCommand();
 	}
 
 	public static void setTarmacLeavingMeters(double distance) {
-		Constants.Autonomous.kDefaultTarmacLeavingMeters = distance;
+		Constants.Autonomous.kTarmacLeavingMeters = distance;
 		tarmacLeavingMeters = distance;
 		RobotContainer.instance.remakeAutoCommand();
 	}

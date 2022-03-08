@@ -25,6 +25,9 @@ public class Intake extends SubsystemBase {
 	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
 	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
+	// override booleans for overriding normal, continuous behavior for the retractor
+	private boolean m_retractorIsLocked = false;
+
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -120,42 +123,58 @@ public class Intake extends SubsystemBase {
 		return (degree >= Constants.Intake.kRetractorMinDegree && degree <= Constants.Intake.kRetractorMaxDegree);
 	}
 
-	public Intake setRetractorDegree(double positionDegrees) {
-		if (withinRetractorDegreeRange(positionDegrees)) {
-			setRetractorTicks((int) (positionDegrees * Constants.Falcon500.kDegreesToTicks));
+	public Intake setRetractorDegree(double degree) {
+		if (withinRetractorDegreeRange(degree)) {
+			setRetractorTicks((int) (degree * Constants.Falcon500.kDegreesToTicks));
 		}
 		return this;
 	}
 
-	public Intake setRetractorTicks(int positionTicks) {
-		if (withinRetractorDegreeRange(positionTicks / Constants.Falcon500.kDegreesToTicks)) {
-			m_retractorMotor.set(ControlMode.Position, positionTicks * Constants.Intake.kRetractorTicksReductionRatio);
+	public Intake setRetractorTicks(int tick) {
+		if (withinRetractorDegreeRange(tick / Constants.Falcon500.kDegreesToTicks)) {
+			m_retractorMotor.set(ControlMode.Position, tick * Constants.Intake.kRetractorTicksReductionRatio);
 		}
 		return this;
 	}
 
 	public Intake retractIntakeArm() {
 		brakeRetractor();
-		setRetractorDegree(Constants.Intake.kDefaultRetractedIntakeRetractorDegree);
+		setRetractorDegree(Constants.Intake.kRetractedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
 	public boolean armIsRetracted() {
-		return Math.abs(getRetractorDegree() - Constants.Intake.kDefaultRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 	public Intake extendIntakeArm() {
 		brakeRetractor();
-		setRetractorDegree(Constants.Intake.kDefaultExtendedIntakeRetractorDegree);
+		setRetractorDegree(Constants.Intake.kExtendedIntakeRetractorDegree);
 		return this;
 	}
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean armIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kDefaultExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+	}
+
+	// Motor locks should only be used by commands
+
+	public Intake lockRetractor() {
+		m_retractorIsLocked = true;
+		return this;
+	}
+
+	public Intake unlockRetractor() {
+		m_retractorIsLocked = false;
+		return this;
+	}
+
+	public boolean retractorIsLocked() {
+		return m_retractorIsLocked;
 	}
 
 
@@ -175,12 +194,12 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake runReverseFeeder() {
-		setFeederPercent(Constants.Intake.kDefaultReverseFeederPercent);
+		setFeederPercent(Constants.Intake.kReverseFeederPercent);
 		return this;
 	}
 
 	public Intake runFeeder() {
-		setFeederPercent(Constants.Intake.kDefaultFeederPercent);
+		setFeederPercent(Constants.Intake.kFeederPercent);
 		return this;
 	}
 
