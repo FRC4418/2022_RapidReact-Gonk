@@ -25,6 +25,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 		launcherTuningRPMTextField,
 		launcherFinalRPMTextField,
+		launcherFinalIdleRPMTextField,
 
 		indexerTuningPercentTextField,
 		indexerFinalPercentTextField,
@@ -52,6 +53,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			launcherTuningRPMTextField,
 			launcherFinalRPMTextField,
+			launcherFinalIdleRPMTextField,
 
 			indexerTuningPercentTextField,
 			indexerFinalPercentTextField,
@@ -119,10 +121,15 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				// Final column
 				{ var finalColumn = hstack
 					.getLayout("Final Mode", BuiltInLayouts.kGrid)
-					.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
+					.withProperties(Map.of("Number of columns", 1, "Number of rows", 6, "Label position", "TOP"));
 
 					launcherFinalRPMTextField = finalColumn
 						.add("Launcher RPM", 0)
+						.withWidget(BuiltInWidgets.kTextView)
+						.getEntry();
+					
+					launcherFinalIdleRPMTextField = finalColumn
+						.addPersistent("Launcher Idle RPM", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -174,6 +181,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			launcherFinalRPMTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					Constants.Manipulator.kDefaultLauncherRPM = (int) event.value.getDouble();
+				}
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			launcherFinalIdleRPMTextField.addListener(event -> {
+				if (!Constants.kDefaultUsingTuningMode) {
+					Constants.Manipulator.kDefaultLauncherIdleRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
