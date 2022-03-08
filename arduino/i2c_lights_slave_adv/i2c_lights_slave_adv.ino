@@ -22,10 +22,10 @@ on startup the strip will perform a small startup animation
 #define UNDERGLOW 2
 
 #define FRONT_UPPER_START 0
-#define FRONT_UPPER_END 60
+#define FRONT_UPPER_END 59
 
 #define BACK_UPPER_START 60
-#define BACK_UPPER_END 120
+#define BACK_UPPER_END 119
 
 #define ON_BRIGHTNESS 30
 #define LED_TYPE WS2812B
@@ -170,6 +170,12 @@ void setAll(byte red, byte green, byte blue, int strip) {
 }
 
 
+void setAll(byte red, byte green, byte blue) {
+	setAll(red, green, blue, UPPER);
+	setAll(red, green, blue, UNDERGLOW);
+}
+
+
 // ----------------------------------------------------------
 // Effects
 
@@ -223,12 +229,41 @@ void allFastRGBCycle(int index, byte state) {
 
 
 void allSlowRGBCycle(int index, byte state) {
+	static CRGBPalette16 currentPalette = RainbowColors_p;
+	static CRGBPalette16 targetPalette;
+	static TBlendType currentBlending = LINEARBLEND;
+	// Serial.println("idle");
+	uint8_t maxChanges = 24;
+	// AWESOME palette blending capability.
+	nblendPaletteTowardPalette(currentPalette, targetPalette, maxChanges);
 
+	// That's the same as beatsin8(9);
+	uint8_t wave1 = beatsin8(1, 0, 255);
+	uint8_t wave2 = beatsin8(2, 0, 255);
+	uint8_t wave3 = beatsin8(3, 0, 255);
+	uint8_t wave4 = beatsin8(5, 0, 255);
+
+	for (int i=0; i<NUM_LEDS_UPPERS; i++) {
+		ledsUpper[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending); 
+	}
+	for (int i=0; i<NUM_LEDS_UNDERGLOW; i++) {
+		ledsUnderglow[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending);
+	}
+
+	FastLED.show();
+
+	EVERY_N_SECONDS(3) {
+		targetPalette = CRGBPalette16(
+		CHSV(random8(), 255, random8(128,255)),
+		CHSV(random8(), 255, random8(128,255)),
+		CHSV(random8(), 192, random8(128,255)),
+		CHSV(random8(), 255, random8(128,255)));
+	}
 }
 
 
 void allGreen(int index, byte state) {
-
+	setAll(255, 0, 0);
 }
 
 
@@ -252,17 +287,9 @@ void allIdleOn(int index, byte state) {
 }
 
 
-void allIdleOff(int index, byte state) {
-	patternEnabled[10] = false;
-	patternEnabled[index] = false;
+void allOff(int index, byte state) {
 	setAll(0, 0, 0, UPPER);
 	setAll(0, 0, 0, UNDERGLOW);
-	FastLED.show();
-}
-
-
-void allOff(int index, byte state) {
-
 }
 
 
