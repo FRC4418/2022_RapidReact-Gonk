@@ -7,22 +7,32 @@ on startup the strip will perform a small startup animation
 
 */
 
-//might want to diable i2c for some patterns like the startup ones
+// might want to diable i2c for some patterns like the startup ones
 
 #include <FastLED.h>
 #include <Wire.h>
 
 #define NUM_LEDS_UPPERS 120
 #define NUM_LEDS_UNDERGLOW 135
+
 #define DATA_PIN_UPPERS 10
 #define DATA_PIN_UNDERGLOW 7
+
 #define UPPER 1
 #define UNDERGLOW 2
+
+#define FRONT_UPPER_START 0
+#define FRONT_UPPER_END 60
+
+#define BACK_UPPER_START 60
+#define BACK_UPPER_END 120
 
 #define ON_BRIGHTNESS 30
 #define LED_TYPE WS2812B
 #define COLOR_ORDER GRB
+
 #define UPDATES_PER_SECOND 100
+
 #define FORWARD_COLOR Blue
 #define FORWARD_COLOR_RED_ALLIANCE Red
 #define FORWARD_COLOR_BLUE_ALLIANCE Blue
@@ -35,17 +45,34 @@ volatile int new_i2c_data = 0;
 volatile int i2c_data = 0;
 volatile int i2c_register = 0;
 
-#define patternNum 12
+#define patternNum 13
 // first set up the parameters to use in the pattern calling
-unsigned long patternInterval[] = {10, 10, 10, 200, 50, 50, 50, 50, 50, 50, 30, 50,}; // how often each pattern updates
-unsigned long lastUpdate[patternNum];  // for millis() when last update occurred
-boolean patternEnabled[patternNum] = {0}; // should the pattern be called at all
-byte patternState[patternNum]; // state machine variable for patterns - this initialises them to zero
+// how often each pattern updates
+unsigned long patternInterval[] = {
+	// example patterns
+	10, 10, 10, 200, 50,
+	// all-lights patterns
+	50, 50, 50, 50,
+	// underglow-lights patterns
+	50, 30, 50,
+	// upper-lights patterns
+	50
+};
+// for millis() when last update occurred
+unsigned long lastUpdate[patternNum];
+// should the pattern be called at all
+boolean patternEnabled[patternNum] = {0};
+// state machine variable for patterns - this initialises them to zero
+byte patternState[patternNum];
 int meteorStartLED[] = {0, 60};
 int meteorStopLED[] = {59, 119};
 
-// now set up the array of pointers to each pattern
-void (*patternPtrs[patternNum])(int index,byte state); //the array of pattern pointers
+// the array of pointers to each pattern
+void (*patternPtrs[patternNum])(int index,byte state);
+
+
+// ----------------------------------------------------------
+// Execution and I2C
 
 
 void setup() {
@@ -55,10 +82,10 @@ void setup() {
 	FastLED.addLeds<LED_TYPE, DATA_PIN_UNDERGLOW, COLOR_ORDER>(ledsUnderglow, NUM_LEDS_UNDERGLOW).setCorrection(TypicalLEDStrip);
 	FastLED.setBrightness(ON_BRIGHTNESS);
 
-	//initialises the array of pattern pointers
+	// initialises the array of pattern pointers
 	
 	patternPtrs = {
-		// don't use these patterns, they're just the examples used in the startup effect
+		// example patterns
 		meteorRainRight,
 		meteorRainRight,
 		wave,
@@ -94,12 +121,64 @@ void loop() {
 }
 
 
+void i2cReceiveEvent(int bytesReceived) {  //The first byte is the register and the rest of the bytes are data
+	i2c_register = (int) Wire.read();
+	i2c_data = (int) Wire.read(); 
+	new_i2c_data= 1;
+
+	if (bytesReceived > 2) {   //Throw away all the rest of the data past the first 2 bytes
+		for (uint8_t a = 2; a < bytesReceived; a++) {  
+			Wire.read();
+		}
+	}
+
+	patternEnabled[i2c_data] = true;
+}
+
+
+// ----------------------------------------------------------
+// Common pattern and lights functions
+
+
 void callPatterns(int index, byte state) {
 	(*patternPtrs[index])(index,state); //calls the pattern at the index of `index` in the array
 }
 
 
-void startupEffect(){
+void setPixel(int Pixel, byte red, byte green, byte blue, int strip) {
+	if (strip == UPPER) {
+		ledsUpper[Pixel].r = red;
+		ledsUpper[Pixel].g = green;
+		ledsUpper[Pixel].b = blue;
+	}
+	if (strip == UNDERGLOW) {
+		ledsUnderglow[Pixel].r = red;
+		ledsUnderglow[Pixel].g = green;
+		ledsUnderglow[Pixel].b = blue;
+	}
+}
+
+
+void setAll(byte red, byte green, byte blue, int strip) {
+	if (strip == UPPER) {
+		for (int i = 0; i < NUM_LEDS_UPPERS; i++ ) {
+			setPixel(i, red, green, blue, strip);
+		}
+	}
+	if (strip == UNDERGLOW) {
+		for (int i = 0; i < NUM_LEDS_UNDERGLOW; i++ ) {
+			setPixel(i, red, green, blue, strip);
+		}
+	}
+	FastLED.show();
+}
+
+
+// ----------------------------------------------------------
+// Effects
+
+
+void startupEffect() {
 	for (int i=0; i<3; i++) {
 		patternEnabled[i] = true;
 	}
@@ -109,10 +188,14 @@ void startupEffect(){
 }
 
 
+// ----------------------------------------------------------
+// All-light patterns
+
+
 void allFastRGBCycle(int index, byte state) {
 	static CRGBPalette16 currentPalette = RainbowColors_p;
 	static CRGBPalette16 targetPalette;
-	static TBlendType    currentBlending = LINEARBLEND;
+	static TBlendType currentBlending = LINEARBLEND;
 	// Serial.println("idle");
 	uint8_t maxChanges = 24;
 	// AWESOME palette blending capability.
@@ -133,7 +216,6 @@ void allFastRGBCycle(int index, byte state) {
 
 	FastLED.show();
 
-	// Change the target palette to a random one every 5 seconds.
 	EVERY_N_SECONDS(3) {
     	targetPalette = CRGBPalette16(
 			CHSV(random8(), 255, random8(128,255)),
@@ -159,7 +241,24 @@ void allOff(int index, byte state) {
 }
 
 
-void frontUpperOn(int index, byte state){
+// ----------------------------------------------------------
+// Underglow-lights patterns
+
+
+// ----------------------------------------------------------
+// Upper-lights patterns
+
+
+void upperOff(int index, byte state) {
+	
+}
+
+
+// ----------------------------------------------------------
+// Unofficial patterns
+
+
+void frontUpperOn(int index, byte state) {
 	int startLED = 0;
 	int stopLED = 60;
 
@@ -173,7 +272,7 @@ void frontUpperOn(int index, byte state){
 }
 
 
-void backUpperOn(int index, byte state){
+void backUpperOn(int index, byte state) {
 	int startLED = 60;
 	int stopLED = 120;
 
@@ -187,7 +286,7 @@ void backUpperOn(int index, byte state){
 }
 
 
-void underglowRed(int index, byte state){
+void underglowRed(int index, byte state) {
 	patternEnabled[8] = false;
 	setAll(255, 0, 0, UNDERGLOW);
 	FastLED.show();
@@ -195,7 +294,7 @@ void underglowRed(int index, byte state){
 }
 
 
-void underglowBlue(int index, byte state){
+void underglowBlue(int index, byte state) {
 	patternEnabled[7] = false;
 	setAll(0, 0, 255, UNDERGLOW);
 	FastLED.show();
@@ -203,7 +302,7 @@ void underglowBlue(int index, byte state){
 }
 
 
-void underglowOff(int index, byte state){
+void underglowOff(int index, byte state) {
 	patternEnabled[7] = false;
 	patternEnabled[8] = false;
 	patternEnabled[index] = false;
@@ -212,7 +311,7 @@ void underglowOff(int index, byte state){
 }
 
 
-void idleOn(int index, byte state){
+void idleOn(int index, byte state) {
 	ledsUnderglow[beatsin16(19, 0, NUM_LEDS_UNDERGLOW - 1, 0, 0)] = CRGB::Green;
 	ledsUnderglow[beatsin16(23, 0, NUM_LEDS_UNDERGLOW - 1, 0, 85)] = CRGB::Red;
 	ledsUnderglow[beatsin16(31, 0, NUM_LEDS_UNDERGLOW - 1, 0, 170)] = CRGB::Yellow;
@@ -232,7 +331,7 @@ void idleOn(int index, byte state){
 }
 
 
-void idleOff(int index, byte state){
+void idleOff(int index, byte state) {
 	patternEnabled[10] = false;
 	patternEnabled[index] = false;
 	setAll(0, 0, 0, UPPER);
@@ -241,7 +340,7 @@ void idleOff(int index, byte state){
 }
 
 
-void fadeAllStrips(int index, byte state){
+void fadeAllStrips(int index, byte state) {
 	static int i = 0;
 	if (i <= 128) {
 		fadeToBlackStrip(UPPER, NUM_LEDS_UPPERS, 10);
@@ -259,7 +358,7 @@ void fadeAllStrips(int index, byte state){
 }
 
 
-void solid(int index, byte state){
+void solid(int index, byte state) {
 	static int strip = UNDERGLOW;	
 	static int startLED	= 0;
 	static int stopLED = NUM_LEDS_UNDERGLOW;
@@ -270,7 +369,7 @@ void solid(int index, byte state){
 }
 
 
-void wave(int index, byte state){
+void wave(int index, byte state) {
 	static int strip = UNDERGLOW;
 	static int value = 0;
 	static float loopcount = 0;
@@ -294,7 +393,7 @@ void wave(int index, byte state){
 }
 
 
-void meteorRainRight(int index, byte state){	
+void meteorRainRight(int index, byte state) {	
 	static byte red = 0xff;
 	static byte green = 0xff;
 	static byte blue = 0xff;
@@ -390,50 +489,6 @@ void fadeToBlack(int ledNo, byte fadeValue, int strip) {
 	if (strip == UNDERGLOW) {
 		ledsUnderglow[ledNo].fadeToBlackBy(fadeValue);
 	}
-}
-
-
-void setPixel(int Pixel, byte red, byte green, byte blue, int strip) {
-	if (strip == UPPER) {
-		ledsUpper[Pixel].r = red;
-		ledsUpper[Pixel].g = green;
-		ledsUpper[Pixel].b = blue;
-	}
-	if (strip == UNDERGLOW) {
-		ledsUnderglow[Pixel].r = red;
-		ledsUnderglow[Pixel].g = green;
-		ledsUnderglow[Pixel].b = blue;
-	}
-}
-
-
-void setAll(byte red, byte green, byte blue, int strip) {
-	if (strip == UPPER) {
-		for (int i = 0; i < NUM_LEDS_UPPERS; i++ ) {
-			setPixel(i, red, green, blue, strip);
-		}
-	}
-	if (strip == UNDERGLOW) {
-		for (int i = 0; i < NUM_LEDS_UNDERGLOW; i++ ) {
-			setPixel(i, red, green, blue, strip);
-		}
-	}
-	FastLED.show();
-}
-
-
-void i2cReceiveEvent(int bytesReceived){  //The first byte is the register and the rest of the bytes are data
-	i2c_register = (int) Wire.read();
-	i2c_data = (int) Wire.read(); 
-	new_i2c_data= 1;
-
-	if (bytesReceived > 2) {   //Throw away all the rest of the data past the first 2 bytes
-		for (uint8_t a = 2; a < bytesReceived; a++) {  
-			Wire.read();
-		}
-	}
-
-	patternEnabled[i2c_data] = true;
 }
 
 
