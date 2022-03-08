@@ -30,40 +30,40 @@ public class Lights extends SubsystemBase {
 	// Setters for all lights
 
 	public void setAllToFastRGBCycle() {
-		sendCommand(SETME1);
+		sendCommand(5);
 	}
 
 	public void setAllToSlowRGBCycle() {
-		sendCommand(SETME2);
+		sendCommand(6);
 	}
 
 	public void setAllToGreen() {
-		sendCommand(SETME3);
+		sendCommand(7);
 	}
 
 	public void turnOffAll() {
-		sendCommand(SETME5);
+		sendCommand(8);
 	}
 
 	// ----------------------------------------------------------
 	// Setters for the underglow lights
 
 	public void setUnderglowToRed() {
-		sendCommand(7);
+		sendCommand(9);
 	}
 
 	public void setUnderglowToBlue() {
-		sendCommand(8);
+		sendCommand(9);
 	}
 
 	public void turnOffUnderglow() {
-		sendCommand(9);
+		sendCommand(10);
 	}
 
 	// ----------------------------------------------------------
 	// Setters for the upper lights
 
 	public void turnOffUpper() {
-		sendCommand(SETME4);
+		sendCommand(11);
 	}
 }
