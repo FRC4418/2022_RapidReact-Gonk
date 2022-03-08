@@ -15,10 +15,10 @@ public class Autonomous extends SubsystemBase {
 		usingPremadeRoutine = true;
 
 	private static double
-		// converting from feet per second (FPS) to meters per second (MPS)
-		driveStraightMPS = Constants.feetToMeters(1.5) / 1.,
-
 		startDelaySeconds = 0.,
+		// converting from feet per second (FPS) to meters per second (MPS)
+		drivingMPS = Constants.feetToMeters(1.5) / 1.,
+		launcherFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
 
 	// ----------------------------------------------------------
@@ -54,15 +54,6 @@ public class Autonomous extends SubsystemBase {
 	// Routine-parameter setters
 
 
-	public static double getDriveStraightMPS() {
-		return driveStraightMPS;
-	}
-	public Autonomous setDriveStraightMPS(double mps) {
-		driveStraightMPS = mps;
-		RobotContainer.instance.remakeAutoCommand();
-		return this;
-	}
-
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;
 	}
@@ -71,12 +62,30 @@ public class Autonomous extends SubsystemBase {
 		RobotContainer.instance.remakeAutoCommand();
 		return this;
 	}
-
+	
 	public static double getStartDelaySeconds() {
 		return startDelaySeconds;
 	}
 	public Autonomous setStartDelaySeconds(double delaySeconds) {
 		startDelaySeconds = delaySeconds;
+		RobotContainer.instance.remakeAutoCommand();
+		return this;
+	}
+
+	public static double getDrivingMPS() {
+		return drivingMPS;
+	}
+	public Autonomous setDrivingMPS(double mps) {
+		drivingMPS = mps;
+		RobotContainer.instance.remakeAutoCommand();
+		return this;
+	}
+
+	public static double getLauncherFiringDurationSeconds() {
+		return launcherFiringDurationSeconds;
+	}
+	public Autonomous setLauncherFiringDurationSeconds(double seconds) {
+		launcherFiringDurationSeconds = seconds;
 		RobotContainer.instance.remakeAutoCommand();
 		return this;
 	}

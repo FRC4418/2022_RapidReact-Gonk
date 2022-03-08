@@ -3,13 +3,13 @@ package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Manipulator;
 
 
 public class RunLauncherForTime extends CommandBase {
 	// ----------------------------------------------------------
-	// Resource
+	// Resources
 
 	private final Manipulator m_manipulator;
 	
@@ -17,11 +17,15 @@ public class RunLauncherForTime extends CommandBase {
 	private final Timer m_timer = new Timer();
 
 	// ----------------------------------------------------------
-	// Constructor
+	// Constructors
 
 	public RunLauncherForTime(Manipulator manipulator, double duration) {	
 		m_manipulator = manipulator;
 		m_duration = duration;
+	}
+
+	public RunLauncherForTime(Manipulator manipulator) {
+		this(manipulator, Autonomous.getLauncherFiringDurationSeconds());
 	}
 
 	// ----------------------------------------------------------

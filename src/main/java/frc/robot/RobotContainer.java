@@ -189,7 +189,7 @@ public class RobotContainer {
 			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
 
 		autonomousDisplaysGrid
-			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 3, 3));
+			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 3, 5));
 			// TODO: !P1! Add the auto-routine maker display here
 		
 		visionDisplaysGrid

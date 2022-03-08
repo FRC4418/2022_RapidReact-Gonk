@@ -40,18 +40,20 @@ public class Constants {
 		Manipulator.kIndexerRPMGains = Manipulator.kIndexerRPMGainsV2;
 	}
 
-	private static final double kMetersToinches = 39.37;
+	private static final double kMetersToinches = 39.37007874;
 
 	public static double inchesToMeters(double inches) {
 		return inches / kMetersToinches;
+	}
+	public static double metersToInches(double meters) {
+		return meters * kMetersToinches;
 	}
 
 	public static double feetToMeters(double feet) {
 		return feet * 12. / kMetersToinches;
 	}
-
-	public static double metersToInches(double meters) {
-		return meters * kMetersToinches;
+	public static double metersToFeet(double meters) {
+		return meters * kMetersToinches / 12.;
 	}
 
 	public static class Falcon500 {
@@ -330,8 +332,7 @@ public class Constants {
 		// ----------------------------------------------------------
 		// General
 
-		public static double
-			kLauncherFiringDuration = 1.25;
+
 	}
 
 	public static class Vision {

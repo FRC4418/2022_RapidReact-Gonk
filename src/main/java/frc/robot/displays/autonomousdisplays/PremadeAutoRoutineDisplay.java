@@ -24,6 +24,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	private NetworkTableEntry
 		usePremadeRoutineToggleSwitch,
 		startDelayTimeTextView,
+		drivingMPSTextView,
+		launcherFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView;
     
@@ -54,7 +56,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 1
 			{ var column1 = layout
 				.getLayout("Column 1", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
 					.add("Use Premade Routine", Autonomous.usingPremadeRoutine())
@@ -65,9 +67,19 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.add("Start Delay [s]", Autonomous.getStartDelaySeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
+				
+				drivingMPSTextView = column1
+					.addPersistent("Driving Velocity [ft/s]", Constants.metersToFeet(Autonomous.getDrivingMPS()) / 1.)
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+
+				launcherFiringDurationTextView = column1
+					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.add("Leave-Tarmac Distance [in]", Autonomous.getTarmacLeavingMeters())
+					.add("Leave-Tarmac Distance [in]", Constants.metersToInches(Autonomous.getTarmacLeavingMeters()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -100,6 +112,14 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 
 			startDelayTimeTextView.addListener(event -> {
 				m_autonomous.setStartDelaySeconds(event.value.getDouble());
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			drivingMPSTextView.addListener(event -> {
+				m_autonomous.setDrivingMPS(Constants.feetToMeters(event.value.getDouble()));
+			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			launcherFiringDurationTextView.addListener(event -> {
+				m_autonomous.setLauncherFiringDurationSeconds(event.value.getDouble());
 			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 			tarmacLeavingDistanceTextView.addListener(event -> {

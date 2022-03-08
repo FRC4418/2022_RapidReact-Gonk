@@ -12,7 +12,7 @@ public class DriveStraightForDistance extends DriveStraight {
 	private final double m_distanceInMeters;
 
 	// ----------------------------------------------------------
-	// Constructor
+	// Constructors
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double motorMPS) {
 		super(drivetrain, direction, motorMPS);
@@ -21,7 +21,15 @@ public class DriveStraightForDistance extends DriveStraight {
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
-		this(drivetrain, distanceInMeters, direction, Autonomous.getDriveStraightMPS());
+		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMPS());
+	}
+
+	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double motorMPS) {
+		this(drivetrain, Autonomous.getDrivingMPS(), direction, motorMPS);
+	}
+
+	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {
+		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction);
 	}
 
 	// ----------------------------------------------------------
