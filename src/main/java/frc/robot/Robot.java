@@ -63,7 +63,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
-
+		
+		robotContainer.manipulator.stopLauncher();
+		
 		robotContainer.lights.setAllToSlowRGBCycle();
 	}
 
@@ -77,6 +79,8 @@ public class Robot extends TimedRobot {
 		robotContainer.drivetrain.brakeMotors();
 
 		robotContainer.intake.retractIntakeArm();
+
+		robotContainer.manipulator.idleLauncher();
 	}
 
 
