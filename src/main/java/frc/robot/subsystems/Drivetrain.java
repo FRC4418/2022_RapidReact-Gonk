@@ -226,6 +226,9 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
+	public boolean isReversed() {
+		return m_reverseDrivetrain;
+	}
 	public Drivetrain reverseDrivetrain() {
 		m_reverseDrivetrain = !m_reverseDrivetrain;
 		return this;

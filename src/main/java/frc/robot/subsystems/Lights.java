@@ -12,41 +12,6 @@ import frc.robot.Constants;
 
 public class Lights extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Private constants
-
-	public enum Pattern {
-		FRONT_UPPER_ON(5),
-		BACK_UPPER_ON(6),
-		UNDERGLOW_RED(7),
-		UNDERGLOW_BLUE(8),
-		UNDERGLOW_OFF(9),
-		IDLE_ON(10),
-		IDLE_OFF(11);
-
-		private int value;
-		private static HashMap<Integer, Pattern> map = new HashMap<>();
-
-		private Pattern(int value) {
-			this.value = value;
-		}
-
-		static {
-			for (Pattern pattern : Pattern.values()) {
-				map.put(pattern.value, pattern);
-			}
-		}
-
-		public static Pattern valueOf(int pattern) {
-			return (Pattern) map.get(pattern);
-		}
-
-		public int value() {
-			return value;
-		}
-	}
-
-
-	// ----------------------------------------------------------
 	// Resources
 
 
@@ -57,7 +22,48 @@ public class Lights extends SubsystemBase {
 	// Command-sending methods
 
 
-	public void sendCommand(int command) {
+	private void sendCommand(int command) {
 		arduino.write(Constants.Lights.VALUE_REGISTER, command);
- 	}
+	}
+
+	// ----------------------------------------------------------
+	// Setters for all lights
+
+	public void setAllToFastRGBCycle() {
+		sendCommand(SETME1);
+	}
+
+	public void setAllToSlowRGBCycle() {
+		sendCommand(SETME2);
+	}
+
+	public void setAllToGreen() {
+		sendCommand(SETME3);
+	}
+
+	public void turnOffAll() {
+		sendCommand(SETME5);
+	}
+
+	// ----------------------------------------------------------
+	// Setters for the underglow lights
+
+	public void setUnderglowToRed() {
+		sendCommand(7);
+	}
+
+	public void setUnderglowToBlue() {
+		sendCommand(8);
+	}
+
+	public void turnOffUnderglow() {
+		sendCommand(9);
+	}
+
+	// ----------------------------------------------------------
+	// Setters for the upper lights
+
+	public void turnOffUpper() {
+		sendCommand(SETME4);
+	}
 }

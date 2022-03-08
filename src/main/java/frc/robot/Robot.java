@@ -4,7 +4,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Lights.Pattern;
 
 
 public class Robot extends TimedRobot {
@@ -65,7 +64,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		robotContainer.lights.sendCommand(Pattern.UNDERGLOW_BLUE.value());
+		robotContainer.lights.setAllToSlowRGBCycle();
 	}
 
 	@Override
@@ -111,7 +110,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		
+		if (robotContainer.drivetrain.isReversed()) {
+			robotContainer.lights.setAllToGreen();
+		} else {
+			robotContainer.lights.setAllToFastRGBCycle();
+		}
 	}
 
 	@Override
