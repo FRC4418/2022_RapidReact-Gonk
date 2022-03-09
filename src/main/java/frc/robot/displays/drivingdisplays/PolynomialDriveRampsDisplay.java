@@ -63,12 +63,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeForwardMultiplierTextView = arcadeForwardLayout
-					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kForwardMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				arcadeForwardExponentialTextView = arcadeForwardLayout
-					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kForwardExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -78,12 +78,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeTurnMultiplierTextView = arcadeTurnLayout
-					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kTurnMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				arcadeTurnExponentialTextView = arcadeTurnLayout
-					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kTurnExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -93,12 +93,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				tankForwardMultiplierTextView = tankForwardLayout
-					.addPersistent("Multiplier", Constants.Drivetrain.TankPolynomial.kDefaultForwardMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.TankPolynomial.kForwardMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				tankForwardExponentialTextView = tankForwardLayout
-					.addPersistent("Exponential", Constants.Drivetrain.TankPolynomial.kDefaultForwardExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.TankPolynomial.kForwardExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}

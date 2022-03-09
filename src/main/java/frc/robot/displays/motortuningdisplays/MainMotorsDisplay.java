@@ -98,17 +98,17 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 					
 					indexerTuningPercentTextField = tuningColumn
-						.addPersistent("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
+						.addPersistent("Indexer Percent", Constants.Manipulator.kIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningUpDegreeTextField = tuningColumn
-						.addPersistent("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningDownDegreeTextField = tuningColumn
-						.addPersistent("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -134,17 +134,17 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 					
 					indexerFinalPercentTextField = finalColumn
-						.addPersistent("Indexer Percent", Constants.Manipulator.kDefaultIndexerPercent)
+						.addPersistent("Indexer Percent", Constants.Manipulator.kIndexerPercent)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.addPersistent("Retractor Up Degree", Constants.Intake.kDefaultRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalDownDegreeTextField = finalColumn
-						.addPersistent("Retractor Down Degree", Constants.Intake.kDefaultExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -161,8 +161,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 	@Override
 	public MainMotorsDisplay addEntryListeners() {
 		tuningModeToggleSwitch.addListener(event -> {
-			Constants.kDefaultUsingTuningMode = event.value.getBoolean();
-			if (!Constants.kDefaultUsingTuningMode) {
+			Constants.kUsingTuningMode = event.value.getBoolean();
+			if (!Constants.kUsingTuningMode) {
 				m_intake.retractIntakeArm();
 				m_intake.stopFeeder();
 				
@@ -173,34 +173,34 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		
 		{ // Launcher motor
 			launcherTuningRPMTextField.addListener(event -> {
-				if (Constants.kDefaultUsingTuningMode) {
+				if (Constants.kUsingTuningMode) {
 					m_manipulator.setLauncherRPM((int) event.value.getDouble());
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalRPMTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Manipulator.kDefaultLauncherRPM = (int) event.value.getDouble();
+				if (!Constants.kUsingTuningMode) {
+					Constants.Manipulator.kLauncherRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalIdleRPMTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Manipulator.kDefaultLauncherIdleRPM = (int) event.value.getDouble();
+				if (!Constants.kUsingTuningMode) {
+					Constants.Manipulator.kLauncherIdleRPM = (int) event.value.getDouble();
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Indexer motor
 			indexerTuningPercentTextField.addListener(event -> {
-				if (Constants.kDefaultUsingTuningMode) {
+				if (Constants.kUsingTuningMode) {
 					m_manipulator.setIndexerPercent(event.value.getDouble());
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			indexerFinalPercentTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Manipulator.kDefaultIndexerPercent = event.value.getDouble();
+				if (!Constants.kUsingTuningMode) {
+					Constants.Manipulator.kIndexerPercent = event.value.getDouble();
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
@@ -208,14 +208,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		{ // Retractor motor
 			{
 				retractorTuningUpDegreeTextField.addListener(event -> {
-					if (Constants.kDefaultUsingTuningMode) {
+					if (Constants.kUsingTuningMode) {
 						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				retractorFinalUpDegreeTextField.addListener(event -> {
-					if (!Constants.kDefaultUsingTuningMode) {
-						Constants.Intake.kDefaultRetractedIntakeRetractorDegree = (int) event.value.getDouble();
+					if (!Constants.kUsingTuningMode) {
+						Constants.Intake.kRetractedIntakeRetractorDegree = (int) event.value.getDouble();
 					}
 
 					// update to the new angle if we're already retracted
@@ -227,14 +227,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			
 			{
 				retractorTuningDownDegreeTextField.addListener(event -> {
-					if (Constants.kDefaultUsingTuningMode) {
+					if (Constants.kUsingTuningMode) {
 						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				retractorFinalDownDegreeTextField.addListener(event -> {
-					if (!Constants.kDefaultUsingTuningMode) {
-						Constants.Intake.kDefaultExtendedIntakeRetractorDegree = (int) event.value.getDouble();
+					if (!Constants.kUsingTuningMode) {
+						Constants.Intake.kExtendedIntakeRetractorDegree = (int) event.value.getDouble();
 					}
 
 					// update to the new angle if we're already extended
@@ -247,14 +247,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 		{ // Feeder motor
 			feederTuningPercentTextField.addListener(event -> {
-				if (Constants.kDefaultUsingTuningMode) {
+				if (Constants.kUsingTuningMode) {
 					m_intake.setFeederPercent(event.value.getDouble());
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			feederFinalPercentTextField.addListener(event -> {
-				if (!Constants.kDefaultUsingTuningMode) {
-					Constants.Intake.kDefaultFeederPercent = event.value.getDouble();
+				if (!Constants.kUsingTuningMode) {
+					Constants.Intake.kFeederPercent = event.value.getDouble();
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
