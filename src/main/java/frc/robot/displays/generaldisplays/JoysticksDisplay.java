@@ -87,13 +87,13 @@ public class JoysticksDisplay extends GeneralDisplay {
         {   // Driver
             driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
                 RobotContainer.swapJoysticksFor(Pilot.DRIVER);
-            }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+            }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
         }
 
         {   // Spotter
             spotterSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
                 RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
-            }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+            }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
         }
 
         return this;

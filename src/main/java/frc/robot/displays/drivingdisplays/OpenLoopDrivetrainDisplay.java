@@ -45,12 +45,12 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 			.withSize(width, height);
 
 			rampTimeTextView = layout
-				.add("Ramp Time", Constants.Drivetrain.kOpenLoopRampTime)
+				.addPersistent("Ramp Time", Constants.Drivetrain.kOpenLoopRampTime)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 			
 			maxOutputTextView = layout
-				.add("Max Output", Constants.Drivetrain.kMaxOutput)
+				.addPersistent("Max Output", Constants.Drivetrain.kMaxOutput)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 		}
@@ -61,11 +61,11 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 	public DrivingDisplay addEntryListeners() {
 		rampTimeTextView.addListener(event -> {
 			m_drivetrain.setOpenLoopRampTimes(event.value.getDouble());
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		maxOutputTextView.addListener(event -> {
 			m_drivetrain.setMaxOutput(event.value.getDouble());
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		return this;
 	}

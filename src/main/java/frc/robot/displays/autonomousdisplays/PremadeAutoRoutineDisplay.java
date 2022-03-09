@@ -59,12 +59,12 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
-					.add("Use Premade Routine", Autonomous.usingPremadeRoutine())
+					.addPersistent("Use Premade Routine", Autonomous.usingPremadeRoutine())
 					.withWidget(BuiltInWidgets.kToggleSwitch)
 					.getEntry();
 				
 				startDelayTimeTextView = column1
-					.add("Start Delay [s]", Autonomous.getStartDelaySeconds())
+					.addPersistent("Start Delay [s]", Autonomous.getStartDelaySeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
@@ -79,7 +79,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.add("Leave-Tarmac Distance [in]", Constants.metersToInches(Autonomous.getTarmacLeavingMeters()))
+					.addPersistent("Leave-Tarmac Distance [in]", Constants.metersToInches(Autonomous.getTarmacLeavingMeters()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -108,23 +108,23 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		{ // Column 1
 			usePremadeRoutineToggleSwitch.addListener(event -> {
 				m_autonomous.setUsePremadeRoutine(event.value.getBoolean());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			startDelayTimeTextView.addListener(event -> {
 				m_autonomous.setStartDelaySeconds(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			drivingMPSTextView.addListener(event -> {
 				m_autonomous.setDrivingMPS(Constants.feetToMeters(event.value.getDouble()));
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFiringDurationTextView.addListener(event -> {
 				m_autonomous.setLauncherFiringDurationSeconds(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 			tarmacLeavingDistanceTextView.addListener(event -> {
 				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Column 2
