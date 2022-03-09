@@ -1,4 +1,4 @@
-package frc.robot.displays.visiondisplays;
+package frc.robot.displays.writedisplays.vision;
 
 
 import java.util.Map;
@@ -24,12 +24,6 @@ public class CamerasDisplay extends VisionDisplay {
 
 		m_vision = vision;
     }
-
-	@Override
-	protected VisionDisplay createEntriesArray() {
-		
-		return this;
-	}
 
 	@Override
 	protected VisionDisplay createDisplayAt(int column, int row) {

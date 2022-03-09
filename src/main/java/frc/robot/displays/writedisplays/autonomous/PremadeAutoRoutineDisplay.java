@@ -1,8 +1,6 @@
-package frc.robot.displays.autonomousdisplays;
+package frc.robot.displays.writedisplays.autonomous;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -32,16 +30,6 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 
 		m_autonomous = autonomous;
     }
-
-	@Override
-	protected AutonomousDisplay createEntriesArray() {
-		entries = new ArrayList<>(Arrays.asList(
-			usePremadeRoutineToggleSwitch,
-			startDelayTimeTextView,
-			tarmacLeavingDistanceTextView
-		));
-		return this;
-	}
 
 	@Override
 	protected AutonomousDisplay createDisplayAt(int column, int row) {

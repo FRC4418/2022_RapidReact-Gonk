@@ -50,6 +50,8 @@ public class Robot extends TimedRobot {
 			
 			.listenForPremadeAutoRoutine();
 		
+		
+		
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer
 				.printJoystickValues();

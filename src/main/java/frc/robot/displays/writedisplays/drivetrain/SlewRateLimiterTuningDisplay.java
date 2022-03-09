@@ -1,8 +1,6 @@
-package frc.robot.displays.drivingdisplays;
+package frc.robot.displays.writedisplays.drivetrain;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -31,19 +29,6 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 
 		m_drivetrain = drivetrain;
     }
-
-	@Override
-	protected DrivingDisplay createEntriesArray() {
-		entries = new ArrayList<>(Arrays.asList(
-			useSlewRateLimitersToggleSwitch,
-
-			arcadeDriveForwardLimiterTextView,
-			arcadeDriveTurnLimiterTextView,
-
-			tankDriveLeftForwardLimiterTextView
-		));
-		return this;
-	}
 
 	@Override
 	protected DrivingDisplay createDisplayAt(int column, int row) {

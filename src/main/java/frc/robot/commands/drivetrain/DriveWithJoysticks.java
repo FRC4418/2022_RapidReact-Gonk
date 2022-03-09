@@ -47,6 +47,19 @@ public class DriveWithJoysticks extends CommandBase {
 		}
 
 		switch (activePilotJoystickMode) {
+			case CURVATURE:
+				if (m_drivetrain.usingSlewRateLimiters()) {
+					m_drivetrain.curvatureDrive(
+						m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
+						m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()),
+						true);
+				} else {
+					m_drivetrain.curvatureDrive(
+						activePilotJoystickControls.getArcadeDriveForwardAxis(),
+						activePilotJoystickControls.getArcadeDriveTurnAxis(),
+						true);
+				}
+				break;
 			case ARCADE:
 				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.arcadeDrive(

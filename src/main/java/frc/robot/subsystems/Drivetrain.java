@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -171,14 +170,6 @@ public class Drivetrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
-
-		// SmartDashboard.putNumber("Yaw Axis", getRounded(imu.getAngle()));
-
-		SmartDashboard.putNumber("Left Encoder", Constants.metersToInches(getLeftDistanceMeters()));
-		SmartDashboard.putNumber("Right Encoder", Constants.metersToInches(getRightDistanceMeters()));
-
-		// SmartDashboard.putNumber("Left Motor", getLeftMPS());
-		// SmartDashboard.putNumber("Right Motor", getRightMPS());
 	}
 
 
@@ -360,6 +351,9 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		leftVolts = Math.pow(tankForwardMultiplier * leftVolts, tankForwardExponential);
+		rightVolts = Math.pow(tankForwardMultiplier * rightVolts, tankForwardExponential);
+
 		if (!m_reverseDrivetrain) {
 			m_leftGroup.setVoltage(leftVolts);
 			m_rightGroup.setVoltage(rightVolts);
@@ -371,6 +365,9 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
+		leftSpeed = Math.pow(tankForwardMultiplier * leftSpeed, tankForwardExponential);
+		rightSpeed = Math.pow(tankForwardMultiplier * rightSpeed, tankForwardExponential);
+
 		if (!m_reverseDrivetrain) {
 			m_differentialDrive.tankDrive(leftSpeed, rightSpeed);
 		} else {
@@ -380,6 +377,8 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
+		
+
 		if (!m_reverseDrivetrain) {
 			m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
 		} else {

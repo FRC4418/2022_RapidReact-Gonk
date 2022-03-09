@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -27,6 +28,14 @@ public class Intake extends SubsystemBase {
 
 	// override booleans for overriding normal, continuous behavior for the retractor
 	private boolean m_retractorIsLocked = false;
+
+	public enum RetractorState {
+		RETRACTING,
+		EXTENDING,
+		IDLE
+	}
+
+	private RetractorState m_retractorState = RetractorState.IDLE;
 
 
 	// ----------------------------------------------------------
@@ -75,6 +84,18 @@ public class Intake extends SubsystemBase {
 	@Override
 	public void periodic() {
 		updateRetractorOrigin();
+
+		// TODO: !P1! Remove these prints once done with them
+		SmartDashboard.putBoolean("Is locked", retractorIsLocked());
+		SmartDashboard.putBoolean("Extended", armIsExtended());
+		SmartDashboard.putBoolean("Retracted", armIsRetracted());
+		SmartDashboard.putBoolean("Using Tuning Mode", Constants.kUsingTuningMode);
+		SmartDashboard.putNumber("Actual degree", getRetractorDegree());
+		if (m_retractorState == RetractorState.RETRACTING) {
+			SmartDashboard.putNumber("Set degree", Constants.Intake.kRetractedIntakeRetractorDegree);
+		} else if (m_retractorState == RetractorState.EXTENDING) {
+			SmartDashboard.putNumber("Set degree", Constants.Intake.kExtendedIntakeRetractorDegree);
+		}
 	}
 	
 
@@ -138,6 +159,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake retractIntakeArm() {
+		m_retractorState = RetractorState.RETRACTING;
 		brakeRetractor();
 		setRetractorDegree(Constants.Intake.kRetractedIntakeRetractorDegree);
 		return this;
@@ -150,6 +172,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public Intake extendIntakeArm() {
+		m_retractorState = RetractorState.EXTENDING;
 		brakeRetractor();
 		setRetractorDegree(Constants.Intake.kExtendedIntakeRetractorDegree);
 		return this;
@@ -158,7 +181,16 @@ public class Intake extends SubsystemBase {
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean armIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+		return Math.abs(getRetractorDegree() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+	}
+
+	public RetractorState getRetractorState() {
+		return m_retractorState;
+	}
+
+	public Intake idleRetractorState() {
+		m_retractorState = RetractorState.IDLE;
+		return this;
 	}
 
 	// Motor locks should only be used by commands

@@ -1,4 +1,4 @@
-package frc.robot.displays.generaldisplays;
+package frc.robot.displays.writedisplays.general;
 
 
 import java.util.Map;
@@ -17,12 +17,6 @@ public class RobotChooserDisplay extends GeneralDisplay {
     public RobotChooserDisplay(int width, int height) {
 		super(width, height);
     }
-
-	@Override
-	protected GeneralDisplay createEntriesArray() {
-
-		return this;
-	}
 
 	@Override
 	protected GeneralDisplay createDisplayAt(int column, int row) {

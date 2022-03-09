@@ -7,12 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class DisplaysGrid implements Iterable<ArrayList<Display>> {
+public class DisplaysGrid implements Iterable<ArrayList<WriteDisplay>> {
     private int rows = 4;
     private int columns = 4;
 
     // this is to avoid having to add more rows or columns for a while
-    private List<ArrayList<Display>> grid = new ArrayList<ArrayList<Display>>();
+    private List<ArrayList<WriteDisplay>> grid = new ArrayList<ArrayList<WriteDisplay>>();
 
     // maps each grid column/row index to an absolute Shuffleboard column/row (ex. grid column/row 1 corresponds to Shuffleboard column/row 6 because a display(s) in grid column/row 0 has width/height of 5 Shuffleboard columns/rows)
     private List<Integer> absoluteColumns = Arrays.asList(0, 1, 2, 3);
@@ -20,7 +20,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 
     public DisplaysGrid() {
         for (int iii = 0; iii < rows; iii++) {
-            var newRow = new ArrayList<Display>();
+            var newRow = new ArrayList<WriteDisplay>();
             for (int jjj = 0; jjj < columns; jjj++) {
                 newRow.add(null);
             }
@@ -29,7 +29,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
     }
 
     @Override
-    public Iterator<ArrayList<Display>> iterator() {
+    public Iterator<ArrayList<WriteDisplay>> iterator() {
         return grid.iterator();
     }
 
@@ -45,11 +45,11 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return grid.get(0).get(0) != null;
     }
 
-    public Display get(int row, int column) {
+    public WriteDisplay get(int row, int column) {
         return grid.get(row).get(column);
     }
 
-    public DisplaysGrid set(int row, int column, Display display) {
+    public DisplaysGrid set(int row, int column, WriteDisplay display) {
         grid.get(row).set(column, display);
         return this;
     }
@@ -78,7 +78,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    public DisplaysGrid makeOriginWith(Display display) {
+    public DisplaysGrid makeOriginWith(WriteDisplay display) {
         assert display != null;
         assert !originDisplayIsReserved();
 
@@ -89,7 +89,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    public DisplaysGrid reserveNextColumnAtRow(int row, Display display) {
+    public DisplaysGrid reserveNextColumnAtRow(int row, WriteDisplay display) {
         assert row >= 0;
 		assert display != null;
         assert originDisplayIsReserved();
@@ -100,7 +100,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 			addRows(row - rows + 1);
 		}
 
-        Display rightmostDisplay = null;
+        WriteDisplay rightmostDisplay = null;
         // the grid column (NOT the Shuffleboard column [AKA absolute-Shuffleboard column]) of the rightmost display in the row we want
         int rightmostDisplayColumn = 0;
 		for (int column = 0; column < columns; column++) {
@@ -132,7 +132,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
             }
         }
 
-        Display bottommostDisplay = null;
+        WriteDisplay bottommostDisplay = null;
 		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
 			var displayInRow = get(rowIndex, reservedColumn);
 			if (displayInRow != null) {
@@ -164,7 +164,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    public DisplaysGrid reserveNextRowAtColumn(int column, Display display) {
+    public DisplaysGrid reserveNextRowAtColumn(int column, WriteDisplay display) {
         assert column >= 0;
         assert display != null;
         assert originDisplayIsReserved();
@@ -175,7 +175,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
 			addRows(column - columns + 1);
 		}
 
-        Display bottommostDisplay = null;
+        WriteDisplay bottommostDisplay = null;
         // the grid row (NOT the Shuffleboard row [AKA absolute-Shuffleboard row]) of the bottommost display in the column we're reserving
         int bottommostDisplayRow = 0;
 		for (int row = 0; row < rows; row++) {
@@ -204,7 +204,7 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
             }
         }
 
-        Display rightmostDisplay = null;
+        WriteDisplay rightmostDisplay = null;
 		for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
 			var displayInRow = get(reservedRow, columnIndex);
 			if (displayInRow != null) {
