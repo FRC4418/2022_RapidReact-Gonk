@@ -169,26 +169,26 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				m_manipulator.stopIndexer();
 				m_manipulator.idleLauncher();
 			}
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		
 		{ // Launcher motor
 			launcherTuningRPMTextField.addListener(event -> {
 				if (Constants.kDefaultUsingTuningMode) {
 					m_manipulator.setLauncherRPM((int) event.value.getDouble());
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalRPMTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					Constants.Manipulator.kDefaultLauncherRPM = (int) event.value.getDouble();
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalIdleRPMTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					Constants.Manipulator.kDefaultLauncherIdleRPM = (int) event.value.getDouble();
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Indexer motor
@@ -196,13 +196,13 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				if (Constants.kDefaultUsingTuningMode) {
 					m_manipulator.setIndexerPercent(event.value.getDouble());
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			indexerFinalPercentTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					Constants.Manipulator.kDefaultIndexerPercent = event.value.getDouble();
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Retractor motor
@@ -211,7 +211,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					if (Constants.kDefaultUsingTuningMode) {
 						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				retractorFinalUpDegreeTextField.addListener(event -> {
 					if (!Constants.kDefaultUsingTuningMode) {
@@ -222,7 +222,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					if (m_intake.armIsRetracted()) {
 						m_intake.retractIntakeArm();
 					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 			
 			{
@@ -230,7 +230,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					if (Constants.kDefaultUsingTuningMode) {
 						m_intake.setRetractorDegree((int) event.value.getDouble());
 					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 				retractorFinalDownDegreeTextField.addListener(event -> {
 					if (!Constants.kDefaultUsingTuningMode) {
@@ -241,7 +241,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					if (m_intake.armIsExtended()) {
 						m_intake.extendIntakeArm();
 					}
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 		}
 
@@ -250,13 +250,13 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				if (Constants.kDefaultUsingTuningMode) {
 					m_intake.setFeederPercent(event.value.getDouble());
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			feederFinalPercentTextField.addListener(event -> {
 				if (!Constants.kDefaultUsingTuningMode) {
 					Constants.Intake.kDefaultFeederPercent = event.value.getDouble();
 				}
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;
 	}

@@ -111,31 +111,31 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 		{ // Arcade forward
 			arcadeForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			arcadeForwardExponentialTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Arcade turn
 			arcadeTurnMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeTurnMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			arcadeTurnExponentialTextView.addListener(event -> {
 				m_drivetrain.setArcadeTurnExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Tank forward
 			tankForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setTankForwardMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			tankForwardExponentialTextView.addListener(event -> {
 				m_drivetrain.setTankForwardExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;
 	}

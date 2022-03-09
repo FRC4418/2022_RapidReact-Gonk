@@ -61,11 +61,11 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 	public DrivingDisplay addEntryListeners() {
 		rampTimeTextView.addListener(event -> {
 			m_drivetrain.setOpenLoopRampTimes(event.value.getDouble());
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		maxOutputTextView.addListener(event -> {
 			m_drivetrain.setMaxOutput(event.value.getDouble());
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		return this;
 	}

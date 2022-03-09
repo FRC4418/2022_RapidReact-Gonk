@@ -96,15 +96,15 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		{ // Column 1
 			usePremadeRoutineToggleSwitch.addListener(event -> {
 				m_autonomous.setUsePremadeRoutine(event.value.getBoolean());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			startDelayTimeTextView.addListener(event -> {
 				Autonomous.setStartDelaySeconds(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 			tarmacLeavingDistanceTextView.addListener(event -> {
 				Autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Column 2
