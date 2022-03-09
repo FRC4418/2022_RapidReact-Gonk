@@ -67,7 +67,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.getEntry();
 
 				tarmacLeavingDistanceTextView = column1
-					.addPersistent("Leave-Tarmac Distance [in]", Constants.Autonomous.kTarmacLeavingMeters)
+					.addPersistent("Leave-Tarmac Distance [in]", Constants.metersToInches(Constants.Autonomous.kTarmacLeavingMeters))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
