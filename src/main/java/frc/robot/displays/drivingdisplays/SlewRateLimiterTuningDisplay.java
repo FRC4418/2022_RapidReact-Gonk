@@ -54,7 +54,7 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 			.withSize(width, height);
 
 			useSlewRateLimitersToggleSwitch = layout
-				.add("On-Off", Constants.Drivetrain.kDefaultUseSlewRateLimiters)
+				.addPersistent("On-Off", Constants.Drivetrain.kDefaultUseSlewRateLimiters)
 				.withWidget(BuiltInWidgets.kToggleSwitch)
 				.getEntry();
 
@@ -63,12 +63,12 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeDriveForwardLimiterTextView = arcadeDriveLayout
-					.add("Forward", Constants.Drivetrain.SlewRates.kDefaultArcadeForward)
+					.addPersistent("Forward", Constants.Drivetrain.SlewRates.kDefaultArcadeForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				arcadeDriveTurnLimiterTextView = arcadeDriveLayout
-					.add("Turn", Constants.Drivetrain.SlewRates.kDefaultArcadeTurn)
+					.addPersistent("Turn", Constants.Drivetrain.SlewRates.kDefaultArcadeTurn)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -78,12 +78,12 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 			
 				tankDriveLeftForwardLimiterTextView = tankDriveLayout
-					.add("Left Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
+					.addPersistent("Left Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
 				tankDriveRightForwardLimiterTextView = tankDriveLayout
-					.add("Right Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
+					.addPersistent("Right Forward", Constants.Drivetrain.SlewRates.kDefaultTankForward)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -95,26 +95,26 @@ public class SlewRateLimiterTuningDisplay extends DrivingDisplay {
 	public DrivingDisplay addEntryListeners() {
 		useSlewRateLimitersToggleSwitch.addListener(event -> {
 			m_drivetrain.setUseSlewRateLimiters(event.value.getBoolean());
-		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		{	// Arcade drive
 			arcadeDriveForwardLimiterTextView.addListener(event -> {
 				m_drivetrain.setArcadeDriveForwardLimiterRate(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	
 			arcadeDriveTurnLimiterTextView.addListener(event -> {
 				m_drivetrain.setArcadeDriveTurnLimiterRate(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{	// Tank drive
 			tankDriveLeftForwardLimiterTextView.addListener(event -> {
 				m_drivetrain.setTankDriveLeftForwardLimiterRate(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			tankDriveRightForwardLimiterTextView.addListener(event -> {
 				m_drivetrain.setTankDriveRightForwardLimiterRate(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;
 	}

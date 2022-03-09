@@ -63,12 +63,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeForwardMultiplierTextView = arcadeForwardLayout
-					.add("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				arcadeForwardExponentialTextView = arcadeForwardLayout
-					.add("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultForwardExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -78,12 +78,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				arcadeTurnMultiplierTextView = arcadeTurnLayout
-					.add("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				arcadeTurnExponentialTextView = arcadeTurnLayout
-					.add("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kDefaultTurnExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -93,12 +93,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
 				tankForwardMultiplierTextView = tankForwardLayout
-					.add("Multiplier", Constants.Drivetrain.TankPolynomial.kDefaultForwardMultiplier)
+					.addPersistent("Multiplier", Constants.Drivetrain.TankPolynomial.kDefaultForwardMultiplier)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
 				tankForwardExponentialTextView = tankForwardLayout
-					.add("Exponential", Constants.Drivetrain.TankPolynomial.kDefaultForwardExponential)
+					.addPersistent("Exponential", Constants.Drivetrain.TankPolynomial.kDefaultForwardExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -111,31 +111,31 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 		{ // Arcade forward
 			arcadeForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			arcadeForwardExponentialTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Arcade turn
 			arcadeTurnMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeTurnMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			arcadeTurnExponentialTextView.addListener(event -> {
 				m_drivetrain.setArcadeTurnExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Tank forward
 			tankForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setTankForwardMultiplier(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			tankForwardExponentialTextView.addListener(event -> {
 				m_drivetrain.setTankForwardExponential(event.value.getDouble());
-			}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 		return this;
 	}
