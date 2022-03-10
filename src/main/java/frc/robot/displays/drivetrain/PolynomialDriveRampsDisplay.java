@@ -151,6 +151,20 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 			curvatureForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setCurvatureForwardMultiplier(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			curvatureForwardExponentialTextView.addListener(event -> {
+				m_drivetrain.setCurvatureForwardExponential(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}
+
+		{ // Curvature rotation
+			curvatureRotationMultiplierTextView.addListener(event -> {
+				m_drivetrain.setCurvatureRotationMultiplier(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			curvatureRotationExponentialTextView.addListener(event -> {
+				m_drivetrain.setCurvatureRotationExponential(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 
 		{ // Tank forward

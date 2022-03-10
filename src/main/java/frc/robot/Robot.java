@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		robotContainer.intake.retractIntakeArm();
+		robotContainer.intake.extendIntakeArm();
 
 		robotContainer.getAutoCommand().schedule();
 	}
