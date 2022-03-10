@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -64,17 +63,6 @@ public class Manipulator extends SubsystemBase {
         m_indexerMotor.config_kD(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kD);
 		// m_indexerMotor.config_kF(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kF);
 		return this;
-	}
-
-
-	// ----------------------------------------------------------
-	// Scheduler methods
-
-
-	@Override
-	public void periodic() {
-		// TODO: Remove this print once useless
-		SmartDashboard.putNumber("Launcher RPM", getLauncherRPM());
 	}
 
 

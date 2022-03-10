@@ -53,22 +53,12 @@ public class Drivetrain extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
-	// Odometry
+	// Odometry, kinematics, and IMU
 
 
 	private static DifferentialDriveOdometry m_odometry;
 
-	
-	// ----------------------------------------------------------
-	// Kinematics
-
-
 	public static DifferentialDriveKinematics kDriveKinematics;
-
-
-	// ----------------------------------------------------------
-	// IMU
-
 
 	private final ADIS16448_IMU imu = new ADIS16448_IMU(ADIS16448_IMU.IMUAxis.kZ, SPI.Port.kMXP, ADIS16448_IMU.CalibrationTime._1s);
 	
