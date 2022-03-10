@@ -20,11 +20,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class ExampleTrajectory extends CommandBase {
+public class SecondBallTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Private resources
 
 	private final Drivetrain m_drivetrain;
+
+	private final boolean m_reversePath;
 
 	private Trajectory exampleTrajectory;
 	private RamseteCommand ramseteCommand;
@@ -32,9 +34,9 @@ public class ExampleTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	// TODO: !!!P1!!! Rebuild any example trajectory instances after switching robot constants
-	public ExampleTrajectory(Drivetrain drivetrain) {
+	public SecondBallTrajectory(Drivetrain drivetrain, boolean reversePath) {
 		m_drivetrain = drivetrain;
+		m_reversePath = reversePath;
 
 		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint =
@@ -56,17 +58,22 @@ public class ExampleTrajectory extends CommandBase {
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 	
-		// An example trajectory to follow.  All units in meters.
-		exampleTrajectory =
-			TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
-				config);
+		// An example trajectory to follow. All units in meters.
+		if (!m_reversePath) {
+			exampleTrajectory =
+				TrajectoryGenerator.generateTrajectory(
+					new Pose2d(0, 0, new Rotation2d(0)),
+					List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+					new Pose2d(3, 0, new Rotation2d(0)),
+					config);
+		} else {
+			exampleTrajectory =
+				TrajectoryGenerator.generateTrajectory(
+					new Pose2d(3, 0, new Rotation2d(0)),
+					List.of(new Translation2d(2, -1), new Translation2d(1, 1)),
+					new Pose2d(0, 0, new Rotation2d(0)),
+					config);
+		}
 	
 		ramseteCommand =
 			new RamseteCommand(
