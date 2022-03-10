@@ -29,11 +29,15 @@ public class Climber extends SubsystemBase {
 			m_leftPinServo.setAngle(Constants.Climber.kPinOutAngle);
 			m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
 		} else {
-			m_leftPinServo.setAngle(Constants.Climber.kPinInAngle);
-			m_rightPinServo.setAngle(Constants.Climber.kPinInAngle);
+			setServosToPinInAngles();
 		}
 		pinsReleased = !pinsReleased;
 		return this;
+	}
+
+	public void setServosToPinInAngles() {
+		m_leftPinServo.setAngle(Constants.Climber.kPinInAngle);
+		m_rightPinServo.setAngle(Constants.Climber.kPinInAngle);
 	}
 
 	@Override

@@ -121,6 +121,8 @@ public class Robot extends TimedRobot {
 		} else {
 			robotContainer.lights.setAllToFastRGBCycle();
 		}
+
+		robotContainer.climber.setServosToPinInAngles();
 	}
 
 	@Override
