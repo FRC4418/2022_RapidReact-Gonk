@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,6 +26,7 @@ import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
+import frc.robot.displays.Display;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.writedisplays.autonomous.PremadeAutoRoutineDisplay;
 import frc.robot.displays.writedisplays.drivetrain.OpenLoopDrivetrainDisplay;
@@ -33,6 +35,7 @@ import frc.robot.displays.writedisplays.drivetrain.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.writedisplays.general.JoysticksDisplay;
 import frc.robot.displays.writedisplays.general.RobotChooserDisplay;
 import frc.robot.displays.writedisplays.motortuning.MainMotorsDisplay;
+import frc.robot.displays.writedisplays.motortuning.MotorPrintoutDisplay;
 import frc.robot.displays.writedisplays.vision.CamerasDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
@@ -124,6 +127,8 @@ public class RobotContainer {
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
 
+	private ArrayList<Display> printoutDisplays = new ArrayList<>();
+
 	private DisplaysGrid
 		generalDisplaysGrid = new DisplaysGrid(),
 		drivingDisplaysGrid = new DisplaysGrid(),
@@ -166,7 +171,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
-	
+		
 		// add new display grids here
 		DisplaysGrid[] displaysGrids = {
 			generalDisplaysGrid,
@@ -179,7 +184,7 @@ public class RobotContainer {
 		generalDisplaysGrid
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2));
-			
+		
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
@@ -193,8 +198,11 @@ public class RobotContainer {
 			.makeOriginWith(new CamerasDisplay(vision, 6, 4));
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
+		Display motorPrintoutDisplay;
 		motorTuningDisplaysGrid
-			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3));
+			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3))
+			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 2, 1));
+		printoutDisplays.add(motorPrintoutDisplay);
 
 		for (var grid: displaysGrids) {
 			grid.createDisplays().addEntryListeners();
@@ -210,17 +218,22 @@ public class RobotContainer {
 		instance = this;
     }
 
+	public void updatePrintoutDisplays() {
+		for (var display: printoutDisplays) {
+			display.updatePrintouts();
+		}
+	}
+
 	public static void configureConstantsDependencies() {
 		Drivetrain.configureDriveKinematics();
 	}
 
-	public RobotContainer configureNonStaticConstantsDependencies() {
+	public void configureNonStaticConstantsDependencies() {
 		drivetrain.configureMotorPIDs();
 
 		intake.configurePIDs();
 
 		manipulator.configurePIDs();
-		return this;
 	}
 
 	
@@ -229,14 +242,13 @@ public class RobotContainer {
 
 	
 	private final Joystick m_printOutjoystick = new Joystick(0);
-	public RobotContainer initializeJoystickValues() {
+	public void initializeJoystickValues() {
 		m_printOutjoystick.setXChannel(0);
 		m_printOutjoystick.setYChannel(1);
-		return this;
 	}
 
 	// just a print-out function to help with joystick controls debugging
-	public RobotContainer printJoystickValues() {
+	public void printJoystickValues() {
 		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
 		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
 
@@ -244,7 +256,6 @@ public class RobotContainer {
 		// SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
-		return this;
 	}
 
 

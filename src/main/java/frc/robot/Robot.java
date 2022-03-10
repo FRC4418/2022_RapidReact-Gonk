@@ -48,9 +48,9 @@ public class Robot extends TimedRobot {
 			.listenForJoystickModes()
 			.listenForJoystickDevices()
 			
-			.listenForPremadeAutoRoutine();
-		
-		
+			.listenForPremadeAutoRoutine()
+
+			.updatePrintoutDisplays();
 		
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer
