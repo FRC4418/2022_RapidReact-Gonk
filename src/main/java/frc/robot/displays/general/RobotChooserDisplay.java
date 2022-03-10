@@ -1,4 +1,4 @@
-package frc.robot.displays.writedisplays.general;
+package frc.robot.displays.general;
 
 
 import java.util.Map;

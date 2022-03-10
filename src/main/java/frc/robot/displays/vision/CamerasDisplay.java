@@ -1,4 +1,4 @@
-package frc.robot.displays.writedisplays.vision;
+package frc.robot.displays.vision;
 
 
 import java.util.Map;

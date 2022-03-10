@@ -1,4 +1,4 @@
-package frc.robot.displays.writedisplays.vision;
+package frc.robot.displays.vision;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

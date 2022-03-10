@@ -1,4 +1,4 @@
-package frc.robot.displays.writedisplays.autonomous;
+package frc.robot.displays.autonomous;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
