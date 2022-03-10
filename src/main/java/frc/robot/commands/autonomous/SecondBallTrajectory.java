@@ -57,7 +57,7 @@ public class SecondBallTrajectory extends CommandBase {
 				.setKinematics(Drivetrain.kDriveKinematics)
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
-	
+		
 		// An example trajectory to follow. All units in meters.
 		if (!m_reversePath) {
 			exampleTrajectory =

@@ -11,7 +11,7 @@ import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
-import frc.robot.commands.intake.RunReverseFeeder;
+import frc.robot.commands.intake.RunFeederWhileHeld;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
 import frc.robot.commands.manipulator.RunLauncher;
@@ -67,9 +67,9 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // Intake
  
         runFeederDisposalButton = runReverseFeederButton(primaryJoystick);
-        if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunReverseFeeder(intake));
+        if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunFeederWhileHeld(intake, true));
         runFeederIntakebutton = runFeederButton(primaryJoystick);
-        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexerWhileHeld(intake, manipulator));
+        if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexerWhileHeld(intake, manipulator, false));
         toggleFeederButton = toggleFeederButton(primaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
         extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);

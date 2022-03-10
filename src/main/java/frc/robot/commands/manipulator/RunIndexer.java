@@ -24,16 +24,14 @@ public class RunIndexer extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_manipulator
-			.lockIndexer()
-			.runIndexer();
+		m_manipulator.lockIndexer();
+		m_manipulator.runIndexer();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		m_manipulator
-			.stopIndexer()
-			.unlockIndexer();
+		m_manipulator.stopIndexer();
+		m_manipulator.unlockIndexer();
 	}
 
 	@Override

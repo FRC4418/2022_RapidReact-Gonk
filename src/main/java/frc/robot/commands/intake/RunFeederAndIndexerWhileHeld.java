@@ -13,13 +13,15 @@ public class RunFeederAndIndexerWhileHeld extends CommandBase {
 
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
+	private final boolean m_runReverse;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public RunFeederAndIndexerWhileHeld(Intake intake, Manipulator manipulator) {
+	public RunFeederAndIndexerWhileHeld(Intake intake, Manipulator manipulator, boolean runReverse) {
 		m_intake = intake;
 		m_manipulator = manipulator;
+		m_runReverse = runReverse;
 
 		addRequirements(m_intake);
 	}
@@ -29,8 +31,13 @@ public class RunFeederAndIndexerWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_intake.runFeeder();
-		m_manipulator.runIndexer();
+		if (!m_runReverse) {
+			m_intake.runFeeder();
+			m_manipulator.runIndexer();
+		} else {
+			m_intake.runReverseFeeder();
+			m_manipulator.runReverseIndexer();
+		}
 	}
 
 	@Override

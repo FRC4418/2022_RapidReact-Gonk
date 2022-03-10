@@ -81,42 +81,40 @@ public class Manipulator extends SubsystemBase {
 		return (rpm >= Constants.Manipulator.kIndexerMinRPM && rpm <= Constants.Manipulator.kIndexerMaxRPM);
 	}
 
-	public Manipulator setIndexerRPM(int rpm) {
+	public void setIndexerRPM(int rpm) {
 		if (withinIndexerRPMRange(rpm)) {
 			m_indexerMotor.set(ControlMode.Velocity,
 				rpm * Constants.Manipulator.kIndexerTicksReductionRatio
 				* Constants.Falcon500.kRpmToTicksPer100ms);
 		}
-		return this;
 	}
 
-	public Manipulator setIndexerPercent(double percent) {
+	public void setIndexerPercent(double percent) {
 		if (withinIndexerRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
 			m_indexerMotor.set(ControlMode.PercentOutput, percent);
 		}
-		return this;
 	}
 
-	public Manipulator runIndexer() {
+	public void runIndexer() {
 		setIndexerPercent(Constants.Manipulator.kIndexerPercent);
-		return this;
+	}
+
+	public void runReverseIndexer() {
+		setIndexerPercent(Constants.Manipulator.kReverseIndexerPercent);
 	}
 
 	// Motor locks should only be used by commands
 
-	public Manipulator stopIndexer() {
+	public void stopIndexer() {
 		setIndexerPercent(0.);
-		return this;
 	}
 
-	public Manipulator lockIndexer() {
+	public void lockIndexer() {
 		m_indexerIsLocked = true;
-		return this;
 	}
 
-	public Manipulator unlockIndexer() {
+	public void unlockIndexer() {
 		m_indexerIsLocked = false;
-		return this;
 	}
 
 	public boolean indexerIsLocked() {

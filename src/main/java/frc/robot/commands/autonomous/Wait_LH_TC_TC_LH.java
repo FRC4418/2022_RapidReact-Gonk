@@ -22,14 +22,14 @@ public class Wait_LH_TC_TC_LH extends SequentialCommandGroup {
 			new RunLauncherForTime(manipulator),
 			new ParallelCommandGroup(
 				new ExtendIntakeArm(intake, false),
-				new RunFeederAndIndexer(intake, manipulator),
+				new RunFeederAndIndexer(intake, manipulator, false),
 				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 			),
+			new RunFeederAndIndexer(intake, manipulator, true),
 			new SecondBallTrajectory(drivetrain, false),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
 			new SecondBallTrajectory(drivetrain, true),
-			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
 			new RunLauncherForTime(manipulator)
 		);
 	}

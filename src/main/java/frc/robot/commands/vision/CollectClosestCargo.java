@@ -20,7 +20,7 @@ public class CollectClosestCargo extends SequentialCommandGroup {
 			new TurnToClosestCargo(drivetrain, vision),
 			new ParallelCommandGroup(
 				new ExtendIntakeArm(intake, false),
-				new RunFeederAndIndexer(intake, manipulator),
+				new RunFeederAndIndexer(intake, manipulator, false),
 				new DriveStraightToCargo(drivetrain, vision)
 			),
 			leaveArmExtended ?

@@ -294,7 +294,8 @@ public class Constants {
 			kIndexerMaxRPM = Falcon500.kMaxRPM;
 
 		public static double
-			kIndexerPercent = 1.0;
+			kIndexerPercent = 1.0,
+			kReverseIndexerPercent = -1.0;
 
 		public static int
 			kLauncherRPM = Falcon500.kMaxRPM,

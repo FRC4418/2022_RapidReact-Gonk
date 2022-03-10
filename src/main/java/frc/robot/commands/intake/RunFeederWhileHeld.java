@@ -2,29 +2,25 @@ package frc.robot.commands.intake;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.Intake;
 
 
-public class RunReverseFeeder extends CommandBase {
-	// ----------------------------------------------------------
-	// Resource
-
+public class RunFeederWhileHeld extends CommandBase {
 	private final Intake m_intake;
+	private final boolean m_runReverse;
 
-	// ----------------------------------------------------------
-	// Constructor
-
-	public RunReverseFeeder(Intake intake) {
+	public RunFeederWhileHeld(Intake intake, boolean runReverse) {
 		m_intake = intake;
+		m_runReverse = runReverse;
 	}
-
-	// ----------------------------------------------------------
-	// Scheduler methods
 
 	@Override
 	public void initialize() {
-		m_intake.runReverseFeeder();
+		if (!m_runReverse) {
+			m_intake.runFeeder();
+		} else {
+			m_intake.runReverseFeeder();
+		}
 	}
 
 	@Override
