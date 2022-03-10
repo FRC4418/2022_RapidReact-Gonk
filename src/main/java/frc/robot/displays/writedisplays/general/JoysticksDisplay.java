@@ -73,7 +73,7 @@ public class JoysticksDisplay extends GeneralDisplay {
     int counter = 0;
 
     @Override
-    public GeneralDisplay addEntryListeners() {        
+    public void addEntryListeners() {        
         {   // Driver
             driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
                 RobotContainer.swapJoysticksFor(Pilot.DRIVER);
@@ -85,7 +85,5 @@ public class JoysticksDisplay extends GeneralDisplay {
                 RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
             }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
         }
-
-        return this;
     }
 }

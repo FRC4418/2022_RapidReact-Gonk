@@ -47,7 +47,7 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 	}
 
 	@Override
-	public DrivingDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		rampTimeTextView.addListener(event -> {
 			m_drivetrain.setOpenLoopRampTimes(event.value.getDouble());
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -55,7 +55,5 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 		maxOutputTextView.addListener(event -> {
 			m_drivetrain.setMaxOutput(event.value.getDouble());
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-
-		return this;
 	}
 }

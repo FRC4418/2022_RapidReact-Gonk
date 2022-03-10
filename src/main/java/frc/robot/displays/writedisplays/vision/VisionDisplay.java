@@ -4,10 +4,10 @@ package frc.robot.displays.writedisplays.vision;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-import frc.robot.displays.WriteDisplay;
+import frc.robot.displays.Display;
 
 
-public abstract class VisionDisplay extends WriteDisplay {
+public abstract class VisionDisplay extends Display {
     protected static final ShuffleboardTab tab = Shuffleboard.getTab("Vision");
 
     public VisionDisplay(int width, int height) {

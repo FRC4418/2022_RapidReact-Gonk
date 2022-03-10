@@ -82,6 +82,12 @@ public class Drivetrain extends SubsystemBase {
 
 
 	private double
+		curvatureForwardMultiplier = Constants.Drivetrain.CurvaturePolynomial.kForwardMultiplier,
+		curvatureForwardExponential = Constants.Drivetrain.CurvaturePolynomial.kForwardExponential,
+
+		curvatureRotationMultiplier = Constants.Drivetrain.CurvaturePolynomial.kRotationMultiplier,
+		curvatureRotationExponential = Constants.Drivetrain.CurvaturePolynomial.kRotationExponential,
+
 		arcadeForwardMultiplier = Constants.Drivetrain.ArcadePolynomial.kForwardMultiplier,
 		arcadeForwardExponential = Constants.Drivetrain.ArcadePolynomial.kForwardExponential,
 
@@ -99,11 +105,14 @@ public class Drivetrain extends SubsystemBase {
 	private boolean useSlewRateLimiters = Constants.Drivetrain.kUseSlewRateLimiters;
 
 	private SlewRateLimiter
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kArcadeForward),
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kArcadeTurn),
+		m_curvatureForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kCurvatureForward),
+		m_curvatureRotationLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kCurvatureRotation),
 
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kTankForward),
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kTankForward);
+		m_arcadeForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kArcadeForward),
+		m_arcadeTurnLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kArcadeTurn),
+
+		m_tankLeftForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kTankForward),
+		m_tankRightForwardLimiter = new SlewRateLimiter(Constants.Drivetrain.SlewRates.kTankForward);
 
 
 	// ----------------------------------------------------------
@@ -221,21 +230,6 @@ public class Drivetrain extends SubsystemBase {
 		m_reverseDrivetrain = !m_reverseDrivetrain;
 		return this;
 	}
-
-	// private Drivetrain swapMotorGroups() {
-	// 	var tempLeftGroup = m_leftGroup;
-	// 	m_leftGroup = m_rightGroup;
-	// 	m_rightGroup = tempLeftGroup;
-
-	// 	m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
-	// 	return this;
-	// }
-
-	// private Drivetrain invertMotors() {
-	// 	m_leftGroup.setInverted(!m_leftGroup.getInverted());
-	// 	m_rightGroup.setInverted(!m_rightGroup.getInverted());
-	// 	return this;
-	// }
 
 	public Drivetrain useJoystickDrivingOpenLoopRamp() {
 		setOpenLoopRampTimes(Constants.Drivetrain.kOpenLoopRampTime);
@@ -376,13 +370,14 @@ public class Drivetrain extends SubsystemBase {
 		m_differentialDrive.feed();
 	}
 
-	public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
-		
+	public void curvatureDrive(double forward, double rotation, boolean allowTurnInPlace) {
+		forward = Math.pow(curvatureForwardMultiplier * forward, curvatureForwardExponential);
+		rotation = Math.pow(curvatureRotationMultiplier * rotation, curvatureRotationExponential);
 
 		if (!m_reverseDrivetrain) {
-			m_differentialDrive.curvatureDrive(xSpeed, zRotation, allowTurnInPlace);
+			m_differentialDrive.curvatureDrive(forward, rotation, allowTurnInPlace);
 		} else {
-			m_differentialDrive.curvatureDrive(-xSpeed, zRotation, allowTurnInPlace);
+			m_differentialDrive.curvatureDrive(-forward, rotation, allowTurnInPlace);
 		}
 		m_differentialDrive.feed();
 	}
@@ -444,47 +439,65 @@ public class Drivetrain extends SubsystemBase {
 	// Output-mode configurations
 
 	public Drivetrain useDefaultSlewRates() {
-		setArcadeDriveForwardLimiterRate(Constants.Drivetrain.SlewRates.kArcadeForward);
-		setArcadeDriveTurnLimiterRate(Constants.Drivetrain.SlewRates.kArcadeTurn);
+		setArcadeForwardLimiterRate(Constants.Drivetrain.SlewRates.kArcadeForward);
+		setArcadeTurnLimiterRate(Constants.Drivetrain.SlewRates.kArcadeTurn);
 
-		setTankDriveLeftForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
-		setTankDriveRightForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
+		setTankLeftForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
+		setTankRightForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
 		return this;
 	}
 
-	// Arcade-drive limiters
+	// Curvature-drive slew-rate limiters
+
+	public Drivetrain setCurvatureForwardLimiterRate(double rate) {
+		m_curvatureForwardLimiter = new SlewRateLimiter(rate);
+		return this;
+	}
+	public double filterCurvatureForward(double forward) {
+		return m_curvatureForwardLimiter.calculate(forward);
+	}
+
+	public Drivetrain setCurvatureRotationLimiterRate(double rate) {
+		m_curvatureRotationLimiter = new SlewRateLimiter(rate);
+		return this;
+	}
+	public double filterCurvatureRotation(double rotation) {
+		return m_curvatureRotationLimiter.calculate(rotation);
+	}
+
+	// Arcade-drive slew-rate limiters
 
 	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
-	public Drivetrain setArcadeDriveForwardLimiterRate(double rate) {
-		m_arcadeDriveForwardLimiter = new SlewRateLimiter(rate);
+	public Drivetrain setArcadeForwardLimiterRate(double rate) {
+		m_arcadeForwardLimiter = new SlewRateLimiter(rate);
 		return this;
 	}
-	public double filterArcadeDriveForward(double inputSpeed) {
-		return m_arcadeDriveForwardLimiter.calculate(inputSpeed);
+	public double filterArcadeForward(double forward) {
+		return m_arcadeForwardLimiter.calculate(forward);
 	}
 
-	public Drivetrain setArcadeDriveTurnLimiterRate(double rate) {
-		m_arcadeDriveTurnLimiter = new SlewRateLimiter(rate);
+	public Drivetrain setArcadeTurnLimiterRate(double rate) {
+		m_arcadeTurnLimiter = new SlewRateLimiter(rate);
 		return this;
 	}
-	public double filterArcadeDriveTurn(double inputSpeed) {
-		return m_arcadeDriveTurnLimiter.calculate(inputSpeed);
+	public double filterArcadeTurn(double turn) {
+		return m_arcadeTurnLimiter.calculate(turn);
 	}
 
-	// Tank-drive limiters
+	// Tank-drive slew-rate limiters
 
-	public void setTankDriveLeftForwardLimiterRate(double rate) {
-		m_tankDriveLeftForwardLimiter = new SlewRateLimiter(rate);
+	public void setTankLeftForwardLimiterRate(double rate) {
+		m_tankLeftForwardLimiter = new SlewRateLimiter(rate);
 	}
-	public double filterTankDriveLeftForward(double inputSpeed) {
-		return m_tankDriveLeftForwardLimiter.calculate(inputSpeed);
+	public double filterTankLeftForward(double forward) {
+		return m_tankLeftForwardLimiter.calculate(forward);
 	}
 
-	public void setTankDriveRightForwardLimiterRate(double rate) {
-		m_tankDriveRightForwardLimiter = new SlewRateLimiter(rate);
+	public void setTankRightForwardLimiterRate(double rate) {
+		m_tankRightForwardLimiter = new SlewRateLimiter(rate);
 	}
-	public double filterTankDriveRightForward(double inputSpeed) {
-		return m_tankDriveRightForwardLimiter.calculate(inputSpeed);
+	public double filterTankRightForward(double forward) {
+		return m_tankRightForwardLimiter.calculate(forward);
 	}
 
 

@@ -40,10 +40,4 @@ public class RobotChooserDisplay extends GeneralDisplay {
 		}
 		return this;
 	}
-
-	@Override
-	public GeneralDisplay addEntryListeners() {
-
-		return this;
-	}
 }

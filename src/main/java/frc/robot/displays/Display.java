@@ -45,7 +45,7 @@ public abstract class Display {
         return height;
     }
 
-    public Display initialize() {
+    public Display createDisplays() {
         createDisplayAt(column, row);
         
         initialized = true;
@@ -53,4 +53,12 @@ public abstract class Display {
     }
 
     protected abstract Display createDisplayAt(int column, int row);
+
+    public void addEntryListeners() {
+
+    }
+
+    public void updatePrintouts() {
+
+    }
 }

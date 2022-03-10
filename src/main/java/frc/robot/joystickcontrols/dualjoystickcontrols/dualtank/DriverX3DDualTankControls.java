@@ -26,23 +26,34 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
     // Drivetrain axes
 
     @Override
-    public double getArcadeDriveForwardAxis() {
+    public double getCurvatureForwardAxis() {
         return 0.;
     }
 
     @Override
-    public double getArcadeDriveTurnAxis() {
+    public double getCurvatureRotationAxis() {
+        return 0.;
+    }
+    
+
+    @Override
+    public double getArcadeForwardAxis() {
+        return 0.;
+    }
+
+    @Override
+    public double getArcadeTurnAxis() {
         return 0.;
     }
 
     
     @Override
-    public double getTankDriveLeftAxis() {
+    public double getTankLeftAxis() {
         return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 
     @Override
-    public double getTankDriveRightAxis() {
+    public double getTankRightAxis() {
         return m_secondaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 

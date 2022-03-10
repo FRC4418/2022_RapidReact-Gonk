@@ -50,37 +50,37 @@ public class DriveWithJoysticks extends CommandBase {
 			case CURVATURE:
 				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.curvatureDrive(
-						m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
-						m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()),
+						m_drivetrain.filterCurvatureForward(activePilotJoystickControls.getCurvatureForwardAxis()),
+						m_drivetrain.filterCurvatureRotation(activePilotJoystickControls.getCurvatureRotationAxis()),
 						true);
 				} else {
 					m_drivetrain.curvatureDrive(
-						activePilotJoystickControls.getArcadeDriveForwardAxis(),
-						activePilotJoystickControls.getArcadeDriveTurnAxis(),
+						activePilotJoystickControls.getCurvatureForwardAxis(),
+						activePilotJoystickControls.getCurvatureRotationAxis(),
 						true);
 				}
 				break;
 			case ARCADE:
 				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.arcadeDrive(
-						m_drivetrain.filterArcadeDriveForward(activePilotJoystickControls.getArcadeDriveForwardAxis()),
-						m_drivetrain.filterArcadeDriveTurn(activePilotJoystickControls.getArcadeDriveTurnAxis()));
+						m_drivetrain.filterArcadeForward(activePilotJoystickControls.getArcadeForwardAxis()),
+						m_drivetrain.filterArcadeTurn(activePilotJoystickControls.getArcadeTurnAxis()));
 				} else {
 					m_drivetrain.arcadeDrive(
-						activePilotJoystickControls.getArcadeDriveForwardAxis(),
-						activePilotJoystickControls.getArcadeDriveTurnAxis());
+						activePilotJoystickControls.getArcadeForwardAxis(),
+						activePilotJoystickControls.getArcadeTurnAxis());
 				}
 				break;
 			case LONE_TANK:
 			case DUAL_TANK:
 				if (m_drivetrain.usingSlewRateLimiters()) {
 					m_drivetrain.tankDrive(
-						m_drivetrain.filterTankDriveLeftForward(activePilotJoystickControls.getTankDriveLeftAxis()),
-						m_drivetrain.filterTankDriveRightForward(activePilotJoystickControls.getTankDriveRightAxis()));
+						m_drivetrain.filterTankLeftForward(activePilotJoystickControls.getTankLeftAxis()),
+						m_drivetrain.filterTankRightForward(activePilotJoystickControls.getTankRightAxis()));
 				} else {
 					m_drivetrain.tankDrive(
-						activePilotJoystickControls.getTankDriveLeftAxis(),
-						activePilotJoystickControls.getTankDriveRightAxis());
+						activePilotJoystickControls.getTankLeftAxis(),
+						activePilotJoystickControls.getTankRightAxis());
 				}
 				break;
 		}

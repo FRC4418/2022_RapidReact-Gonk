@@ -90,7 +90,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 	}
 
 	@Override
-	public DrivingDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		{ // Arcade forward
 			arcadeForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardMultiplier(event.value.getDouble());
@@ -120,6 +120,5 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				m_drivetrain.setTankForwardExponential(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-		return this;
 	}
 }

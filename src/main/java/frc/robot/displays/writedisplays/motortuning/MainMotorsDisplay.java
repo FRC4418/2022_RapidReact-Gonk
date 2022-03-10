@@ -136,7 +136,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 	}
 
 	@Override
-	public MainMotorsDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		tuningModeToggleSwitch.addListener(event -> {
 			Constants.kUsingTuningMode = event.value.getBoolean();
 			if (!Constants.kUsingTuningMode) {
@@ -235,6 +235,5 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-		return this;
 	}
 }

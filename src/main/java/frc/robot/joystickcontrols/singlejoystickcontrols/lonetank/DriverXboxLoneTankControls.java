@@ -25,27 +25,35 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
-    // Arcade drive
+    @Override
+	public double getCurvatureForwardAxis() {
+		return 0.;
+	}
+
+	@Override
+	public double getCurvatureRotationAxis() {
+		return 0.;
+	}
+
 
     @Override
-    public double getArcadeDriveForwardAxis() {
+    public double getArcadeForwardAxis() {
         return 0.;
     }
 
     @Override
-    public double getArcadeDriveTurnAxis() {
+    public double getArcadeTurnAxis() {
         return 0.;
     }
 
-    // Tank drive
     
     @Override
-    public double getTankDriveLeftAxis() {
+    public double getTankLeftAxis() {
         return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
-    public double getTankDriveRightAxis() {
+    public double getTankRightAxis() {
         return -m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }
 

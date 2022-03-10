@@ -80,7 +80,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	}
 
 	@Override
-	public AutonomousDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		{ // Column 1
 			usePremadeRoutineToggleSwitch.addListener(event -> {
 				m_autonomous.setUsePremadeRoutine(event.value.getBoolean());
@@ -98,6 +98,5 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		{ // Column 2
 
 		}
-		return this;
 	}
 }

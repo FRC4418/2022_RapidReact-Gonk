@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 import frc.robot.Constants;
-import frc.robot.displays.IReadDisplay;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class MotorPrintoutDisplay extends MotorTuningDisplay implements IReadDisplay {
+public class MotorPrintoutDisplay extends MotorTuningDisplay {
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
 
@@ -55,12 +54,6 @@ public class MotorPrintoutDisplay extends MotorTuningDisplay implements IReadDis
 					"Center", m_manipulator.getLauncherRPM()))
 				.getEntry();
 		}
-		return this;
-	}
-
-	@Override
-	public MotorPrintoutDisplay addEntryListeners() {
-		
 		return this;
 	}
 

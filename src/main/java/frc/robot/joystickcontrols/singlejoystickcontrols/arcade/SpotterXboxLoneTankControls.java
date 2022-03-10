@@ -25,24 +25,35 @@ public class SpotterXboxLoneTankControls extends SingleJoystickControls {
     // Drivetrain axes
 
     @Override
-    public double getArcadeDriveForwardAxis() {
+	public double getCurvatureForwardAxis() {
+		return 0.;
+	}
+
+	@Override
+	public double getCurvatureRotationAxis() {
+		return 0.;
+	}
+    
+
+    @Override
+    public double getArcadeForwardAxis() {
         return 0.;
     }
 
     @Override
-    public double getArcadeDriveTurnAxis() {
+    public double getArcadeTurnAxis() {
         return 0.;
     }
 
     
     @Override
-    public double getTankDriveLeftAxis() {
+    public double getTankLeftAxis() {
         // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
         return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
     }
 
     @Override
-    public double getTankDriveRightAxis() {
+    public double getTankRightAxis() {
         // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
         return -m_primaryJoystick.getRawAxis(XboxController.RIGHT_Y_AXIS);
     }

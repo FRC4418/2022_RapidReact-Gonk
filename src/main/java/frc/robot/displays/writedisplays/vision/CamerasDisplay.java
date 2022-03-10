@@ -51,7 +51,7 @@ public class CamerasDisplay extends VisionDisplay {
 	}
 
 	@Override
-	public VisionDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		{ // Front-center
 			if (Constants.Vision.kEnableFrontCenterCamera) {
 				enableFrontCenterCameraToggleSwitch.addListener(event -> {
@@ -67,6 +67,5 @@ public class CamerasDisplay extends VisionDisplay {
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 		}
-		return this;
 	}
 }

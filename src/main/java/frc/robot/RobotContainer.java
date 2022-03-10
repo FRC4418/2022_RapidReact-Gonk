@@ -166,7 +166,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 		DriverStation.silenceJoystickConnectionWarning(disableJoystickConnectionWarnings);
-		
+	
 		// add new display grids here
 		DisplaysGrid[] displaysGrids = {
 			generalDisplaysGrid,
@@ -183,7 +183,7 @@ public class RobotContainer {
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
-			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
+			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 3, 3));
@@ -197,7 +197,7 @@ public class RobotContainer {
 			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3));
 
 		for (var grid: displaysGrids) {
-			grid.initialize().addEntryListeners();
+			grid.createDisplays().addEntryListeners();
 		}
 		
 		setupDriverJoystickControls();
