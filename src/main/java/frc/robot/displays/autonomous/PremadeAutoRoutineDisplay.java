@@ -57,7 +57,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.getEntry();
 				
 				drivingMPSTextView = column1
-					.addPersistent("Driving Velocity [ft/s]", Constants.metersToFeet(Autonomous.getDrivingMPS()) / 1.)
+					.addPersistent("Driving Velocity [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMPS()) / 1.)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
