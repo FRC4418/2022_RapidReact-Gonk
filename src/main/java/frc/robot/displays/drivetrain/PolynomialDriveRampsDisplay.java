@@ -24,6 +24,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 		arcadeTurnMultiplierTextView,
 		arcadeTurnExponentialTextView,
 
+		curvatureForwardMultiplierTextView,
+		curvatureForwardExponentialTextView,
+
+		curvatureRotationMultiplierTextView,
+		curvatureRotationExponentialTextView,
+
 		tankForwardMultiplierTextView,
 		tankForwardExponentialTextView;
 
@@ -37,7 +43,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 	protected DrivingDisplay createDisplayAt(int column, int row) {
 		{ var layout = tab
 			.getLayout("Polynomial Ramps (ax^b)", BuiltInLayouts.kGrid)
-			.withProperties(Map.of("Number of columns", 3, "Number of rows", 1, "Label position", "TOP"))
+			.withProperties(Map.of("Number of columns", 5, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
@@ -67,6 +73,36 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				
 				arcadeTurnExponentialTextView = arcadeTurnLayout
 					.addPersistent("Exponential", Constants.Drivetrain.ArcadePolynomial.kTurnExponential)
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+			}
+
+			{ var curvatureForwardLayout = layout
+				.getLayout("Curvature Forward", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
+				
+				curvatureForwardMultiplierTextView = curvatureForwardLayout
+					.addPersistent("Multiplier", Constants.Drivetrain.CurvaturePolynomial.kForwardMultiplier)
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+				
+				curvatureForwardExponentialTextView = curvatureForwardLayout
+					.addPersistent("Exponential", Constants.Drivetrain.CurvaturePolynomial.kForwardExponential)
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+			}
+
+			{ var curvatureRotationLayout = layout
+				.getLayout("Curvature Rotation", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
+
+				curvatureRotationMultiplierTextView = curvatureRotationLayout
+					.addPersistent("Multiplier", Constants.Drivetrain.CurvaturePolynomial.kRotationMultiplier)
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+				
+				curvatureRotationExponentialTextView = curvatureRotationLayout
+					.addPersistent("Exponential", Constants.Drivetrain.CurvaturePolynomial.kRotationExponential)
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -108,6 +144,12 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 
 			arcadeTurnExponentialTextView.addListener(event -> {
 				m_drivetrain.setArcadeTurnExponential(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}
+
+		{ // Curvature forward
+			curvatureForwardMultiplierTextView.addListener(event -> {
+				m_drivetrain.setCurvatureForwardMultiplier(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 

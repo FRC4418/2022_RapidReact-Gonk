@@ -384,35 +384,45 @@ public class Drivetrain extends SubsystemBase {
 	// Polynomial ramp setters
 
 
-	public Drivetrain setArcadeForwardMultiplier(double multiplier) {
+	public void setArcadeForwardMultiplier(double multiplier) {
 		Constants.Drivetrain.ArcadePolynomial.kForwardMultiplier = multiplier;
 		arcadeForwardMultiplier = multiplier;
-		return this;
 	}
 
-	public Drivetrain setArcadeForwardExponential(double exponential) {
+	public void setArcadeForwardExponential(double exponential) {
 		arcadeForwardExponential = exponential;
-		return this;
 	}
 
-	public Drivetrain setArcadeTurnMultiplier(double multiplier) {
+	public void setArcadeTurnMultiplier(double multiplier) {
 		arcadeTurnMultiplier = multiplier;
-		return this;
 	}
 
-	public Drivetrain setArcadeTurnExponential(double exponential) {
+	public void setArcadeTurnExponential(double exponential) {
 		arcadeForwardExponential = exponential;
-		return this;
 	}
 
-	public Drivetrain setTankForwardMultiplier(double multiplier) {
+	public void setCurvatureForwardMultiplier(double multiplier) {
+		curvatureForwardMultiplier = multiplier;
+	}
+
+	public void setCurvatureForwardExponential(double exponential) {
+		curvatureForwardExponential = exponential;
+	}
+
+	public void setCurvatureRotationMultiplier(double multiplier) {
+		curvatureRotationMultiplier = multiplier;
+	}
+
+	public void setCurvatureRotationExponential(double exponential) {
+		curvatureRotationExponential = exponential;
+	}
+
+	public void setTankForwardMultiplier(double multiplier) {
 		tankForwardMultiplier = multiplier;
-		return this;
 	}
 
-	public Drivetrain setTankForwardExponential(double exponential) {
+	public void setTankForwardExponential(double exponential) {
 		tankForwardExponential = exponential;
-		return this;
 	}
 
 
