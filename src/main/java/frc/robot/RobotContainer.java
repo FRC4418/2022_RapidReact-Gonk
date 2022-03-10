@@ -186,11 +186,11 @@ public class RobotContainer {
 
 		generalDisplaysGrid
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
-			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2));
+			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(4, 2));
 		
 		drivingDisplaysGrid
-			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
-			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
+			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 5, 1))
+			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 5, 2))
 			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5));
 
 		autonomousDisplaysGrid
@@ -204,7 +204,7 @@ public class RobotContainer {
 		Display motorPrintoutDisplay;
 		motorTuningDisplaysGrid
 			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3))
-			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 2, 1));
+			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 3, 2));
 		printoutDisplays.add(motorPrintoutDisplay);
 
 		for (var grid: displaysGrids) {

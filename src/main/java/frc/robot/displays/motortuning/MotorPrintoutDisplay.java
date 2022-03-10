@@ -32,7 +32,7 @@ public class MotorPrintoutDisplay extends MotorTuningDisplay {
         { var layout = tab
 			.getLayout("Printouts", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
-			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
+			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
