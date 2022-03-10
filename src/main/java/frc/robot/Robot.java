@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledExit() {
-		robotContainer.drivetrain.brakeMotors();
+		robotContainer.drivetrain.coastMotors();
 		
 		robotContainer.manipulator.idleLauncher();
 
