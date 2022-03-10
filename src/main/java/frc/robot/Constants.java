@@ -339,7 +339,7 @@ public class Constants {
 
 		public static final double
 			kPinOutAngle = 0.,
-			kPinInAngle = 50.,
+			kPinInAngle = 60.,
 
 			kDriveStraightMPS = feetToMeters(1.) / 1.;
 	}
