@@ -26,8 +26,6 @@ import frc.robot.commands.autonomous.Wait_LH_TC_TC_LH;
 import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
-import frc.robot.commands.intake.ExtendIntakeArm;
-import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.Display;
 import frc.robot.displays.DisplaysGrid;
@@ -259,21 +257,6 @@ public class RobotContainer {
 		// SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
-	}
-
-
-	// ----------------------------------------------------------
-    // Generated-command schedulers
-
-
-	public RobotContainer retractIntkeArm() {
-		(new RetractIntakeArm(intake, true)).schedule();
-		return this;
-	}
-
-	public RobotContainer extendIntakeArm() {
-		(new ExtendIntakeArm(intake, true)).schedule();
-		return this;
 	}
 
 
