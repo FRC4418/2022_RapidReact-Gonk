@@ -1,4 +1,4 @@
-package frc.robot.displays.generaldisplays;
+package frc.robot.displays.general;
 
 
 import java.util.Map;
@@ -17,12 +17,6 @@ public class RobotChooserDisplay extends GeneralDisplay {
     public RobotChooserDisplay(int width, int height) {
 		super(width, height);
     }
-
-	@Override
-	protected GeneralDisplay createEntriesArray() {
-
-		return this;
-	}
 
 	@Override
 	protected GeneralDisplay createDisplayAt(int column, int row) {
@@ -44,12 +38,6 @@ public class RobotChooserDisplay extends GeneralDisplay {
 				.add("Sendable Chooser", teamRobotChooser)
 				.withWidget(BuiltInWidgets.kSplitButtonChooser);
 		}
-		return this;
-	}
-
-	@Override
-	public GeneralDisplay addEntryListeners() {
-
 		return this;
 	}
 }

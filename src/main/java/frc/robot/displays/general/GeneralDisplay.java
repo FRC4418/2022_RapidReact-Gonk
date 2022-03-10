@@ -1,4 +1,4 @@
-package frc.robot.displays.generaldisplays;
+package frc.robot.displays.general;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

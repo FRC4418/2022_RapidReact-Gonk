@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,15 +28,17 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
+import frc.robot.displays.Display;
 import frc.robot.displays.DisplaysGrid;
-import frc.robot.displays.autonomousdisplays.PremadeAutoRoutineDisplay;
-import frc.robot.displays.drivingdisplays.OpenLoopDrivetrainDisplay;
-import frc.robot.displays.drivingdisplays.PolynomialDriveRampsDisplay;
-import frc.robot.displays.drivingdisplays.SlewRateLimiterTuningDisplay;
-import frc.robot.displays.generaldisplays.JoysticksDisplay;
-import frc.robot.displays.generaldisplays.RobotChooserDisplay;
-import frc.robot.displays.motortuningdisplays.MainMotorsDisplay;
-import frc.robot.displays.visiondisplays.CamerasDisplay;
+import frc.robot.displays.autonomous.PremadeAutoRoutineDisplay;
+import frc.robot.displays.drivetrain.OpenLoopDrivetrainDisplay;
+import frc.robot.displays.drivetrain.PolynomialDriveRampsDisplay;
+import frc.robot.displays.drivetrain.SlewRateLimiterTuningDisplay;
+import frc.robot.displays.general.JoysticksDisplay;
+import frc.robot.displays.general.RobotChooserDisplay;
+import frc.robot.displays.motortuning.MainMotorsDisplay;
+import frc.robot.displays.motortuning.MotorPrintoutDisplay;
+import frc.robot.displays.vision.CamerasDisplay;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -84,6 +87,7 @@ public class RobotContainer {
 	}
 
 	public enum JoystickMode {
+		CURVATURE,
 		ARCADE,
 		LONE_TANK,	// tank drive that uses just one joystick (ex. Xbox with two thumbsticks)
 		DUAL_TANK	// tank drive that uses two joysticsks (ex. two X3Ds, respectively for the left and right motors)
@@ -104,10 +108,8 @@ public class RobotContainer {
 
 	// joystick control resources are publicly static because 
 	public static JoystickControls driverJoystickControls;
-	public static final JoystickMode defaultDriverJoystickMode = JoystickMode.ARCADE;
-	
+
 	public static JoystickControls spotterJoystickControls;
-	public static final JoystickMode defaultSpotterJoystickMode = JoystickMode.ARCADE;
 
 
 	// ----------------------------------------------------------
@@ -116,8 +118,8 @@ public class RobotContainer {
 	
 	public static TeamRobot teamRobot = defaultRobot;
 
-	public static JoystickMode driverJoystickMode = defaultDriverJoystickMode;
-	public static JoystickMode spotterJoystickMode = defaultSpotterJoystickMode;
+	public static JoystickMode driverJoystickMode = JoystickMode.ARCADE;
+	public static JoystickMode spotterJoystickMode = JoystickMode.ARCADE;
 	
 	
     // ----------------------------------------------------------
@@ -126,6 +128,8 @@ public class RobotContainer {
 
 	private static AutonomousRoutine autoRoutine;
 	private static Command autoCommand;
+
+	private ArrayList<Display> printoutDisplays = new ArrayList<>();
 
 	private DisplaysGrid
 		generalDisplaysGrid = new DisplaysGrid(),
@@ -182,11 +186,11 @@ public class RobotContainer {
 		generalDisplaysGrid
 			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(3, 2));
-			
+		
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 3, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 3, 2))
-			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 4));
+			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 3, 5));
@@ -196,11 +200,14 @@ public class RobotContainer {
 			.makeOriginWith(new CamerasDisplay(vision, 6, 4));
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
+		Display motorPrintoutDisplay;
 		motorTuningDisplaysGrid
-			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3));
+			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3))
+			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 2, 1));
+		printoutDisplays.add(motorPrintoutDisplay);
 
 		for (var grid: displaysGrids) {
-			grid.initialize().addEntryListeners();
+			grid.createDisplays().addEntryListeners();
 		}
 		
 		setupDriverJoystickControls();
@@ -213,17 +220,22 @@ public class RobotContainer {
 		instance = this;
     }
 
+	public void updatePrintoutDisplays() {
+		for (var display: printoutDisplays) {
+			display.updatePrintouts();
+		}
+	}
+
 	public static void configureConstantsDependencies() {
 		Drivetrain.configureDriveKinematics();
 	}
 
-	public RobotContainer configureNonStaticConstantsDependencies() {
+	public void configureNonStaticConstantsDependencies() {
 		drivetrain.configureMotorPIDs();
 
 		intake.configurePIDs();
 
 		manipulator.configurePIDs();
-		return this;
 	}
 
 	
@@ -232,14 +244,13 @@ public class RobotContainer {
 
 	
 	private final Joystick m_printOutjoystick = new Joystick(0);
-	public RobotContainer initializeJoystickValues() {
+	public void initializeJoystickValues() {
 		m_printOutjoystick.setXChannel(0);
 		m_printOutjoystick.setYChannel(1);
-		return this;
 	}
 
 	// just a print-out function to help with joystick controls debugging
-	public RobotContainer printJoystickValues() {
+	public void printJoystickValues() {
 		SmartDashboard.putNumber("Get X", m_printOutjoystick.getX());
 		SmartDashboard.putNumber("Get Y", m_printOutjoystick.getY());
 
@@ -247,7 +258,6 @@ public class RobotContainer {
 		// SmartDashboard.putNumber("Raw Right Trigger", m_printOutjoystick.getRawAxis(3));
 
 		SmartDashboard.putNumber("WPI Mag", m_printOutjoystick.getMagnitude());
-		return this;
 	}
 
 

@@ -26,23 +26,34 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
     // Drivetrain axes
 
     @Override
-    public double getArcadeDriveForwardAxis() {
+    public double getCurvatureForwardAxis() {
+        return 0.;
+    }
+
+    @Override
+    public double getCurvatureRotationAxis() {
+        return 0.;
+    }
+
+
+    @Override
+    public double getArcadeForwardAxis() {
         return m_primaryJoystick.getRawAxis(X3D.PITCH_AXIS);
     }
 
     @Override
-    public double getArcadeDriveTurnAxis() {
+    public double getArcadeTurnAxis() {
         return m_primaryJoystick.getRawAxis(X3D.ROLL_AXIS);
     }
 
     
     @Override
-    public double getTankDriveLeftAxis() {
+    public double getTankLeftAxis() {
         return 0.;
     }
 
     @Override
-    public double getTankDriveRightAxis() {
+    public double getTankRightAxis() {
         return 0.;
     }
 

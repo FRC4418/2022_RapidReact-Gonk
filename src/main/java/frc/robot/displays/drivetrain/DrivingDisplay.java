@@ -1,4 +1,4 @@
-package frc.robot.displays.drivingdisplays;
+package frc.robot.displays.drivetrain;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

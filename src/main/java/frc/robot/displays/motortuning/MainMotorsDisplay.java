@@ -1,8 +1,6 @@
-package frc.robot.displays.motortuningdisplays;
+package frc.robot.displays.motortuning;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -47,30 +45,9 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
     }
 
 	@Override
-	protected MotorTuningDisplay createEntriesArray() {
-		entries = new ArrayList<>(Arrays.asList(
-			tuningModeToggleSwitch,
-
-			launcherTuningRPMTextField,
-			launcherFinalRPMTextField,
-			launcherFinalIdleRPMTextField,
-
-			indexerTuningPercentTextField,
-			indexerFinalPercentTextField,
-
-			retractorTuningUpDegreeTextField,
-			retractorFinalUpDegreeTextField,
-
-			feederTuningPercentTextField,
-			feederFinalPercentTextField
-		));
-		return this;
-	}
-
-	@Override
 	protected MotorTuningDisplay createDisplayAt(int column, int row) {
         { var layout = tab
-			.getLayout("Motor Testing", BuiltInLayouts.kGrid)
+			.getLayout("Motor Tuning", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
 			.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"))
 			.withPosition(column, row)
@@ -159,7 +136,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 	}
 
 	@Override
-	public MainMotorsDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		tuningModeToggleSwitch.addListener(event -> {
 			Constants.kUsingTuningMode = event.value.getBoolean();
 			if (!Constants.kUsingTuningMode) {
@@ -258,6 +235,5 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-		return this;
 	}
 }

@@ -1,8 +1,6 @@
-package frc.robot.displays.generaldisplays;
+package frc.robot.displays.general;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -28,16 +26,6 @@ public class JoysticksDisplay extends GeneralDisplay {
     }
 
     @Override
-    protected GeneralDisplay createEntriesArray() {
-        entries = new ArrayList<>(Arrays.asList(
-            driverSwapLeftAndRightJoysticksToggleSwitch,
-
-            spotterSwapLeftAndRightJoysticksToggleSwitch
-        ));
-        return this;
-    }
-
-    @Override
     protected GeneralDisplay createDisplayAt(int column, int row) {
         { var layout = tab
 			.getLayout("Joysticks", BuiltInLayouts.kGrid)
@@ -49,7 +37,8 @@ public class JoysticksDisplay extends GeneralDisplay {
                 .getLayout("Driver", BuiltInLayouts.kGrid)
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-                driverJoystickModeChooser.setDefaultOption("Arcade", RobotContainer.defaultDriverJoystickMode);
+                driverJoystickModeChooser.setDefaultOption("Arcade", JoystickMode.ARCADE);
+                driverJoystickModeChooser.addOption("Curvature", JoystickMode.CURVATURE);
                 driverJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
                 driverJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 driverLayout
@@ -65,8 +54,9 @@ public class JoysticksDisplay extends GeneralDisplay {
                 .getLayout("Spotter", BuiltInLayouts.kGrid)
                 .withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "TOP"));
 
-                spotterJoystickModeChooser.setDefaultOption("Lone Tank", JoystickMode.LONE_TANK);
-                spotterJoystickModeChooser.addOption("Arcade", RobotContainer.defaultSpotterJoystickMode);
+                spotterJoystickModeChooser.setDefaultOption("Arcade", JoystickMode.ARCADE);
+                spotterJoystickModeChooser.addOption("Curvature", JoystickMode.CURVATURE);
+                spotterJoystickModeChooser.addOption("Lone Tank", JoystickMode.LONE_TANK);
                 spotterJoystickModeChooser.addOption("Dual Tank", JoystickMode.DUAL_TANK);
                 spotterLayout
                     .add("Mode", spotterJoystickModeChooser)
@@ -83,7 +73,7 @@ public class JoysticksDisplay extends GeneralDisplay {
     int counter = 0;
 
     @Override
-    public GeneralDisplay addEntryListeners() {        
+    public void addEntryListeners() {        
         {   // Driver
             driverSwapLeftAndRightJoysticksToggleSwitch.addListener(event -> {
                 RobotContainer.swapJoysticksFor(Pilot.DRIVER);
@@ -95,7 +85,5 @@ public class JoysticksDisplay extends GeneralDisplay {
                 RobotContainer.swapJoysticksFor(Pilot.SPOTTER);
             }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
         }
-
-        return this;
     }
 }

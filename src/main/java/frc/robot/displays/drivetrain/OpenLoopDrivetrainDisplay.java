@@ -1,8 +1,6 @@
-package frc.robot.displays.drivingdisplays;
+package frc.robot.displays.drivetrain;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -28,15 +26,6 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
     }
 
 	@Override
-	protected DrivingDisplay createEntriesArray() {
-		entries = new ArrayList<>(Arrays.asList(
-			rampTimeTextView,
-			maxOutputTextView
-		));
-		return this;
-	}
-
-	@Override
 	protected DrivingDisplay createDisplayAt(int column, int row) {
 		{ var layout = tab
 			.getLayout("Open-Loop", BuiltInLayouts.kGrid)
@@ -58,7 +47,7 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 	}
 
 	@Override
-	public DrivingDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		rampTimeTextView.addListener(event -> {
 			m_drivetrain.setOpenLoopRampTimes(event.value.getDouble());
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -66,7 +55,5 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 		maxOutputTextView.addListener(event -> {
 			m_drivetrain.setMaxOutput(event.value.getDouble());
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-
-		return this;
 	}
 }

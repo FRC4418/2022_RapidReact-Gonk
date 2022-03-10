@@ -25,9 +25,6 @@ public class Intake extends SubsystemBase {
 	private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Intake.CAN_ID.kFeeder);
 	private final WPI_TalonFX m_retractorMotor = new WPI_TalonFX(Constants.Intake.CAN_ID.kRetractor);
 
-	// override booleans for overriding normal, continuous behavior for the retractor
-	private boolean m_retractorIsLocked = false;
-
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -158,23 +155,7 @@ public class Intake extends SubsystemBase {
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is retracted
 	public boolean armIsExtended() {
-		return Math.abs(getRetractorTicks() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
-	}
-
-	// Motor locks should only be used by commands
-
-	public Intake lockRetractor() {
-		m_retractorIsLocked = true;
-		return this;
-	}
-
-	public Intake unlockRetractor() {
-		m_retractorIsLocked = false;
-		return this;
-	}
-
-	public boolean retractorIsLocked() {
-		return m_retractorIsLocked;
+		return Math.abs(getRetractorDegree() - Constants.Intake.kExtendedIntakeRetractorDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
 

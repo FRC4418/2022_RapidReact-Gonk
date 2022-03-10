@@ -1,4 +1,4 @@
-package frc.robot.displays.visiondisplays;
+package frc.robot.displays.vision;
 
 
 import java.util.Map;
@@ -26,12 +26,6 @@ public class CamerasDisplay extends VisionDisplay {
     }
 
 	@Override
-	protected VisionDisplay createEntriesArray() {
-		
-		return this;
-	}
-
-	@Override
 	protected VisionDisplay createDisplayAt(int column, int row) {
 		{ var layout = tab
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
@@ -57,7 +51,7 @@ public class CamerasDisplay extends VisionDisplay {
 	}
 
 	@Override
-	public VisionDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		{ // Front-center
 			if (Constants.Vision.kEnableFrontCenterCamera) {
 				enableFrontCenterCameraToggleSwitch.addListener(event -> {
@@ -73,6 +67,5 @@ public class CamerasDisplay extends VisionDisplay {
 				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
 		}
-		return this;
 	}
 }

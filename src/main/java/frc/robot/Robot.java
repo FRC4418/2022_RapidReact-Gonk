@@ -49,7 +49,9 @@ public class Robot extends TimedRobot {
 			.listenForJoystickModes()
 			.listenForJoystickDevices()
 			
-			.listenForPremadeAutoRoutine();
+			.listenForPremadeAutoRoutine()
+
+			.updatePrintoutDisplays();
 		
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer
@@ -81,7 +83,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledExit() {
 		robotContainer.drivetrain.brakeMotors();
-
+		
 		robotContainer.manipulator.idleLauncher();
 
 		robotContainer.intake.retractIntakeArm();

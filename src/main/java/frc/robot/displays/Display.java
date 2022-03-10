@@ -1,11 +1,6 @@
 package frc.robot.displays;
 
 
-import java.util.ArrayList;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-
-
 public abstract class Display {
     protected boolean initialized = false;
 
@@ -14,8 +9,6 @@ public abstract class Display {
 
     protected int width;
     protected int height;
-
-    protected ArrayList<NetworkTableEntry> entries = new ArrayList<>();
 
     public Display(int width, int height) {
         assert width > 0;
@@ -52,17 +45,20 @@ public abstract class Display {
         return height;
     }
 
-    public Display initialize() {
+    public Display createDisplays() {
         createDisplayAt(column, row);
-        createEntriesArray();
         
         initialized = true;
         return this;
     }
 
-    protected abstract Display createEntriesArray();
-
     protected abstract Display createDisplayAt(int column, int row);
 
-    public abstract Display addEntryListeners();
+    public void addEntryListeners() {
+
+    }
+
+    public void updatePrintouts() {
+
+    }
 }

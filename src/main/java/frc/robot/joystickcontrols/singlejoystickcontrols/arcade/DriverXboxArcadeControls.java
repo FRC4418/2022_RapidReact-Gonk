@@ -13,121 +13,132 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class DriverXboxArcadeControls extends SingleJoystickControls {
-    // ----------------------------------------------------------
-    // Joystick helpers
+	// ----------------------------------------------------------
+	// Joystick helpers
 
-    @Override
-    protected double deadband() {
-        return XboxController.JOYSTICK_DEADBAND;
-    }
-    
-    // ----------------------------------------------------------
-    // Drivetrain axes
+	@Override
+	protected double deadband() {
+		return XboxController.JOYSTICK_DEADBAND;
+	}
+	
+	// ----------------------------------------------------------
+	// Drivetrain axes
 
-    @Override
-    public double getArcadeDriveForwardAxis() {
-        // dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
-        return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
-    }
+	@Override
+	public double getCurvatureForwardAxis() {
+		return 0.;
+	}
 
-    @Override
-    public double getArcadeDriveTurnAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
-    }
+	@Override
+	public double getCurvatureRotationAxis() {
+		return 0.;
+	}
+	
 
-    
-    @Override
-    public double getTankDriveLeftAxis() {
-        return 0.;
-    }
+	@Override
+	public double getArcadeForwardAxis() {
+		// dumb Xbox controller gives NEGATIVE values when you push the joystick FORWARAD
+		return -m_primaryJoystick.getRawAxis(XboxController.LEFT_Y_AXIS);
+	}
 
-    @Override
-    public double getTankDriveRightAxis() {
-        return 0.;
-    }
+	@Override
+	public double getArcadeTurnAxis() {
+		return m_primaryJoystick.getRawAxis(XboxController.LEFT_X_AXIS);
+	}
 
-    // ----------------------------------------------------------
-    // Drivetrain buttons
+	
+	@Override
+	public double getTankLeftAxis() {
+		return 0.;
+	}
 
-    @Override
-    public JoystickButton reverseDrivetrainButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
-    }
+	@Override
+	public double getTankRightAxis() {
+		return 0.;
+	}
 
-    @Override
-    public POVButton driveStraightPOVButton(Joystick joystick) {
-        return new POVButton(joystick, XboxController.ANGLE_UP_POV);
-    }
+	// ----------------------------------------------------------
+	// Drivetrain buttons
 
-    @Override
-    public JoystickButton driveStraightJoystickButton(Joystick joystick) {
-        return null;
-    }
+	@Override
+	public JoystickButton reverseDrivetrainButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.X_BUTTON_ID);
+	}
 
-    // ----------------------------------------------------------
-    // Intake axes
+	@Override
+	public POVButton driveStraightPOVButton(Joystick joystick) {
+		return new POVButton(joystick, XboxController.ANGLE_UP_POV);
+	}
 
-    @Override
-    public double getReverseFeederAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
-    }
+	@Override
+	public JoystickButton driveStraightJoystickButton(Joystick joystick) {
+		return null;
+	}
 
-    @Override
-    public double getFeederAxis() {
-        return m_primaryJoystick.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
-    }
+	// ----------------------------------------------------------
+	// Intake axes
 
-    // ----------------------------------------------------------
-    // Intake buttons
+	@Override
+	public double getReverseFeederAxis() {
+		return m_primaryJoystick.getRawAxis(XboxController.LEFT_TRIGGER_AXIS);
+	}
 
-    @Override
-    public JoystickButton runReverseFeederButton(Joystick joystick) {
-        return null;
-    }
+	@Override
+	public double getFeederAxis() {
+		return m_primaryJoystick.getRawAxis(XboxController.RIGHT_TRIGGER_AXIS);
+	}
 
-    @Override
-    public JoystickButton runFeederButton(Joystick joystick) {
-        return null;
-    }
+	// ----------------------------------------------------------
+	// Intake buttons
 
-    @Override
-    public JoystickButton toggleFeederButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
-    }
+	@Override
+	public JoystickButton runReverseFeederButton(Joystick joystick) {
+		return null;
+	}
 
-    @Override
-    protected JoystickButton extendIntakeArmButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
-    }
+	@Override
+	public JoystickButton runFeederButton(Joystick joystick) {
+		return null;
+	}
 
-    // ----------------------------------------------------------
-    // Manipulator buttons
+	@Override
+	public JoystickButton toggleFeederButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.A_BUTTON_ID);
+	}
 
-    @Override
-    public JoystickButton runIndexerButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.B_BUTTON_ID);
-    }
+	@Override
+	protected JoystickButton extendIntakeArmButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.Y_BUTTON_ID);
+	}
 
-    @Override
-    public JoystickButton runLauncherButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
-    }
+	// ----------------------------------------------------------
+	// Manipulator buttons
 
-    // ----------------------------------------------------------
-    // Climber buttons
+	@Override
+	public JoystickButton runIndexerButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.B_BUTTON_ID);
+	}
 
-    @Override
-    protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
-    }
+	@Override
+	public JoystickButton runLauncherButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.RIGHT_BUMPER_BUTTON_ID);
+	}
 
-    // ----------------------------------------------------------
-    // Constructor
+	// ----------------------------------------------------------
+	// Climber buttons
 
-    public DriverXboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
-        super(primaryJoystick, drivetrain, intake, manipulator, climber);
-        
-        m_primaryJoystick.setXChannel(XboxController.LEFT_X_AXIS);
-        m_primaryJoystick.setYChannel(XboxController.LEFT_Y_AXIS);
-    }
+	@Override
+	protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
+	}
+
+	// ----------------------------------------------------------
+	// Constructor
+
+	public DriverXboxArcadeControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
+		super(primaryJoystick, drivetrain, intake, manipulator, climber);
+		
+		m_primaryJoystick.setXChannel(XboxController.LEFT_X_AXIS);
+		m_primaryJoystick.setYChannel(XboxController.LEFT_Y_AXIS);
+	}
 }

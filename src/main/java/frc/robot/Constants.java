@@ -128,6 +128,15 @@ public class Constants {
 			// units in seconds
 			kOpenLoopRampTime = 0.7;
 
+		public static class CurvaturePolynomial {
+			public static double
+				kForwardMultiplier = 1.0,
+				kForwardExponential = 1.0,
+
+				kRotationMultiplier = 0.8,
+				kRotationExponential = 1.0;
+		}
+
 		public static class ArcadePolynomial {
 			public static double
 				kForwardMultiplier = 1.0,
@@ -189,8 +198,11 @@ public class Constants {
 
 		public static class SlewRates {
 			public static final double
+				kCurvatureForward = 1.58,
+				kCurvatureRotation = 1.08,
+
 				kArcadeForward = 1.58,
-				kArcadeTurn = 2.08,
+				kArcadeTurn = 1.08,
 	
 				kTankForward = 1.0;
 		}

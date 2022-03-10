@@ -8,15 +8,15 @@ import java.util.List;
 
 
 public class DisplaysGrid implements Iterable<ArrayList<Display>> {
-    private int rows = 4;
-    private int columns = 4;
+    protected int rows = 4;
+    protected int columns = 4;
 
     // this is to avoid having to add more rows or columns for a while
-    private List<ArrayList<Display>> grid = new ArrayList<ArrayList<Display>>();
+    protected List<ArrayList<Display>> grid = new ArrayList<ArrayList<Display>>();
 
     // maps each grid column/row index to an absolute Shuffleboard column/row (ex. grid column/row 1 corresponds to Shuffleboard column/row 6 because a display(s) in grid column/row 0 has width/height of 5 Shuffleboard columns/rows)
-    private List<Integer> absoluteColumns = Arrays.asList(0, 1, 2, 3);
-    private List<Integer> absoluteRows = Arrays.asList(0, 1, 2, 3);
+    protected List<Integer> absoluteColumns = Arrays.asList(0, 1, 2, 3);
+    protected List<Integer> absoluteRows = Arrays.asList(0, 1, 2, 3);
 
     public DisplaysGrid() {
         for (int iii = 0; iii < rows; iii++) {
@@ -236,20 +236,20 @@ public class DisplaysGrid implements Iterable<ArrayList<Display>> {
         return this;
     }
 
-    public DisplaysGrid initialize() {
+    public DisplaysGrid createDisplays() {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
                 var display = get(row, column);
                 if (display == null) {
                     continue;
                 }
-                display.initialize();
+                display.createDisplays();
             }
         }
         return this;
     }
 
-    public DisplaysGrid addEntryListeners() {
+	public DisplaysGrid addEntryListeners() {
         for (var row: grid) {
             for (var display: row) {
                 if (display == null) {

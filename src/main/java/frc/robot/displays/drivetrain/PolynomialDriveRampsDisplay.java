@@ -1,8 +1,6 @@
-package frc.robot.displays.drivingdisplays;
+package frc.robot.displays.drivetrain;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -34,21 +32,6 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 
 		m_drivetrain = drivetrain;
     }
-
-	@Override
-	protected DrivingDisplay createEntriesArray() {
-		entries = new ArrayList<>(Arrays.asList(
-			arcadeForwardMultiplierTextView,
-			arcadeForwardExponentialTextView,
-
-			arcadeTurnMultiplierTextView,
-			arcadeTurnExponentialTextView,
-
-			tankForwardMultiplierTextView,
-			tankForwardExponentialTextView
-		));
-		return this;
-	}
 
 	@Override
 	protected DrivingDisplay createDisplayAt(int column, int row) {
@@ -107,7 +90,7 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 	}
 
 	@Override
-	public DrivingDisplay addEntryListeners() {
+	public void addEntryListeners() {
 		{ // Arcade forward
 			arcadeForwardMultiplierTextView.addListener(event -> {
 				m_drivetrain.setArcadeForwardMultiplier(event.value.getDouble());
@@ -137,6 +120,5 @@ public class PolynomialDriveRampsDisplay extends DrivingDisplay {
 				m_drivetrain.setTankForwardExponential(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-		return this;
 	}
 }

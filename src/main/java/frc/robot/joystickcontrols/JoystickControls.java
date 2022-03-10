@@ -23,14 +23,19 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Drivetrain axes
 
-    public abstract double getArcadeDriveForwardAxis();
+    public abstract double getCurvatureForwardAxis();
 
-    public abstract double getArcadeDriveTurnAxis();
+    public abstract double getCurvatureRotationAxis();
+    
+
+    public abstract double getArcadeForwardAxis();
+
+    public abstract double getArcadeTurnAxis();
 
     
-    public abstract double getTankDriveLeftAxis();
+    public abstract double getTankLeftAxis();
 
-    public abstract double getTankDriveRightAxis();
+    public abstract double getTankRightAxis();
 
     // ----------------------------------------------------------
     // Drivetrain buttons
