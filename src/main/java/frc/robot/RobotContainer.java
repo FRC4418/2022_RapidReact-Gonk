@@ -203,8 +203,8 @@ public class RobotContainer {
 		Display motorPrintoutDisplay;
 		motorTuningDisplaysGrid
 			.makeOriginWith(new MainMotorsDisplay(intake, manipulator, 6, 3))
-			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 3, 2))
-			.reserveNextRowAtColumn(1, new ClimberServosDisplay(climber, 3, 2));
+			.reserveNextColumnAtRow(0, motorPrintoutDisplay = new MotorPrintoutDisplay(intake, manipulator, 3, 2));
+			// .reserveNextRowAtColumn(1, new ClimberServosDisplay(climber, 3, 2));
 		printoutDisplays.add(motorPrintoutDisplay);
 
 		for (var grid: displaysGrids) {

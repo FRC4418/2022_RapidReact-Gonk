@@ -21,10 +21,8 @@ public class ToggleClimberPins extends CommandBase {
 		return true;
 	}
 
-	int counter = 0;
 	@Override
 	public void initialize() {
-		SmartDashboard.putNumber("Toggled climber pins", counter++);
 		m_climber.toggleClimberPins();
 	}
 
