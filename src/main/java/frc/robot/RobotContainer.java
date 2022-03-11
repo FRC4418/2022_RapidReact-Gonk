@@ -30,6 +30,7 @@ import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.Display;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.autonomous.PremadeAutoRoutineDisplay;
+import frc.robot.displays.drivetrain.DriveStraightDisplay;
 import frc.robot.displays.drivetrain.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivetrain.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivetrain.SlewRateLimiterTuningDisplay;
@@ -190,7 +191,8 @@ public class RobotContainer {
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 5, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 5, 2))
-			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5));
+			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5))
+			.reserveNextRowAtColumn(0, new DriveStraightDisplay(autonomous, 2, 1));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 4, 4));

@@ -84,7 +84,7 @@ public class Constants {
 			kDrivetrainMPSReductionRatioV2 = 7.75;
 		
 		public static double
-			kDriveStraightPercent = 0.3;
+			kDriveStraightSpeedPercent = 0.3;
 
 		public static enum MotorGroup {
 			kLeft,

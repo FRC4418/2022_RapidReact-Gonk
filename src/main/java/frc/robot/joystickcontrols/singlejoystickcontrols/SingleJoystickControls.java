@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.Constants;
 import frc.robot.commands.climber.ReleaseClimberPins;
-import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
@@ -93,8 +93,8 @@ public abstract class SingleJoystickControls extends JoystickControls {
         toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
         if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ReleaseClimberPins(climber));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightPercent));
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightSpeedPercent));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightPercent));
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightSpeedPercent));
     }
 }
