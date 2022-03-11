@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -40,9 +39,17 @@ public class Climber extends SubsystemBase {
 		m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
 	}
 
-	@Override
-	public void periodic() {
-		SmartDashboard.putNumber("Left Angle", m_leftPinServo.getAngle());
-		SmartDashboard.putNumber("Right Angle", m_rightPinServo.getAngle());
+	public double getLeftServoAngle() {
+		return m_leftPinServo.getAngle();
+	}
+	public void setLeftServoAngle(double angle) {
+		m_leftPinServo.setAngle(angle);
+	}
+
+	public double getRightServoAngle() {
+		return m_rightPinServo.getAngle();
+	}
+	public void setRightServoAngle(double angle) {
+		m_rightPinServo.setAngle(angle);
 	}
 }

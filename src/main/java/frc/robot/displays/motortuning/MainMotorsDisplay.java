@@ -45,7 +45,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
     }
 
 	@Override
-	protected MotorTuningDisplay createDisplayAt(int column, int row) {
+	protected MainMotorsDisplay createDisplayAt(int column, int row) {
         { var layout = tab
 			.getLayout("Motor Tuning", BuiltInLayouts.kGrid)
 			// vertical stack so we can do (motor testing toggle-switch) and ([intake], [manipulator])
