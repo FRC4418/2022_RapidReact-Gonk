@@ -24,8 +24,6 @@ public class Robot extends TimedRobot {
 
 		robotContainer = new RobotContainer();
 
-		robotContainer.climber.attachPins();
-		
 		robotContainer.drivetrain
 			.configureDrivetrain(RobotContainer.defaultRobot)
 			// the robot should not be moving while the IMU is calibrating
@@ -118,6 +116,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		robotContainer.climber.attachPins();
+
 		robotContainer.drivetrain.useTeleopOpenLoopRamp();
 
 		if (robotContainer.drivetrain.isReversed()) {

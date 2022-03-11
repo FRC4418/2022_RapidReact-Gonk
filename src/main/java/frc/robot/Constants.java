@@ -338,8 +338,8 @@ public class Constants {
 			kRightServoPWMChannel = 2;
 
 		public static double
-			kPinOutAngle = 0.,
-			kPinInAngle = 60.,
+			kPinOutAngle = 60.,
+			kPinInAngle = 0.,
 
 			kDriveStraightMPS = feetToMeters(1.) / 1.;
 	}

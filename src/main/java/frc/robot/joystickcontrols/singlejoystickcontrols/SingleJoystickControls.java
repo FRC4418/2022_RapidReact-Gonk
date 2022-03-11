@@ -4,7 +4,7 @@ package frc.robot.joystickcontrols.singlejoystickcontrols;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.Constants;
-import frc.robot.commands.climber.ToggleClimberPins;
+import frc.robot.commands.climber.ReleaseClimberPins;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
@@ -91,7 +91,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
         // Climber
 
         toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
-        if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ToggleClimberPins(climber));
+        if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ReleaseClimberPins(climber));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
         if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);

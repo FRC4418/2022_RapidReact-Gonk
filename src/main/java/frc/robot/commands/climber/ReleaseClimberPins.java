@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
 
-public class ToggleClimberPins extends CommandBase {
+public class ReleaseClimberPins extends CommandBase {
 	private final Climber m_climber;
 
-	public ToggleClimberPins(Climber climber) {
+	public ReleaseClimberPins(Climber climber) {
 		m_climber = climber;
 		
 		addRequirements(m_climber);
@@ -22,7 +22,7 @@ public class ToggleClimberPins extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_climber.toggleClimberPins();
+		m_climber.releasePins();
 	}
 
 	@Override
