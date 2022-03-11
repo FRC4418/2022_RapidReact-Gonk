@@ -16,6 +16,11 @@ public class ToggleClimberPins extends CommandBase {
 		addRequirements(m_climber);
 	}
 
+	@Override
+	public boolean runsWhenDisabled() {
+		return true;
+	}
+
 	int counter = 0;
 	@Override
 	public void initialize() {
