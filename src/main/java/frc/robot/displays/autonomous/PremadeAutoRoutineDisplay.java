@@ -57,7 +57,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.getEntry();
 				
 				drivingMPSTextView = column1
-					.addPersistent("Driving Velocity [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMPS()) / 1.)
+					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxSpeedPercentage())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
@@ -104,7 +104,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			drivingMPSTextView.addListener(event -> {
-				m_autonomous.setDrivingMPS(Constants.feetToMeters(event.value.getDouble()));
+				m_autonomous.setDrivingMaxSpeedPercentage(Constants.feetToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFiringDurationTextView.addListener(event -> {

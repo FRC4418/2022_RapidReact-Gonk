@@ -17,7 +17,7 @@ public class Autonomous extends SubsystemBase {
 	private static double
 		startDelaySeconds = 0.,
 		// converting from feet per second (FPS) to meters per second (MPS)
-		drivingMPS = Constants.feetToMeters(1.5) / 1.,
+		maxSpeed = 0.5,
 		launcherFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
 
@@ -64,11 +64,11 @@ public class Autonomous extends SubsystemBase {
 		return this;
 	}
 
-	public static double getDrivingMPS() {
-		return drivingMPS;
+	public static double getDrivingMaxSpeedPercentage() {
+		return maxSpeed;
 	}
-	public Autonomous setDrivingMPS(double mps) {
-		drivingMPS = mps;
+	public Autonomous setDrivingMaxSpeedPercentage(double maxSpeed) {
+		Autonomous.maxSpeed = maxSpeed;
 		RobotContainer.instance.remakeAutoCommand();
 		return this;
 	}

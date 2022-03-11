@@ -27,15 +27,15 @@ public class DriveStraight extends CommandBase {
 	
 	protected final DriveStraightDirection m_direction;
 	
-	protected final double m_motorMPS;
+	protected final double m_maxSpeedPercentage;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double motorMPS) {
+	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double maxSpeedPercentage) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
-		m_motorMPS = motorMPS;
+		m_maxSpeedPercentage = maxSpeedPercentage;
 		
 		addRequirements(drivetrain);
 	}
@@ -60,8 +60,8 @@ public class DriveStraight extends CommandBase {
 	public void execute() {
 		var error = m_drivetrain.getHeading();
 
-		var leftSpeed = 1.0 + kP * error;
-		var rightSpeed = 1.0 - kP * error;
+		var leftSpeed = m_maxSpeedPercentage + kP * error;
+		var rightSpeed = m_maxSpeedPercentage - kP * error;
 
 		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
 	}

@@ -14,18 +14,18 @@ public class DriveStraightForDistance extends DriveStraight {
 	// ----------------------------------------------------------
 	// Constructors
 
-	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double motorMPS) {
-		super(drivetrain, direction, motorMPS);
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double maxSpeed) {
+		super(drivetrain, direction, maxSpeed);
 
 		m_distanceInMeters = distanceInMeters;
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
-		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMPS());
+		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMaxSpeedPercentage());
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double motorMPS) {
-		this(drivetrain, Autonomous.getDrivingMPS(), direction, motorMPS);
+		this(drivetrain, Autonomous.getDrivingMaxSpeedPercentage(), direction, motorMPS);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {
