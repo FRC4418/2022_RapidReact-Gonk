@@ -82,6 +82,9 @@ public class Constants {
 
 			kDrivetrainMPSReductionRatioV1 = 7.33,
 			kDrivetrainMPSReductionRatioV2 = 7.75;
+		
+		public static double
+			kDriveStraightPercent = 0.3;
 
 		public static enum MotorGroup {
 			kLeft,
@@ -340,9 +343,7 @@ public class Constants {
 
 		public static double
 			kPinOutAngle = 60.,
-			kPinInAngle = 0.,
-
-			kDriveStraightPercent = 0.3;
+			kPinInAngle = 0.;
 	}
 
 	public static class Autonomous {
