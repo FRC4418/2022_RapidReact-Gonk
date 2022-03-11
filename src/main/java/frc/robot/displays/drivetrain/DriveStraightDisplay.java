@@ -26,7 +26,7 @@ public class DriveStraightDisplay extends DrivingDisplay {
     protected Display createDisplayAt(int column, int row) {
         { var layout = tab
             .getLayout("Drive-Straight", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "TOP"))
+            .withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"))
             .withPosition(column, row)
             .withSize(width, height);
 

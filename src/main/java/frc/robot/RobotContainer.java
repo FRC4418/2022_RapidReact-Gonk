@@ -192,7 +192,7 @@ public class RobotContainer {
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 5, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 5, 2))
 			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5))
-			.reserveNextRowAtColumn(0, new DriveStraightDisplay(autonomous, 2, 1));
+			.reserveNextRowAtColumn(0, new DriveStraightDisplay(autonomous, 3, 1));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 4, 4));
