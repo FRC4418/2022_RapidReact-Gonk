@@ -263,7 +263,7 @@ void allSlowRGBCycle(int index, byte state) {
 
 
 void allGreen(int index, byte state) {
-	setAll(255, 0, 0);
+	setAll(0, 255, 0);
 }
 
 
