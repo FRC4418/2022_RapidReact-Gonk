@@ -15,8 +15,10 @@ public class Climber extends SubsystemBase {
 	private boolean pinsReleased = false;
 
 	private final Servo
-		m_leftPinServo = new Servo(Constants.Climber.kLeftServoPWMChannel),
-		m_rightPinServo = new Servo(Constants.Climber.kRightServoPWMChannel);
+		m_leftServo = new Servo(Constants.Climber.kLeftServoPWMChannel),
+		m_rightServo = new Servo(Constants.Climber.kRightServoPWMChannel);
+	
+	private double servoSetAngle = Constants.Climber.kPinInAngle;
 
 
 	// ----------------------------------------------------------
@@ -25,35 +27,39 @@ public class Climber extends SubsystemBase {
 
 	public Climber toggleClimberPins() {
 		if (!pinsReleased) {
-			releaseClimberPins();
+			releasePins();
 		} else {
-			attachClimberPins();
+			attachPins();
 		}
 		pinsReleased = !pinsReleased;
 		return this;
 	}
 
-	public void releaseClimberPins() {
-		m_leftPinServo.setAngle(Constants.Climber.kPinOutAngle);
-		m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
+	public void releasePins() {
+		setServosAngle(Constants.Climber.kPinOutAngle);
 	}
 
-	public void attachClimberPins() {
-		m_leftPinServo.setAngle(Constants.Climber.kPinInAngle);
-		m_rightPinServo.setAngle(Constants.Climber.kPinInAngle);
+	public void attachPins() {
+		setServosAngle(Constants.Climber.kPinInAngle);
 	}
 
-	public double getLeftServoAngle() {
-		return m_leftPinServo.getAngle();
-	}
-	public void setLeftServoAngle(double angle) {
-		m_leftPinServo.setAngle(angle);
+	public boolean pinsAreReleased() {
+		return servoSetAngle == Constants.Climber.kPinInAngle;
 	}
 
-	public double getRightServoAngle() {
-		return m_rightPinServo.getAngle();
+	public boolean pinsAreAttached() {
+		return servoSetAngle == Constants.Climber.kPinOutAngle;
 	}
-	public void setRightServoAngle(double angle) {
-		m_rightPinServo.setAngle(angle);
+
+	public double getServosAngle() {
+		double leftServoAngle = m_leftServo.getAngle();
+		double rightServoAngle = m_rightServo.getAngle();
+		assert leftServoAngle == rightServoAngle;
+		return leftServoAngle;
+	}
+
+	public void setServosAngle(double degree) {
+		m_leftServo.setAngle(degree);
+		m_rightServo.setAngle(degree);
 	}
 }

@@ -337,7 +337,7 @@ public class Constants {
 			kLeftServoPWMChannel = 4,
 			kRightServoPWMChannel = 2;
 
-		public static final double
+		public static double
 			kPinOutAngle = 0.,
 			kPinInAngle = 60.,
 
