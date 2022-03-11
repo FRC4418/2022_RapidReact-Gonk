@@ -92,6 +92,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		robotContainer.drivetrain.disableOpenLoopRamp();
+
 		robotContainer.intake.extendIntakeArm();
 
 		robotContainer.getAutoCommand().schedule();
@@ -114,6 +116,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		robotContainer.drivetrain.useTeleopOpenLoopRamp();
+
 		if (robotContainer.drivetrain.isReversed()) {
 			robotContainer.lights.setAllToGreen();
 		} else {

@@ -126,7 +126,7 @@ public class Constants {
 
 		public static double
 			// units in seconds
-			kOpenLoopRampTime = 0.7;
+			kTeleopOpenLoopRampTime = 0.7;
 
 		public static class CurvaturePolynomial {
 			public static double

@@ -69,7 +69,6 @@ public class DriveStraight extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
-		m_drivetrain.useJoystickDrivingOpenLoopRamp();
 
 		// undo the drivetrain reversal we did in the initialization (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {

@@ -51,6 +51,8 @@ public class Drivetrain extends SubsystemBase {
 
 	private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
+	private boolean usingTeleopOpenLoopRamp = false;
+
 
 	// ----------------------------------------------------------
 	// Odometry, kinematics, and IMU
@@ -224,19 +226,27 @@ public class Drivetrain extends SubsystemBase {
 		return this;
 	}
 
-	public Drivetrain useJoystickDrivingOpenLoopRamp() {
-		setOpenLoopRampTimes(Constants.Drivetrain.kOpenLoopRampTime);
+	public Drivetrain useTeleopOpenLoopRamp() {
+		setOpenLoopRampTimes(Constants.Drivetrain.kTeleopOpenLoopRampTime);
+		usingTeleopOpenLoopRamp = true;
+		return this;
+	}
+
+	public Drivetrain updateTeleopOpenLoopRampTime(double openLoopRampTime) {
+		Constants.Drivetrain.kTeleopOpenLoopRampTime = openLoopRampTime;
+		if (usingTeleopOpenLoopRamp) {
+			setOpenLoopRampTimes(openLoopRampTime);
+		}
 		return this;
 	}
 
 	public Drivetrain disableOpenLoopRamp() {
 		setOpenLoopRampTimes(0.);
+		usingTeleopOpenLoopRamp = false;
 		return this;
 	}
 
 	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
-		Constants.Drivetrain.kOpenLoopRampTime = timeInSeconds;
-
 		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
 		m_backLeftMotor.configOpenloopRamp(timeInSeconds);
 

@@ -34,7 +34,7 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 			.withSize(width, height);
 
 			rampTimeTextView = layout
-				.addPersistent("Ramp Time", Constants.Drivetrain.kOpenLoopRampTime)
+				.addPersistent("Ramp Time", Constants.Drivetrain.kTeleopOpenLoopRampTime)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 			
@@ -49,7 +49,7 @@ public class OpenLoopDrivetrainDisplay extends DrivingDisplay {
 	@Override
 	public void addEntryListeners() {
 		rampTimeTextView.addListener(event -> {
-			m_drivetrain.setOpenLoopRampTimes(event.value.getDouble());
+			m_drivetrain.updateTeleopOpenLoopRampTime(event.value.getDouble());
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		maxOutputTextView.addListener(event -> {
