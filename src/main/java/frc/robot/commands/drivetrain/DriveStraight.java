@@ -60,10 +60,10 @@ public class DriveStraight extends CommandBase {
 	public void execute() {
 		var error = m_drivetrain.getHeading();
 
-		var leftTankMPS = m_motorMPS + kP * error;
-		var rightTankMPS = m_motorMPS - kP * error;
+		var leftSpeed = 1.0 + kP * error;
+		var rightSpeed = 1.0 - kP * error;
 
-		m_drivetrain.tankDriveMPS(leftTankMPS, rightTankMPS);
+		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
 	}
 
 	@Override
