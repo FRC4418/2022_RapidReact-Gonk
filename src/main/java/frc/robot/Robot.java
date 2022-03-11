@@ -121,8 +121,6 @@ public class Robot extends TimedRobot {
 		}
 
 		robotContainer.intake.retractIntakeArm();
-
-		robotContainer.climber.setServosToPinInAngles();
 	}
 
 	@Override
