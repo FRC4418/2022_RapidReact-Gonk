@@ -23,6 +23,8 @@ public class Robot extends TimedRobot {
 		LiveWindow.disableAllTelemetry();
 
 		robotContainer = new RobotContainer();
+
+		robotContainer.climber.attachPins();
 		
 		robotContainer.drivetrain
 			.configureDrivetrain(RobotContainer.defaultRobot)
