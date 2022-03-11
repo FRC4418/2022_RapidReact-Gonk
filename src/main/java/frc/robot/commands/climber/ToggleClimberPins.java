@@ -1,6 +1,7 @@
 package frc.robot.commands.climber;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Climber;
@@ -15,8 +16,10 @@ public class ToggleClimberPins extends CommandBase {
 		addRequirements(m_climber);
 	}
 
+	int counter = 0;
 	@Override
 	public void initialize() {
+		SmartDashboard.putNumber("Toggled climber pins", counter++);
 		m_climber.toggleClimberPins();
 	}
 
