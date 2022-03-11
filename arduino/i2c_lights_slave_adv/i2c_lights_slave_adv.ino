@@ -15,8 +15,8 @@ on startup the strip will perform a small startup animation
 #define NUM_LEDS_UPPERS 120
 #define NUM_LEDS_UNDERGLOW 135
 
-#define DATA_PIN_UPPERS 10
-#define DATA_PIN_UNDERGLOW 7
+#define DATA_PIN_UPPERS 5
+#define DATA_PIN_UNDERGLOW 4
 
 #define UPPER 1
 #define UNDERGLOW 2
