@@ -22,7 +22,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	private NetworkTableEntry
 		usePremadeRoutineToggleSwitch,
 		startDelayTimeTextView,
-		drivingMPSTextView,
+		drivingPercentTextView,
 		launcherFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView;
@@ -44,7 +44,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 1
 			{ var column1 = layout
 				.getLayout("Column 1", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
 					.addPersistent("Use Premade Routine", Autonomous.usingPremadeRoutine())
@@ -56,13 +56,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
-				drivingMPSTextView = column1
+				drivingPercentTextView = column1
 					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxSpeedPercentage())
-					.withWidget(BuiltInWidgets.kTextView)
-					.getEntry();
-
-				launcherFiringDurationTextView = column1
-					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
@@ -87,6 +82,14 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				column2
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
+				
+				launcherFiringDurationTextView = column2
+					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+				
+				// launcherAutoFiringRPMTextView = column2
+				// 	.addPersistent("Launcher RPM", defaultValue)
 			}
 		}
 		return this;
@@ -103,7 +106,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				m_autonomous.setStartDelaySeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			drivingMPSTextView.addListener(event -> {
+			drivingPercentTextView.addListener(event -> {
 				m_autonomous.setDrivingMaxSpeedPercentage(Constants.feetToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 

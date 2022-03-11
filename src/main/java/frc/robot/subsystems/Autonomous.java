@@ -46,6 +46,8 @@ public class Autonomous extends SubsystemBase {
 	// Routine-parameter setters
 
 
+	// public static int 
+
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;
 	}

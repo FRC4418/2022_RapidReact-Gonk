@@ -285,8 +285,9 @@ public class Constants {
 
 		public static final double
 			kLauncherTicksReductionRatio = 3.,
-			kIndexerTicksReductionRatio = 9.,
+			kIndexerTicksReductionRatio = 9.;
 
+		public static final int
 			kLauncherMinRPM = -Falcon500.kMaxRPM,
 			kLauncherMaxRPM = Falcon500.kMaxRPM,
 
@@ -298,7 +299,8 @@ public class Constants {
 			kReverseIndexerPercent = -1.0;
 
 		public static int
-			kLauncherFiringRPM = Falcon500.kMaxRPM,
+			kLauncherAutoFiringRPM = Falcon500.kMaxRPM,
+			kLauncherFiringRPM = 3_100,
 			kLauncherIdleRPM = -200;
 
 		public static class CAN_ID {
