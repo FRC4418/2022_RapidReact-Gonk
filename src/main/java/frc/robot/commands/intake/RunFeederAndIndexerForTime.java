@@ -14,9 +14,9 @@ public class RunFeederAndIndexerForTime extends CommandBase {
 
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
+	private final double m_durationSeconds;
 
 	private final Timer m_timer = new Timer();
-	private final double m_durationSeconds;
 
 	// ----------------------------------------------------------
 	// Constructor
@@ -24,7 +24,6 @@ public class RunFeederAndIndexerForTime extends CommandBase {
 	public RunFeederAndIndexerForTime(Intake intake, Manipulator manipulator, double durationSeconds) {
 		m_intake = intake;
 		m_manipulator = manipulator;
-
 		m_durationSeconds = durationSeconds;
 
 		addRequirements(m_intake);

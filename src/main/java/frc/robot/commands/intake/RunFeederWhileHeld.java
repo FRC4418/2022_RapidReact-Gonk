@@ -12,6 +12,8 @@ public class RunFeederWhileHeld extends CommandBase {
 	public RunFeederWhileHeld(Intake intake, boolean runReverse) {
 		m_intake = intake;
 		m_runReverse = runReverse;
+		
+		addRequirements(m_intake);
 	}
 
 	@Override
