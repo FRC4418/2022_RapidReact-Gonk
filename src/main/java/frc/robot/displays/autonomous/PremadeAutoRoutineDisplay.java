@@ -115,9 +115,5 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
-
-		{ // Column 2
-
-		}
 	}
 }

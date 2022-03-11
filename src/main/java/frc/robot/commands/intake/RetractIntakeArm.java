@@ -22,9 +22,7 @@ public class RetractIntakeArm extends CommandBase {
 
 	@Override
 	public void initialize() {
-		if (!m_intake.armIsRetracted()) {
-			m_intake.retractIntakeArm();
-		}
+		m_intake.retractIntakeArm();
 	}
 
 	@Override

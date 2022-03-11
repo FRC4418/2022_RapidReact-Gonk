@@ -22,9 +22,7 @@ public class ExtendIntakeArm extends CommandBase {
 
 	@Override
 	public void initialize() {
-		if (!m_intake.armIsExtended()) {
-			m_intake.extendIntakeArm();
-		}
+		m_intake.extendIntakeArm();
 	}
 
 	@Override

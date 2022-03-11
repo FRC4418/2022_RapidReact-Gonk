@@ -22,7 +22,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		tuningModeToggleSwitch,
 
 		launcherTuningRPMTextField,
-		launcherFinalRPMTextField,
+		launcherFinalFiringRPMTextField,
 		launcherFinalIdleRPMTextField,
 
 		indexerTuningPercentTextField,
@@ -80,12 +80,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorTuningUpDegreeTextField = tuningColumn
-						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractorUpDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorTuningDownDegreeTextField = tuningColumn
-						.addPersistent("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kRetractorDownDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -100,7 +100,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 					.getLayout("Final Mode", BuiltInLayouts.kGrid)
 					.withProperties(Map.of("Number of columns", 1, "Number of rows", 6, "Label position", "TOP"));
 
-					launcherFinalRPMTextField = finalColumn
+					launcherFinalFiringRPMTextField = finalColumn
 						.addPersistent("Launcher RPM", 0)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
@@ -116,12 +116,12 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						.getEntry();
 
 					retractorFinalUpDegreeTextField = finalColumn
-						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractedIntakeRetractorDegree)
+						.addPersistent("Retractor Up Degree", Constants.Intake.kRetractorUpDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 
 					retractorFinalDownDegreeTextField = finalColumn
-						.addPersistent("Retractor Down Degree", Constants.Intake.kExtendedIntakeRetractorDegree)
+						.addPersistent("Retractor Down Degree", Constants.Intake.kRetractorDownDegree)
 						.withWidget(BuiltInWidgets.kTextView)
 						.getEntry();
 					
@@ -155,15 +155,29 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			launcherFinalRPMTextField.addListener(event -> {
+			launcherFinalFiringRPMTextField.addListener(event -> {
 				if (!Constants.kUsingTuningMode) {
-					Constants.Manipulator.kLauncherRPM = (int) event.value.getDouble();
+					boolean wasFiring = false;
+					if (m_manipulator.launcherIsFiring()) {
+						wasFiring = true;
+					}
+					Constants.Manipulator.kLauncherFiringRPM = (int) event.value.getDouble();
+					if (wasFiring) {
+						m_manipulator.runLauncher();
+					}
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFinalIdleRPMTextField.addListener(event -> {
 				if (!Constants.kUsingTuningMode) {
+					boolean wasIdling = false;
+					if (m_manipulator.launcherIsIdling()) {
+						wasIdling = true;
+					}
 					Constants.Manipulator.kLauncherIdleRPM = (int) event.value.getDouble();
+					if (wasIdling) {
+						m_manipulator.idleLauncher();
+					}
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
@@ -177,7 +191,15 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			indexerFinalPercentTextField.addListener(event -> {
 				if (!Constants.kUsingTuningMode) {
+					boolean wasRunning = false;
+					if (m_manipulator.indexerIsRunning()) {
+						wasRunning = true;
+					}
 					Constants.Manipulator.kIndexerPercent = event.value.getDouble();
+					Constants.Manipulator.kReverseIndexerPercent = -Constants.Manipulator.kIndexerPercent;
+					if (wasRunning) {
+						m_manipulator.runIndexer();
+					}
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
@@ -192,12 +214,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 				retractorFinalUpDegreeTextField.addListener(event -> {
 					if (!Constants.kUsingTuningMode) {
-						Constants.Intake.kRetractedIntakeRetractorDegree = (int) event.value.getDouble();
-					}
-
-					// update to the new angle if we're already retracted
-					if (m_intake.armIsRetracted()) {
-						m_intake.retractIntakeArm();
+						boolean wasRetracting = false;
+						if (m_intake.retractorIsRetracting()) {
+							wasRetracting = true;
+						}
+						Constants.Intake.kRetractorUpDegree = (int) event.value.getDouble();
+						if (wasRetracting) {
+							m_intake.retractIntakeArm();
+						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -211,12 +235,14 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 				retractorFinalDownDegreeTextField.addListener(event -> {
 					if (!Constants.kUsingTuningMode) {
-						Constants.Intake.kExtendedIntakeRetractorDegree = (int) event.value.getDouble();
-					}
-
-					// update to the new angle if we're already extended
-					if (m_intake.armIsExtended()) {
-						m_intake.extendIntakeArm();
+						boolean wasExtending = false;
+						if (m_intake.retractorIsExtending()) {
+							wasExtending = true;
+						}
+						Constants.Intake.kRetractorDownDegree = (int) event.value.getDouble();
+						if (wasExtending) {
+							m_intake.extendIntakeArm();
+						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 			}
@@ -231,7 +257,15 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 
 			feederFinalPercentTextField.addListener(event -> {
 				if (!Constants.kUsingTuningMode) {
+					boolean wasRunning = false;
+					if (m_intake.feederIsRunning()) {
+						wasRunning = true;
+					}
 					Constants.Intake.kFeederPercent = event.value.getDouble();
+					Constants.Intake.kReverseFeederPercent = -Constants.Intake.kFeederPercent;
+					if (wasRunning) {
+						m_intake.runFeeder();
+					}
 				}
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}

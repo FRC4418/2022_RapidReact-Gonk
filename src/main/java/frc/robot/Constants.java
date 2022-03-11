@@ -227,8 +227,8 @@ public class Constants {
 			kReverseFeederPercent = -0.5,
 			kFeederPercent = 0.5,
 
-			kRetractedIntakeRetractorDegree = -4.,
-			kExtendedIntakeRetractorDegree = 82.;
+			kRetractorUpDegree = -4.,
+			kRetractorDownDegree = 82.;
 
 		public static final double
 			kRetractorDegreeTolerance = 4.,
@@ -298,7 +298,7 @@ public class Constants {
 			kReverseIndexerPercent = -1.0;
 
 		public static int
-			kLauncherRPM = Falcon500.kMaxRPM,
+			kLauncherFiringRPM = Falcon500.kMaxRPM,
 			kLauncherIdleRPM = -200;
 
 		public static class CAN_ID {
