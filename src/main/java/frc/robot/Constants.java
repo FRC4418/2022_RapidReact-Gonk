@@ -299,7 +299,6 @@ public class Constants {
 			kReverseIndexerPercent = -1.0;
 
 		public static int
-			kLauncherAutoFiringRPM = Falcon500.kMaxRPM,
 			kLauncherFiringRPM = 3_100,
 			kLauncherIdleRPM = -200;
 
@@ -343,7 +342,7 @@ public class Constants {
 			kPinOutAngle = 60.,
 			kPinInAngle = 0.,
 
-			kDriveStraightMPS = feetToMeters(1.) / 1.;
+			kDriveStraightPercent = 0.3;
 	}
 
 	public static class Autonomous {

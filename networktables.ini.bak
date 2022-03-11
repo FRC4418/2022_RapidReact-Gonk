@@ -4,9 +4,6 @@ double "/Shuffleboard/Autonomous/Autonomous/Column 1/Launcher-Firing Duration [s
 double "/Shuffleboard/Autonomous/Autonomous/Column 1/Leave-Tarmac Distance [in]"=72
 double "/Shuffleboard/Autonomous/Autonomous/Column 1/Start Delay [s]"=0
 boolean "/Shuffleboard/Autonomous/Autonomous/Column 1/Use Premade Routine"=true
-double "/Shuffleboard/Autonomous/Autonomous/Column 2/Driving Max Speed [1.0 percent]"=0.5
-double "/Shuffleboard/Autonomous/Autonomous/Column 2/Launcher RPM"=5500
-double "/Shuffleboard/Autonomous/Autonomous/Column 2/Launcher-Firing Duration [s]"=1.25
 double "/Shuffleboard/Driving/Open-Loop/Max Output"=1
 double "/Shuffleboard/Driving/Open-Loop/Ramp Time"=0.7
 double "/Shuffleboard/Driving/Polynomial Ramps (ax^b)/Arcade Forward/Exponential"=1
