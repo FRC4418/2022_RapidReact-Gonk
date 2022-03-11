@@ -83,8 +83,6 @@ public class Robot extends TimedRobot {
 		robotContainer.drivetrain.coastMotors();
 		
 		robotContainer.manipulator.idleLauncher();
-
-		robotContainer.intake.retractIntakeArm();
 	}
 
 
@@ -121,6 +119,8 @@ public class Robot extends TimedRobot {
 		} else {
 			robotContainer.lights.setAllToFastRGBCycle();
 		}
+
+		robotContainer.intake.retractIntakeArm();
 
 		robotContainer.climber.setServosToPinInAngles();
 	}
