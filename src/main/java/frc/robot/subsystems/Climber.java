@@ -25,14 +25,22 @@ public class Climber extends SubsystemBase {
 
 	public Climber toggleClimberPins() {
 		if (!pinsReleased) {
-			m_leftPinServo.setAngle(Constants.Climber.kPinOutAngle);
-			m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
+			releaseClimberPins();
 		} else {
-			m_leftPinServo.setAngle(Constants.Climber.kPinInAngle);
-			m_rightPinServo.setAngle(Constants.Climber.kPinInAngle);
+			attachClimberPins();
 		}
 		pinsReleased = !pinsReleased;
 		return this;
+	}
+
+	public void releaseClimberPins() {
+		m_leftPinServo.setAngle(Constants.Climber.kPinOutAngle);
+		m_rightPinServo.setAngle(Constants.Climber.kPinOutAngle);
+	}
+
+	public void attachClimberPins() {
+		m_leftPinServo.setAngle(Constants.Climber.kPinInAngle);
+		m_rightPinServo.setAngle(Constants.Climber.kPinInAngle);
 	}
 
 	public double getLeftServoAngle() {
