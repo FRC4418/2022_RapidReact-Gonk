@@ -16,6 +16,8 @@ public class RunFeederAndIndexer extends CommandBase {
 		m_intake = intake;
 		m_manipulator = manipulator;
 		m_runReverse = runReverse;
+
+		addRequirements(m_intake);
 	}
 
 	@Override
