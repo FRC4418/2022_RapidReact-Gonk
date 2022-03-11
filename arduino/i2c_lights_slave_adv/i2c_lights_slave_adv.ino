@@ -187,6 +187,9 @@ void startupEffect() {
 	for (int i=3; i<5; i++) {
 		patternEnabled[i] = false;
 	}
+
+	// Uncomment this and change its index to test different patterns
+	// patternEnabled[5] = true;
 }
 
 
@@ -195,38 +198,22 @@ void startupEffect() {
 
 
 void allFastRGBCycle(int index, byte state) {
-	static CRGBPalette16 currentPalette = RainbowColors_p;
-	static CRGBPalette16 targetPalette;
-	static TBlendType currentBlending = LINEARBLEND;
-	// Serial.println("idle");
-	uint8_t maxChanges = 24;
-	// AWESOME palette blending capability.
-	nblendPaletteTowardPalette(currentPalette, targetPalette, maxChanges);
-
-	// That's the same as beatsin8(9);
-	uint8_t wave1 = beatsin8(1, 0, 255);
-	uint8_t wave2 = beatsin8(2, 0, 255);
-	uint8_t wave3 = beatsin8(3, 0, 255);
-	uint8_t wave4 = beatsin8(5, 0, 255);
-
-	for (int i=0; i<NUM_LEDS_UPPERS; i++) {
-		ledsUpper[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending); 
-	}
-	for (int i=0; i<NUM_LEDS_UNDERGLOW; i++) {
-		ledsUnderglow[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending);
-	}
-
-	FastLED.show();
-
-	EVERY_N_SECONDS(3) {
-		targetPalette = CRGBPalette16(
-		CHSV(random8(), 255, random8(128,255)),
-		CHSV(random8(), 255, random8(128,255)),
-		CHSV(random8(), 192, random8(128,255)),
-		CHSV(random8(), 255, random8(128,255)));
-	}
+	allFillRainbowWithSpeed(120);
 }
 
+
+void allSlowRGBCycle(int index, byte state) {
+	allFillRainbowWithSpeed(10);
+}
+
+void allFillRainbowWithSpeed(uint8_t speed) {
+	// last argument is deltaHue (larger value means more color separations [weird, ik])
+	fill_rainbow(ledsUpper, NUM_LEDS_UPPERS, beat8(speed, 255), 3);	
+	FastLED.show();
+}
+
+/*
+Reference code
 
 void allSlowRGBCycle(int index, byte state) {
 	static CRGBPalette16 currentPalette = RainbowColors_p;
@@ -260,6 +247,7 @@ void allSlowRGBCycle(int index, byte state) {
 		CHSV(random8(), 255, random8(128,255)));
 	}
 }
+*/
 
 
 void allGreen(int index, byte state) {
