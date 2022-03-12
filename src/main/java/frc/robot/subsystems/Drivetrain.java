@@ -175,6 +175,8 @@ public class Drivetrain extends SubsystemBase {
 
 		SmartDashboard.putNumber("Left Dist", getLeftDistanceMeters());
 		SmartDashboard.putNumber("Right Dist", getRightDistanceMeters());
+
+		SmartDashboard.putNumber("Average Dist", getAverageDistanceMeters());
 	}
 
 
@@ -226,6 +228,8 @@ public class Drivetrain extends SubsystemBase {
 		return m_reverseDrivetrain;
 	}
 	public Drivetrain reverseDrivetrain() {
+		leftMotorsDirectionMultiplier *= -1;
+		rightMotorsDirectionMultiplier *= -1;
 		m_reverseDrivetrain = !m_reverseDrivetrain;
 		return this;
 	}
