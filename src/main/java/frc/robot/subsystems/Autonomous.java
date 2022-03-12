@@ -20,6 +20,9 @@ public class Autonomous extends SubsystemBase {
 		maxSpeed = 0.5,
 		launcherFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
+	
+	private static int
+		launcherAutoFiringRPM = 5_500;
 
 	// ----------------------------------------------------------
 	// Public constants
@@ -45,6 +48,15 @@ public class Autonomous extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Routine-parameter setters
 
+
+	public static int getLauncherAutoRPM() {
+		return launcherAutoFiringRPM;
+	}
+	public void setLauncherAutoRPM(int rpm) {
+		launcherAutoFiringRPM = rpm;
+		RobotContainer.instance.remakeAutoCommand();
+
+	}
 
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;

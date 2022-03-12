@@ -7,33 +7,30 @@ import frc.robot.subsystems.Manipulator;
 
 
 public class RunLauncher extends CommandBase {
-	// ----------------------------------------------------------
-	// Resource
-
 	private final Manipulator m_manipulator;
+	private final int customRPM;
 
-	// ----------------------------------------------------------
-	// Constructor
-
-	public RunLauncher(Manipulator manipulator) {	
-		m_manipulator = manipulator; 
+	public RunLauncher(Manipulator manipulator, int rpm) {
+		m_manipulator = manipulator;
+		customRPM = rpm;
 	}
 
-	// ----------------------------------------------------------
-	// Scheduler methods
+	public RunLauncher(Manipulator manipulator) {
+		this(manipulator, 0);
+	}
 
 	@Override
 	public void initialize() {
-		m_manipulator.runLauncher();
+		// sentinel value of 0 means we're just using the default teleop launcher RPM
+		if (customRPM == 0) {
+			m_manipulator.runLauncher();
+		} else {
+			m_manipulator.setLauncherRPM(customRPM);
+		}
 	}
 
 	@Override
-	public void end(boolean interrupted) {
-		m_manipulator.idleLauncher();
-	}	
-
-	@Override
 	public boolean isFinished() {
-		return false;
+		return true;
 	}
 }

@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.Constants;
 import frc.robot.commands.climber.ReleaseClimberPins;
-import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
 import frc.robot.commands.intake.RunFeederWhileHeld;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
-import frc.robot.commands.manipulator.RunLauncher;
+import frc.robot.commands.manipulator.RunLauncherWhileHeld;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -88,7 +88,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
         runLauncherButton = runLauncherButton(primaryJoystick);
-        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
+        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncherWhileHeld(manipulator));
 
         // ----------------------------------------------------------
         // Climber
@@ -96,8 +96,8 @@ public abstract class DualJoystickControls extends JoystickControls {
         toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
         if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ReleaseClimberPins(climber));
         driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
+        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightSpeedPercent));
         driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
+        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightSpeedPercent));
     }
 }
