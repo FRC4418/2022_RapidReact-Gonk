@@ -90,7 +90,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.getEntry();
 
 				launcherFiringDurationTextView = column2
-					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+					.addPersistent("2-Ball Firing Duration [s]", Autonomous.getTwoBallFiringDurationSeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -124,7 +124,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFiringDurationTextView.addListener(event -> {
-				m_autonomous.setLauncherFiringDurationSeconds(event.value.getDouble());
+				m_autonomous.setTwoBallFiringDurationSeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 	}

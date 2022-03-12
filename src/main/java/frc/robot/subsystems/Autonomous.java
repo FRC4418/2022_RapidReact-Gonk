@@ -18,7 +18,8 @@ public class Autonomous extends SubsystemBase {
 		startDelaySeconds = 0.,
 		// converting from feet per second (FPS) to meters per second (MPS)
 		maxSpeed = 0.5,
-		launcherFiringDurationSeconds = 1.25,
+		oneBallFiringDurationSeconds = 0.5,
+		twoBallFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
 	
 	private static int
@@ -85,11 +86,16 @@ public class Autonomous extends SubsystemBase {
 		return this;
 	}
 
-	public static double getLauncherFiringDurationSeconds() {
-		return launcherFiringDurationSeconds;
+	public static double getOneBallFiringDurationSeconds() {
+		return oneBallFiringDurationSeconds;
 	}
-	public Autonomous setLauncherFiringDurationSeconds(double seconds) {
-		launcherFiringDurationSeconds = seconds;
+	// public Autonomous set
+
+	public static double getTwoBallFiringDurationSeconds() {
+		return twoBallFiringDurationSeconds;
+	}
+	public Autonomous setTwoBallFiringDurationSeconds(double seconds) {
+		twoBallFiringDurationSeconds = seconds;
 		RobotContainer.instance.remakeAutoCommand();
 		return this;
 	}
