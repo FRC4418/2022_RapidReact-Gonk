@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.intake.RetractIntakeArm;
 
 
 public class Robot extends TimedRobot {
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		robotContainer.intake.retractIntakeArm();
+		(new RetractIntakeArm(robotContainer.intake, true)).schedule();
 		
 		robotContainer.manipulator.stopLauncher();
 		
