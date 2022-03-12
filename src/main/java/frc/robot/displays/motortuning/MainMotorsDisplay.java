@@ -143,8 +143,9 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		tuningModeToggleSwitch.addListener(event -> {
 			Constants.kUsingTuningMode = event.value.getBoolean();
 			if (!Constants.kUsingTuningMode) {
-				(new RetractIntakeArm(m_intake, true)).schedule();
-				(new StopFeederAndIndexer(m_intake, m_manipulator, true)).schedule();
+				m_intake.retractIntakeArm();
+				m_intake.stopFeeder();
+				m_manipulator.stopIndexer();
 				m_manipulator.idleLauncher();
 			}
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -221,7 +222,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						}
 						Constants.Intake.kRetractorUpDegree = (int) event.value.getDouble();
 						if (wasRetracting) {
-							(new RetractIntakeArm(m_intake, false)).schedule();
+							m_intake.retractIntakeArm();
 						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -242,7 +243,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						}
 						Constants.Intake.kRetractorDownDegree = (int) event.value.getDouble();
 						if (wasExtending) {
-							(new ExtendIntakeArm(m_intake, false)).schedule();
+							m_intake.extendIntakeArm();
 						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);

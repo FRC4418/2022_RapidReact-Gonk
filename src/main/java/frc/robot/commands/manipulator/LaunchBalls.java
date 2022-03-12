@@ -8,8 +8,8 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Manipulator;
 
 
-public class RunLauncherAutoRPMForAutoTime extends SequentialCommandGroup {
-	public RunLauncherAutoRPMForAutoTime(Manipulator manipulator) {
+public class LaunchBalls extends SequentialCommandGroup {
+	public LaunchBalls(Manipulator manipulator) {
 		super(
 			new RunLauncher(manipulator, Autonomous.getLauncherAutoRPM()),
 			new WaitFor(Autonomous.getLauncherFiringDurationSeconds()),

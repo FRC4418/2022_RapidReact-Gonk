@@ -38,7 +38,8 @@ public class ToggleIndexBall extends CommandBase {
 
 	@Override
 	public void initialize() {
-		(new RunFeederAndIndexer(m_intake, m_manipulator, false)).schedule();
+		m_intake.runFeeder();
+		m_manipulator.runIndexer();
 	}
 
 	@Override
