@@ -20,9 +20,9 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxArcad
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxLoneTankControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
 import frc.robot.commands.autonomous.Wait_LH_LT;
-import frc.robot.commands.autonomous.Wait_LH_PC_LH;
+import frc.robot.commands.autonomous.Wait_LH_PC_Wait_LH;
 import frc.robot.commands.autonomous.Wait_LH_RC_LT;
-import frc.robot.commands.autonomous.Wait_LH_TC_TC_LH;
+import frc.robot.commands.autonomous.Wait_LH_TC_Wait_TC_LH;
 import frc.robot.commands.autonomous.LH_Wait_LT;
 import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
@@ -318,11 +318,11 @@ public class RobotContainer {
 			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
 				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
 				break;
-			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH:
-				autoCommand = new Wait_LH_PC_LH(drivetrain, intake, manipulator);
+			case WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_WAIT_AND_SCORE_LH:
+				autoCommand = new Wait_LH_PC_Wait_LH(drivetrain, intake, manipulator);
 				break;
-			case WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH:
-				autoCommand = new Wait_LH_TC_TC_LH(drivetrain, intake, manipulator);
+			case WAIT_LH_AND_TRAJECTORY_COLLECT_ONE_AND_WAIT_AND_GET_SECOND_AND_LH:
+				autoCommand = new Wait_LH_TC_Wait_TC_LH(drivetrain, intake, manipulator);
 				break;
 			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
 				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);

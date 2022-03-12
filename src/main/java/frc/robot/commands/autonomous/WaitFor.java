@@ -21,10 +21,6 @@ public class WaitFor extends CommandBase {
 		m_delayTimeSeconds = delayTimeSeconds;
 	}
 
-	public WaitFor() {
-		this(Autonomous.getStartDelaySeconds());
-	}
-
 	// ----------------------------------------------------------
 	// Scheduler methods
 
