@@ -26,7 +26,7 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 				new RunFeederAndIndexer(intake, manipulator, false),
 				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 			),
-			new StopFeederAndIndexer(intake, manipulator),
+			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake, false),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
 			new RunLauncherForTime(manipulator)

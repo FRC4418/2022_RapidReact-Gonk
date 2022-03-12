@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 
 
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		robotContainer.drivetrain.disableOpenLoopRamp();
 
-		robotContainer.intake.extendIntakeArm();
+		(new ExtendIntakeArm(robotContainer.intake, false)).schedule();
 
 		robotContainer.getAutoCommand().schedule();
 	}
@@ -127,7 +128,7 @@ public class Robot extends TimedRobot {
 			robotContainer.lights.setAllToFastRGBCycle();
 		}
 
-		robotContainer.intake.retractIntakeArm();
+		(new RetractIntakeArm(robotContainer.intake, true)).schedule();
 	}
 
 	@Override

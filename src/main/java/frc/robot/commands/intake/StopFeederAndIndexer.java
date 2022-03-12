@@ -10,10 +10,17 @@ import frc.robot.subsystems.Manipulator;
 public class StopFeederAndIndexer extends CommandBase {
 	private final Intake m_intake;
 	private final Manipulator m_manipulator;
+	private final boolean m_runWhenDisabled;
 
-	public StopFeederAndIndexer(Intake intake, Manipulator manipulator) {
+	public StopFeederAndIndexer(Intake intake, Manipulator manipulator, boolean runWhenDisabled) {
 		m_intake = intake;
 		m_manipulator = manipulator;
+		m_runWhenDisabled = runWhenDisabled;
+	}
+
+	@Override
+	public boolean runsWhenDisabled() {
+		return m_runWhenDisabled;
 	}
 
 	@Override

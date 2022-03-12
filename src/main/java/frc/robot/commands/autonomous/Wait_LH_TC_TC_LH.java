@@ -28,7 +28,7 @@ public class Wait_LH_TC_TC_LH extends SequentialCommandGroup {
 			),
 			new RunFeederAndIndexer(intake, manipulator, true),
 			new SecondBallTrajectory(drivetrain, false),
-			new StopFeederAndIndexer(intake, manipulator),
+			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake, false),
 			new SecondBallTrajectory(drivetrain, true),
 			new RunLauncherForTime(manipulator)

@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 import frc.robot.Constants;
+import frc.robot.commands.intake.ExtendIntakeArm;
+import frc.robot.commands.intake.RetractIntakeArm;
+import frc.robot.commands.intake.StopFeederAndIndexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
@@ -140,10 +143,8 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 		tuningModeToggleSwitch.addListener(event -> {
 			Constants.kUsingTuningMode = event.value.getBoolean();
 			if (!Constants.kUsingTuningMode) {
-				m_intake.retractIntakeArm();
-				m_intake.stopFeeder();
-				
-				m_manipulator.stopIndexer();
+				(new RetractIntakeArm(m_intake, true)).schedule();
+				(new StopFeederAndIndexer(m_intake, m_manipulator, true)).schedule();
 				m_manipulator.idleLauncher();
 			}
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -220,7 +221,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						}
 						Constants.Intake.kRetractorUpDegree = (int) event.value.getDouble();
 						if (wasRetracting) {
-							m_intake.retractIntakeArm();
+							(new RetractIntakeArm(m_intake, false)).schedule();
 						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
@@ -241,7 +242,7 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 						}
 						Constants.Intake.kRetractorDownDegree = (int) event.value.getDouble();
 						if (wasExtending) {
-							m_intake.extendIntakeArm();
+							(new ExtendIntakeArm(m_intake, false)).schedule();
 						}
 					}
 				}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
