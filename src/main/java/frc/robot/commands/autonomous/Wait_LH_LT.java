@@ -14,7 +14,7 @@ public class Wait_LH_LT extends SequentialCommandGroup {
 	public Wait_LH_LT(Drivetrain drivetrain, Manipulator manipulator) {
 		super(
 			new WaitFor(),
-			new LaunchBalls(manipulator),
+			new LaunchBalls(manipulator, 2),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 		);
 	}

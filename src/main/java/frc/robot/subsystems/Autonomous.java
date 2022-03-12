@@ -89,15 +89,17 @@ public class Autonomous extends SubsystemBase {
 	public static double getOneBallFiringDurationSeconds() {
 		return oneBallFiringDurationSeconds;
 	}
-	// public Autonomous set
+	public void setOneBallFiringDurationSeconds(double seconds) {
+		oneBallFiringDurationSeconds = seconds;
+		RobotContainer.instance.remakeAutoCommand();
+	}
 
 	public static double getTwoBallFiringDurationSeconds() {
 		return twoBallFiringDurationSeconds;
 	}
-	public Autonomous setTwoBallFiringDurationSeconds(double seconds) {
+	public void setTwoBallFiringDurationSeconds(double seconds) {
 		twoBallFiringDurationSeconds = seconds;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 
 	public static double getTarmacLeavingMeters() {

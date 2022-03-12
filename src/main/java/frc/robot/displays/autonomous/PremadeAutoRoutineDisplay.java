@@ -24,7 +24,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		startDelayTimeTextView,
 		drivingPercentTextView,
 		launcherAutoRPMTextView,
-		launcherFiringDurationTextView,
+		oneBallFiringDurationTextView,
+		twoBallFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView;
     
@@ -45,7 +46,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 1
 			{ var column1 = layout
 				.getLayout("Column 1", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
 					.addPersistent("Use Premade Routine", Autonomous.usingPremadeRoutine())
@@ -61,13 +62,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.addPersistent("Leave-Tarmac Distance [in]", Constants.metersToInches(Autonomous.getTarmacLeavingMeters()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
-			}
-
-			// Column 2
-			{ var column2 = layout
-				.getLayout("Column 2", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
-
+				
 				// setting default options for sendable choosers also adds the label-value pair as an option
 				autoRoutineChooser.setDefaultOption("Wait LH PC LH", AutonomousRoutine.WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH);
 				autoRoutineChooser.addOption("Wait LT", AutonomousRoutine.WAIT_AND_LEAVE_TARMAC);
@@ -75,9 +70,15 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("Trajectory", AutonomousRoutine.WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH);
 				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
-				column2
+				column1
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
+			}
+
+			// Column 2
+			{ var column2 = layout
+				.getLayout("Column 2", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 				
 				drivingPercentTextView = column2
 					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxSpeedPercentage())
@@ -88,8 +89,13 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.addPersistent("Launcher RPM", Autonomous.getLauncherAutoRPM())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
+				
+				oneBallFiringDurationTextView = column2
+					.addPersistent("1-Ball Firing Duration [s]", Autonomous.getOneBallFiringDurationSeconds())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
 
-				launcherFiringDurationTextView = column2
+				twoBallFiringDurationTextView = column2
 					.addPersistent("2-Ball Firing Duration [s]", Autonomous.getTwoBallFiringDurationSeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
@@ -123,7 +129,11 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				m_autonomous.setLauncherAutoRPM((int) event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			launcherFiringDurationTextView.addListener(event -> {
+			oneBallFiringDurationTextView.addListener(event -> {
+				m_autonomous.setOneBallFiringDurationSeconds(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			twoBallFiringDurationTextView.addListener(event -> {
 				m_autonomous.setTwoBallFiringDurationSeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}

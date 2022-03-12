@@ -20,7 +20,7 @@ public class Wait_LH_TC_TC_LH extends SequentialCommandGroup {
 	public Wait_LH_TC_TC_LH(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
 		super(
 			new WaitFor(),
-			new LaunchBalls(manipulator),
+			new LaunchBalls(manipulator, 2),
 			new ParallelCommandGroup(
 				new ExtendIntakeArm(intake, false),
 				new RunFeederAndIndexer(intake, manipulator, false),
@@ -31,7 +31,7 @@ public class Wait_LH_TC_TC_LH extends SequentialCommandGroup {
 			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake, false),
 			new SecondBallTrajectory(drivetrain, true),
-			new LaunchBalls(manipulator)
+			new LaunchBalls(manipulator, 2)
 		);
 	}
 }

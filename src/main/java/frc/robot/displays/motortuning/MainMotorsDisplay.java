@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 import frc.robot.Constants;
-import frc.robot.commands.intake.ExtendIntakeArm;
-import frc.robot.commands.intake.RetractIntakeArm;
-import frc.robot.commands.intake.StopFeederAndIndexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 

@@ -13,7 +13,7 @@ import frc.robot.subsystems.Manipulator;
 public class LH_Wait_LT extends SequentialCommandGroup {
 	public LH_Wait_LT(Drivetrain drivetrain, Manipulator manipulator) {
 		super(
-			new LaunchBalls(manipulator),
+			new LaunchBalls(manipulator, 2),
 			new WaitFor(),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 		);
