@@ -38,7 +38,11 @@ public class Autonomous extends SubsystemBase {
 		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC,						// LH Wait LT
 		WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH,		// Wait LH PC LH
 		WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH,				// Wait LH TC TC LH
-		WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC;	// Wait LH RC LT
+		WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC,	// Wait LH RC LT
+
+		// TODO: !!!Remove these auto routine enums once done debugging
+		DRIVE_FORWARDS,
+		DRIVE_BACKWARDS;
 	}
 
 

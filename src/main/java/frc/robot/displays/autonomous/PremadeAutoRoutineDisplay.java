@@ -83,6 +83,11 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.WAIT_SCORE_LH_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("Trajectory", AutonomousRoutine.WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH);
+				
+				// TODO: !!! Remove these two auto routine options once done debugging
+				autoRoutineChooser.addOption("Go Forwards", AutonomousRoutine.DRIVE_FORWARDS);
+				autoRoutineChooser.addOption("Go Backwards", AutonomousRoutine.DRIVE_BACKWARDS);
+
 				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 				column2
 					.add("Routine", autoRoutineChooser)
