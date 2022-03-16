@@ -145,6 +145,7 @@ public class Vision extends SubsystemBase {
 				outputStream.putFrame(output);
 			}
 		});
+		thread.setDaemon(true);
 		thread.start();
 
 		streamingThreads.put(cameraName, thread);
