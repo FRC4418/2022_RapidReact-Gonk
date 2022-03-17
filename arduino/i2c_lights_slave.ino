@@ -6,8 +6,9 @@ on startup the strip will perform a small startup animation
 Need change over to CHSV from CRGB to make fading out easier and more color accurate 
 */
 
-#include <FastLED.h>
 #include <Wire.h>
+
+#include <FastLED.h>
 
 #define NUM_LEDS 120
 #define DATA_PIN 10
@@ -68,7 +69,7 @@ void loop() {
 
 			case 2:
 				for (int i = NUM_LEDS/2; i < NUM_LEDS; i++) {
-					leds[i] = CRGB::FORWARD_COLOR;
+					leds[i] = CRGB::FORWARD_COLOR_RED_ALLIANCE;
 				}
 				for (int i = 0; i < NUM_LEDS/2; i++) {
 					leds[i] = CRGB::Black;
@@ -80,7 +81,7 @@ void loop() {
 					leds[i] = CRGB::Black;
 				}
 				for (int i = 0; i < NUM_LEDS/2; i++) {
-					leds[i] = CRGB::FORWARD_COLOR;
+					leds[i] = CRGB::FORWARD_COLOR_RED_ALLIANCE;
 				}
 				break;
 		}
@@ -89,18 +90,19 @@ void loop() {
 }
 
 
-void i2cReceiveEvent(int bytesReceived){  //The first byte is the register and the rest of the bytes are data
+void i2cReceiveEvent(int bytesReceived) {  //The first byte is the register and the rest of the bytes are data
 	value_register = (int) Wire.read();
 	value = (int) Wire.read(); 
 	if (bytesReceived > 2) {   //Throw away all the rest of the data past the first 2 bytes
 		for (uint8_t a = 2; a < bytesReceived; a++) {  
 			Wire.read();
+		}
 	}
 	new_data = 1;
 }
 
 
-void startupEffect(){
+void startupEffect() {
 	Wire.end();
 	meteorRainHalfFill(0xff, 0xff, 0xff, 8, 100, true, .5, 1);
 	for (int j = 255; j > 0; j--) {
