@@ -9,6 +9,8 @@ on startup the strip will perform a small startup animation
 
 // might want to diable i2c for some patterns like the startup ones
 
+#include <Arduino.h>
+
 #include <FastLED.h>
 #include <Wire.h>
 
