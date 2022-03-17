@@ -34,17 +34,37 @@ public class CamerasDisplay extends VisionDisplay {
 			.withSize(width, height);
 
 			// Front-center
-			if (Constants.Vision.kEnableFrontCenterCamera) {
-				layout
-					.add(" ", Vision.frontCenterCameraServer.getSource())
-					.withWidget(BuiltInWidgets.kCameraStream);
+			{ var frontCenterLayout = layout
+				.getLayout("Front-Center", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"));
+				
+				if (Constants.Vision.kEnableFrontCenterCamera) {
+					frontCenterLayout
+						.add("Camera", Vision.frontCenterCameraServer.getSource())
+						.withWidget(BuiltInWidgets.kCameraStream);
+					
+					enableFrontCenterCameraToggleSwitch = frontCenterLayout
+						.add("Switch", Constants.Vision.kEnableFrontCenterCamera)
+						.withWidget(BuiltInWidgets.kToggleSwitch)
+						.getEntry();
+				}
 			}
 
 			// Back-center
-			if (Constants.Vision.kEnableBackCenterCamera) {
-				layout
-					.add(" ", Vision.backCenterCameraServer.getSource())
-					.withWidget(BuiltInWidgets.kCameraStream);
+			{ var backCenterLayout = layout
+				.getLayout("Back-Center", BuiltInLayouts.kGrid)
+				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"));
+				
+				if (Constants.Vision.kEnableBackCenterCamera) {
+					backCenterLayout
+						.add("Camera", Vision.backCenterCameraServer.getSource())
+						.withWidget(BuiltInWidgets.kCameraStream);
+					
+					enableBackCenterCameraToggleSwitch = backCenterLayout
+						.add("Switch", Constants.Vision.kEnableBackCenterCamera)
+						.withWidget(BuiltInWidgets.kToggleSwitch)
+						.getEntry();
+				}
 			}
 		}
 		return this;
