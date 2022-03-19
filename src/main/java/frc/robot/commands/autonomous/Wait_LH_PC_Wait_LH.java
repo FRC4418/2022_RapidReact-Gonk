@@ -27,7 +27,6 @@ public class Wait_LH_PC_Wait_LH extends SequentialCommandGroup {
 				new RunFeederAndIndexer(intake, manipulator, false),
 				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 			),
-			new WaitFor(),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
