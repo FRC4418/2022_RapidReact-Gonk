@@ -16,8 +16,8 @@ on startup the strip will perform a small startup animation
 #define NUM_LEDS_UPPERS 120
 #define NUM_LEDS_UNDERGLOW 135
 
-#define DATA_PIN_UPPERS 5
-#define DATA_PIN_UNDERGLOW 4
+#define DATA_PIN_UPPERS 4
+#define DATA_PIN_UNDERGLOW 5
 
 #define UPPER 1
 #define UNDERGLOW 2
@@ -187,15 +187,15 @@ void setAll(byte red, byte green, byte blue) {
 
 
 void startupEffect() {
-	for (int i=0; i<3; i++) {
-		patternEnabled[i] = true;
-	}
-	for (int i=3; i<5; i++) {
-		patternEnabled[i] = false;
-	}
+	// for (int i=0; i<3; i++) {
+	// 	patternEnabled[i] = true;
+	// }
+	// for (int i=3; i<5; i++) {
+	// 	patternEnabled[i] = false;
+	// }
 
 	// Uncomment this and change its index to test different patterns
-	// patternEnabled[5] = true;
+	patternEnabled[7] = true;
 }
 
 
@@ -423,7 +423,7 @@ void meteorRainRight(int index, byte state) {
 		return;
 	}
 
-	if (state == 1){  //draw the meteors 
+	if (state == 1) {  //draw the meteors 
 		static int i[] = {meteorStartLED[0], meteorStartLED[1]};
 		if (i[index] < stopLED + 30) {  //if the for loop statement is true do the stuff in it
 			for (int j = startLED; j <= stopLED; j++) {    // fade brightness all LEDs one step
