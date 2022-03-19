@@ -104,12 +104,12 @@ void setup() {
 	// patterns for the upper lights
 	patternPtrs[12] = upperOff;
 
-	// Wire.end();
+	Wire.end();
 
 	startupEffect();
 
-	// Wire.begin(I2C_ADDRESS);
-	// Wire.onReceive(i2cReceiveEvent);
+	Wire.begin(I2C_ADDRESS);
+	Wire.onReceive(i2cReceiveEvent);
 }
 
 
