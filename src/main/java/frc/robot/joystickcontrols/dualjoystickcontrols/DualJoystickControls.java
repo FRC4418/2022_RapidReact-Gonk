@@ -4,7 +4,8 @@ package frc.robot.joystickcontrols.dualjoystickcontrols;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.Constants;
-import frc.robot.commands.climber.ReleaseClimberPins;
+import frc.robot.commands.climber.ExtendClimberWhileHeld;
+import frc.robot.commands.climber.LowerClimberWhileHeld;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
@@ -64,15 +65,21 @@ public abstract class DualJoystickControls extends JoystickControls {
                 .whenReleased(new ReverseDrivetrain(drivetrain));
         }
 
+        driveStraightButton = driveStraightButton(primaryJoystick);
+        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
+
         // ----------------------------------------------------------
         // Intake
 
         runFeederDisposalButton = runReverseFeederButton(secondaryJoystick);
         if (runFeederDisposalButton != null) runFeederDisposalButton.whenHeld(new RunFeederWhileHeld(intake, true));
+        
         runFeederIntakebutton = runFeederButton(secondaryJoystick);
         if (runFeederIntakebutton != null) runFeederIntakebutton.whenHeld(new RunFeederAndIndexerWhileHeld(intake, manipulator, false));
+        
         toggleFeederButton = toggleFeederButton(secondaryJoystick);
         if (toggleFeederButton != null) toggleFeederButton.toggleWhenPressed(new ToggleIndexBall(intake, manipulator));
+        
         extendIntakeArmButton = extendIntakeArmButton(primaryJoystick);
         if (extendIntakeArmButton != null) {
             extendIntakeArmButton
@@ -87,17 +94,17 @@ public abstract class DualJoystickControls extends JoystickControls {
         
         runIndexerButton = runIndexerButton(primaryJoystick);
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
+        
         runLauncherButton = runLauncherButton(primaryJoystick);
         if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
 
         // ----------------------------------------------------------
         // Climber
 
-        toggleClimberPinsButton = toggleClimberPinsButton(primaryJoystick);
-        if (toggleClimberPinsButton != null) toggleClimberPinsButton.whenPressed(new ReleaseClimberPins(climber));
-        driveStraightPOVButton = driveStraightPOVButton(primaryJoystick);
-        if (driveStraightPOVButton != null) driveStraightPOVButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
-        driveStraightJoystickButton = driveStraightJoystickButton(primaryJoystick);
-        if (driveStraightJoystickButton != null) driveStraightJoystickButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Climber.kDriveStraightMPS));
+        extendClimberButton = extendClimberButton(primaryJoystick);
+        if (extendClimberButton != null) extendClimberButton.whenHeld(new ExtendClimberWhileHeld(climber));
+
+        lowerClimberButton = lowerClimberButton(primaryJoystick);
+        if (lowerClimberButton != null) lowerClimberButton.whenHeld(new LowerClimberWhileHeld(climber));
     }
 }
