@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -12,54 +16,103 @@ public class Climber extends SubsystemBase {
 	// Resources
 
 
-	private boolean pinsReleased = false;
+	private final WPI_TalonFX m_winchMotor = new WPI_TalonFX(Constants.Climber.CAN_ID.kWinch);
 
-	private final Servo
-		m_leftServo = new Servo(Constants.Climber.kLeftServoPWMChannel),
-		m_rightServo = new Servo(Constants.Climber.kRightServoPWMChannel);
-	
-	private double servoSetAngle = Constants.Climber.kPinInAngle;
+	private final Servo rachetPinServo = new Servo(Constants.Climber.kRatchetPinServoPWMChannel);
 
 
 	// ----------------------------------------------------------
-	// Extension methods
+	// Constructor
 
 
-	public Climber toggleClimberPins() {
-		if (!pinsReleased) {
-			releasePins();
-		} else {
-			attachPins();
+	public Climber() {
+		// ----------------------------------------------------------
+		// Winch motor configuration
+
+		m_winchMotor.configFactoryDefault();
+		m_winchMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Climber.kWinchPidIdx, Constants.Climber.kTimeoutMs);
+
+		// ----------------------------------------------------------
+		// Final setup
+
+		configurePIDs();
+	}
+
+
+	// ----------------------------------------------------------
+	// Constants-reconfiguration methods
+
+
+	public void configurePIDs() {
+		m_winchMotor.config_kP(Constants.Climber.kWinchPidIdx, Constants.Climber.kWinchPositionGains.kP);
+		m_winchMotor.config_kI(Constants.Climber.kWinchPidIdx, Constants.Climber.kWinchPositionGains.kI);
+        m_winchMotor.config_kD(Constants.Climber.kWinchPidIdx, Constants.Climber.kWinchPositionGains.kD);
+		// m_winchMotor.config_kF(Constants.Climber.kWinchPidIdx, Constants.Climber.kWinchPositionGains.kF);
+	}
+
+
+	// ----------------------------------------------------------
+	// Winch-motor methods
+
+
+	public void setWinchToExtendPercent() {
+		m_winchMotor.set(ControlMode.PercentOutput, Constants.Climber.kWinchSpeedPercent);
+	}
+	public void setWinchToLowerPercent() {
+		m_winchMotor.set(ControlMode.PercentOutput, -Constants.Climber.kWinchSpeedPercent);
+	}
+	public void stopWinchMotor() {
+		m_winchMotor.set(ControlMode.PercentOutput, 0.);
+	}
+
+	public double getWinchTraveledInches() {
+		return
+			m_winchMotor.getSelectedSensorPosition(Constants.Climber.kWinchPidIdx) / Constants.Climber.kWinchOutputInchesToInputTicks;
+	}
+
+	private boolean withinWinchInchesRange(double positionInches) {
+		return positionInches >= Constants.Climber.kWinchMinPositionInches && positionInches <= Constants.Climber.kWinchMaxPositionInches;
+	}
+
+	public void setWinchPositionInches(double inches) {
+		if (withinWinchInchesRange(inches)) {
+			m_winchMotor.set(ControlMode.Position, inches * Constants.Climber.kWinchOutputInchesToInputTicks);
 		}
-		pinsReleased = !pinsReleased;
-		return this;
 	}
 
-	public void releasePins() {
-		setServosAngle(Constants.Climber.kPinOutAngle);
+	public void setWinchToExtendedPosition() {
+		m_winchMotor.set(ControlMode.Position, Constants.Climber.kClimberExtendedHeightInches);
+	}
+	public void setWinchToLoweredPosition() {
+		m_winchMotor.set(ControlMode.Position, Constants.Climber.kClimberLoweredHeightInches);
 	}
 
-	public void attachPins() {
-		setServosAngle(Constants.Climber.kPinInAngle);
+
+	// ----------------------------------------------------------
+	// Ratchet-pin servo methods
+
+
+	public void releasePin() {
+		rachetPinServo.setAngle(Constants.Climber.kReleasePinAngle);
 	}
 
-	public boolean pinsAreReleased() {
-		return servoSetAngle == Constants.Climber.kPinInAngle;
+	public void attachPin() {
+		rachetPinServo.setAngle(Constants.Climber.kAttachPinAngle);
 	}
 
-	public boolean pinsAreAttached() {
-		return servoSetAngle == Constants.Climber.kPinOutAngle;
+	public boolean pinIsReleased() {
+		return getServoAngle() == Constants.Climber.kReleasePinAngle;
 	}
 
-	public double getServosAngle() {
-		double leftServoAngle = m_leftServo.getAngle();
-		double rightServoAngle = m_rightServo.getAngle();
-		assert leftServoAngle == rightServoAngle;
-		return leftServoAngle;
+	public boolean pinIsAttached() {
+		return getServoAngle() == Constants.Climber.kAttachPinAngle;
+	}
+
+	public double getServoAngle() {
+		return rachetPinServo.getAngle();
 	}
 
 	public void setServosAngle(double degree) {
-		m_leftServo.setAngle(degree);
-		m_rightServo.setAngle(degree);
+		rachetPinServo.setAngle(degree);
 	}
 }
