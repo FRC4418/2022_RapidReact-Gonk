@@ -39,12 +39,6 @@ public class Climber extends SubsystemBase {
 		configurePIDs();
 	}
 
-	@Override
-	public void periodic() {
-		SmartDashboard.putBoolean("Is attached", pinIsAttached());
-		SmartDashboard.putBoolean("Is released", pinIsReleased());
-	}
-
 
 	// ----------------------------------------------------------
 	// Constants-reconfiguration methods
