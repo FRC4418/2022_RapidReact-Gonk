@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -37,7 +38,11 @@ public class Robot extends TimedRobot {
 			robotContainer.initializeJoystickValues();
 		}
 
-		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry("Driving Max Speed [1.0 percent]");
+		String entryName = "Driving Max Speed [1.0 percent]";
+		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
+		if (entry.exists()) {
+			SmartDashboard.putString("Entry cleared:", entryName);
+		}
 		entry.clearPersistent();
 		entry.removeListener(0);
 		entry.delete();

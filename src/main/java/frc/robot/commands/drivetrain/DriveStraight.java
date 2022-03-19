@@ -1,7 +1,6 @@
 package frc.robot.commands.drivetrain;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Drivetrain;
@@ -64,9 +63,7 @@ public class DriveStraight extends CommandBase {
 		var leftSpeed = m_maxMotorMPS + kP * error;
 		var rightSpeed = m_maxMotorMPS - kP * error;
 
-		SmartDashboard.putNumber("Max speed", m_maxMotorMPS);
-
-		m_drivetrain.tankDrive(m_maxMotorMPS, m_maxMotorMPS);
+		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
 	}
 
 	@Override
