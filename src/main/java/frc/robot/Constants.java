@@ -355,14 +355,13 @@ public class Constants {
 			kReleasePinAngle = 60.,
 			kAttachPinAngle = 0.,
 
-			// TODO: !!P1!! Figure out the height (inches) that the climber should extend/lower to when using position-control
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
 		
 		public static class CAN_ID {
 			public static final int
 				// TODO: !!!P1!!! Set the winch motor's CAN ID
-				kWinch = 59;
+				kWinch = 31;
 		}
 
 		// ----------------------------------------------------------
