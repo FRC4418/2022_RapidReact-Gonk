@@ -222,6 +222,8 @@ public class Drivetrain extends SubsystemBase {
 		return m_reverseDrivetrain;
 	}
 	public Drivetrain reverseDrivetrain() {
+		leftMotorsDirectionMultiplier *= -1;
+		rightMotorsDirectionMultiplier *= -1;
 		m_reverseDrivetrain = !m_reverseDrivetrain;
 		return this;
 	}
