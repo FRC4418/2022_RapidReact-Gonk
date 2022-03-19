@@ -27,10 +27,10 @@ public class Wait_LH_TC_TC_LH extends SequentialCommandGroup {
 				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 			),
 			new RunFeederAndIndexer(intake, manipulator, true),
-			new SecondBallTrajectory(drivetrain, false),
+			new TailBackTwoBallTrajectory(drivetrain, false),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
-			new SecondBallTrajectory(drivetrain, true),
+			new TailBackTwoBallTrajectory(drivetrain, true),
 			new RunLauncherForTime(manipulator)
 		);
 	}
