@@ -32,6 +32,7 @@ public class LowerClimberWhileHeld extends CommandBase {
 	public void end(boolean interrupted) {
 		m_climber.stopWinchMotor();
 		m_climber.attachPin();
+		activated = false;
 	}
 
 	@Override
