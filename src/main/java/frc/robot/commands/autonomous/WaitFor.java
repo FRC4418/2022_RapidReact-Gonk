@@ -3,7 +3,6 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Autonomous;
 
 
 public class WaitFor extends CommandBase {
@@ -19,10 +18,6 @@ public class WaitFor extends CommandBase {
 
 	public WaitFor(double delayTimeSeconds) {
 		m_delayTimeSeconds = delayTimeSeconds;
-	}
-
-	public WaitFor() {
-		this(Autonomous.getStartDelaySeconds());
 	}
 
 	// ----------------------------------------------------------

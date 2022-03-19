@@ -4,15 +4,15 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
-import frc.robot.commands.drivetrain.DriveStraightWhileHeld.DriveStraightDirection;
-import frc.robot.subsystems.Autonomous;
+import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class WaitAndLeaveTarmac extends SequentialCommandGroup {
-	public WaitAndLeaveTarmac(Drivetrain drivetrain) {
+// TODO: !!!Remove this commmand once debugging is done
+
+public class DriveForwardsForDistance extends SequentialCommandGroup {
+	public DriveForwardsForDistance(Drivetrain drivetrain) {
 		super(
-			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 		);
 	}

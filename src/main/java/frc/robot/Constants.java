@@ -243,10 +243,8 @@ public class Constants {
 			// means that for every 58.25 input ticks, the mechanism outputs 1 tick
 			kRetractorTicksReductionRatio = 58.25,
 
-			// actual min is -180, but we're using a higher number to be safe
-			kRetractorMinDegree = -40.,
-			// actual max is 180, but we're using a lower number to be safe
-			kRetractorMaxDegree = 140.,
+			kRetractorMinDegree = -180.,
+			kRetractorMaxDegree = 180.,
 
 			kRetractorLockEndDelaySeconds = 0.75;
 

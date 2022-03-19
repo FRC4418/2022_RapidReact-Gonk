@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -72,10 +71,10 @@ public class Intake extends SubsystemBase {
 	// Scheduler methods
 
 
-	@Override
-	public void periodic() {
-		updateRetractorOrigin();
-	}
+	// @Override
+	// public void periodic() {
+	// 	updateRetractorOrigin();
+	// }
 	
 
 	// ----------------------------------------------------------
@@ -93,9 +92,13 @@ public class Intake extends SubsystemBase {
 	
 	public Intake updateRetractorOrigin() {
 		if (getRetractorTicks() < 0) {
-			m_retractorMotor.setSelectedSensorPosition(0.);
+			resetRetractorEncoder();
 		}
 		return this;
+	}
+
+	public void resetRetractorEncoder() {
+		m_retractorMotor.setSelectedSensorPosition(0.);
 	}
 
 	public Intake brakeRetractor() {
