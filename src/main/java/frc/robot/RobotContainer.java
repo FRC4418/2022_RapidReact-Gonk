@@ -237,6 +237,8 @@ public class RobotContainer {
 		intake.configurePIDs();
 
 		manipulator.configurePIDs();
+
+		climber.configurePIDs();
 	}
 
 	
