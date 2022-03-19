@@ -24,11 +24,11 @@ public class Wait_LH_PC_LH extends SequentialCommandGroup {
 			new ParallelCommandGroup(
 				new ExtendIntakeArm(intake, false),
 				new RunFeederAndIndexer(intake, manipulator, false),
-				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
+				new DriveStraightForDistance(drivetrain, 0.5, DriveStraightDirection.FORWARDS)
 			),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
-			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
+			new DriveStraightForDistance(drivetrain, 0.5, DriveStraightDirection.BACKWARDS),
 			new RunLauncherForTime(manipulator)
 		);
 	}

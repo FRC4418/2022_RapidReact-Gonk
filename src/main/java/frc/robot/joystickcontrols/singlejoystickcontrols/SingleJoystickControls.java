@@ -7,6 +7,7 @@ import frc.robot.Constants;
 import frc.robot.commands.climber.ExtendClimberWhileHeld;
 import frc.robot.commands.climber.LowerClimberWhileHeld;
 import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
@@ -64,7 +65,7 @@ public abstract class SingleJoystickControls extends JoystickControls {
         }
 
         driveStraightButton = driveStraightButton(primaryJoystick);
-        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
+        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraightForDistance(drivetrain, 0.5, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
 
         // ----------------------------------------------------------
         // Intake

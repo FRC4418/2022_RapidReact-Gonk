@@ -22,7 +22,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	private NetworkTableEntry
 		usePremadeRoutineToggleSwitch,
 		startDelayTimeTextView,
-		drivingMPSTextView,
+		drivingMaxMotorFPSTextView,
 		launcherFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView;
@@ -56,8 +56,9 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
-				drivingMPSTextView = column1
-					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxSpeedPercentage())
+				drivingMaxMotorFPSTextView = column1
+					// converting from meters per second (MPS) to feet per second (FPS)
+					.addPersistent("Driving Max Speed [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMaxMotorMPS()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
@@ -108,8 +109,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				m_autonomous.setStartDelaySeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			drivingMPSTextView.addListener(event -> {
-				m_autonomous.setDrivingMaxSpeedPercentage(Constants.feetToMeters(event.value.getDouble()));
+			drivingMaxMotorFPSTextView.addListener(event -> {
+				m_autonomous.setDrivingMaxSpeedMPS(Constants.feetToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFiringDurationTextView.addListener(event -> {
