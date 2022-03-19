@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		robotContainer.climber.attachPins();
+		robotContainer.climber.attachPin();
 
 		robotContainer.drivetrain.useTeleopOpenLoopRamp();
 
