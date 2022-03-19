@@ -20,6 +20,8 @@ public class Constants {
 		
 		Manipulator.kLauncherRPMGains = Manipulator.kLauncherRPMGainsV1;
 		Manipulator.kIndexerRPMGains = Manipulator.kIndexerRPMGainsV1;
+
+		Climber.kWinchPositionGains = Climber.kWinchPositionGainsV1;
 	}
 
 	public static void useV2Constants() {
@@ -38,6 +40,8 @@ public class Constants {
 		
 		Manipulator.kLauncherRPMGains = Manipulator.kLauncherRPMGainsV2;
 		Manipulator.kIndexerRPMGains = Manipulator.kIndexerRPMGainsV2;
+
+		Climber.kWinchPositionGains = Climber.kWinchPositionGainsV2;
 	}
 
 	private static final double kMetersToinches = 39.37007874;
@@ -58,14 +62,14 @@ public class Constants {
 
 	public static class Falcon500 {
 		public static final int
-			ticksPerRevolution = 2048,
+			kTicksPerRevolution = 2048,
 			// AKA the free RPM
 			kMaxRPM = 6380;
 
 		public static final double
-			kRpmToTicksPer100ms = ((double) Falcon500.ticksPerRevolution) / 600.,
+			kRpmToTicksPer100ms = ((double) Falcon500.kTicksPerRevolution) / 600.,
 			// 720 instead of 360 because our degree range is -180 to 180
-			kDegreesToTicks = ((double) Falcon500.ticksPerRevolution) / 720.;
+			kDegreesToTicks = ((double) Falcon500.kTicksPerRevolution) / 720.;
 	}
 
 	public static class Drivetrain {
@@ -89,7 +93,6 @@ public class Constants {
 		}
 
 		public static class CAN_ID {
-			// These are how it's SUPPOSED to be on both V1 and V2
 			public static final int
 				kFrontLeft = 3,
 				kBackLeft = 2,
@@ -105,11 +108,11 @@ public class Constants {
 
 			kMPSToTicksPer100ms;
 		private static final double
-			kTicksToMetersV1  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
-			kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.ticksPerRevolution),
+			kTicksToMetersV1  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.kTicksPerRevolution),
+			kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.kTicksPerRevolution),
 			
-			kMPSToTicksPer100msV1 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV1 * Math.PI),
-			kMPSToTicksPer100msV2 = ((double) Falcon500.ticksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
+			kMPSToTicksPer100msV1 = ((double) Falcon500.kTicksPerRevolution) / (10. * kWheelDiameterMetersV1 * Math.PI),
+			kMPSToTicksPer100msV2 = ((double) Falcon500.kTicksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
 
 		// ----------------------------------------------------------
 		// Kinematics
@@ -126,7 +129,8 @@ public class Constants {
 
 		public static double
 			// units in seconds
-			kTeleopOpenLoopRampTime = 0.7;
+			kTeleopOpenLoopRampTime = 0.7,
+			kDriveStraightMaxPercentage = 0.3;
 
 		public static class CurvaturePolynomial {
 			public static double
@@ -334,14 +338,51 @@ public class Constants {
 		// General
 
 		public static final int
-			kLeftServoPWMChannel = 4,
-			kRightServoPWMChannel = 2;
+			kRatchetPinServoPWMChannel = 4;
+		
+		public static final double
+			kWinchTicksReductionRatio = 30.,
+
+			kWinchSpoolDiameterInches = 0.56,
+
+			kWinchMinPositionInches = 0.,
+			// TODO: !!P1!! Figure out the max inches that the winch should allow the climber to raise
+			kWinchMaxPositionInches = 70;
 
 		public static double
-			kPinOutAngle = 60.,
-			kPinInAngle = 0.,
+			kWinchSpeedPercent = 0.3,
 
-			kDriveStraightMPS = feetToMeters(1.) / 1.;
+			kReleasePinAngle = 60.,
+			kAttachPinAngle = 0.,
+
+			// TODO: !!P1!! Figure out the height (inches) that the climber should extend/lower to when using position-control
+			kClimberExtendedHeightInches = 64.,
+			kClimberLoweredHeightInches = 0.;
+		
+		public static class CAN_ID {
+			public static final int
+				// TODO: !!!P1!!! Set the winch motor's CAN ID
+				kWinch = 59;
+		}
+
+		// ----------------------------------------------------------
+		// Conversions
+
+		public static final double
+			kWinchOutputInchesToInputTicks = Falcon500.kTicksPerRevolution * kWinchTicksReductionRatio / (kWinchSpoolDiameterInches * Math.PI);
+
+		// ----------------------------------------------------------
+		// Closed-loop control
+
+		public static final int
+			kWinchPidIdx = 0,
+			kTimeoutMs = 30;
+
+		public static Gains
+			kWinchPositionGains;
+		private static final Gains
+			kWinchPositionGainsV1 = new Gains(0.001, 0., 0., 1023./20660., 300, 1.00),
+			kWinchPositionGainsV2 = new Gains(0.001, 0., 0., 1023./20660., 300, 1.00);
 	}
 
 	public static class Autonomous {

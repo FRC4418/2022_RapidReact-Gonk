@@ -4,7 +4,6 @@ package frc.robot.joystickcontrols.singlejoystickcontrols.arcade;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-
 import frc.robot.joystickcontrols.IO.X3D;
 import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Climber;
@@ -66,12 +65,7 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
     }
 
     @Override
-    protected JoystickButton driveStraightJoystickButton(Joystick joystick) {
-        return new JoystickButton(joystick, X3D.GRIP_BUTTON_ID);
-    }
-
-    @Override
-    protected POVButton driveStraightPOVButton(Joystick joystick) {
+    protected JoystickButton driveStraightButton(Joystick joystick) {
         return null;
     }
 
@@ -128,8 +122,18 @@ public class DriverX3DArcadeControls extends SingleJoystickControls {
     // Climber buttons
 
     @Override
-    protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
+    protected JoystickButton releaseClimberPinButton(Joystick joystick) {
         return new JoystickButton(joystick, X3D.BUTTON_5_ID);
+    }
+
+    @Override
+    protected POVButton extendClimberButton(Joystick joystick) {
+        return null;
+    }
+
+    @Override
+    protected POVButton lowerClimberButton(Joystick joystick) {
+        return null;
     }
 
     // ----------------------------------------------------------

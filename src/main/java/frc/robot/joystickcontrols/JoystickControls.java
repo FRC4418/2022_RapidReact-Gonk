@@ -43,11 +43,8 @@ public abstract class JoystickControls {
     protected JoystickButton reverseDrivetrainButton;
     protected abstract JoystickButton reverseDrivetrainButton(Joystick joystick);
 
-    protected POVButton driveStraightPOVButton;
-    protected abstract POVButton driveStraightPOVButton(Joystick joystick);
-
-    protected JoystickButton driveStraightJoystickButton;
-    protected abstract JoystickButton driveStraightJoystickButton(Joystick joystick);
+    protected JoystickButton driveStraightButton;
+    protected abstract JoystickButton driveStraightButton(Joystick joystick);
 
     // ----------------------------------------------------------
     // Intake axes
@@ -83,8 +80,14 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Climber buttons
 
-    protected JoystickButton toggleClimberPinsButton;
-    protected abstract JoystickButton toggleClimberPinsButton(Joystick joystick);
+    protected JoystickButton releaseClimberPinButton;
+    protected abstract JoystickButton releaseClimberPinButton(Joystick joystick);
+
+    protected POVButton extendClimberButton;
+    protected abstract POVButton extendClimberButton(Joystick joystick);
+
+    protected POVButton lowerClimberButton;
+    protected abstract POVButton lowerClimberButton(Joystick joystick);
 
     // ----------------------------------------------------------
     // Constructor

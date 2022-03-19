@@ -3,7 +3,6 @@ package frc.robot.joystickcontrols.singlejoystickcontrols.arcade;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-
 import frc.robot.joystickcontrols.IO.XboxController;
 import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Climber;
@@ -66,13 +65,8 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
 	}
 
 	@Override
-	public POVButton driveStraightPOVButton(Joystick joystick) {
-		return new POVButton(joystick, XboxController.ANGLE_UP_POV);
-	}
-
-	@Override
-	public JoystickButton driveStraightJoystickButton(Joystick joystick) {
-		return null;
+	public JoystickButton driveStraightButton(Joystick joystick) {
+		return new JoystickButton(joystick, XboxController.VIEW_BUTTON_ID);
 	}
 
 	// ----------------------------------------------------------
@@ -128,8 +122,18 @@ public class DriverXboxArcadeControls extends SingleJoystickControls {
 	// Climber buttons
 
 	@Override
-	protected JoystickButton toggleClimberPinsButton(Joystick joystick) {
+	protected JoystickButton releaseClimberPinButton(Joystick joystick) {
 		return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
+	}
+
+	@Override
+	protected POVButton extendClimberButton(Joystick joystick) {
+		return new POVButton(joystick, XboxController.ANGLE_UP_POV);
+	}
+
+	@Override
+	protected POVButton lowerClimberButton(Joystick joystick) {
+		return new POVButton(joystick, XboxController.ANGLE_DOWN_POV);
 	}
 
 	// ----------------------------------------------------------
