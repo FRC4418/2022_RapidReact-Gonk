@@ -1,8 +1,10 @@
 package frc.robot;
 
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
@@ -29,12 +31,23 @@ public class Robot extends TimedRobot {
 			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
+		
+		robotContainer.intake.resetRetractorEncoder();
 
 		robotContainer.vision.startDefaultCameraStreams();
 
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer.initializeJoystickValues();
 		}
+
+		// String entryName = "Driving Max Speed [ft per s]";
+		// var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
+		// if (entry.exists()) {
+		// 	SmartDashboard.putString("Entry cleared:", entryName);
+		// }
+		// entry.clearPersistent();
+		// entry.removeListener(0);
+		// entry.delete();
 	}
 
 	@Override
