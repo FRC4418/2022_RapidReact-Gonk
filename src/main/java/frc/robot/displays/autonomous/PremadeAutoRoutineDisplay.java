@@ -85,7 +85,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
 				
 				drivingFPSTextView = column2
-					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxMotorMPS())
+					.addPersistent("Driving Max Speed [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMaxMotorMPS()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 

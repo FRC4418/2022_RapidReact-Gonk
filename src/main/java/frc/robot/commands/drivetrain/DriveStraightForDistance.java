@@ -24,8 +24,8 @@ public class DriveStraightForDistance extends DriveStraight {
 		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMaxMotorMPS());
 	}
 
-	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double motorMPS) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, motorMPS);
+	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
+		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, maxMotorMPS);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {

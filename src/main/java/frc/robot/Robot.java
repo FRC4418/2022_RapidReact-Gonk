@@ -40,14 +40,23 @@ public class Robot extends TimedRobot {
 			robotContainer.initializeJoystickValues();
 		}
 
-		String entryName = "Driving Max Speed [1.0 percent]";
-		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
-		if (entry.exists()) {
-			SmartDashboard.putString("Entry cleared:", entryName);
+		// String entryName = "Driving Max Speed [ft per s]";
+		// var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
+		// if (entry.exists()) {
+		// 	SmartDashboard.putString("Entry cleared:", entryName);
+		// }
+		// entry.clearPersistent();
+		// entry.removeListener(0);
+		// entry.delete();
+
+		String entryName2 = "Launcher-Firing Duration [s]";
+		var entry2 = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName2);
+		if (entry2.exists()) {
+			SmartDashboard.putString("Entry cleared:", entryName2);
 		}
-		entry.clearPersistent();
-		entry.removeListener(0);
-		entry.delete();
+		entry2.clearPersistent();
+		entry2.removeListener(0);
+		entry2.delete();
 	}
 
 	@Override

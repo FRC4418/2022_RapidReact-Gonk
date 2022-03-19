@@ -303,6 +303,9 @@ public class RobotContainer {
 
 
 	public Command getAutoCommand() {
+		if (autoCommand == null) {
+			return new Wait_LH_PC_Wait_LH(drivetrain, intake, manipulator);
+		}
 		return autoCommand;
 	}
 
