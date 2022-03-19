@@ -16,8 +16,9 @@ public class Autonomous extends SubsystemBase {
 
 	private static double
 		startDelaySeconds = 0.,
+		tarmacReturnDelaySeconds = 0.,
 		// converting from feet per second (FPS) to meters per second (MPS)
-		maxSpeed = 0.5,
+		maxMotorMPS = Constants.feetToMeters(1.25),
 		launcherFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
 
@@ -33,12 +34,12 @@ public class Autonomous extends SubsystemBase {
 		// PC = pickup cargo
 		// TC = trajectory-collect cargo
 		// RC = retrieve cargo
-		WAIT_AND_LEAVE_TARMAC,									// Wait LT
-		WAIT_SCORE_LH_AND_LEAVE_TARMAC,							// Wait LH LT
-		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC,						// LH Wait LT
-		WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH,		// Wait LH PC LH
-		WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH,				// Wait LH TC TC LH
-		WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC;	// Wait LH RC LT
+		WAIT_AND_LEAVE_TARMAC,												// Wait LT
+		WAIT_SCORE_LH_AND_LEAVE_TARMAC,										// Wait LH LT
+		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC,									// LH Wait LT
+		WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_WAIT_AND_SCORE_LH,			// Wait LH PC LH
+		WAIT_LH_AND_TRAJECTORY_COLLECT_ONE_AND_WAIT_AND_GET_SECOND_AND_LH,	// Wait LH TC WAIT TC LH
+		WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC;				// Wait LH RC LT
 	}
 
 
@@ -64,11 +65,19 @@ public class Autonomous extends SubsystemBase {
 		return this;
 	}
 
-	public static double getDrivingMaxSpeedPercentage() {
-		return maxSpeed;
+	public static double getTarmacReturnDelaySeconds() {
+		return tarmacReturnDelaySeconds;
 	}
-	public Autonomous setDrivingMaxSpeedPercentage(double maxSpeed) {
-		Autonomous.maxSpeed = maxSpeed;
+	public void setTarmacReturnDelaySeconds(double seconds) {
+		tarmacReturnDelaySeconds = seconds;
+		RobotContainer.instance.remakeAutoCommand();
+	}
+
+	public static double getDrivingMaxMotorMPS() {
+		return maxMotorMPS;
+	}
+	public Autonomous setDrivingMaxSpeedMPS(double maxSpeed) {
+		Autonomous.maxMotorMPS = maxSpeed;
 		RobotContainer.instance.remakeAutoCommand();
 		return this;
 	}

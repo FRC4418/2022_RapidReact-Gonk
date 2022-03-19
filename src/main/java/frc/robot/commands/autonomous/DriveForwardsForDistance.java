@@ -5,17 +5,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
-import frc.robot.commands.manipulator.RunLauncherForTime;
-import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Manipulator;
 
 
-public class LH_Wait_LT extends SequentialCommandGroup {
-	public LH_Wait_LT(Drivetrain drivetrain, Manipulator manipulator) {
+// TODO: !!!Remove this commmand once debugging is done
+
+public class DriveForwardsForDistance extends SequentialCommandGroup {
+	public DriveForwardsForDistance(Drivetrain drivetrain) {
 		super(
-			new RunLauncherForTime(manipulator),
-			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 		);
 	}
