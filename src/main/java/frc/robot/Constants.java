@@ -321,7 +321,7 @@ public class Constants {
 			kLauncherRPMGains;
 		private static final Gains
 			kLauncherRPMGainsV1 = new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00),
-			kLauncherRPMGainsV2 = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
+			kLauncherRPMGainsV2 = new Gains(0.06, 0., 0., 0.055, 300, 1.00);
 
 		public static Gains
 			kIndexerRPMGains;
