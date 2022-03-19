@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -36,6 +37,12 @@ public class Climber extends SubsystemBase {
 		// Final setup
 
 		configurePIDs();
+	}
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putBoolean("Is attached", pinIsAttached());
+		SmartDashboard.putBoolean("Is released", pinIsReleased());
 	}
 
 
