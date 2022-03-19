@@ -101,11 +101,11 @@ public class Climber extends SubsystemBase {
 	}
 
 	public boolean pinIsReleased() {
-		return getServoAngle() == Constants.Climber.kAttachPinAngle;
+		return getServoAngle() == Constants.Climber.kReleasePinAngle;
 	}
 
 	public boolean pinIsAttached() {
-		return getServoAngle() == Constants.Climber.kReleasePinAngle;
+		return getServoAngle() == Constants.Climber.kAttachPinAngle;
 	}
 
 	public double getServoAngle() {

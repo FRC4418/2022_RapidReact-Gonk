@@ -352,8 +352,8 @@ public class Constants {
 		public static double
 			kWinchSpeedPercent = 0.3,
 
-			kReleasePinAngle = 60.,
-			kAttachPinAngle = 0.,
+			kReleasePinAngle = 0.,
+			kAttachPinAngle = 60.,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;

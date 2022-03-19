@@ -80,9 +80,6 @@ public abstract class JoystickControls {
     // ----------------------------------------------------------
     // Climber buttons
 
-    protected JoystickButton releaseClimberPinButton;
-    protected abstract JoystickButton releaseClimberPinButton(Joystick joystick);
-
     protected POVButton extendClimberButton;
     protected abstract POVButton extendClimberButton(Joystick joystick);
 

@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 import frc.robot.commands.climber.ExtendClimberWhileHeld;
 import frc.robot.commands.climber.LowerClimberWhileHeld;
-import frc.robot.commands.climber.ReleaseClimberPinWhileHeld;
 import frc.robot.commands.drivetrain.DriveStraight;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
 import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
@@ -98,9 +97,6 @@ public abstract class SingleJoystickControls extends JoystickControls {
 
         // ----------------------------------------------------------
         // Climber
-
-        releaseClimberPinButton = releaseClimberPinButton(primaryJoystick);
-        if (releaseClimberPinButton != null) releaseClimberPinButton.whenHeld(new ReleaseClimberPinWhileHeld(climber));
 
         extendClimberButton = extendClimberButton(primaryJoystick);
         if (extendClimberButton != null) extendClimberButton.whenHeld(new ExtendClimberWhileHeld(climber));

@@ -122,11 +122,6 @@ public class SpotterXboxArcadeControls extends SingleJoystickControls {
     // Climber buttons
 
     @Override
-    protected JoystickButton releaseClimberPinButton(Joystick joystick) {
-        return new JoystickButton(joystick, XboxController.MENU_BUTTON_ID);
-    }
-
-    @Override
 	protected POVButton extendClimberButton(Joystick joystick) {
 		return new POVButton(joystick, XboxController.ANGLE_UP_POV);
 	}

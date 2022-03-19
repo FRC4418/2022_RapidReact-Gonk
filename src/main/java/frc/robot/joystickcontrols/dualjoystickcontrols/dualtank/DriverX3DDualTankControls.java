@@ -122,11 +122,6 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
     // Climber buttons
 
     @Override
-    protected JoystickButton releaseClimberPinButton(Joystick joystick) {
-        return new JoystickButton(joystick, X3D.BUTTON_5_ID);
-    }
-
-    @Override
     protected POVButton extendClimberButton(Joystick joystick) {
         return null;
     }
