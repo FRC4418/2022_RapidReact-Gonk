@@ -35,17 +35,17 @@ public class ClimberServosDisplay extends MotorTuningDisplay {
 			.withSize(width, height);
 
 			releasePinsAngle = layout
-				.add("Release-Pins Angle", 0)
+				.add("Release-Pin Angle", Constants.Climber.kReleasePinAngle)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 			
 			attachPinsAngle = layout
-				.add("Attach-Pins Angle", 0)
+				.add("Attach-Pin Angle", Constants.Climber.kAttachPinAngle)
 				.withWidget(BuiltInWidgets.kTextView)
 				.getEntry();
 
 			currentServoAnglesTextView = layout
-				.add("Current Angle", m_climber.getServosAngle())
+				.add("Current Angle", m_climber.getServoAngle())
 				.withWidget(BuiltInWidgets.kNumberBar)
 				.getEntry();
 		}
@@ -56,29 +56,29 @@ public class ClimberServosDisplay extends MotorTuningDisplay {
 	public void addEntryListeners() {
 		releasePinsAngle.addListener(event -> {
 			boolean wasReleased = false;
-			if (m_climber.pinsAreReleased()) {
+			if (m_climber.pinIsReleased()) {
 				wasReleased = true;
 			}
-			Constants.Climber.kPinOutAngle = event.value.getDouble();
+			Constants.Climber.kReleasePinAngle = event.value.getDouble();
 			if (wasReleased) {
-				m_climber.releasePins();
+				m_climber.releasePin();
 			}
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 		attachPinsAngle.addListener(event -> {
 			boolean wasAttached = false;
-			if (m_climber.pinsAreAttached()) {
+			if (m_climber.pinIsAttached()) {
 				wasAttached = true;
 			}
-			Constants.Climber.kPinInAngle = event.value.getDouble();
+			Constants.Climber.kAttachPinAngle = event.value.getDouble();
 			if (wasAttached) {
-				m_climber.attachPins();
+				m_climber.attachPin();
 			}
 		}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 	}
 
 	@Override
 	public void updatePrintouts() {
-		currentServoAnglesTextView.setDouble(m_climber.getServosAngle());
+		currentServoAnglesTextView.setDouble(m_climber.getServoAngle());
 	}
 }

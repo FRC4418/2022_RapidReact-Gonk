@@ -83,7 +83,8 @@ public final class IO {
 			VIEW_BUTTON_ID 				= 7,
 			MENU_BUTTON_ID 				= 8,
 
-			// ---POV Indices---
-			ANGLE_UP_POV 				= 0;
+			// D-pad POV degrees
+			ANGLE_UP_POV 				= 0,
+			ANGLE_DOWN_POV				= 180;
 	}
 }

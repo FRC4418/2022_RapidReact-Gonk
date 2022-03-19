@@ -152,7 +152,7 @@ public class Manipulator extends SubsystemBase {
 	}
 
 	private boolean withinLauncherRPMRange(int rpm) {
-		return (rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM);
+		return rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM;
 	}
 
 	public Manipulator setLauncherRPM(int rpm) {
