@@ -104,12 +104,12 @@ void setup() {
 	// patterns for the upper lights
 	patternPtrs[12] = upperOff;
 
-	Wire.end();
+	// Wire.end();
 
 	startupEffect();
 
-	Wire.begin(I2C_ADDRESS);
-	Wire.onReceive(i2cReceiveEvent);
+	// Wire.begin(I2C_ADDRESS);
+	// Wire.onReceive(i2cReceiveEvent);
 }
 
 
@@ -195,7 +195,7 @@ void startupEffect() {
 	// }
 
 	// Uncomment this and change its index to test different patterns
-	patternEnabled[7] = true;
+	patternEnabled[6] = true;
 }
 
 
@@ -214,7 +214,11 @@ void allSlowRGBCycle(int index, byte state) {
 
 void allFillRainbowWithSpeed(uint8_t speed) {
 	// last argument is deltaHue (larger value means more color separations [weird, ik])
-	fill_rainbow(ledsUpper, NUM_LEDS_UPPERS, beat8(speed, 255), 3);	
+	uint8_t rainbow = beat8(speed, 255);
+	static const uint8_t deltaHue = 3;
+
+	fill_rainbow(ledsUpper, NUM_LEDS_UPPERS, rainbow, deltaHue);
+	fill_rainbow(ledsUnderglow, NUM_LEDS_UNDERGLOW, rainbow, deltaHue);
 	FastLED.show();
 }
 
