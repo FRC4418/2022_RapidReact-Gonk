@@ -48,15 +48,6 @@ public class Robot extends TimedRobot {
 		// entry.clearPersistent();
 		// entry.removeListener(0);
 		// entry.delete();
-
-		String entryName2 = "Launcher-Firing Duration [s]";
-		var entry2 = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName2);
-		if (entry2.exists()) {
-			SmartDashboard.putString("Entry cleared:", entryName2);
-		}
-		entry2.clearPersistent();
-		entry2.removeListener(0);
-		entry2.delete();
 	}
 
 	@Override
