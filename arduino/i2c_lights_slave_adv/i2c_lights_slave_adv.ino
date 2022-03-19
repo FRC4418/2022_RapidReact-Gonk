@@ -13,7 +13,7 @@ on startup the strip will perform a small startup animation
 
 #include <FastLED.h>
 
-#define NUM_LEDS_UPPERS 120
+#define NUM_LEDS_UPPERS 138
 #define NUM_LEDS_UNDERGLOW 135
 
 #define DATA_PIN_UPPERS 4
