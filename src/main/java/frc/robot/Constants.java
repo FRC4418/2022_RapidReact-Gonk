@@ -234,8 +234,8 @@ public class Constants {
 			kReverseFeederPercent = -0.5,
 			kFeederPercent = 0.5,
 
-			kRetractorUpDegree = -4.,
-			kRetractorDownDegree = 82.;
+			kRetractorUpDegree = 0.,
+			kRetractorDownDegree = 100.;
 
 		public static final double
 			kRetractorDegreeTolerance = 4.,
@@ -244,9 +244,9 @@ public class Constants {
 			kRetractorTicksReductionRatio = 58.25,
 
 			// actual min is -180, but we're using a higher number to be safe
-			kRetractorMinDegree = -25.,
+			kRetractorMinDegree = -40.,
 			// actual max is 180, but we're using a lower number to be safe
-			kRetractorMaxDegree = 115.,
+			kRetractorMaxDegree = 140.,
 
 			kRetractorLockEndDelaySeconds = 0.75;
 
@@ -354,10 +354,12 @@ public class Constants {
 			kWinchMaxPositionInches = 70;
 
 		public static double
-			kWinchSpeedPercent = 0.3,
+			kWinchSpeedPercent = 0.5,
 
 			kReleasePinAngle = 0.,
-			kAttachPinAngle = 60.,
+			kAttachPinAngle = 80.,
+
+			kPinRollbackTimeSeconds = 0.2,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
