@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
 			// the robot should not be moving while the IMU is calibrating
 			.calibrateIMU()
 			.resetIMU();
+		
+		robotContainer.intake.resetRetractorEncoder();
 
 		robotContainer.vision.startDefaultCameraStreams();
 
