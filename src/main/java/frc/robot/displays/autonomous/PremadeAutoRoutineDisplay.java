@@ -22,7 +22,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	private NetworkTableEntry
 		usePremadeRoutineToggleSwitch,
 		startDelayTimeTextView,
-		drivingMaxMotorFPSTextView,
+		tarmacReturnDelayTimeTextView,
+		drivingFPSTextView,
 		launcherFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView;
@@ -44,7 +45,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 1
 			{ var column1 = layout
 				.getLayout("Column 1", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
 					.addPersistent("Use Premade Routine", Autonomous.usingPremadeRoutine())
@@ -56,14 +57,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 				
-				drivingMaxMotorFPSTextView = column1
-					// converting from meters per second (MPS) to feet per second (FPS)
-					.addPersistent("Driving Max Speed [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMaxMotorMPS()))
-					.withWidget(BuiltInWidgets.kTextView)
-					.getEntry();
-
-				launcherFiringDurationTextView = column1
-					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+				tarmacReturnDelayTimeTextView = column1
+					.addPersistent("Tarmac-Return Delay [s]", Autonomous.getTarmacReturnDelaySeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
@@ -76,23 +71,28 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 2
 			{ var column2 = layout
 				.getLayout("Column 2", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 1, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
 
 				// setting default options for sendable choosers also adds the label-value pair as an option
-				autoRoutineChooser.setDefaultOption("Wait LH PC LH", AutonomousRoutine.WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_SCORE_LH);
+				autoRoutineChooser.setDefaultOption("Wait LH PC Wait LH", AutonomousRoutine.WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_WAIT_AND_SCORE_LH);
 				autoRoutineChooser.addOption("Wait LT", AutonomousRoutine.WAIT_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.WAIT_SCORE_LH_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
-				autoRoutineChooser.addOption("Trajectory", AutonomousRoutine.WAIT_LH_AND_TRAJECTORY_COLLECT_TWO_AND_LH);
-				
-				// TODO: !!! Remove these two auto routine options once done debugging
-				autoRoutineChooser.addOption("Go Forwards", AutonomousRoutine.DRIVE_FORWARDS);
-				autoRoutineChooser.addOption("Go Backwards", AutonomousRoutine.DRIVE_BACKWARDS);
-
+				autoRoutineChooser.addOption("Wait LH TC Wait TC LH", AutonomousRoutine.WAIT_LH_AND_TRAJECTORY_COLLECT_ONE_AND_WAIT_AND_GET_SECOND_AND_LH);
 				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
 				column2
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
+				
+				drivingFPSTextView = column2
+					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxMotorMPS())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+
+				launcherFiringDurationTextView = column2
+					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
 			}
 		}
 		return this;
@@ -109,16 +109,22 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				m_autonomous.setStartDelaySeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			drivingMaxMotorFPSTextView.addListener(event -> {
+			tarmacReturnDelayTimeTextView.addListener(event -> {
+				m_autonomous.setTarmacReturnDelaySeconds(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+	
+			tarmacLeavingDistanceTextView.addListener(event -> {
+				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		}
+
+		{ // Column 2
+			drivingFPSTextView.addListener(event -> {
 				m_autonomous.setDrivingMaxSpeedMPS(Constants.feetToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherFiringDurationTextView.addListener(event -> {
 				m_autonomous.setLauncherFiringDurationSeconds(event.value.getDouble());
-			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-	
-			tarmacLeavingDistanceTextView.addListener(event -> {
-				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 	}
