@@ -27,15 +27,15 @@ public class DriveStraight extends CommandBase {
 	
 	protected final DriveStraightDirection m_direction;
 	
-	protected final double m_maxSpeedPercentage;
+	protected final double m_maxMotorMPS;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double maxSpeedPercentage) {
+	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
-		m_maxSpeedPercentage = maxSpeedPercentage;
+		m_maxMotorMPS = maxMotorMPS;
 		
 		addRequirements(drivetrain);
 	}
@@ -60,8 +60,8 @@ public class DriveStraight extends CommandBase {
 	public void execute() {
 		var error = m_drivetrain.getHeading();
 
-		var leftSpeed = m_maxSpeedPercentage + kP * error;
-		var rightSpeed = m_maxSpeedPercentage - kP * error;
+		var leftSpeed = m_maxMotorMPS + kP * error;
+		var rightSpeed = m_maxMotorMPS - kP * error;
 
 		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
 	}
@@ -69,6 +69,8 @@ public class DriveStraight extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.stopDrive();
+		
+		m_drivetrain.useTeleopOpenLoopRamp();
 
 		// undo the drivetrain reversal we did in the initialization (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {
