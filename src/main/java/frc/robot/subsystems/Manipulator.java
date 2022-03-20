@@ -99,7 +99,7 @@ public class Manipulator extends SubsystemBase {
 
 	public void setIndexerPercent(double percent) {
 		if (withinIndexerRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
-			m_indexerMotor.set(ControlMode.PercentOutput, percent);
+			m_indexerMotor.set(ControlMode.PercentOutput, -percent);
 			m_indexerSetPercent = percent;
 		}
 	}
