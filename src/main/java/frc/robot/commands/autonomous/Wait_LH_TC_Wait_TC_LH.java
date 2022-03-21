@@ -26,10 +26,10 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS),
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
 			new RunFeederAndIndexer(intake, manipulator, true),
-			new TailBackTwoBallTrajectory(drivetrain, false),
+			new BackTailTwoBallTrajectory(drivetrain, false),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
-			new TailBackTwoBallTrajectory(drivetrain, true),
+			new BackTailTwoBallTrajectory(drivetrain, true),
 			new RunLauncherForTime(manipulator)
 		);
 	}
