@@ -1,7 +1,6 @@
 package frc.robot.commands.autonomous;
 
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.drivetrain.DriveStraightForDistance;
@@ -22,11 +21,9 @@ public class Wait_LH_PC_Wait_LH extends SequentialCommandGroup {
 		super(
 			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new RunLauncherForTime(manipulator),
-			new ParallelCommandGroup(
-				new ExtendIntakeArm(intake, false),
-				new RunFeederAndIndexer(intake, manipulator, false),
-				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
-			),
+			new ExtendIntakeArm(intake, false),
+			new RunFeederAndIndexer(intake, manipulator, false),
+			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS),
 			new StopFeederAndIndexer(intake, manipulator),
 			new RetractIntakeArm(intake, false),
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
