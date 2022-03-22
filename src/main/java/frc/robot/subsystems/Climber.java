@@ -30,6 +30,7 @@ public class Climber extends SubsystemBase {
 		// Winch motor configuration
 
 		m_winchMotor.configFactoryDefault();
+		m_winchMotor.setInverted(true);
 		m_winchMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.Climber.kWinchPidIdx, Constants.Climber.kTimeoutMs);
 
 		// ----------------------------------------------------------
