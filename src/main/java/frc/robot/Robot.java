@@ -28,11 +28,10 @@ public class Robot extends TimedRobot {
 
 		robotContainer = new RobotContainer();
 
-		robotContainer.drivetrain
-			.configureDrivetrain(RobotContainer.defaultRobot)
-			// the robot should not be moving while the IMU is calibrating
-			.calibrateIMU()
-			.resetIMU();
+		robotContainer.drivetrain.configureDrivetrain(RobotContainer.defaultRobot);
+		// the robot should not be moving while the IMU is calibrating
+		robotContainer.drivetrain.calibrateIMU();
+		robotContainer.drivetrain.resetIMU();
 		
 		robotContainer.intake.resetRetractorEncoder();
 

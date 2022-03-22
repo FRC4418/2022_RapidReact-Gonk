@@ -45,10 +45,9 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			.disableOpenLoopRamp()
-			.resetIMU()
-			.resetEncoders();
+		m_drivetrain.disableOpenLoopRamp();
+		m_drivetrain.resetIMU();
+		m_drivetrain.resetEncoders();
 
 		// we do this so that using the tank drive functions with positive speeds still works (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {
