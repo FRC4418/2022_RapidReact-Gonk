@@ -33,7 +33,7 @@ public class Autonomous extends SubsystemBase {
 		// LH = score low hub
 		// PC = pickup cargo
 		// TC = trajectory-collect cargo
-		// RC = retrieve cargo
+		// RC = retrieve cargo (basically cargo-collection, but using vision)
 		WAIT_AND_LEAVE_TARMAC,												// Wait LT
 		WAIT_SCORE_LH_AND_LEAVE_TARMAC,										// Wait LH LT
 		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC,									// LH Wait LT
