@@ -258,11 +258,11 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getLeftMPS() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightMPS() {
-		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier;
 	}
 
 	public Drivetrain brakeMotors() {
@@ -335,18 +335,11 @@ public class Drivetrain extends SubsystemBase {
 		m_differentialDrive.feed();
 	}
 
-	public Drivetrain tankDriveMPS(double leftMPS, double rightMPS) {
-		m_frontLeftMotor.set(ControlMode.Velocity,
-			leftMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* leftMotorsDirectionMultiplier);
-		m_frontRightMotor.set(ControlMode.Velocity,
-			rightMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* rightMotorsDirectionMultiplier);
+	public void tankDriveMPS(double leftMPS, double rightMPS) {
+		m_frontLeftMotor.set(ControlMode.Velocity, leftMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * leftMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity, rightMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier);
 		
 		m_differentialDrive.feed();
-		return this;
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
