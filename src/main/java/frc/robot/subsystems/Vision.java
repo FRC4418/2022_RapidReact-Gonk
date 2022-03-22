@@ -94,19 +94,17 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
-	public Vision enableFrontCenterCameraStream(boolean enable) {
+	public void enableFrontCenterCameraStream(boolean enable) {
 		enableCameraStreamFor(frontCenterCameraName, enable);
 		Constants.Vision.kEnableFrontCenterCamera = enable;
-		return this;
 	}
 
-	public Vision enableBackCenterCameraStream(boolean enable) {
+	public void enableBackCenterCameraStream(boolean enable) {
 		enableCameraStreamFor(backCenterCameraName, enable);
 		Constants.Vision.kEnableBackCenterCamera = enable;
-		return this;
 	}
 
-	public Vision startDefaultCameraStreams() {
+	public void startDefaultCameraStreams() {
 		if (Constants.Vision.kEnableFrontCenterCamera) {
 			enableFrontCenterCameraStream(true);
 		}
@@ -114,19 +112,17 @@ public class Vision extends SubsystemBase {
 		if (Constants.Vision.kEnableBackCenterCamera) {
 			enableBackCenterCameraStream(true);
 		}
-		return this;
 	}
 
-	private Vision enableCameraStreamFor(String cameraName, boolean enable) {
+	private void enableCameraStreamFor(String cameraName, boolean enable) {
 		if (enable) {
 			startStreamForCamera(cameraName);
 		} else {
 			stopStreamForCamera(cameraName);
 		}
-		return this;
 	}
 
-	private Vision startStreamForCamera(String cameraName) {
+	private void startStreamForCamera(String cameraName) {
 		var camera = cameras.get(cameraName);
 		assert camera != null;
 
@@ -148,16 +144,13 @@ public class Vision extends SubsystemBase {
 		thread.start();
 
 		streamingThreads.put(cameraName, thread);
-		return this;
 	}
 
-	private Vision stopStreamForCamera(String cameraName) {
+	private void stopStreamForCamera(String cameraName) {
 		var camera = cameras.get(cameraName);
 		assert camera != null;
 
 		streamingThreads.get(cameraName).interrupt();
 		CameraServer.removeServer(cameraName);
-		
-		return this;
 	}
 }
