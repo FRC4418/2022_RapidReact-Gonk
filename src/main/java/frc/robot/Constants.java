@@ -314,6 +314,12 @@ public class Constants {
 		}
 
 		// ----------------------------------------------------------
+		// Conversions
+
+		public static final double
+			kIndexerOutputRPMToInputTicksPer100ms = Falcon500.kRpmToTicksPer100ms * kIndexerTicksReductionRatio;
+
+		// ----------------------------------------------------------
 		// Closed-loop control
 
 		public static final int

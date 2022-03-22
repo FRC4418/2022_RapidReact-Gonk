@@ -78,12 +78,9 @@ public class Manipulator extends SubsystemBase {
 		return m_indexerSetPercent == Constants.Manipulator.kIndexerPercent;
 	}
 
-	public int getIndexerRPM() {
-		return (int) (
-			m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx)
-			/ Constants.Manipulator.kIndexerTicksReductionRatio
-			/ Constants.Falcon500.kRpmToTicksPer100ms);
-	}
+	// public int getIndexerRPM() {
+	// 	return (int) (m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx) / Constants.Manipulator.kIndexerOutputRPMToInputTicksPer100ms);
+	// }
 
 	private boolean withinIndexerRPMRange(int rpm) {
 		return (rpm >= Constants.Manipulator.kIndexerMinRPM && rpm <= Constants.Manipulator.kIndexerMaxRPM);
@@ -91,9 +88,7 @@ public class Manipulator extends SubsystemBase {
 
 	// public void setIndexerRPM(int rpm) {
 	// 	if (withinIndexerRPMRange(rpm)) {
-	// 		m_indexerMotor.set(ControlMode.Velocity,
-	// 			rpm * Constants.Manipulator.kIndexerTicksReductionRatio
-	// 			* Constants.Falcon500.kRpmToTicksPer100ms);
+	// 		m_indexerMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kIndexerOutputRPMToInputTicksPer100ms);
 	// 	}
 	// }
 
