@@ -63,19 +63,17 @@ public class Autonomous extends SubsystemBase {
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;
 	}
-	public Autonomous setUsePremadeRoutine(boolean bool) {
+	public void setUsePremadeRoutine(boolean bool) {
 		usingPremadeRoutine = bool;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 	
 	public static double getStartDelaySeconds() {
 		return startDelaySeconds;
 	}
-	public Autonomous setStartDelaySeconds(double delaySeconds) {
+	public void setStartDelaySeconds(double delaySeconds) {
 		startDelaySeconds = delaySeconds;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 
 	public static double getTarmacReturnDelaySeconds() {
@@ -89,10 +87,9 @@ public class Autonomous extends SubsystemBase {
 	public static double getDrivingMaxMotorMPS() {
 		return maxMotorMPS;
 	}
-	public Autonomous setDrivingMaxSpeedMPS(double maxSpeed) {
+	public void setDrivingMaxSpeedMPS(double maxSpeed) {
 		Autonomous.maxMotorMPS = maxSpeed;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 
 	public static double getOneBallFiringDurationSeconds() {
@@ -114,9 +111,8 @@ public class Autonomous extends SubsystemBase {
 	public static double getTarmacLeavingMeters() {
 		return tarmacLeavingMeters;
 	}
-	public Autonomous setTarmacLeavingMeters(double distance) {
+	public void setTarmacLeavingMeters(double distance) {
 		tarmacLeavingMeters = distance;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 }
