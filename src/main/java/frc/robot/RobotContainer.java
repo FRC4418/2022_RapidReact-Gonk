@@ -289,15 +289,15 @@ public class RobotContainer {
 		}
 	}
 
-	public RobotContainer listenForRobotSelection() {
-		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
-		if (teamRobot != newRobotSelection) {
-			teamRobot = newRobotSelection;
-			configureConstants();
-			drivetrain.configureDrivetrain(teamRobot);
-		}
-		return this;
-	}
+	// public RobotContainer listenForRobotSelection() {
+	// 	var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
+	// 	if (teamRobot != newRobotSelection) {
+	// 		teamRobot = newRobotSelection;
+	// 		configureConstants();
+	// 		drivetrain.configureDrivetrain(teamRobot);
+	// 	}
+	// 	return this;
+	// }
 
 
 	// ----------------------------------------------------------
