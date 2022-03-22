@@ -290,7 +290,7 @@ public class Constants {
 
 		public static final double
 			kLauncherTicksReductionRatio = 3.,
-			kIndexerTicksReductionRatio = 9.;
+			kIndexerTicksReductionRatio = 20.;
 
 		public static final int
 			kLauncherMinRPM = -Falcon500.kMaxRPM,
@@ -300,8 +300,8 @@ public class Constants {
 			kIndexerMaxRPM = Falcon500.kMaxRPM;
 
 		public static double
-			kIndexerPercent = 1.0,
-			kReverseIndexerPercent = -1.0;
+			kIndexerPercent = -1.0,
+			kReverseIndexerPercent = 1.0;
 
 		public static int
 			kLauncherFiringRPM = 3_100,
@@ -325,7 +325,7 @@ public class Constants {
 			kLauncherRPMGains;
 		private static final Gains
 			kLauncherRPMGainsV1 = new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00),
-			kLauncherRPMGainsV2 = new Gains(0.040753, 0., 0., 1023./20660., 300, 1.00);
+			kLauncherRPMGainsV2 = new Gains(0.06, 0., 0., 0.055, 300, 1.00);
 
 		public static Gains
 			kIndexerRPMGains;
@@ -355,9 +355,10 @@ public class Constants {
 			kWinchSpeedPercent = 0.5,
 
 			kReleasePinAngle = 0.,
-			kAttachPinAngle = 80.,
+			kAttachPinAngle = 40.,
 
-			kPinRollbackTimeSeconds = 0.2,
+			kPinRollbackTimeSeconds = 0.1
+			,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
