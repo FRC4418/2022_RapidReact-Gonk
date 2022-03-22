@@ -60,7 +60,7 @@ public class Manipulator extends SubsystemBase {
 		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kP);
 		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kI);
         m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kD);
-		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kF);
+		m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kF);
 
 		m_indexerMotor.config_kP(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kP);
 		m_indexerMotor.config_kI(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kI);
