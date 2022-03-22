@@ -91,7 +91,7 @@ public class Intake extends SubsystemBase {
 
 	
 	public Intake updateRetractorOrigin() {
-		if (getRetractorTicks() < 0) {
+		if (getRetractorDegree() < 0) {
 			resetRetractorEncoder();
 		}
 		return this;
@@ -119,14 +119,8 @@ public class Intake extends SubsystemBase {
 		return m_retractorSetDegree == Constants.Intake.kRetractorDownDegree;
 	}
 
-	public int getRetractorTicks() {
-		return (int) (
-			m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx)
-			/ Constants.Intake.kRetractorTicksReductionRatio);
-	}
-
 	public double getRetractorDegree() {
-		return (double) getRetractorTicks() / Constants.Falcon500.kDegreesToTicks;
+		return m_retractorMotor.getSelectedSensorPosition(Constants.Intake.kRetractorPidIdx) / Constants.Intake.kRetractorOutputDegreesToInputTicks;
 	}
 
 	private boolean withinRetractorDegreeRange(double degree) {
@@ -135,15 +129,8 @@ public class Intake extends SubsystemBase {
 
 	public Intake setRetractorDegree(double degree) {
 		if (withinRetractorDegreeRange(degree)) {
-			setRetractorTicks((int) (degree * Constants.Falcon500.kDegreesToTicks));
+			m_retractorMotor.set(ControlMode.Position, degree * Constants.Intake.kRetractorOutputDegreesToInputTicks);
 			m_retractorSetDegree = degree;
-		}
-		return this;
-	}
-
-	public Intake setRetractorTicks(int tick) {
-		if (withinRetractorDegreeRange(tick / Constants.Falcon500.kDegreesToTicks)) {
-			m_retractorMotor.set(ControlMode.Position, tick * Constants.Intake.kRetractorTicksReductionRatio);
 		}
 		return this;
 	}

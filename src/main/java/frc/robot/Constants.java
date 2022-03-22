@@ -256,8 +256,8 @@ public class Constants {
 		// ----------------------------------------------------------
 		// Conversions
 
-		// public static final double
-		// 	kRetractorOutputDegreesToInputTicks = 
+		public static final double
+			kRetractorOutputDegreesToInputTicks = Falcon500.kDegreesToTicks * kRetractorTicksReductionRatio;
 
 		// ----------------------------------------------------------
 		// Open-loop controls
