@@ -138,12 +138,8 @@ public class Manipulator extends SubsystemBase {
 		return m_launcherSetRPM == Constants.Manipulator.kLauncherFiringRPM;
 	}
 
-	// TODO: P2 Fix the math for getLauncherRPM(), it's not outputting the correct RPM
 	public int getLauncherRPM() {
-		return (int) (
-			m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx)
-			/ Constants.Manipulator.kLauncherTicksReductionRatio
-			/ Constants.Falcon500.kRpmToTicksPer100ms);
+		return (int) (m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Manipulator.kLauncherOutputRPMToInputTicksPer100ms);
 	}
 
 	private boolean withinLauncherRPMRange(int rpm) {
@@ -152,9 +148,7 @@ public class Manipulator extends SubsystemBase {
 
 	public Manipulator setLauncherRPM(int rpm) {
 		if (withinLauncherRPMRange(rpm)) {
-			m_launcherMotor.set(ControlMode.Velocity,
-				rpm * Constants.Manipulator.kLauncherTicksReductionRatio
-				* Constants.Falcon500.kRpmToTicksPer100ms);
+			m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherOutputRPMToInputTicksPer100ms);
 			m_launcherSetRPM = rpm;
 		}
 		return this;
