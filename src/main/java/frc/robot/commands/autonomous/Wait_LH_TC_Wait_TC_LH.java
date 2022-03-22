@@ -22,11 +22,9 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 		super(
 			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new LaunchBalls(manipulator, 2),
-			new ParallelCommandGroup(
-				new ExtendIntakeArm(intake, false),
-				new RunFeederAndIndexer(intake, manipulator, false),
-				new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
-			),
+			new ExtendIntakeArm(intake, false),
+			new RunFeederAndIndexer(intake, manipulator, false),
+			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS),
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
 			new RunFeederAndIndexer(intake, manipulator, true),
 			new SecondBallTrajectory(drivetrain, false),

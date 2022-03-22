@@ -13,6 +13,8 @@ public class ExtendIntakeArm extends CommandBase {
 	public ExtendIntakeArm(Intake intake, boolean runWhenDisabled) {
 		m_intake = intake;
 		m_runWhenDisabled = runWhenDisabled;
+
+		addRequirements(m_intake);
 	}
 
 	@Override
