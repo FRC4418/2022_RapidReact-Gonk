@@ -146,27 +146,23 @@ public class Manipulator extends SubsystemBase {
 		return rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM;
 	}
 
-	public Manipulator setLauncherRPM(int rpm) {
+	public void setLauncherRPM(int rpm) {
 		if (withinLauncherRPMRange(rpm)) {
 			m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherOutputRPMToInputTicksPer100ms);
 			m_launcherSetRPM = rpm;
 		}
-		return this;
 	}
 
 	// sets the launcher to it's idle speed
-	public Manipulator idleLauncher() {
+	public void idleLauncher() {
 		setLauncherRPM(Constants.Manipulator.kLauncherIdleRPM);
-		return this;
 	}
 
-	public Manipulator runLauncher() {
+	public void runLauncher() {
 		setLauncherRPM(Constants.Manipulator.kLauncherFiringRPM);
-		return this;
 	}
 
-	public Manipulator stopLauncher() {
+	public void stopLauncher() {
 		setLauncherRPM(0);
-		return this;
 	}
 }
