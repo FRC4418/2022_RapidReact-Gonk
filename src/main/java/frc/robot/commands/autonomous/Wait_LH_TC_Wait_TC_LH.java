@@ -24,7 +24,7 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 
 			// We have now fired the pre-loaded ball
 			
-			new ExtendIntakeArm(intake, false),
+			new ExtendIntakeArm(intake),
 			new RunFeederAndIndexer(intake, manipulator, false),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS),
 
@@ -39,7 +39,7 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 			// At this point, we have now just collected the third ball
 
 			new StopFeederAndIndexer(intake, manipulator, false),
-			new RetractIntakeArm(intake, false),
+			new RetractIntakeArm(intake),
 			new BackTailTwoBallTrajectory(drivetrain, true),
 			
 			new LaunchBalls(manipulator, 2)

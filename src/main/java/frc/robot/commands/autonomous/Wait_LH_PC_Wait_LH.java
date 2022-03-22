@@ -24,14 +24,14 @@ public class Wait_LH_PC_Wait_LH extends SequentialCommandGroup {
 
 			// We have now just fired the pre-loaded ball
 
-			new ExtendIntakeArm(intake, false),
+			new ExtendIntakeArm(intake),
 			new RunFeederAndIndexer(intake, manipulator, false),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS),
 
 			// At this point, we have now just collected the second ball
 			
 			new StopFeederAndIndexer(intake, manipulator, false),
-			new RetractIntakeArm(intake, false),
+			new RetractIntakeArm(intake),
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
 
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),

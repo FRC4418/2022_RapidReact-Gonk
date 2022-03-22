@@ -82,8 +82,8 @@ public abstract class SingleJoystickControls extends JoystickControls {
         if (extendIntakeArmButton != null) {
             extendIntakeArmButton
                 // the boolean second-param specifies if the command should run when the robot is disabled
-                .whenPressed(new ExtendIntakeArm(intake, false))
-                .whenReleased(new RetractIntakeArm(intake, false));
+                .whenPressed(new ExtendIntakeArm(intake))
+                .whenReleased(new RetractIntakeArm(intake));
         }
 
         // ----------------------------------------------------------

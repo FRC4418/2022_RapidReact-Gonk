@@ -156,9 +156,9 @@ public class Intake extends SubsystemBase {
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
 	// false DOES NOT NECESSARILY MEAN that the intake arm is extended
-	// public boolean armIsWithinRetractedTolerance() {
-	// 	return Math.abs(getRetractorDegree() - Constants.Intake.kRetractorUpDegree) <= Constants.Intake.kRetractorDegreeTolerance;
-	// }
+	public boolean armIsWithinRetractedTolerance() {
+		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractorUpDegree) <= Constants.Intake.kRetractorDegreeTolerance;
+	}
 
 	public Intake extendIntakeArm() {
 		brakeRetractor();

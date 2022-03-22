@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import frc.robot.Constants;
+
 import frc.robot.displays.Display;
 import frc.robot.subsystems.Autonomous;
 
@@ -31,7 +31,7 @@ public class DriveStraightDisplay extends DrivingDisplay {
             .withSize(width, height);
 
             driveStraightSpeedPercent = layout
-                .addPersistent("Speed Percent", Constants.Drivetrain.kDriveStraightSpeedPercent)
+                .addPersistent("Speed Percent", Autonomous.getDrivingMaxMotorMPS())
                 .withWidget(BuiltInWidgets.kTextView)
                 .getEntry();
         }
@@ -41,7 +41,7 @@ public class DriveStraightDisplay extends DrivingDisplay {
     @Override
     public void addEntryListeners() {
         driveStraightSpeedPercent.addListener(event -> {
-            Constants.Drivetrain.kDriveStraightSpeedPercent = event.value.getDouble();
+            m_autonomous.setDrivingMaxSpeedMPS(event.value.getDouble());
         }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     }
 }

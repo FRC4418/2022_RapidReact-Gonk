@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.intake.RetractIntakeArm;
+
+import frc.robot.commands.intake.RetractIntakeArmWithFeedbackInDisabled;
 
 
 public class Robot extends TimedRobot {
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		(new RetractIntakeArm(robotContainer.intake, true)).schedule();
+		(new RetractIntakeArmWithFeedbackInDisabled(robotContainer.intake)).schedule();
 		
 		robotContainer.manipulator.stopLauncher();
 		

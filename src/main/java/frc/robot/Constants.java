@@ -86,9 +86,6 @@ public class Constants {
 
 			kDrivetrainMPSReductionRatioV1 = 7.33,
 			kDrivetrainMPSReductionRatioV2 = 7.75;
-		
-		public static double
-			kDriveStraightSpeedPercent = 0.3;
 
 		public static enum MotorGroup {
 			kLeft,
@@ -257,6 +254,12 @@ public class Constants {
 		public static final int kWhiskerSensorDIOPort = 8;
 
 		// ----------------------------------------------------------
+		// Conversions
+
+		// public static final double
+		// 	kRetractorOutputDegreesToInputTicks = 
+
+		// ----------------------------------------------------------
 		// Open-loop controls
 
 		public static final double kRetractorOpenLoopRampSeconds = 1.d;
@@ -267,9 +270,6 @@ public class Constants {
 		public static final double
 			// in seconds
 			kFeederRampTime = 0.25;
-
-		// ----------------------------------------------------------
-		// Closed-loop control
 		
 		public static final int
 			kRetractorPidIdx = 0,
