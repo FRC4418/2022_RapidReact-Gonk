@@ -19,8 +19,12 @@ public class Autonomous extends SubsystemBase {
 		tarmacReturnDelaySeconds = 0.,
 		// converting from feet per second (FPS) to meters per second (MPS)
 		maxMotorMPS = Constants.feetToMeters(1.25),
-		launcherFiringDurationSeconds = 1.25,
+		oneBallFiringDurationSeconds = 0.5,
+		twoBallFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
+	
+	private static int
+		launcherAutoFiringRPM = 5_500;
 
 	// ----------------------------------------------------------
 	// Public constants
@@ -46,6 +50,15 @@ public class Autonomous extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Routine-parameter setters
 
+
+	public static int getLauncherAutoRPM() {
+		return launcherAutoFiringRPM;
+	}
+	public void setLauncherAutoRPM(int rpm) {
+		launcherAutoFiringRPM = rpm;
+		RobotContainer.instance.remakeAutoCommand();
+
+	}
 
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;
@@ -82,13 +95,20 @@ public class Autonomous extends SubsystemBase {
 		return this;
 	}
 
-	public static double getLauncherFiringDurationSeconds() {
-		return launcherFiringDurationSeconds;
+	public static double getOneBallFiringDurationSeconds() {
+		return oneBallFiringDurationSeconds;
 	}
-	public Autonomous setLauncherFiringDurationSeconds(double seconds) {
-		launcherFiringDurationSeconds = seconds;
+	public void setOneBallFiringDurationSeconds(double seconds) {
+		oneBallFiringDurationSeconds = seconds;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
+	}
+
+	public static double getTwoBallFiringDurationSeconds() {
+		return twoBallFiringDurationSeconds;
+	}
+	public void setTwoBallFiringDurationSeconds(double seconds) {
+		twoBallFiringDurationSeconds = seconds;
+		RobotContainer.instance.remakeAutoCommand();
 	}
 
 	public static double getTarmacLeavingMeters() {

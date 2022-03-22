@@ -6,16 +6,16 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 import frc.robot.commands.climber.ExtendClimberWhileHeld;
 import frc.robot.commands.climber.LowerClimberWhileHeld;
-import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
 import frc.robot.commands.intake.RunFeederWhileHeld;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
-import frc.robot.commands.manipulator.RunLauncher;
+import frc.robot.commands.manipulator.RunLauncherWhileHeld;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -66,7 +66,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         }
 
         driveStraightButton = driveStraightButton(primaryJoystick);
-        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
+        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
 
         // ----------------------------------------------------------
         // Intake
@@ -96,7 +96,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
         
         runLauncherButton = runLauncherButton(primaryJoystick);
-        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
+        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncherWhileHeld(manipulator));
 
         // ----------------------------------------------------------
         // Climber

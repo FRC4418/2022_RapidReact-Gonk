@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.intake.RetractIntakeArm;
 
 
 public class Robot extends TimedRobot {
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
 			robotContainer.initializeJoystickValues();
 		}
 
-		// String entryName = "Driving Max Speed [ft per s]";
+		// String entryName = "Driving Max Speed [1.0 percent]";
 		// var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
 		// if (entry.exists()) {
 		// 	SmartDashboard.putString("Entry cleared:", entryName);
@@ -55,7 +56,7 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 
 		robotContainer
-			.listenForRobotSelection()
+			// .listenForRobotSelection()
 			
 			.listenForJoystickModes()
 			.listenForJoystickDevices()
@@ -79,7 +80,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		robotContainer.intake.retractIntakeArm();
+		(new RetractIntakeArm(robotContainer.intake, true)).schedule();
 		
 		robotContainer.manipulator.stopLauncher();
 		

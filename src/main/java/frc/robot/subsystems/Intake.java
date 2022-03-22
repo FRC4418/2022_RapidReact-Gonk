@@ -193,13 +193,13 @@ public class Intake extends SubsystemBase {
 		return this;
 	}
 
-	public Intake runReverseFeeder() {
-		setFeederPercent(Constants.Intake.kReverseFeederPercent);
+	public Intake runFeeder() {
+		setFeederPercent(Constants.Intake.kFeederPercent);
 		return this;
 	}
 
-	public Intake runFeeder() {
-		setFeederPercent(Constants.Intake.kFeederPercent);
+	public Intake runReverseFeeder() {
+		setFeederPercent(Constants.Intake.kReverseFeederPercent);
 		return this;
 	}
 

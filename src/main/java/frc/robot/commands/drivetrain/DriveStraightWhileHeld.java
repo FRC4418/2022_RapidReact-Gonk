@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class DriveStraight extends CommandBase {
+public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Public constants
 
@@ -32,7 +32,7 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
+	public DriveStraightWhileHeld(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
 		m_maxMotorMPS = maxMotorMPS;

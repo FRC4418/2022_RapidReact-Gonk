@@ -86,6 +86,9 @@ public class Constants {
 
 			kDrivetrainMPSReductionRatioV1 = 7.33,
 			kDrivetrainMPSReductionRatioV2 = 7.75;
+		
+		public static double
+			kDriveStraightSpeedPercent = 0.3;
 
 		public static enum MotorGroup {
 			kLeft,
@@ -287,8 +290,9 @@ public class Constants {
 
 		public static final double
 			kLauncherTicksReductionRatio = 3.,
-			kIndexerTicksReductionRatio = 9.,
+			kIndexerTicksReductionRatio = 9.;
 
+		public static final int
 			kLauncherMinRPM = -Falcon500.kMaxRPM,
 			kLauncherMaxRPM = Falcon500.kMaxRPM,
 
@@ -300,7 +304,7 @@ public class Constants {
 			kReverseIndexerPercent = -1.0;
 
 		public static int
-			kLauncherFiringRPM = Falcon500.kMaxRPM,
+			kLauncherFiringRPM = 3_100,
 			kLauncherIdleRPM = -200;
 
 		public static class CAN_ID {

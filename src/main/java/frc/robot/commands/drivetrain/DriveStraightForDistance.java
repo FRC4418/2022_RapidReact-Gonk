@@ -5,7 +5,7 @@ import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class DriveStraightForDistance extends DriveStraight {
+public class DriveStraightForDistance extends DriveStraightWhileHeld {
 	// ----------------------------------------------------------
 	// Resources
 

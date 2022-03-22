@@ -165,13 +165,6 @@ public class Manipulator extends SubsystemBase {
 		return this;
 	}
 
-	// public Manipulator setLauncherPercent(double percent) {
-	// 	if (withinLauncherRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
-	// 		m_launcherMotor.set(ControlMode.PercentOutput, percent);
-	// 	}
-	// 	return this;
-	// }
-
 	// sets the launcher to it's idle speed
 	public Manipulator idleLauncher() {
 		setLauncherRPM(Constants.Manipulator.kLauncherIdleRPM);

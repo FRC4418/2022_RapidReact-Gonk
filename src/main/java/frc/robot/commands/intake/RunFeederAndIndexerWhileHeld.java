@@ -32,11 +32,9 @@ public class RunFeederAndIndexerWhileHeld extends CommandBase {
 	@Override
 	public void initialize() {
 		if (!m_runReverse) {
-			m_intake.runFeeder();
-			m_manipulator.runIndexer();
+			(new RunFeederAndIndexer(m_intake, m_manipulator, false)).schedule();
 		} else {
-			m_intake.runReverseFeeder();
-			m_manipulator.runReverseIndexer();
+			(new RunFeederAndIndexer(m_intake, m_manipulator, true)).schedule();
 		}
 	}
 

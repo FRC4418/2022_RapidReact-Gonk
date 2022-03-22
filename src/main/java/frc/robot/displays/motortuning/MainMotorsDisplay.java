@@ -142,7 +142,6 @@ public class MainMotorsDisplay extends MotorTuningDisplay {
 			if (!Constants.kUsingTuningMode) {
 				m_intake.retractIntakeArm();
 				m_intake.stopFeeder();
-				
 				m_manipulator.stopIndexer();
 				m_manipulator.idleLauncher();
 			}

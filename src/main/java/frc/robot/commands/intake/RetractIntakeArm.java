@@ -13,6 +13,8 @@ public class RetractIntakeArm extends CommandBase {
 	public RetractIntakeArm(Intake intake, boolean runWhenDisabled) {
 		m_intake = intake;
 		m_runWhenDisabled = runWhenDisabled;
+
+		addRequirements(m_intake);
 	}
 
 	@Override
