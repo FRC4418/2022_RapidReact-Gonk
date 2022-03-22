@@ -35,7 +35,7 @@ import frc.robot.displays.drivetrain.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivetrain.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivetrain.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.general.JoysticksDisplay;
-import frc.robot.displays.general.RobotChooserDisplay;
+// import frc.robot.displays.general.RobotChooserDisplay;
 import frc.robot.displays.motortuning.ClimberServosDisplay;
 import frc.robot.displays.motortuning.MainMotorsDisplay;
 import frc.robot.displays.motortuning.MotorPrintoutDisplay;
@@ -139,7 +139,7 @@ public class RobotContainer {
 		visionDisplaysGrid = new DisplaysGrid(),
 		motorTuningDisplaysGrid = new DisplaysGrid();
 
-	private final RobotChooserDisplay robotChooserDisplay;
+	// private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 	private final PremadeAutoRoutineDisplay autonomousDisplay;
 
@@ -185,8 +185,8 @@ public class RobotContainer {
 		};
 
 		generalDisplaysGrid
-			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
-			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(4, 2));
+			// .makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
+			.makeOriginWith(joysticksDisplay = new JoysticksDisplay(4, 2));
 		
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 5, 1))
