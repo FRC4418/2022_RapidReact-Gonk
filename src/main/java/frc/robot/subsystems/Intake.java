@@ -58,12 +58,11 @@ public class Intake extends SubsystemBase {
 	// Constants-reconfiguration methods
 
 
-	public Intake configurePIDs() {
+	public void configurePIDs() {
 		m_retractorMotor.config_kP(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kP);
 		m_retractorMotor.config_kI(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kI);
         m_retractorMotor.config_kD(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kD);
 		// m_retractorMotor.config_kF(Constants.Intake.kRetractorSlotIdx, Constants.Intake.kRetractorPositionGains.kF);
-		return this;
 	}
 
 
@@ -90,25 +89,22 @@ public class Intake extends SubsystemBase {
 	// Retractor motor
 
 	
-	public Intake updateRetractorOrigin() {
+	public void updateRetractorOrigin() {
 		if (getRetractorDegree() < 0) {
 			resetRetractorEncoder();
 		}
-		return this;
 	}
 
 	public void resetRetractorEncoder() {
 		m_retractorMotor.setSelectedSensorPosition(0.);
 	}
 
-	public Intake brakeRetractor() {
+	public void brakeRetractor() {
 		m_retractorMotor.setNeutralMode(NeutralMode.Brake);
-		return this;
 	}
 
-	public Intake coastRetractor() {
+	public void coastRetractor() {
 		m_retractorMotor.setNeutralMode(NeutralMode.Coast);
-		return this;
 	}
 
 	public boolean retractorIsRetracting() {
@@ -127,18 +123,16 @@ public class Intake extends SubsystemBase {
 		return (degree >= Constants.Intake.kRetractorMinDegree && degree <= Constants.Intake.kRetractorMaxDegree);
 	}
 
-	public Intake setRetractorDegree(double degree) {
+	public void setRetractorDegree(double degree) {
 		if (withinRetractorDegreeRange(degree)) {
 			m_retractorMotor.set(ControlMode.Position, degree * Constants.Intake.kRetractorOutputDegreesToInputTicks);
 			m_retractorSetDegree = degree;
 		}
-		return this;
 	}
 
-	public Intake retractIntakeArm() {
+	public void retractIntakeArm() {
 		brakeRetractor();
 		setRetractorDegree(Constants.Intake.kRetractorUpDegree);
-		return this;
 	}
 
 	// true means it is satisfiably close to the retracted-arm degree, false means it is not
@@ -147,10 +141,9 @@ public class Intake extends SubsystemBase {
 		return Math.abs(getRetractorDegree() - Constants.Intake.kRetractorUpDegree) <= Constants.Intake.kRetractorDegreeTolerance;
 	}
 
-	public Intake extendIntakeArm() {
+	public void extendIntakeArm() {
 		brakeRetractor();
 		setRetractorDegree(Constants.Intake.kRetractorDownDegree);
-		return this;
 	}
 
 	// true means it is satisfiably close to the extended-arm degree, false means it is not
@@ -174,24 +167,20 @@ public class Intake extends SubsystemBase {
 	}
 
 	// -1 to 1
-	public Intake setFeederPercent(double percent) {
+	public void setFeederPercent(double percent) {
 		m_feederMotor.set(ControlMode.PercentOutput, percent);
 		m_feederSetPercent = percent;
-		return this;
 	}
 
-	public Intake runFeeder() {
+	public void runFeeder() {
 		setFeederPercent(Constants.Intake.kFeederPercent);
-		return this;
 	}
 
-	public Intake runReverseFeeder() {
+	public void runReverseFeeder() {
 		setFeederPercent(Constants.Intake.kReverseFeederPercent);
-		return this;
 	}
 
-	public Intake stopFeeder() {
+	public void stopFeeder() {
 		setFeederPercent(0.);
-		return this;
 	}
 }
