@@ -35,7 +35,6 @@ import frc.robot.displays.drivetrain.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivetrain.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivetrain.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.general.JoysticksDisplay;
-// import frc.robot.displays.general.RobotChooserDisplay;
 import frc.robot.displays.motortuning.ClimberServosDisplay;
 import frc.robot.displays.motortuning.MainMotorsDisplay;
 import frc.robot.displays.motortuning.MotorPrintoutDisplay;
@@ -62,6 +61,7 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
+	// change this to VERSACHASSIS_ONE to use V1 constants
 	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_TWO;
 
 	public static final boolean
@@ -139,7 +139,6 @@ public class RobotContainer {
 		visionDisplaysGrid = new DisplaysGrid(),
 		motorTuningDisplaysGrid = new DisplaysGrid();
 
-	// private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 	private final PremadeAutoRoutineDisplay autonomousDisplay;
 
@@ -185,7 +184,6 @@ public class RobotContainer {
 		};
 
 		generalDisplaysGrid
-			// .makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
 			.makeOriginWith(joysticksDisplay = new JoysticksDisplay(4, 2));
 		
 		drivingDisplaysGrid
@@ -288,16 +286,6 @@ public class RobotContainer {
 			instance.configureNonStaticConstantsDependencies();
 		}
 	}
-
-	// public RobotContainer listenForRobotSelection() {
-	// 	var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
-	// 	if (teamRobot != newRobotSelection) {
-	// 		teamRobot = newRobotSelection;
-	// 		configureConstants();
-	// 		drivetrain.configureDrivetrain(teamRobot);
-	// 	}
-	// 	return this;
-	// }
 
 
 	// ----------------------------------------------------------
