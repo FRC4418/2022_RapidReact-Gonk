@@ -88,7 +88,7 @@ public class Vision extends SubsystemBase {
 			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
-				frontCameraServer.setSource(frontOutputStream);
+				frontCameraServer.setSource(frontCamera);
 				outputMjpegServers.put(Camera.FRONT, frontCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create front camera's MJPEG server", true);
@@ -119,7 +119,7 @@ public class Vision extends SubsystemBase {
 			m_cvSources.put(Camera.BACK, backOutputStream);
 			
 			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
-				backCameraServer.setSource(backOutputStream);
+				backCameraServer.setSource(backCamera);
 				outputMjpegServers.put(Camera.BACK, backCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create back camera's MJPEG server", true);
@@ -149,7 +149,7 @@ public class Vision extends SubsystemBase {
 			m_cvSources.put(Camera.INNER, innerOutputStream);
 			
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
-				innerCameraServer.setSource(innerOutputStream);
+				innerCameraServer.setSource(innerCamera);
 				outputMjpegServers.put(Camera.INNER, innerCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create inner camera's MJPEG server", true);
