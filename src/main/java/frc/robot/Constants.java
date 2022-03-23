@@ -411,9 +411,15 @@ public class Constants {
 		// ----------------------------------------------------------
 		// General
 
+		public static final int
+			kFrontCameraUSBPort = 1,
+			kBackCameraUSBPort = 0,
+			kInnerCameraUSBPort = -1;
+
 		public static boolean
-			kEnableFrontCenterCamera = false,
-			kEnableBackCenterCamera = false;
+			kEnableFrontCamera = true,
+			kEnableBackCamera = true,
+			kEnableInnerCamera = false;
 	}
 
 	public static class Lights {
