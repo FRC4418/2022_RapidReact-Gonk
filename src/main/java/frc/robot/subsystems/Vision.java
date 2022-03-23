@@ -55,28 +55,28 @@ public class Vision extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Front-center camera
 
-		frontCenterCameraName = "Front-Center";
-		if (Constants.Vision.kEnableFrontCenterCamera) {
-			frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
-			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
-			frontCenterCameraServer.setSource(frontCenterCamera);
-			frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-		}
-		cameras.put(frontCenterCameraName, frontCenterCamera);
+		// frontCenterCameraName = "Front-Center";
+		// if (Constants.Vision.kEnableFrontCenterCamera) {
+		// 	frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
+		// 	frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		// 	frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
+		// 	frontCenterCameraServer.setSource(frontCenterCamera);
+		// 	frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		// }
+		// cameras.put(frontCenterCameraName, frontCenterCamera);
 		
-		// ----------------------------------------------------------
-		// Back-center camera
+		// // ----------------------------------------------------------
+		// // Back-center camera
 
-		backCenterCameraName = "Back-Center";
-		if (Constants.Vision.kEnableBackCenterCamera) {
-			backCenterCamera = new UsbCamera(backCenterCameraName, 1);
-			backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
-			backCenterCameraServer.setSource(backCenterCamera);
-			backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-		}
-		cameras.put(backCenterCameraName, backCenterCamera);
+		// backCenterCameraName = "Back-Center";
+		// if (Constants.Vision.kEnableBackCenterCamera) {
+		// 	backCenterCamera = new UsbCamera(backCenterCameraName, 1);
+		// 	backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		// 	backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
+		// 	backCenterCameraServer.setSource(backCenterCamera);
+		// 	backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		// }
+		// cameras.put(backCenterCameraName, backCenterCamera);
 	}
 
 
@@ -105,13 +105,8 @@ public class Vision extends SubsystemBase {
 	}
 
 	public void startDefaultCameraStreams() {
-		if (Constants.Vision.kEnableFrontCenterCamera) {
-			enableFrontCenterCameraStream(true);
-		}
-		
-		if (Constants.Vision.kEnableBackCenterCamera) {
-			enableBackCenterCameraStream(true);
-		}
+		CameraServer.startAutomaticCapture(0);
+		CameraServer.startAutomaticCapture(1);
 	}
 
 	private void enableCameraStreamFor(String cameraName, boolean enable) {
