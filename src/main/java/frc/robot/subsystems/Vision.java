@@ -45,7 +45,7 @@ public class Vision extends SubsystemBase {
 	// maps camera name to camera object
 	public HashMap<Camera, UsbCamera> cameras = new HashMap<>();
 	// maps camera name to CV Sink
-	public HashMap<Camera, MjpegServer> outputStreams = new HashMap<>();
+	public HashMap<Camera, MjpegServer> outputMjpegServers = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -85,9 +85,10 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
 			m_cvSources.put(Camera.FRONT, frontOutputStream);
+			
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
 				frontCameraServer.setSource(frontOutputStream);
-				outputStreams.put(Camera.FRONT, frontCameraServer);
+				outputMjpegServers.put(Camera.FRONT, frontCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create front camera's MJPEG server", true);
 				assert 1 == 0;
@@ -114,9 +115,10 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
 			m_cvSources.put(Camera.BACK, backOutputStream);
+			
 			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
 				backCameraServer.setSource(backOutputStream);
-				outputStreams.put(Camera.BACK, backCameraServer);
+				outputMjpegServers.put(Camera.BACK, backCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create back camera's MJPEG server", true);
 				assert 1 == 0;
@@ -142,9 +144,10 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
 			m_cvSources.put(Camera.INNER, innerOutputStream);
+			
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
 				innerCameraServer.setSource(innerOutputStream);
-				outputStreams.put(Camera.INNER, innerCameraServer);
+				outputMjpegServers.put(Camera.INNER, innerCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create inner camera's MJPEG server", true);
 				assert 1 == 0;
@@ -168,7 +171,7 @@ public class Vision extends SubsystemBase {
 
 
 	public VideoSource getVideoSource(Camera camera) {
-		return cameras.get(camera);
+		return outputMjpegServers.get(camera).getSource();
 	}
 
 	public void toggleCameraStream(Camera camera, boolean enable) {
