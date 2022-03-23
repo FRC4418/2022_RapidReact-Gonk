@@ -36,7 +36,8 @@ public class RunFeederAndIndexerForTime extends CommandBase {
 	public void initialize() {
 		m_timer.start();
 
-		(new RunFeederAndIndexer(m_intake, m_manipulator, false)).schedule();
+		m_intake.runFeeder();
+		m_manipulator.runIndexer();
 	}
 
 	@Override

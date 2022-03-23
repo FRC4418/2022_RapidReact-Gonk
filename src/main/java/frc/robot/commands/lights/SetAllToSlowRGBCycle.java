@@ -16,6 +16,11 @@ public class SetAllToSlowRGBCycle extends CommandBase {
 	}
 
 	@Override
+	public boolean runsWhenDisabled() {
+		return true;
+	}
+
+	@Override
 	public void initialize() {
 		m_lights.setAllToSlowRGBCycle();
 	}
