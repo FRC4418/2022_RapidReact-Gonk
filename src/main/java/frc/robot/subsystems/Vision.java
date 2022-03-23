@@ -150,11 +150,6 @@ public class Vision extends SubsystemBase {
 				assert 1 == 0;
 			}
 		}
-
-		// ----------------------------------------------------------
-		// Thread stuff
-
-		startVisionThreads();
 	}
 
 
@@ -189,7 +184,7 @@ public class Vision extends SubsystemBase {
 	// Camera-pipelines
 
 
-	private void startVisionThreads() {
+	public void startVisionThreads() {
 		if (Constants.Vision.kEnableFrontCamera) {
 			VisionThread frontCameraThread = new VisionThread(cameras.get(Camera.FRONT), null, pipeline -> {
 				Mat input = new Mat();
