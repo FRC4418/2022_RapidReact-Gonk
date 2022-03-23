@@ -4,7 +4,9 @@ package frc.robot.subsystems;
 import java.util.HashMap;
 
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
@@ -72,7 +74,7 @@ public class Vision extends SubsystemBase {
 			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.FRONT, frontCamera);
 
-			try (CvSink frontCvSink = new CvSink(Camera.FRONT.getName() + " CvSink")) {
+			try (CvSink frontCvSink = CameraServer.getVideo((VideoSource) frontCamera)) {
 				frontCvSink.setSource(frontCamera);
 				m_cvSinks.put(Camera.FRONT, frontCvSink);
 			} catch (Exception e) {
@@ -101,7 +103,7 @@ public class Vision extends SubsystemBase {
 			backCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.BACK, backCamera);
 
-			try (CvSink backCvSink = new CvSink(Camera.BACK.getName() + " CvSink")) {
+			try (CvSink backCvSink = CameraServer.getVideo((VideoSource) backCamera)) {
 				backCvSink.setSource(backCamera);
 				m_cvSinks.put(Camera.BACK, backCvSink);
 			} catch (Exception e) {
@@ -130,8 +132,7 @@ public class Vision extends SubsystemBase {
 			innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.INNER, innerCamera);
 
-			try (CvSink innerCvSink = new CvSink(Camera.INNER.getName() + " CvSink")) {
-				innerCvSink.setSource(innerCamera);
+			try (CvSink innerCvSink = CameraServer.getVideo((VideoSource) innerCamera)) {
 				m_cvSinks.put(Camera.INNER, innerCvSink);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create inner camera's CV Sink", true);
@@ -198,10 +199,11 @@ public class Vision extends SubsystemBase {
 		if (Constants.Vision.kEnableFrontCamera) {
 			VisionThread frontCameraThread = new VisionThread(cameras.get(Camera.FRONT), null, pipeline -> {
 				Mat input = new Mat();
+				Mat output = new Mat();
 	
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.FRONT).grabFrame(input);
-					
+					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
 					m_cvSources.get(Camera.FRONT).putFrame(input);
 				}
 			});
@@ -211,10 +213,11 @@ public class Vision extends SubsystemBase {
 		if (Constants.Vision.kEnableBackCamera) {
 			VisionThread backCameraThread = new VisionThread(cameras.get(Camera.BACK), null, pipeline -> {
 				Mat input = new Mat();
+				Mat output = new Mat();
 	
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.BACK).grabFrame(input);
-					
+					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
 					m_cvSources.get(Camera.BACK).putFrame(input);
 				}
 			});
@@ -224,10 +227,11 @@ public class Vision extends SubsystemBase {
 		if (Constants.Vision.kEnableInnerCamera) {
 			VisionThread innerCameraThread = new VisionThread(cameras.get(Camera.INNER), null, pipeline -> {
 				Mat input = new Mat();
+				Mat output = new Mat();
 	
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.INNER).grabFrame(input);
-					
+					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
 					m_cvSources.get(Camera.INNER).putFrame(input);
 				}
 			});
