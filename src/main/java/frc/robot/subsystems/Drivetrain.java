@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -139,6 +140,8 @@ public class Drivetrain extends SubsystemBase {
 
 		configureMotorPIDs();
 		resetEncoders();
+
+		m_differentialDrive.setSafetyEnabled(false);
 	}
 
 
@@ -178,24 +181,21 @@ public class Drivetrain extends SubsystemBase {
 	// Motor methods
 
 
-	public Drivetrain setDeadband(double deadband) {
+	public void setDeadband(double deadband) {
 		m_differentialDrive.setDeadband(deadband);
-		return this;
 	}
 
-	public Drivetrain useDefaultMaxOutput() {
+	public void useDefaultMaxOutput() {
 		m_differentialDrive.setMaxOutput(Constants.Drivetrain.kMaxOutput);
-		return this;
 	}
 
-	public Drivetrain setMaxOutput(double maxOutput) {
+	public void setMaxOutput(double maxOutput) {
 		Constants.Drivetrain.kMaxOutput = maxOutput;
 		m_differentialDrive.setMaxOutput(maxOutput);
-		return this;
 	}
 
 	// weird name 'setONLYMotorGroupToInverted' means that ONLY the given motor group should be inverted
-	public Drivetrain setOnlyMotorGroupToInverted(MotorGroup motorGroup) {
+	public void setOnlyMotorGroupToInverted(MotorGroup motorGroup) {
 		switch (motorGroup) {
 			default:
 				DriverStation.reportError("Unsupported motor group detected in setOnlyMotorGroupToInverted", true);
@@ -215,72 +215,64 @@ public class Drivetrain extends SubsystemBase {
 				rightMotorsDirectionMultiplier = -1.;
 				break;
 		}
-		return this;
 	}
 
 	public boolean isReversed() {
 		return m_reverseDrivetrain;
 	}
-	public Drivetrain reverseDrivetrain() {
+	public void reverseDrivetrain() {
 		leftMotorsDirectionMultiplier *= -1;
 		rightMotorsDirectionMultiplier *= -1;
 		m_reverseDrivetrain = !m_reverseDrivetrain;
-		return this;
 	}
 
-	public Drivetrain useTeleopOpenLoopRamp() {
+	public void useTeleopOpenLoopRamp() {
 		setOpenLoopRampTimes(Constants.Drivetrain.kTeleopOpenLoopRampTime);
 		usingTeleopOpenLoopRamp = true;
-		return this;
 	}
 
-	public Drivetrain updateTeleopOpenLoopRampTime(double openLoopRampTime) {
+	public void updateTeleopOpenLoopRampTime(double openLoopRampTime) {
 		Constants.Drivetrain.kTeleopOpenLoopRampTime = openLoopRampTime;
 		if (usingTeleopOpenLoopRamp) {
 			setOpenLoopRampTimes(openLoopRampTime);
 		}
-		return this;
 	}
 
-	public Drivetrain disableOpenLoopRamp() {
+	public void disableOpenLoopRamp() {
 		setOpenLoopRampTimes(0.);
 		usingTeleopOpenLoopRamp = false;
-		return this;
 	}
 
-	public Drivetrain setOpenLoopRampTimes(double timeInSeconds) {
+	public void setOpenLoopRampTimes(double timeInSeconds) {
 		m_frontLeftMotor.configOpenloopRamp(timeInSeconds);
 		m_backLeftMotor.configOpenloopRamp(timeInSeconds);
 
 		m_frontRightMotor.configOpenloopRamp(timeInSeconds);
 		m_backRightMotor.configOpenloopRamp(timeInSeconds);
-		return this;
 	}
 
 	public double getLeftMPS() {
-		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * leftMotorsDirectionMultiplier;
+		return m_frontLeftMotor.getSelectedSensorVelocity(Constants.Drivetrain.kLeftPidIdx) / Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * leftMotorsDirectionMultiplier;
 	}
 
 	public double getRightMPS() {
-		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kMPSToTicksPer100ms * rightMotorsDirectionMultiplier;
+		return m_frontRightMotor.getSelectedSensorVelocity(Constants.Drivetrain.kRightPidIdx) / Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier;
 	}
 
-	public Drivetrain brakeMotors() {
+	public void brakeMotors() {
 		m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
 		m_backLeftMotor.setNeutralMode(NeutralMode.Brake);
 
 		m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
 		m_backRightMotor.setNeutralMode(NeutralMode.Brake);
-		return this;
 	}
 
-	public Drivetrain coastMotors() {
+	public void coastMotors() {
 		m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
 		m_backLeftMotor.setNeutralMode(NeutralMode.Coast);
 
 		m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
 		m_backRightMotor.setNeutralMode(NeutralMode.Coast);
-		return this;
 	}
 
 
@@ -308,7 +300,7 @@ public class Drivetrain extends SubsystemBase {
 	// Drive methods
 
 
-	public Drivetrain configureDrivetrain(TeamRobot teamRobot) {
+	public void configureDrivetrain(TeamRobot teamRobot) {
 		switch (teamRobot) {
 			default:
 				DriverStation.reportError("Unsupported robot selection found while configuring the robot-specific drivetrain", true);
@@ -320,7 +312,6 @@ public class Drivetrain extends SubsystemBase {
 				setOnlyMotorGroupToInverted(MotorGroup.kRight);
 				break;
 		}
-		return this;
 	}
 
 	public void arcadeDrive(double forward, double turn) {
@@ -335,18 +326,11 @@ public class Drivetrain extends SubsystemBase {
 		m_differentialDrive.feed();
 	}
 
-	public Drivetrain tankDriveMPS(double leftMPS, double rightMPS) {
-		m_frontLeftMotor.set(ControlMode.Velocity,
-			leftMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* leftMotorsDirectionMultiplier);
-		m_frontRightMotor.set(ControlMode.Velocity,
-			rightMPS * Constants.Drivetrain.kDrivetrainMPSReductionRatio
-			* Constants.Drivetrain.kMPSToTicksPer100ms
-			* rightMotorsDirectionMultiplier);
+	public void tankDriveMPS(double leftMPS, double rightMPS) {
+		m_frontLeftMotor.set(ControlMode.Velocity, leftMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * leftMotorsDirectionMultiplier);
+		m_frontRightMotor.set(ControlMode.Velocity, rightMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier);
 		
 		m_differentialDrive.feed();
-		return this;
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -446,35 +430,31 @@ public class Drivetrain extends SubsystemBase {
 		return useSlewRateLimiters;
 	}
 
-	public Drivetrain setUseSlewRateLimiters(boolean bool) {
+	public void setUseSlewRateLimiters(boolean bool) {
 		useSlewRateLimiters = bool;
-		return this;
 	}
 
 	// Output-mode configurations
 
-	public Drivetrain useDefaultSlewRates() {
+	public void useDefaultSlewRates() {
 		setArcadeForwardLimiterRate(Constants.Drivetrain.SlewRates.kArcadeForward);
 		setArcadeTurnLimiterRate(Constants.Drivetrain.SlewRates.kArcadeTurn);
 
 		setTankLeftForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
 		setTankRightForwardLimiterRate(Constants.Drivetrain.SlewRates.kTankForward);
-		return this;
 	}
 
 	// Curvature-drive slew-rate limiters
 
-	public Drivetrain setCurvatureForwardLimiterRate(double rate) {
+	public void setCurvatureForwardLimiterRate(double rate) {
 		m_curvatureForwardLimiter = new SlewRateLimiter(rate);
-		return this;
 	}
 	public double filterCurvatureForward(double forward) {
 		return m_curvatureForwardLimiter.calculate(forward);
 	}
 
-	public Drivetrain setCurvatureRotationLimiterRate(double rate) {
+	public void setCurvatureRotationLimiterRate(double rate) {
 		m_curvatureRotationLimiter = new SlewRateLimiter(rate);
-		return this;
 	}
 	public double filterCurvatureRotation(double rotation) {
 		return m_curvatureRotationLimiter.calculate(rotation);
@@ -483,17 +463,15 @@ public class Drivetrain extends SubsystemBase {
 	// Arcade-drive slew-rate limiters
 
 	// there isn't a meethod in the SlewRateLimiter class in the WPILIB API to just change the rate :(
-	public Drivetrain setArcadeForwardLimiterRate(double rate) {
+	public void setArcadeForwardLimiterRate(double rate) {
 		m_arcadeForwardLimiter = new SlewRateLimiter(rate);
-		return this;
 	}
 	public double filterArcadeForward(double forward) {
 		return m_arcadeForwardLimiter.calculate(forward);
 	}
 
-	public Drivetrain setArcadeTurnLimiterRate(double rate) {
+	public void setArcadeTurnLimiterRate(double rate) {
 		m_arcadeTurnLimiter = new SlewRateLimiter(rate);
-		return this;
 	}
 	public double filterArcadeTurn(double turn) {
 		return m_arcadeTurnLimiter.calculate(turn);
@@ -546,19 +524,16 @@ public class Drivetrain extends SubsystemBase {
 	// 	return imu.getYFilteredAccelAngle() - m_filteredYAccelOffset;
 	// }
 
-	public Drivetrain calibrateIMU() {
+	public void calibrateIMU() {
 		imu.calibrate();	// just filters out noise (robot must be still)
 		
 		m_filteredXAccelOffset = imu.getXFilteredAccelAngle();
 		m_filteredYAccelOffset = imu.getYFilteredAccelAngle();
-		
-		return this;
 	}
 
-	public Drivetrain resetIMU() {
+	public void resetIMU() {
 		// zeros out current measurements (basically sets all sensor readings at current location as the "origin")
 		imu.reset();
-		return this;
 	}
 
 
@@ -574,9 +549,8 @@ public class Drivetrain extends SubsystemBase {
 			* leftMotorsDirectionMultiplier;
 	}
 
-	public Drivetrain resetLeftEncoder() {
+	public void resetLeftEncoder() {
 		m_frontLeftMotor.setSelectedSensorPosition(0.);
-		return this;
 	}
 
 	public double getRightDistanceMeters() {
@@ -587,15 +561,13 @@ public class Drivetrain extends SubsystemBase {
 			* rightMotorsDirectionMultiplier;
 	}
 
-	public Drivetrain resetRightEncoder() {
+	public void resetRightEncoder() {
 		m_frontRightMotor.setSelectedSensorPosition(0.);
-		return this;
 	}
 
-	public Drivetrain resetEncoders() {
+	public void resetEncoders() {
 		resetLeftEncoder();
 		resetRightEncoder();
-		return this;
 	}
 
 	// always returns a positive value

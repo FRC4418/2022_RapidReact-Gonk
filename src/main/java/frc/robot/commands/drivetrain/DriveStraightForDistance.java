@@ -1,11 +1,12 @@
 package frc.robot.commands.drivetrain;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class DriveStraightForDistance extends DriveStraight {
+public class DriveStraightForDistance extends DriveStraightWhileHeld {
 	// ----------------------------------------------------------
 	// Resources
 
@@ -14,18 +15,18 @@ public class DriveStraightForDistance extends DriveStraight {
 	// ----------------------------------------------------------
 	// Constructors
 
-	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double maxMotorMPS) {
-		super(drivetrain, direction, maxMotorMPS);
+	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction, double maxMotorPercent) {
+		super(drivetrain, direction, maxMotorPercent);
 
 		m_distanceInMeters = distanceInMeters;
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
-		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMaxMotorMPS());
+		this(drivetrain, distanceInMeters, direction, Autonomous.getDrivingMaxMotorPercent());
 	}
 
-	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, maxMotorMPS);
+	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorPercent) {
+		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, maxMotorPercent);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {

@@ -6,20 +6,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 import frc.robot.commands.climber.ExtendClimberWhileHeld;
 import frc.robot.commands.climber.LowerClimberWhileHeld;
-import frc.robot.commands.drivetrain.DriveStraight;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld;
 import frc.robot.commands.drivetrain.ReverseDrivetrain;
-import frc.robot.commands.drivetrain.DriveStraight.DriveStraightDirection;
+import frc.robot.commands.drivetrain.DriveStraightWhileHeld.DriveStraightDirection;
 import frc.robot.commands.intake.ExtendIntakeArm;
 import frc.robot.commands.intake.RetractIntakeArm;
 import frc.robot.commands.intake.RunFeederAndIndexerWhileHeld;
 import frc.robot.commands.intake.RunFeederWhileHeld;
 import frc.robot.commands.intake.ToggleIndexBall;
 import frc.robot.commands.manipulator.RunIndexer;
-import frc.robot.commands.manipulator.RunLauncher;
+import frc.robot.commands.manipulator.RunLauncherWhileHeld;
 import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 
 
@@ -51,7 +52,7 @@ public abstract class DualJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
+    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber, Lights lights) {
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
         
@@ -61,12 +62,12 @@ public abstract class DualJoystickControls extends JoystickControls {
         reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
         if (reverseDrivetrainButton != null) {
             reverseDrivetrainButton
-                .whenPressed(new ReverseDrivetrain(drivetrain))
-                .whenReleased(new ReverseDrivetrain(drivetrain));
+                .whenPressed(new ReverseDrivetrain(drivetrain, lights))
+                .whenReleased(new ReverseDrivetrain(drivetrain, lights));
         }
 
         driveStraightButton = driveStraightButton(primaryJoystick);
-        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraight(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
+        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercent));
 
         // ----------------------------------------------------------
         // Intake
@@ -84,8 +85,8 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (extendIntakeArmButton != null) {
             extendIntakeArmButton
                 // the boolean second-param specifies if the command should run when the robot is disabled
-                .whenPressed(new ExtendIntakeArm(intake, false))
-                .whenReleased(new RetractIntakeArm(intake, false));
+                .whenPressed(new ExtendIntakeArm(intake))
+                .whenReleased(new RetractIntakeArm(intake));
         }
         
 
@@ -96,7 +97,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         if (runIndexerButton != null) runIndexerButton.whenHeld(new RunIndexer(manipulator));
         
         runLauncherButton = runLauncherButton(primaryJoystick);
-        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncher(manipulator));
+        if (runLauncherButton != null) runLauncherButton.whenHeld(new RunLauncherWhileHeld(manipulator));
 
         // ----------------------------------------------------------
         // Climber

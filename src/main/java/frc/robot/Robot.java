@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import frc.robot.commands.intake.RetractIntakeArmWithFeedbackInDisabled;
+
 
 public class Robot extends TimedRobot {
 	// ----------------------------------------------------------
@@ -26,26 +28,27 @@ public class Robot extends TimedRobot {
 
 		robotContainer = new RobotContainer();
 
-		robotContainer.drivetrain
-			.configureDrivetrain(RobotContainer.defaultRobot)
-			// the robot should not be moving while the IMU is calibrating
-			.calibrateIMU()
-			.resetIMU();
+		robotContainer.drivetrain.configureDrivetrain(RobotContainer.defaultRobot);
+		// the robot should not be moving while the IMU is calibrating
+		robotContainer.drivetrain.calibrateIMU();
+		robotContainer.drivetrain.resetIMU();
 		
 		robotContainer.intake.resetRetractorEncoder();
+
+		robotContainer.vision.startDefaultCameraStreams();
 
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer.initializeJoystickValues();
 		}
 
-		// String entryName = "Driving Max Speed [ft per s]";
-		// var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 1").getEntry(entryName);
-		// if (entry.exists()) {
-		// 	SmartDashboard.putString("Entry cleared:", entryName);
-		// }
-		// entry.clearPersistent();
-		// entry.removeListener(0);
-		// entry.delete();
+		String entryName = "Driving Max Speed [ft per s]";
+		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 2").getEntry(entryName);
+		if (entry.exists()) {
+			SmartDashboard.putString("Entry cleared:", entryName);
+		}
+		entry.clearPersistent();
+		entry.removeListener(0);
+		entry.delete();
 	}
 
 	@Override
@@ -53,8 +56,6 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 
 		robotContainer
-			.listenForRobotSelection()
-			
 			.listenForJoystickModes()
 			.listenForJoystickDevices()
 			
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		robotContainer.drivetrain.coastMotors();
 
-		robotContainer.intake.retractIntakeArm();
+		(new RetractIntakeArmWithFeedbackInDisabled(robotContainer.intake)).schedule();
 		
 		robotContainer.manipulator.stopLauncher();
 		
@@ -131,18 +132,7 @@ public class Robot extends TimedRobot {
 
 		robotContainer.drivetrain.useTeleopOpenLoopRamp();
 
-		if (robotContainer.drivetrain.isReversed()) {
-			robotContainer.lights.setAllToGreen();
-		} else {
-			robotContainer.lights.setAllToFastRGBCycle();
-		}
-
 		robotContainer.intake.retractIntakeArm();
-	}
-
-	@Override
-	public void teleopPeriodic() {
-		
 	}
 
 

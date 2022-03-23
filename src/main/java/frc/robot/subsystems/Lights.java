@@ -39,29 +39,33 @@ public class Lights extends SubsystemBase {
 		sendCommand(7);
 	}
 
-	public void turnOffAll() {
+	public void setAllToRed() {
 		sendCommand(8);
+	}
+
+	public void turnOffAll() {
+		sendCommand(9);
 	}
 
 	// ----------------------------------------------------------
 	// Setters for the underglow lights
 
 	public void setUnderglowToRed() {
-		sendCommand(9);
+		sendCommand(10);
 	}
 
 	public void setUnderglowToBlue() {
-		sendCommand(9);
+		sendCommand(11);
 	}
 
 	public void turnOffUnderglow() {
-		sendCommand(10);
+		sendCommand(12);
 	}
 
 	// ----------------------------------------------------------
 	// Setters for the upper lights
 
 	public void turnOffUpper() {
-		sendCommand(11);
+		sendCommand(13);
 	}
 }

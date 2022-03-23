@@ -2,15 +2,21 @@ package frc.robot.commands.intake;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.Intake;
 
 
-public class RetractIntakeArm extends CommandBase {
+public class RetractIntakeArmWithFeedbackInDisabled extends CommandBase {
 	private final Intake m_intake;
 
-	public RetractIntakeArm(Intake intake) {
+	public RetractIntakeArmWithFeedbackInDisabled(Intake intake) {
 		m_intake = intake;
+
+		addRequirements(m_intake);
+	}
+
+	@Override
+	public boolean runsWhenDisabled() {
+		return true;
 	}
 
 	@Override
@@ -20,6 +26,6 @@ public class RetractIntakeArm extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		return true;
+		return m_intake.armIsWithinRetractedTolerance();
 	}
 }

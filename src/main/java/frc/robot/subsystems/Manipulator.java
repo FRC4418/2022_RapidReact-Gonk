@@ -61,7 +61,7 @@ public class Manipulator extends SubsystemBase {
 		m_launcherMotor.config_kP(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kP);
 		m_launcherMotor.config_kI(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kI);
         m_launcherMotor.config_kD(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kD);
-		// m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kF);
+		m_launcherMotor.config_kF(Constants.Manipulator.kLauncherPidIdx, Constants.Manipulator.kLauncherRPMGains.kF);
 
 		m_indexerMotor.config_kP(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kP);
 		m_indexerMotor.config_kI(Constants.Manipulator.kIndexerPidIdx, Constants.Manipulator.kIndexerRPMGains.kI);
@@ -79,12 +79,9 @@ public class Manipulator extends SubsystemBase {
 		return m_indexerSetPercent == Constants.Manipulator.kIndexerPercent;
 	}
 
-	public int getIndexerRPM() {
-		return (int) (
-			m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx)
-			/ Constants.Manipulator.kIndexerTicksReductionRatio
-			/ Constants.Falcon500.kRpmToTicksPer100ms);
-	}
+	// public int getIndexerRPM() {
+	// 	return (int) (m_indexerMotor.getSelectedSensorVelocity(Constants.Manipulator.kIndexerPidIdx) / Constants.Manipulator.kIndexerOutputRPMToInputTicksPer100ms);
+	// }
 
 	private boolean withinIndexerRPMRange(int rpm) {
 		return (rpm >= Constants.Manipulator.kIndexerMinRPM && rpm <= Constants.Manipulator.kIndexerMaxRPM);
@@ -92,9 +89,7 @@ public class Manipulator extends SubsystemBase {
 
 	// public void setIndexerRPM(int rpm) {
 	// 	if (withinIndexerRPMRange(rpm)) {
-	// 		m_indexerMotor.set(ControlMode.Velocity,
-	// 			rpm * Constants.Manipulator.kIndexerTicksReductionRatio
-	// 			* Constants.Falcon500.kRpmToTicksPer100ms);
+	// 		m_indexerMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kIndexerOutputRPMToInputTicksPer100ms);
 	// 	}
 	// }
 
@@ -144,48 +139,31 @@ public class Manipulator extends SubsystemBase {
 		return m_launcherSetRPM == Constants.Manipulator.kLauncherFiringRPM;
 	}
 
-	// TODO: P2 Fix the math for getLauncherRPM(), it's not outputting the correct RPM
 	public int getLauncherRPM() {
-		return (int) (
-			m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx)
-			/ Constants.Manipulator.kLauncherTicksReductionRatio
-			/ Constants.Falcon500.kRpmToTicksPer100ms);
+		return (int) (m_launcherMotor.getSelectedSensorVelocity(Constants.Manipulator.kLauncherPidIdx) / Constants.Manipulator.kLauncherOutputRPMToInputTicksPer100ms);
 	}
 
 	private boolean withinLauncherRPMRange(int rpm) {
 		return rpm >= Constants.Manipulator.kLauncherMinRPM && rpm <= Constants.Manipulator.kLauncherMaxRPM;
 	}
 
-	public Manipulator setLauncherRPM(int rpm) {
+	public void setLauncherRPM(int rpm) {
 		if (withinLauncherRPMRange(rpm)) {
-			m_launcherMotor.set(ControlMode.Velocity,
-				rpm * Constants.Manipulator.kLauncherTicksReductionRatio
-				* Constants.Falcon500.kRpmToTicksPer100ms);
+			m_launcherMotor.set(ControlMode.Velocity, rpm * Constants.Manipulator.kLauncherOutputRPMToInputTicksPer100ms);
 			m_launcherSetRPM = rpm;
 		}
-		return this;
 	}
-
-	// public Manipulator setLauncherPercent(double percent) {
-	// 	if (withinLauncherRPMRange((int) (Constants.Falcon500.kMaxRPM * percent))) {
-	// 		m_launcherMotor.set(ControlMode.PercentOutput, percent);
-	// 	}
-	// 	return this;
-	// }
 
 	// sets the launcher to it's idle speed
-	public Manipulator idleLauncher() {
+	public void idleLauncher() {
 		setLauncherRPM(Constants.Manipulator.kLauncherIdleRPM);
-		return this;
 	}
 
-	public Manipulator runLauncher() {
+	public void runLauncher() {
 		setLauncherRPM(Constants.Manipulator.kLauncherFiringRPM);
-		return this;
 	}
 
-	public Manipulator stopLauncher() {
+	public void stopLauncher() {
 		setLauncherRPM(0);
-		return this;
 	}
 }

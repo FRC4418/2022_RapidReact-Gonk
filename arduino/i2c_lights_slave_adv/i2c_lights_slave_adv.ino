@@ -9,14 +9,15 @@ on startup the strip will perform a small startup animation
 
 // might want to diable i2c for some patterns like the startup ones
 
-#include <FastLED.h>
 #include <Wire.h>
+
+#include <FastLED.h>
 
 #define NUM_LEDS_UPPERS 138
 #define NUM_LEDS_UNDERGLOW 135
 
-#define DATA_PIN_UPPERS 10
-#define DATA_PIN_UNDERGLOW 7
+#define DATA_PIN_UPPERS 4
+#define DATA_PIN_UNDERGLOW 5
 
 #define UPPER 1
 #define UNDERGLOW 2
@@ -93,17 +94,23 @@ void setup() {
 	patternPtrs[5] = allFastRGBCycle;
 	patternPtrs[6] = allSlowRGBCycle;
 	patternPtrs[7] = allGreen;
-	patternPtrs[8] = allOff;
+	patternPtrs[8] = allRed;
+	patternPtrs[9] = allOff;
 
 	// patterns for the underglow lights
-	patternPtrs[9] = underglowRed;
-	patternPtrs[10] = underglowBlue;
-	patternPtrs[11] = underglowOff;
+	patternPtrs[10] = underglowRed;
+	patternPtrs[11] = underglowBlue;
+	patternPtrs[12] = underglowOff;
 
 	// patterns for the upper lights
-	patternPtrs[12] = upperOff;
+	patternPtrs[13] = upperOff;
+
+	Wire.end();
 
 	startupEffect();
+
+	Wire.begin(I2C_ADDRESS);
+	Wire.onReceive(i2cReceiveEvent);
 }
 
 
@@ -187,6 +194,9 @@ void startupEffect() {
 	for (int i=3; i<5; i++) {
 		patternEnabled[i] = false;
 	}
+
+	// Uncomment this and change its index to test different patterns
+	// patternEnabled[6] = true;
 }
 
 
@@ -195,38 +205,26 @@ void startupEffect() {
 
 
 void allFastRGBCycle(int index, byte state) {
-	static CRGBPalette16 currentPalette = RainbowColors_p;
-	static CRGBPalette16 targetPalette;
-	static TBlendType currentBlending = LINEARBLEND;
-	// Serial.println("idle");
-	uint8_t maxChanges = 24;
-	// AWESOME palette blending capability.
-	nblendPaletteTowardPalette(currentPalette, targetPalette, maxChanges);
-
-	// That's the same as beatsin8(9);
-	uint8_t wave1 = beatsin8(1, 0, 255);
-	uint8_t wave2 = beatsin8(2, 0, 255);
-	uint8_t wave3 = beatsin8(3, 0, 255);
-	uint8_t wave4 = beatsin8(5, 0, 255);
-
-	for (int i=0; i<NUM_LEDS_UPPERS; i++) {
-		ledsUpper[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending); 
-	}
-	for (int i=0; i<NUM_LEDS_UNDERGLOW; i++) {
-		ledsUnderglow[i] = ColorFromPalette(currentPalette, i+wave1+wave2+wave3+wave4, 255, currentBlending);
-	}
-
-	FastLED.show();
-
-	EVERY_N_SECONDS(3) {
-		targetPalette = CRGBPalette16(
-		CHSV(random8(), 255, random8(128,255)),
-		CHSV(random8(), 255, random8(128,255)),
-		CHSV(random8(), 192, random8(128,255)),
-		CHSV(random8(), 255, random8(128,255)));
-	}
+	allFillRainbowWithSpeed(60);
 }
 
+
+void allSlowRGBCycle(int index, byte state) {
+	allFillRainbowWithSpeed(10);
+}
+
+void allFillRainbowWithSpeed(uint8_t speed) {
+	// last argument is deltaHue (larger value means more color separations [weird, ik])
+	uint8_t rainbow = beat8(speed, 255);
+	static const uint8_t deltaHue = 3;
+
+	fill_rainbow(ledsUpper, NUM_LEDS_UPPERS, rainbow, deltaHue);
+	fill_rainbow(ledsUnderglow, NUM_LEDS_UNDERGLOW, rainbow, deltaHue);
+	FastLED.show();
+}
+
+/*
+Reference code
 
 void allSlowRGBCycle(int index, byte state) {
 	static CRGBPalette16 currentPalette = RainbowColors_p;
@@ -260,10 +258,15 @@ void allSlowRGBCycle(int index, byte state) {
 		CHSV(random8(), 255, random8(128,255)));
 	}
 }
+*/
 
 
 void allGreen(int index, byte state) {
 	setAll(0, 255, 0);
+}
+
+void allRed(int index, byte state) {
+	setAll(255, 0, 0);
 }
 
 
@@ -429,7 +432,7 @@ void meteorRainRight(int index, byte state) {
 		return;
 	}
 
-	if (state == 1){  //draw the meteors 
+	if (state == 1) {  //draw the meteors 
 		static int i[] = {meteorStartLED[0], meteorStartLED[1]};
 		if (i[index] < stopLED + 30) {  //if the for loop statement is true do the stuff in it
 			for (int j = startLED; j <= stopLED; j++) {    // fade brightness all LEDs one step

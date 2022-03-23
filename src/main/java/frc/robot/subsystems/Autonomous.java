@@ -18,9 +18,13 @@ public class Autonomous extends SubsystemBase {
 		startDelaySeconds = 0.,
 		tarmacReturnDelaySeconds = 0.,
 		// converting from feet per second (FPS) to meters per second (MPS)
-		maxMotorMPS = Constants.feetToMeters(1.25),
-		launcherFiringDurationSeconds = 1.25,
+		maxMotorPercent = 0.4,
+		oneBallFiringDurationSeconds = 0.5,
+		twoBallFiringDurationSeconds = 1.25,
 		tarmacLeavingMeters = Constants.inchesToMeters(72.);
+	
+	private static int
+		launcherAutoFiringRPM = 5_500;
 
 	// ----------------------------------------------------------
 	// Public constants
@@ -33,7 +37,7 @@ public class Autonomous extends SubsystemBase {
 		// LH = score low hub
 		// PC = pickup cargo
 		// TC = trajectory-collect cargo
-		// RC = retrieve cargo
+		// RC = retrieve cargo (basically cargo-collection, but using vision)
 		WAIT_AND_LEAVE_TARMAC,												// Wait LT
 		WAIT_SCORE_LH_AND_LEAVE_TARMAC,										// Wait LH LT
 		SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC,									// LH Wait LT
@@ -47,22 +51,29 @@ public class Autonomous extends SubsystemBase {
 	// Routine-parameter setters
 
 
+	public static int getLauncherAutoRPM() {
+		return launcherAutoFiringRPM;
+	}
+	public void setLauncherAutoRPM(int rpm) {
+		launcherAutoFiringRPM = rpm;
+		RobotContainer.instance.remakeAutoCommand();
+
+	}
+
 	public static boolean usingPremadeRoutine() {
 		return usingPremadeRoutine;
 	}
-	public Autonomous setUsePremadeRoutine(boolean bool) {
+	public void setUsePremadeRoutine(boolean bool) {
 		usingPremadeRoutine = bool;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 	
 	public static double getStartDelaySeconds() {
 		return startDelaySeconds;
 	}
-	public Autonomous setStartDelaySeconds(double delaySeconds) {
+	public void setStartDelaySeconds(double delaySeconds) {
 		startDelaySeconds = delaySeconds;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 
 	public static double getTarmacReturnDelaySeconds() {
@@ -73,30 +84,35 @@ public class Autonomous extends SubsystemBase {
 		RobotContainer.instance.remakeAutoCommand();
 	}
 
-	public static double getDrivingMaxMotorMPS() {
-		return maxMotorMPS;
+	public static double getDrivingMaxMotorPercent() {
+		return maxMotorPercent;
 	}
-	public Autonomous setDrivingMaxSpeedMPS(double maxSpeed) {
-		Autonomous.maxMotorMPS = maxSpeed;
+	public void setDrivingMaxSpeedPercent(double maxSpeed) {
+		Autonomous.maxMotorPercent = maxSpeed;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 
-	public static double getLauncherFiringDurationSeconds() {
-		return launcherFiringDurationSeconds;
+	public static double getOneBallFiringDurationSeconds() {
+		return oneBallFiringDurationSeconds;
 	}
-	public Autonomous setLauncherFiringDurationSeconds(double seconds) {
-		launcherFiringDurationSeconds = seconds;
+	public void setOneBallFiringDurationSeconds(double seconds) {
+		oneBallFiringDurationSeconds = seconds;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
+	}
+
+	public static double getTwoBallFiringDurationSeconds() {
+		return twoBallFiringDurationSeconds;
+	}
+	public void setTwoBallFiringDurationSeconds(double seconds) {
+		twoBallFiringDurationSeconds = seconds;
+		RobotContainer.instance.remakeAutoCommand();
 	}
 
 	public static double getTarmacLeavingMeters() {
 		return tarmacLeavingMeters;
 	}
-	public Autonomous setTarmacLeavingMeters(double distance) {
+	public void setTarmacLeavingMeters(double distance) {
 		tarmacLeavingMeters = distance;
 		RobotContainer.instance.remakeAutoCommand();
-		return this;
 	}
 }

@@ -8,16 +8,11 @@ import frc.robot.subsystems.Intake;
 
 public class ExtendIntakeArm extends CommandBase {
 	private final Intake m_intake;
-	private final boolean m_runWhenDisabled;
 
-	public ExtendIntakeArm(Intake intake, boolean runWhenDisabled) {
+	public ExtendIntakeArm(Intake intake) {
 		m_intake = intake;
-		m_runWhenDisabled = runWhenDisabled;
-	}
 
-	@Override
-	public boolean runsWhenDisabled() {
-		return m_runWhenDisabled;
+		addRequirements(m_intake);
 	}
 
 	@Override

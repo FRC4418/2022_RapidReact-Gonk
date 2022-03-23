@@ -7,8 +7,10 @@ public class Constants {
 	public static void useV1Constants() {
 		Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV1;
 		Drivetrain.kDrivetrainMPSReductionRatio = Drivetrain.kDrivetrainMPSReductionRatioV1;
+
 		Drivetrain.kTicksToMeters = Drivetrain.kTicksToMetersV1;
-		Drivetrain.kMPSToTicksPer100ms = Drivetrain.kMPSToTicksPer100msV1;
+		Drivetrain.kOutputMPSToInputTicksPer100ms = Drivetrain.kOutputMPSToInputTicksPer100msV1;
+
 		Drivetrain.kTrackWidthMeters = Drivetrain.kTrackWidthMetersV1;
 		Drivetrain.ksVolts = Drivetrain.ksVoltsV1;
 		Drivetrain.kvVoltSecondsPerMeter = Drivetrain.kvVoltSecondsPerMeterV1;
@@ -27,8 +29,10 @@ public class Constants {
 	public static void useV2Constants() {
 		Drivetrain.kWheelDiameterMeters = Drivetrain.kWheelDiameterMetersV2;
 		Drivetrain.kDrivetrainMPSReductionRatio = Drivetrain.kDrivetrainMPSReductionRatioV2;
+
 		Drivetrain.kTicksToMeters = Drivetrain.kTicksToMetersV2;
-		Drivetrain.kMPSToTicksPer100ms = Drivetrain.kMPSToTicksPer100msV2;
+		Drivetrain.kOutputMPSToInputTicksPer100ms = Drivetrain.kOutputMPSToInputTicksPer100msV2;
+
 		Drivetrain.kTrackWidthMeters = Drivetrain.kTrackWidthMetersV2;
 		Drivetrain.ksVolts = Drivetrain.ksVoltsV2;
 		Drivetrain.kvVoltSecondsPerMeter = Drivetrain.kvVoltSecondsPerMeterV2;
@@ -106,13 +110,13 @@ public class Constants {
 		public static double
 			kTicksToMeters,
 
-			kMPSToTicksPer100ms;
+			kOutputMPSToInputTicksPer100ms;
 		private static final double
 			kTicksToMetersV1  = (kWheelDiameterMetersV1 * Math.PI) / ((double) Falcon500.kTicksPerRevolution),
 			kTicksToMetersV2  = (kWheelDiameterMetersV2 * Math.PI) / ((double) Falcon500.kTicksPerRevolution),
-			
-			kMPSToTicksPer100msV1 = ((double) Falcon500.kTicksPerRevolution) / (10. * kWheelDiameterMetersV1 * Math.PI),
-			kMPSToTicksPer100msV2 = ((double) Falcon500.kTicksPerRevolution) / (10. * kWheelDiameterMetersV2 * Math.PI);
+
+			kOutputMPSToInputTicksPer100msV1 = Falcon500.kTicksPerRevolution / (10. * kWheelDiameterMetersV1 * Math.PI) * kDrivetrainMPSReductionRatioV1,
+			kOutputMPSToInputTicksPer100msV2 = Falcon500.kTicksPerRevolution / (10. * kWheelDiameterMetersV2 * Math.PI) * kDrivetrainMPSReductionRatioV2;
 
 		// ----------------------------------------------------------
 		// Kinematics
@@ -130,7 +134,7 @@ public class Constants {
 		public static double
 			// units in seconds
 			kTeleopOpenLoopRampTime = 0.7,
-			kDriveStraightMaxPercentage = 0.3;
+			kDriveStraightMaxPercent = 0.4;
 
 		public static class CurvaturePolynomial {
 			public static double
@@ -254,6 +258,12 @@ public class Constants {
 		public static final int kWhiskerSensorDIOPort = 8;
 
 		// ----------------------------------------------------------
+		// Conversions
+
+		public static final double
+			kRetractorOutputDegreesToInputTicks = Falcon500.kDegreesToTicks * kRetractorTicksReductionRatio;
+
+		// ----------------------------------------------------------
 		// Open-loop controls
 
 		public static final double kRetractorOpenLoopRampSeconds = 1.d;
@@ -264,9 +274,6 @@ public class Constants {
 		public static final double
 			// in seconds
 			kFeederRampTime = 0.25;
-
-		// ----------------------------------------------------------
-		// Closed-loop control
 		
 		public static final int
 			kRetractorPidIdx = 0,
@@ -287,8 +294,9 @@ public class Constants {
 
 		public static final double
 			kLauncherTicksReductionRatio = 3.,
-			kIndexerTicksReductionRatio = 20.,
+			kIndexerTicksReductionRatio = 20.;
 
+		public static final int
 			kLauncherMinRPM = -Falcon500.kMaxRPM,
 			kLauncherMaxRPM = Falcon500.kMaxRPM,
 
@@ -300,7 +308,7 @@ public class Constants {
 			kReverseIndexerPercent = 1.0;
 
 		public static int
-			kLauncherFiringRPM = Falcon500.kMaxRPM,
+			kLauncherFiringRPM = 3_100,
 			kLauncherIdleRPM = -200;
 
 		public static class CAN_ID {
@@ -308,6 +316,13 @@ public class Constants {
 				kIndexer = 21,
 				kLauncher = 22;
 		}
+
+		// ----------------------------------------------------------
+		// Conversions
+
+		public static final double
+			kIndexerOutputRPMToInputTicksPer100ms = Falcon500.kRpmToTicksPer100ms * kIndexerTicksReductionRatio,
+			kLauncherOutputRPMToInputTicksPer100ms = Falcon500.kRpmToTicksPer100ms * kLauncherTicksReductionRatio;
 
 		// ----------------------------------------------------------
 		// Closed-loop control
@@ -388,7 +403,7 @@ public class Constants {
 	public static class Autonomous {
 		// ----------------------------------------------------------
 		// General
-		
+
 
 	}
 
@@ -396,15 +411,9 @@ public class Constants {
 		// ----------------------------------------------------------
 		// General
 
-		public static final int
-			kFrontCameraUSBPort = 1,
-			kBackCameraUSBPort = 0,
-			kInnerCameraUSBPort = -1;
-
 		public static boolean
-			kEnableFrontCamera = true,
-			kEnableBackCamera = true,
-			kEnableInnerCamera = false;
+			kEnableFrontCenterCamera = false,
+			kEnableBackCenterCamera = false;
 	}
 
 	public static class Lights {

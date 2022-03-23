@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class DriveStraight extends CommandBase {
+public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Public constants
 
@@ -18,7 +18,7 @@ public class DriveStraight extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	protected final double kP = 0.03;
+	// protected final double kP = 0.02;
 	
 	// ----------------------------------------------------------
 	// Resources
@@ -27,15 +27,15 @@ public class DriveStraight extends CommandBase {
 	
 	protected final DriveStraightDirection m_direction;
 	
-	protected final double m_maxMotorMPS;
+	protected final double m_maxMotorPercent;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraight(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
+	public DriveStraightWhileHeld(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorPercent) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
-		m_maxMotorMPS = maxMotorMPS;
+		m_maxMotorPercent = maxMotorPercent;
 		
 		addRequirements(drivetrain);
 	}
@@ -45,10 +45,9 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void initialize() {
-		m_drivetrain
-			.disableOpenLoopRamp()
-			.resetIMU()
-			.resetEncoders();
+		m_drivetrain.disableOpenLoopRamp();
+		m_drivetrain.resetIMU();
+		m_drivetrain.resetEncoders();
 
 		// we do this so that using the tank drive functions with positive speeds still works (only if we're driving backwards)
 		if (m_direction == DriveStraightDirection.BACKWARDS) {
@@ -58,12 +57,12 @@ public class DriveStraight extends CommandBase {
 
 	@Override
 	public void execute() {
-		var error = m_drivetrain.getHeading();
+		// var error = m_drivetrain.getHeading();
 
-		var leftSpeed = m_maxMotorMPS + kP * error;
-		var rightSpeed = m_maxMotorMPS - kP * error;
+		// var leftSpeed = m_maxMotorPercent + kP * error;
+		// var rightSpeed = m_maxMotorPercent - kP * error;
 
-		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
+		m_drivetrain.tankDrive(m_maxMotorPercent, m_maxMotorPercent);
 	}
 
 	@Override

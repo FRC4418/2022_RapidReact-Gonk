@@ -30,11 +30,11 @@ import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.Display;
 import frc.robot.displays.DisplaysGrid;
 import frc.robot.displays.autonomous.PremadeAutoRoutineDisplay;
+import frc.robot.displays.drivetrain.DriveStraightDisplay;
 import frc.robot.displays.drivetrain.OpenLoopDrivetrainDisplay;
 import frc.robot.displays.drivetrain.PolynomialDriveRampsDisplay;
 import frc.robot.displays.drivetrain.SlewRateLimiterTuningDisplay;
 import frc.robot.displays.general.JoysticksDisplay;
-import frc.robot.displays.general.RobotChooserDisplay;
 import frc.robot.displays.motortuning.ClimberServosDisplay;
 import frc.robot.displays.motortuning.MainMotorsDisplay;
 import frc.robot.displays.motortuning.MotorPrintoutDisplay;
@@ -61,6 +61,7 @@ public class RobotContainer {
     // Robot-configuration constants
 
 
+	// change this to VERSACHASSIS_ONE to use V1 constants
 	public static final TeamRobot defaultRobot = TeamRobot.VERSACHASSIS_TWO;
 
 	public static final boolean
@@ -138,7 +139,6 @@ public class RobotContainer {
 		visionDisplaysGrid = new DisplaysGrid(),
 		motorTuningDisplaysGrid = new DisplaysGrid();
 
-	private final RobotChooserDisplay robotChooserDisplay;
 	private final JoysticksDisplay joysticksDisplay;
 	private final PremadeAutoRoutineDisplay autonomousDisplay;
 
@@ -162,7 +162,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	public static final Vision vision = new Vision();
+	public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 
@@ -184,13 +184,13 @@ public class RobotContainer {
 		};
 
 		generalDisplaysGrid
-			.makeOriginWith(robotChooserDisplay = new RobotChooserDisplay(2, 1))
-			.reserveNextColumnAtRow(0, joysticksDisplay = new JoysticksDisplay(4, 2));
+			.makeOriginWith(joysticksDisplay = new JoysticksDisplay(4, 2));
 		
 		drivingDisplaysGrid
 			.makeOriginWith(new OpenLoopDrivetrainDisplay(drivetrain, 5, 1))
 			.reserveNextRowAtColumn(0, new PolynomialDriveRampsDisplay(drivetrain, 5, 2))
-			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5));
+			.reserveNextColumnAtRow(0, new SlewRateLimiterTuningDisplay(drivetrain, 3, 5))
+			.reserveNextRowAtColumn(0, new DriveStraightDisplay(autonomous, 3, 1));
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 4, 4));
@@ -285,16 +285,6 @@ public class RobotContainer {
 		if (instance != null) {
 			instance.configureNonStaticConstantsDependencies();
 		}
-	}
-
-	public RobotContainer listenForRobotSelection() {
-		var newRobotSelection = robotChooserDisplay.teamRobotChooser.getSelected();
-		if (teamRobot != newRobotSelection) {
-			teamRobot = newRobotSelection;
-			configureConstants();
-			drivetrain.configureDrivetrain(teamRobot);
-		}
-		return this;
 	}
 
 
@@ -485,10 +475,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverXboxArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverX3DArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -498,7 +488,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxLoneTankControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverXboxLoneTankControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -508,7 +498,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DDualTankControls(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverX3DDualTankControls(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -531,7 +521,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator, climber);
+						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -541,7 +531,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						spotterJoystickControls = new SpotterXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator, climber);
+						spotterJoystickControls = new SpotterXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;

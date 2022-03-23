@@ -23,10 +23,13 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		usePremadeRoutineToggleSwitch,
 		startDelayTimeTextView,
 		tarmacReturnDelayTimeTextView,
-		drivingFPSTextView,
-		launcherFiringDurationTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
-		tarmacLeavingDistanceTextView;
+		tarmacLeavingDistanceTextView,
+
+		drivingPercentTextView,
+		launcherAutoRPMTextView,
+		oneBallFiringDurationTextView,
+		twoBallFiringDurationTextView;
     
     public PremadeAutoRoutineDisplay(Autonomous autonomous, int width, int height) {
 		super(width, height);
@@ -71,7 +74,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 2
 			{ var column2 = layout
 				.getLayout("Column 2", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 3, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 				// setting default options for sendable choosers also adds the label-value pair as an option
 				autoRoutineChooser.setDefaultOption("Wait LH PC Wait LH", AutonomousRoutine.WAIT_AND_SCORE_LH_AND_PICKUP_CARGO_AND_WAIT_AND_SCORE_LH);
@@ -84,13 +87,23 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
 				
-				drivingFPSTextView = column2
-					.addPersistent("Driving Max Speed [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMaxMotorMPS()))
+				drivingPercentTextView = column2
+					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxMotorPercent())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
-				launcherFiringDurationTextView = column2
-					.addPersistent("Launcher-Firing Duration [s]", Autonomous.getLauncherFiringDurationSeconds())
+				launcherAutoRPMTextView = column2
+					.addPersistent("Launcher RPM", Autonomous.getLauncherAutoRPM())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+				
+				oneBallFiringDurationTextView = column2
+					.addPersistent("1-Ball Firing Duration [s]", Autonomous.getOneBallFiringDurationSeconds())
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+
+				twoBallFiringDurationTextView = column2
+					.addPersistent("2-Ball Firing Duration [s]", Autonomous.getTwoBallFiringDurationSeconds())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -119,12 +132,20 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		}
 
 		{ // Column 2
-			drivingFPSTextView.addListener(event -> {
-				m_autonomous.setDrivingMaxSpeedMPS(Constants.feetToMeters(event.value.getDouble()));
+			drivingPercentTextView.addListener(event -> {
+				m_autonomous.setDrivingMaxSpeedPercent(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-			launcherFiringDurationTextView.addListener(event -> {
-				m_autonomous.setLauncherFiringDurationSeconds(event.value.getDouble());
+			launcherAutoRPMTextView.addListener(event -> {
+				m_autonomous.setLauncherAutoRPM((int) event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			oneBallFiringDurationTextView.addListener(event -> {
+				m_autonomous.setOneBallFiringDurationSeconds(event.value.getDouble());
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+			twoBallFiringDurationTextView.addListener(event -> {
+				m_autonomous.setTwoBallFiringDurationSeconds(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 	}
