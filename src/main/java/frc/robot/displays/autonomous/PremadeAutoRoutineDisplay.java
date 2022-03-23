@@ -25,6 +25,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		tarmacReturnDelayTimeTextView,
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView,
+		ballRetrievalDistanceTextView,
 
 		drivingPercentTextView,
 		launcherAutoRPMTextView,
@@ -48,7 +49,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 			// Column 1
 			{ var column1 = layout
 				.getLayout("Column 1", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 1, "Number of rows", 4, "Label position", "TOP"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 				usePremadeRoutineToggleSwitch = column1
 					.addPersistent("Use Premade Routine", Autonomous.usingPremadeRoutine())
@@ -67,6 +68,11 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 
 				tarmacLeavingDistanceTextView = column1
 					.addPersistent("Leave-Tarmac Distance [in]", Constants.metersToInches(Autonomous.getTarmacLeavingMeters()))
+					.withWidget(BuiltInWidgets.kTextView)
+					.getEntry();
+				
+				ballRetrievalDistanceTextView = column1
+					.addPersistent("Ball-Retrieval Distance [in]", Constants.metersToInches(Autonomous.getBallRetrievalMeters()))
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 			}
@@ -128,6 +134,10 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 	
 			tarmacLeavingDistanceTextView.addListener(event -> {
 				m_autonomous.setTarmacLeavingMeters(Constants.inchesToMeters(event.value.getDouble()));
+			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		
+			ballRetrievalDistanceTextView.addListener(event -> {
+				m_autonomous.setBallRetrievalMeters(Constants.inchesToMeters(event.value.getDouble()));
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 		}
 

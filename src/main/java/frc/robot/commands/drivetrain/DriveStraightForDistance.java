@@ -25,11 +25,11 @@ public class DriveStraightForDistance extends DriveStraightWhileHeld {
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorPercent) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, maxMotorPercent);
+		this(drivetrain, Autonomous.getBallRetrievalMeters(), direction, maxMotorPercent);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction);
+		this(drivetrain, Autonomous.getBallRetrievalMeters(), direction);
 	}
 
 	// ----------------------------------------------------------

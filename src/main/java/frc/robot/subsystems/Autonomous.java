@@ -21,7 +21,8 @@ public class Autonomous extends SubsystemBase {
 		maxMotorPercent = 0.4,
 		oneBallFiringDurationSeconds = 0.5,
 		twoBallFiringDurationSeconds = 1.25,
-		tarmacLeavingMeters = Constants.inchesToMeters(72.);
+		tarmacLeavingMeters = Constants.inchesToMeters(80),
+		ballRetrievalMeters = Constants.inchesToMeters(130);
 	
 	private static int
 		launcherAutoFiringRPM = 5_500;
@@ -113,6 +114,14 @@ public class Autonomous extends SubsystemBase {
 	}
 	public void setTarmacLeavingMeters(double distance) {
 		tarmacLeavingMeters = distance;
+		RobotContainer.instance.remakeAutoCommand();
+	}
+
+	public static double getBallRetrievalMeters() {
+		return ballRetrievalMeters;
+	}
+	public void setBallRetrievalMeters(double distance) {
+		ballRetrievalMeters = distance;
 		RobotContainer.instance.remakeAutoCommand();
 	}
 }

@@ -41,7 +41,7 @@ public class Wait_LH_PC_Wait_LH_LT extends SequentialCommandGroup {
 
 			// At this point, we have now just fired the second ball
 
-			new DriveStraightForDistance(drivetrain, Constants.inchesToMeters(130), DriveStraightDirection.FORWARDS)
+			new DriveStraightForDistance(drivetrain, Autonomous.getTarmacLeavingMeters(), DriveStraightDirection.FORWARDS)
 		);
 	}
 }
