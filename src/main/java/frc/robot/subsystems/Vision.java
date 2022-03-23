@@ -22,13 +22,34 @@ import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
+	// Public resources
+
+
+	public enum Camera {
+		FRONT("Front Cam"),
+		BACK("Back Cam"),
+		INNER("Inner Cam");
+
+		private String name;
+
+		Camera(String name) {
+			this.name = name;
+		}
+
+		public String name() {
+			return name;
+		}
+	}
+	
+
+	// ----------------------------------------------------------
 	// Private resources
 
 
 	// maps camera name to camera object
-	private HashMap<String, UsbCamera> cameras = new HashMap<>();
+	private HashMap<Camera, UsbCamera> cameras = new HashMap<>();
 	// maps camera name to CV Sink
-	private HashMap<String, CvSink> cvSinks = new HashMap<>(); 
+	private HashMap<Camera, CvSink> cvSinks = new HashMap<>(); 
 
 
 	// ----------------------------------------------------------
@@ -42,21 +63,22 @@ public class Vision extends SubsystemBase {
 		// Front-center camera
 
 		if (Constants.Vision.kEnableFrontCenterCamera) {
-			UsbCamera frontCenterCamera = new UsbCamera(Constants.Vision.kFrontCenterCameraName, 0);
-			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			// m_frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Constants.Vision.kFrontCenterCameraName, frontCenterCamera);
+			String frontCameraName = "Front Cam";
+			UsbCamera frontCamera = new UsbCamera(frontCameraName, 0);
+			frontCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			// frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+			cameras.put(frontCameraName, frontCamera);
 
-			CvSink frontCenterCvSink = new CvSink(Constants.Vision.kFrontCenterCameraName + " CvSink");
-			frontCenterCvSink.setSource(frontCenterCamera);
-			cvSinks.put(Constants.Vision.kFrontCenterCameraName, frontCenterCvSink);
+			CvSink frontCenterCvSink = new CvSink(frontCameraName + " CvSink");
+			frontCenterCvSink.setSource(frontCamera);
+			cvSinks.put(frontCameraName, frontCenterCvSink);
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontCenterOutputStream = new CvSource(Constants.Vision.kFrontCenterCameraName + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			try (MjpegServer frontCenterCameraServer = new MjpegServer(Constants.Vision.kFrontCenterCameraName + " Mjpeg Server", 1181)) {
-				frontCenterCameraServer.setSource(frontCenterOutputStream);
+			CvSource frontOutputStream = new CvSource(frontCameraName + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			try (MjpegServer frontCameraServer = new MjpegServer(frontCameraName + " Mjpeg Server", 1181)) {
+				frontCameraServer.setSource(frontOutputStream);
 			} catch (Exception e) {
-				DriverStation.reportError("Could not create front-center camera's MJPEG server", true);
+				DriverStation.reportError("Could not create front camera's MJPEG server", true);
 				assert 1 == 0;
 			}
 		}
@@ -101,5 +123,5 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
-	
+	public VideoSource getVideoSource()
 }
