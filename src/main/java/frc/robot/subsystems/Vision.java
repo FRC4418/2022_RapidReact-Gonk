@@ -83,7 +83,8 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
 			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
@@ -113,7 +114,9 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
+			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			m_cvSources.put(Camera.BACK, backOutputStream);
 			
 			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
@@ -142,7 +145,8 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
 			m_cvSources.put(Camera.INNER, innerOutputStream);
 			
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
@@ -196,7 +200,7 @@ public class Vision extends SubsystemBase {
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.FRONT).grabFrame(input);
 					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.FRONT).putFrame(input);
+					m_cvSources.get(Camera.FRONT).putFrame(output);
 				}
 			});
 			frontCameraThread.start();
@@ -210,7 +214,7 @@ public class Vision extends SubsystemBase {
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.BACK).grabFrame(input);
 					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.BACK).putFrame(input);
+					m_cvSources.get(Camera.BACK).putFrame(output);
 				}
 			});
 			backCameraThread.start();
@@ -224,7 +228,7 @@ public class Vision extends SubsystemBase {
 				while (!Thread.interrupted()) {
 					m_cvSinks.get(Camera.INNER).grabFrame(input);
 					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.INNER).putFrame(input);
+					m_cvSources.get(Camera.INNER).putFrame(output);
 				}
 			});
 			innerCameraThread.start();
