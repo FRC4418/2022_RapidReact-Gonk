@@ -9,6 +9,7 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 
 
@@ -134,8 +135,8 @@ public class DriverXboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public DriverXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
-        super(primaryJoystick, drivetrain, intake, manipulator, climber);
+    public DriverXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber, Lights lights) {
+        super(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 
         m_primaryJoystick.setXChannel(XboxController.LEFT_Y_AXIS);
         m_primaryJoystick.setYChannel(XboxController.RIGHT_Y_AXIS);

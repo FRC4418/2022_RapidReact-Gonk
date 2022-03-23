@@ -94,15 +94,16 @@ void setup() {
 	patternPtrs[5] = allFastRGBCycle;
 	patternPtrs[6] = allSlowRGBCycle;
 	patternPtrs[7] = allGreen;
-	patternPtrs[8] = allOff;
+	patternPtrs[8] = allRed;
+	patternPtrs[9] = allOff;
 
 	// patterns for the underglow lights
-	patternPtrs[9] = underglowRed;
-	patternPtrs[10] = underglowBlue;
-	patternPtrs[11] = underglowOff;
+	patternPtrs[10] = underglowRed;
+	patternPtrs[11] = underglowBlue;
+	patternPtrs[12] = underglowOff;
 
 	// patterns for the upper lights
-	patternPtrs[12] = upperOff;
+	patternPtrs[13] = upperOff;
 
 	Wire.end();
 
@@ -187,15 +188,15 @@ void setAll(byte red, byte green, byte blue) {
 
 
 void startupEffect() {
-	// for (int i=0; i<3; i++) {
-	// 	patternEnabled[i] = true;
-	// }
-	// for (int i=3; i<5; i++) {
-	// 	patternEnabled[i] = false;
-	// }
+	for (int i=0; i<3; i++) {
+		patternEnabled[i] = true;
+	}
+	for (int i=3; i<5; i++) {
+		patternEnabled[i] = false;
+	}
 
 	// Uncomment this and change its index to test different patterns
-	patternEnabled[6] = true;
+	// patternEnabled[6] = true;
 }
 
 
@@ -204,7 +205,7 @@ void startupEffect() {
 
 
 void allFastRGBCycle(int index, byte state) {
-	allFillRainbowWithSpeed(120);
+	allFillRainbowWithSpeed(60);
 }
 
 
@@ -262,6 +263,10 @@ void allSlowRGBCycle(int index, byte state) {
 
 void allGreen(int index, byte state) {
 	setAll(0, 255, 0);
+}
+
+void allRed(int index, byte state) {
+	setAll(255, 0, 0);
 }
 
 

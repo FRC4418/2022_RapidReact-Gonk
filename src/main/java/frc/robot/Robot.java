@@ -133,18 +133,7 @@ public class Robot extends TimedRobot {
 
 		robotContainer.drivetrain.useTeleopOpenLoopRamp();
 
-		if (robotContainer.drivetrain.isReversed()) {
-			robotContainer.lights.setAllToGreen();
-		} else {
-			robotContainer.lights.setAllToFastRGBCycle();
-		}
-
 		robotContainer.intake.retractIntakeArm();
-	}
-
-	@Override
-	public void teleopPeriodic() {
-		
 	}
 
 

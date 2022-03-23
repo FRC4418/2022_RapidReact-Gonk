@@ -9,6 +9,7 @@ import frc.robot.joystickcontrols.dualjoystickcontrols.DualJoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 
 
@@ -134,8 +135,8 @@ public class DriverX3DDualTankControls extends DualJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public DriverX3DDualTankControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
-        super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber);
+    public DriverX3DDualTankControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber, Lights lights) {
+        super(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber, lights);
 
         m_primaryJoystick.setYChannel(X3D.PITCH_AXIS);
         m_secondaryJoystick.setYChannel(X3D.PITCH_AXIS);
