@@ -8,6 +8,7 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.SingleJoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 
 
@@ -135,7 +136,7 @@ public class SpotterXboxLoneTankControls extends SingleJoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public SpotterXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
-        super(primaryJoystick, drivetrain, intake, manipulator, climber);
+    public SpotterXboxLoneTankControls(Joystick primaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber, Lights lights) {
+        super(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
     }
 }

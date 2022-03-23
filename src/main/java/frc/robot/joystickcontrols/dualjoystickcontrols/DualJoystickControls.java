@@ -20,6 +20,7 @@ import frc.robot.joystickcontrols.JoystickControls;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Manipulator;
 
 
@@ -51,7 +52,7 @@ public abstract class DualJoystickControls extends JoystickControls {
     // ----------------------------------------------------------
     // Constructor
 
-    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber) {
+    public DualJoystickControls(Joystick primaryJoystick, Joystick secondaryJoystick, Drivetrain drivetrain, Intake intake, Manipulator manipulator, Climber climber, Lights lights) {
         m_primaryJoystick = primaryJoystick;
         m_secondaryJoystick = secondaryJoystick;
         
@@ -61,8 +62,8 @@ public abstract class DualJoystickControls extends JoystickControls {
         reverseDrivetrainButton = reverseDrivetrainButton(primaryJoystick);
         if (reverseDrivetrainButton != null) {
             reverseDrivetrainButton
-                .whenPressed(new ReverseDrivetrain(drivetrain))
-                .whenReleased(new ReverseDrivetrain(drivetrain));
+                .whenPressed(new ReverseDrivetrain(drivetrain, lights))
+                .whenReleased(new ReverseDrivetrain(drivetrain, lights));
         }
 
         driveStraightButton = driveStraightButton(primaryJoystick);

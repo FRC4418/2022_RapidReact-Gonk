@@ -475,10 +475,10 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverXboxArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverX3DArcadeControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -488,7 +488,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						driverJoystickControls = new DriverXboxLoneTankControls(primaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverXboxLoneTankControls(primaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -498,7 +498,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up driver joystick controls for dual-tank mode", true);
 						break;
 					case X3D:
-						driverJoystickControls = new DriverX3DDualTankControls(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber);
+						driverJoystickControls = new DriverX3DDualTankControls(primaryJoystick, secondaryJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -521,7 +521,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for arcade mode", true);
 						break;
 					case XboxController:
-						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator, climber);
+						spotterJoystickControls = new SpotterXboxArcadeControls(firstJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;
@@ -531,7 +531,7 @@ public class RobotContainer {
 						DriverStation.reportError("Unsupported joystick device type while setting up spotter joystick controls for lone-tank mode", true);
 						break;
 					case XboxController:
-						spotterJoystickControls = new SpotterXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator, climber);
+						spotterJoystickControls = new SpotterXboxLoneTankControls(firstJoystick, drivetrain, intake, manipulator, climber, lights);
 						break;
 				}
 				break;

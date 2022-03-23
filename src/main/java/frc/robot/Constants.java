@@ -368,7 +368,8 @@ public class Constants {
 			kReleasePinAngle = 0.,
 			kAttachPinAngle = 40.,
 
-			kPinRollbackTimeSeconds = 0.1,
+			kPinRollbackTimeSeconds = 0.1
+			,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
