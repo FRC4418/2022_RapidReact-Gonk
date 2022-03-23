@@ -83,7 +83,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 5, "Label position", "TOP"));
 
 				// setting default options for sendable choosers also adds the label-value pair as an option
-				autoRoutineChooser.setDefaultOption("Wait LH PC Wait LH", AutonomousRoutine.Wait_LH_PC_Wait_LH_LT);
+				autoRoutineChooser.setDefaultOption("Wait LH PC Wait LH LT", AutonomousRoutine.Wait_LH_PC_Wait_LH_LT);
 				autoRoutineChooser.addOption("Wait LT", AutonomousRoutine.WAIT_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.WAIT_SCORE_LH_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
