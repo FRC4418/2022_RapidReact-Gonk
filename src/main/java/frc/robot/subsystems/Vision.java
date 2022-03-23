@@ -24,13 +24,17 @@ public class Vision extends SubsystemBase {
 	// Public static resources
 
 
-	private UsbCamera frontCenterCamera;
-	private String frontCenterCameraName;
+	private UsbCamera m_frontCenterCamera;
+	private String m_frontCenterCameraName;
 	public static MjpegServer frontCenterCameraServer;
 
-	private UsbCamera backCenterCamera;
-	private String backCenterCameraName;
+	private UsbCamera m_backCenterCamera;
+	private String m_backCenterCameraName;
 	public static MjpegServer backCenterCameraServer;
+
+	private UsbCamera m_innerCamera;
+	private String m_innerCameraName;
+	public static MjpegServer innerCameraServer;
 
 
 	// ----------------------------------------------------------
@@ -55,28 +59,41 @@ public class Vision extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Front-center camera
 
-		frontCenterCameraName = "Front-Center";
+		m_frontCenterCameraName = "Front-Center";
 		if (Constants.Vision.kEnableFrontCenterCamera) {
-			frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
-			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
-			frontCenterCameraServer.setSource(frontCenterCamera);
-			frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+			m_frontCenterCamera = new UsbCamera(m_frontCenterCameraName, 0);
+			m_frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			frontCenterCameraServer = new MjpegServer(m_frontCenterCameraName, 1185);
+			frontCenterCameraServer.setSource(m_frontCenterCamera);
+			m_frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 		}
-		cameras.put(frontCenterCameraName, frontCenterCamera);
+		cameras.put(m_frontCenterCameraName, m_frontCenterCamera);
 		
 		// ----------------------------------------------------------
 		// Back-center camera
 
-		backCenterCameraName = "Back-Center";
-		if (Constants.Vision.kEnableBackCenterCamera) {
-			backCenterCamera = new UsbCamera(backCenterCameraName, 1);
-			backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
-			backCenterCameraServer.setSource(backCenterCamera);
-			backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-		}
-		cameras.put(backCenterCameraName, backCenterCamera);
+		// backCenterCameraName = "Back-Center";
+		// if (Constants.Vision.kEnableBackCenterCamera) {
+		// 	backCenterCamera = new UsbCamera(backCenterCameraName, 1);
+		// 	backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		// 	backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
+		// 	backCenterCameraServer.setSource(backCenterCamera);
+		// 	backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		// }
+		// cameras.put(backCenterCameraName, backCenterCamera);
+
+		// ----------------------------------------------------------
+		// Inner camera
+
+		// m_innerCameraName = "Inner";
+		// if (Constants.Vision.kEnableInnerCamera) {
+		// 	m_innerCamera = new UsbCamera(m_innerCameraName, 0);
+		// 	m_innerCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		// 	innerCameraServer = new MjpegServer(m_innerCameraName, 1185);
+		// 	innerCameraServer.setSource(m_innerCamera);
+		// 	m_innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		// }
+		// cameras.put(m_innerCameraName, m_innerCamera);
 	}
 
 
@@ -94,71 +111,5 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
-	public Vision enableFrontCenterCameraStream(boolean enable) {
-		enableCameraStreamFor(frontCenterCameraName, enable);
-		Constants.Vision.kEnableFrontCenterCamera = enable;
-		return this;
-	}
-
-	public Vision enableBackCenterCameraStream(boolean enable) {
-		enableCameraStreamFor(backCenterCameraName, enable);
-		Constants.Vision.kEnableBackCenterCamera = enable;
-		return this;
-	}
-
-	public Vision startDefaultCameraStreams() {
-		if (Constants.Vision.kEnableFrontCenterCamera) {
-			enableFrontCenterCameraStream(true);
-		}
-		
-		if (Constants.Vision.kEnableBackCenterCamera) {
-			enableBackCenterCameraStream(true);
-		}
-		return this;
-	}
-
-	private Vision enableCameraStreamFor(String cameraName, boolean enable) {
-		if (enable) {
-			startStreamForCamera(cameraName);
-		} else {
-			stopStreamForCamera(cameraName);
-		}
-		return this;
-	}
-
-	private Vision startStreamForCamera(String cameraName) {
-		var camera = cameras.get(cameraName);
-		assert camera != null;
-
-		var thread = new Thread(() -> {
-			CvSink cvSink = CameraServer.getVideo((VideoSource) camera);
-			// MJPEG stream name is the same as the camera name
-			CvSource outputStream = CameraServer.putVideo((String) cameraName, 640, 480);
-
-			Mat source = new Mat();
-			Mat output = new Mat();
-			outputMats.put(cameraName, output);
-
-			while (!Thread.interrupted()) {
-				cvSink.grabFrame(source);
-				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-				outputStream.putFrame(output);
-			}
-		});
-		thread.setDaemon(true);
-		thread.start();
-
-		streamingThreads.put(cameraName, thread);
-		return this;
-	}
-
-	private Vision stopStreamForCamera(String cameraName) {
-		var camera = cameras.get(cameraName);
-		assert camera != null;
-
-		streamingThreads.get(cameraName).interrupt();
-		CameraServer.removeServer(cameraName);
-		
-		return this;
-	}
+	
 }
