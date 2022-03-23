@@ -399,11 +399,11 @@ public class Constants {
 		public static final int
 			kFrontCameraUSBPort = 1,
 			kBackCameraUSBPort = 0,
-			kInnerCameraUSBPort = 1;
+			kInnerCameraUSBPort = -1;
 
 		public static boolean
 			kEnableFrontCamera = true,
-			kEnableBackCamera = false,
+			kEnableBackCamera = true,
 			kEnableInnerCamera = false;
 	}
 

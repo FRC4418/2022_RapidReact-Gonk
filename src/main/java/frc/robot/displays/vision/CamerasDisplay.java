@@ -38,7 +38,7 @@ public class CamerasDisplay extends VisionDisplay {
 			// Front
 			{ var frontCamLayout = layout
 				.getLayout("Front", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
 				if (Constants.Vision.kEnableFrontCamera) {
 					frontCamLayout
@@ -55,7 +55,7 @@ public class CamerasDisplay extends VisionDisplay {
 			// Back
 			{ var backCamLayout = layout
 				.getLayout("Back", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
 				if (Constants.Vision.kEnableBackCamera) {
 					backCamLayout
@@ -72,7 +72,7 @@ public class CamerasDisplay extends VisionDisplay {
 			// Inner
 			{ var backCamLayout = layout
 				.getLayout("Inner", BuiltInLayouts.kGrid)
-				.withProperties(Map.of("Number of columns", 2, "Number of rows", 1, "Label position", "HIDDEN"));
+				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
 				if (Constants.Vision.kEnableInnerCamera) {
 					backCamLayout
