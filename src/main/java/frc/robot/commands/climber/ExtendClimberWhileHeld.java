@@ -11,9 +11,7 @@ import frc.robot.subsystems.Climber;
 public class ExtendClimberWhileHeld extends CommandBase {
 	private final Climber m_climber;
 
-	private boolean m_activated = false;
-
-	private Timer m_rollbackTimer = new Timer();
+	private double m_startTime;
 
 	public ExtendClimberWhileHeld(Climber climber) {
 		m_climber = climber;
@@ -24,17 +22,13 @@ public class ExtendClimberWhileHeld extends CommandBase {
 		m_climber.releasePin();
 		
 		m_climber.setWinchToLowerPercent();
-		m_rollbackTimer.start();
+		m_startTime = Timer.getFPGATimestamp();
 	}
 
 	@Override
 	public void execute() {
-		if (m_rollbackTimer.hasElapsed(Constants.Climber.kPinRollbackTimeSeconds) && !m_activated && m_climber.pinIsReleased()) {
+		if (Timer.getFPGATimestamp() > m_startTime + Constants.Climber.kPinRollbackTimeSeconds  && m_climber.pinIsReleased()) {
 			m_climber.setWinchToExtendPercent();
-			
-			m_activated = true;
-			m_rollbackTimer.stop();
-			m_rollbackTimer.reset();
 		}
 	}
 
@@ -42,7 +36,6 @@ public class ExtendClimberWhileHeld extends CommandBase {
 	public void end(boolean interrupted) {
 		m_climber.stopWinchMotor();
 		m_climber.attachPin();
-		m_activated = false;
 	}
 
 	@Override
