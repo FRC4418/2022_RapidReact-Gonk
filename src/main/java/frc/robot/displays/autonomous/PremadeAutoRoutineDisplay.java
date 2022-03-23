@@ -26,7 +26,7 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		// how far to drive (inches instead of meters to help dirty American pigs like us visualize our distance estimates) to leave the tarmac
 		tarmacLeavingDistanceTextView,
 
-		drivingFPSTextView,
+		drivingPercentTextView,
 		launcherAutoRPMTextView,
 		oneBallFiringDurationTextView,
 		twoBallFiringDurationTextView;
@@ -87,8 +87,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);
 				
-				drivingFPSTextView = column2
-					.addPersistent("Driving Max Speed [ft per s]", Constants.metersToFeet(Autonomous.getDrivingMaxMotorMPS()))
+				drivingPercentTextView = column2
+					.addPersistent("Driving Max Speed [1.0 percent]", Autonomous.getDrivingMaxMotorPercent())
 					.withWidget(BuiltInWidgets.kTextView)
 					.getEntry();
 
@@ -132,8 +132,8 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 		}
 
 		{ // Column 2
-			drivingFPSTextView.addListener(event -> {
-				m_autonomous.setDrivingMaxSpeedMPS(Constants.feetToMeters(event.value.getDouble()));
+			drivingPercentTextView.addListener(event -> {
+				m_autonomous.setDrivingMaxSpeedPercent(event.value.getDouble());
 			}, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 			launcherAutoRPMTextView.addListener(event -> {

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 
@@ -173,6 +174,8 @@ public class Drivetrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
+
+		SmartDashboard.putNumber("Dist traveled", getAverageDistanceMeters());
 	}
 
 

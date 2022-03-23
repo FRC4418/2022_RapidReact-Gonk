@@ -18,7 +18,7 @@ public class DriveStraightWhileHeld extends CommandBase {
 	// ----------------------------------------------------------
 	// Private constants
 
-	protected final double kP = 0.03;
+	// protected final double kP = 0.02;
 	
 	// ----------------------------------------------------------
 	// Resources
@@ -27,15 +27,15 @@ public class DriveStraightWhileHeld extends CommandBase {
 	
 	protected final DriveStraightDirection m_direction;
 	
-	protected final double m_maxMotorMPS;
+	protected final double m_maxMotorPercent;
 
 	// ----------------------------------------------------------
 	// Constructor
 
-	public DriveStraightWhileHeld(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorMPS) {
+	public DriveStraightWhileHeld(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorPercent) {
 		m_direction = direction;
 		m_drivetrain = drivetrain;
-		m_maxMotorMPS = maxMotorMPS;
+		m_maxMotorPercent = maxMotorPercent;
 		
 		addRequirements(drivetrain);
 	}
@@ -57,12 +57,12 @@ public class DriveStraightWhileHeld extends CommandBase {
 
 	@Override
 	public void execute() {
-		var error = m_drivetrain.getHeading();
+		// var error = m_drivetrain.getHeading();
 
-		var leftSpeed = m_maxMotorMPS + kP * error;
-		var rightSpeed = m_maxMotorMPS - kP * error;
+		// var leftSpeed = m_maxMotorPercent + kP * error;
+		// var rightSpeed = m_maxMotorPercent - kP * error;
 
-		m_drivetrain.tankDriveMPS(leftSpeed, rightSpeed);
+		m_drivetrain.tankDrive(m_maxMotorPercent, m_maxMotorPercent);
 	}
 
 	@Override

@@ -134,7 +134,7 @@ public class Constants {
 		public static double
 			// units in seconds
 			kTeleopOpenLoopRampTime = 0.7,
-			kDriveStraightMaxMPS = 1.0;
+			kDriveStraightMaxPercent = 0.4;
 
 		public static class CurvaturePolynomial {
 			public static double

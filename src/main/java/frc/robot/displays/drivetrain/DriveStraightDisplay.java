@@ -31,7 +31,7 @@ public class DriveStraightDisplay extends DrivingDisplay {
             .withSize(width, height);
 
             driveStraightSpeedPercent = layout
-                .addPersistent("Speed Percent", Autonomous.getDrivingMaxMotorMPS())
+                .addPersistent("Speed Percent", Autonomous.getDrivingMaxMotorPercent())
                 .withWidget(BuiltInWidgets.kTextView)
                 .getEntry();
         }
@@ -41,7 +41,7 @@ public class DriveStraightDisplay extends DrivingDisplay {
     @Override
     public void addEntryListeners() {
         driveStraightSpeedPercent.addListener(event -> {
-            m_autonomous.setDrivingMaxSpeedMPS(event.value.getDouble());
+            m_autonomous.setDrivingMaxSpeedPercent(event.value.getDouble());
         }, EntryListenerFlags.kImmediate | EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     }
 }
