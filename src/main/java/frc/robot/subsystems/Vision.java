@@ -172,11 +172,11 @@ public class Vision extends SubsystemBase {
 
 
 	public VideoSource getVideoSource(Camera camera) {
-		try {
-			return outputStreams.get(camera).getSource();
-		} catch (Exception e) {
+		// try {
+		// 	return outputStreams.get(camera).getSource();
+		// } catch (Exception e) {
 
-		}
+		// }
 
 		return cameras.get(camera);
 	}
