@@ -83,8 +83,8 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			// CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
+			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
 			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
@@ -114,9 +114,8 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			// CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
-			m_cvSources.put(Camera.FRONT, frontOutputStream);
+			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
 			m_cvSources.put(Camera.BACK, backOutputStream);
 			
 			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
@@ -145,8 +144,8 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			// CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
+			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			// CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
 			m_cvSources.put(Camera.INNER, innerOutputStream);
 			
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
@@ -175,7 +174,7 @@ public class Vision extends SubsystemBase {
 
 
 	public VideoSource getVideoSource(Camera camera) {
-		return outputMjpegServers.get(camera).getSource();
+		return m_cvSources.get(camera);
 	}
 
 	public void toggleCameraStream(Camera camera, boolean enable) {
