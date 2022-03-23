@@ -66,7 +66,7 @@ public abstract class DualJoystickControls extends JoystickControls {
         }
 
         driveStraightButton = driveStraightButton(primaryJoystick);
-        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxPercentage));
+        if (driveStraightButton != null) driveStraightButton.whenHeld(new DriveStraightWhileHeld(drivetrain, DriveStraightDirection.FORWARDS, Constants.Drivetrain.kDriveStraightMaxMPS));
 
         // ----------------------------------------------------------
         // Intake

@@ -139,6 +139,8 @@ public class Drivetrain extends SubsystemBase {
 
 		configureMotorPIDs();
 		resetEncoders();
+
+		m_differentialDrive.setSafetyEnabled(false);
 	}
 
 

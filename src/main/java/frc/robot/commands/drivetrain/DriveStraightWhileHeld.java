@@ -62,7 +62,7 @@ public class DriveStraightWhileHeld extends CommandBase {
 		var leftSpeed = m_maxMotorMPS + kP * error;
 		var rightSpeed = m_maxMotorMPS - kP * error;
 
-		m_drivetrain.tankDrive(leftSpeed, rightSpeed);
+		m_drivetrain.tankDriveMPS(leftSpeed, rightSpeed);
 	}
 
 	@Override
