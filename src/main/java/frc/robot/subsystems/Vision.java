@@ -114,7 +114,7 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
 			m_cvSources.put(Camera.BACK, backOutputStream);
-			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1181)) {
+			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
 				backCameraServer.setSource(backOutputStream);
 				outputStreams.put(Camera.BACK, backCameraServer);
 			} catch (Exception e) {
@@ -142,7 +142,7 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			// CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
 			// m_cvSources.put(Camera.INNER, innerOutputStream);
-			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1181)) {
+			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
 				innerCameraServer.setSource(innerCamera);
 				outputStreams.put(Camera.INNER, innerCameraServer);
 			} catch (Exception e) {
