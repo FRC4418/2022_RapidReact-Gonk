@@ -14,7 +14,6 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
-import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -192,7 +191,7 @@ public class Vision extends SubsystemBase {
 
 	public void startVisionThreads() {
 		if (Constants.Vision.kEnableFrontCamera) {
-			VisionThread frontCameraThread = new VisionThread(cameras.get(Camera.FRONT), null, pipeline -> {
+			Thread frontCameraThread = new Thread(() -> {
 				Mat input = new Mat();
 				Mat output = new Mat();
 	
@@ -206,7 +205,7 @@ public class Vision extends SubsystemBase {
 		}
 
 		if (Constants.Vision.kEnableBackCamera) {
-			VisionThread backCameraThread = new VisionThread(cameras.get(Camera.BACK), null, pipeline -> {
+			Thread backCameraThread = new Thread(() -> {
 				Mat input = new Mat();
 				Mat output = new Mat();
 	
@@ -220,7 +219,7 @@ public class Vision extends SubsystemBase {
 		}
 
 		if (Constants.Vision.kEnableInnerCamera) {
-			Thread innerCameraThread = new Thread(cameras.get(Camera.INNER), null, pipeline -> {
+			Thread innerCameraThread = new Thread(() -> {
 				Mat input = new Mat();
 				Mat output = new Mat();
 	
