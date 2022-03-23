@@ -4,7 +4,9 @@ package frc.robot.subsystems;
 import java.util.HashMap;
 
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
@@ -12,8 +14,6 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
-import edu.wpi.first.vision.VisionThread;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -21,39 +21,28 @@ import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
-	// Public resources
+	// Public static resources
 
 
-	public enum Camera {
-		FRONT("Front Cam"),
-		BACK("Back Cam"),
-		INNER("Inner Cam");
+	private UsbCamera frontCenterCamera;
+	private String frontCenterCameraName;
+	public static MjpegServer frontCenterCameraServer;
 
-		private String name;
-
-		Camera(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
-
-	// maps camera name to camera object
-	public HashMap<Camera, UsbCamera> cameras = new HashMap<>();
-	// maps camera name to CV Sink
-	public HashMap<Camera, MjpegServer> outputStreams = new HashMap<>();
+	private UsbCamera backCenterCamera;
+	private String backCenterCameraName;
+	public static MjpegServer backCenterCameraServer;
 
 
 	// ----------------------------------------------------------
 	// Private resources
 
-	private HashMap<Camera, CvSink> m_cvSinks = new HashMap<>();
 
-	private HashMap<Camera, CvSource> m_cvSources = new HashMap<>();
-	
-	private HashMap<Camera, VisionThread> m_threads = new HashMap<>();
+	// maps camera name to camera object
+	private HashMap<String, UsbCamera> cameras = new HashMap<>();
+	// maps camera name to output mat
+	private HashMap<String, Mat> outputMats = new HashMap<>();
+	// maps camera name to dedicated streaming-thread
+	private HashMap<String, Thread> streamingThreads = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -66,94 +55,28 @@ public class Vision extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Front-center camera
 
-		if (Constants.Vision.kEnableFrontCamera) {
-			UsbCamera frontCamera = new UsbCamera(Camera.FRONT.getName(), Constants.Vision.kFrontCameraUSBPort);
-			frontCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.FRONT, frontCamera);
-
-			try (CvSink frontCvSink = new CvSink(Camera.FRONT.getName() + " CvSink")) {
-				frontCvSink.setSource(frontCamera);
-				m_cvSinks.put(Camera.FRONT, frontCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create front camera's CV Sink", true);
-				assert 1 == 0;
-			}
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			m_cvSources.put(Camera.FRONT, frontOutputStream);
-			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
-				frontCameraServer.setSource(frontOutputStream);
-				outputStreams.put(Camera.FRONT, frontCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create front camera's MJPEG server", true);
-				assert 1 == 0;
-			}
+		frontCenterCameraName = "Front-Center";
+		if (Constants.Vision.kEnableFrontCenterCamera) {
+			frontCenterCamera = new UsbCamera(frontCenterCameraName, 0);
+			frontCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			frontCenterCameraServer = new MjpegServer(frontCenterCameraName, 1185);
+			frontCenterCameraServer.setSource(frontCenterCamera);
+			frontCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 		}
+		cameras.put(frontCenterCameraName, frontCenterCamera);
 		
 		// ----------------------------------------------------------
 		// Back-center camera
 
-		if (Constants.Vision.kEnableBackCamera) {
-			UsbCamera backCamera = new UsbCamera(Camera.BACK.getName(), Constants.Vision.kBackCameraUSBPort);
-			backCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			backCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.BACK, backCamera);
-
-			try (CvSink backCvSink = new CvSink(Camera.BACK.getName() + " CvSink")) {
-				backCvSink.setSource(backCamera);
-				m_cvSinks.put(Camera.BACK, backCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create back camera's CV Sink", true);
-				assert 1 == 0;
-			}
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			m_cvSources.put(Camera.BACK, backOutputStream);
-			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1181)) {
-				backCameraServer.setSource(backOutputStream);
-				outputStreams.put(Camera.BACK, backCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create back camera's MJPEG server", true);
-				assert 1 == 0;
-			}
+		backCenterCameraName = "Back-Center";
+		if (Constants.Vision.kEnableBackCenterCamera) {
+			backCenterCamera = new UsbCamera(backCenterCameraName, 1);
+			backCenterCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			backCenterCameraServer = new MjpegServer(backCenterCameraName, 1187);
+			backCenterCameraServer.setSource(backCenterCamera);
+			backCenterCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 		}
-
-		// ----------------------------------------------------------
-		// Inner camera
-
-		if (Constants.Vision.kEnableInnerCamera) {
-			UsbCamera innerCamera = new UsbCamera(Camera.INNER.getName(), Constants.Vision.kInnerCameraUSBPort);
-			innerCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.INNER, innerCamera);
-
-			try (CvSink innerCvSink = new CvSink(Camera.INNER.getName() + " CvSink")) {
-				innerCvSink.setSource(innerCamera);
-				m_cvSinks.put(Camera.INNER, innerCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create inner camera's CV Sink", true);
-				assert 1 == 0;
-			}
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			m_cvSources.put(Camera.INNER, innerOutputStream);
-			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1181)) {
-				innerCameraServer.setSource(innerOutputStream);
-				outputStreams.put(Camera.INNER, innerCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create inner camera's MJPEG server", true);
-				assert 1 == 0;
-			}
-		}
-
-		// ----------------------------------------------------------
-		// Thread stuff
-
-		startVisionThreads();
+		cameras.put(backCenterCameraName, backCenterCamera);
 	}
 
 
@@ -171,67 +94,70 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
-	public VideoSource getVideoSource(Camera camera) {
-		// try {
-		// 	return outputStreams.get(camera).getSource();
-		// } catch (Exception e) {
-
-		// }
-
-		return cameras.get(camera);
+	public Vision enableFrontCenterCameraStream(boolean enable) {
+		enableCameraStreamFor(frontCenterCameraName, enable);
+		Constants.Vision.kEnableFrontCenterCamera = enable;
+		return this;
 	}
 
-	public void toggleCameraStream(Camera camera, boolean enable) {
+	public Vision enableBackCenterCameraStream(boolean enable) {
+		enableCameraStreamFor(backCenterCameraName, enable);
+		Constants.Vision.kEnableBackCenterCamera = enable;
+		return this;
+	}
+
+	public Vision startDefaultCameraStreams() {
+		if (Constants.Vision.kEnableFrontCenterCamera) {
+			enableFrontCenterCameraStream(true);
+		}
+		
+		if (Constants.Vision.kEnableBackCenterCamera) {
+			enableBackCenterCameraStream(true);
+		}
+		return this;
+	}
+
+	private Vision enableCameraStreamFor(String cameraName, boolean enable) {
 		if (enable) {
-			m_threads.get(camera).run();
+			startStreamForCamera(cameraName);
 		} else {
-			// m_threads.get(camera).sleep(Long.MAX_VALUE);
+			stopStreamForCamera(cameraName);
 		}
+		return this;
 	}
 
+	private Vision startStreamForCamera(String cameraName) {
+		var camera = cameras.get(cameraName);
+		assert camera != null;
 
-	// ----------------------------------------------------------
-	// Camera-pipelines
+		var thread = new Thread(() -> {
+			CvSink cvSink = CameraServer.getVideo((VideoSource) camera);
+			// MJPEG stream name is the same as the camera name
+			CvSource outputStream = CameraServer.putVideo((String) cameraName, 640, 480);
 
+			Mat source = new Mat();
+			Mat output = new Mat();
+			outputMats.put(cameraName, output);
 
-	private void startVisionThreads() {
-		if (Constants.Vision.kEnableFrontCamera) {
-			VisionThread frontCameraThread = new VisionThread(cameras.get(Camera.FRONT), null, pipeline -> {
-				Mat input = new Mat();
-	
-				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.FRONT).grabFrame(input);
-					
-					m_cvSources.get(Camera.FRONT).putFrame(input);
-				}
-			});
-			frontCameraThread.start();
-		}
+			while (!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+				outputStream.putFrame(output);
+			}
+		});
+		thread.start();
 
-		if (Constants.Vision.kEnableBackCamera) {
-			VisionThread backCameraThread = new VisionThread(cameras.get(Camera.BACK), null, pipeline -> {
-				Mat input = new Mat();
-	
-				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.BACK).grabFrame(input);
-					
-					m_cvSources.get(Camera.BACK).putFrame(input);
-				}
-			});
-			backCameraThread.start();
-		}
+		streamingThreads.put(cameraName, thread);
+		return this;
+	}
 
-		if (Constants.Vision.kEnableInnerCamera) {
-			VisionThread innerCameraThread = new VisionThread(cameras.get(Camera.INNER), null, pipeline -> {
-				Mat input = new Mat();
-	
-				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.INNER).grabFrame(input);
-					
-					m_cvSources.get(Camera.INNER).putFrame(input);
-				}
-			});
-			innerCameraThread.start();
-		}
+	private Vision stopStreamForCamera(String cameraName) {
+		var camera = cameras.get(cameraName);
+		assert camera != null;
+
+		streamingThreads.get(cameraName).interrupt();
+		CameraServer.removeServer(cameraName);
+		
+		return this;
 	}
 }

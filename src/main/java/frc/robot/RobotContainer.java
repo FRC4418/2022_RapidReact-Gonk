@@ -162,7 +162,7 @@ public class RobotContainer {
 	
 	public final Autonomous autonomous = new Autonomous();
 
-	public static final Vision vision = new Vision();
+	public final Vision vision = new Vision();
 
 	public final Lights lights = new Lights();
 

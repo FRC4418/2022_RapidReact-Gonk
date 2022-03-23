@@ -34,6 +34,8 @@ public class Robot extends TimedRobot {
 		
 		robotContainer.intake.resetRetractorEncoder();
 
+		robotContainer.vision.startDefaultCameraStreams();
+
 		if (RobotContainer.enableDeveloperMode) {
 			robotContainer.initializeJoystickValues();
 		}

@@ -353,7 +353,8 @@ public class Constants {
 			kReleasePinAngle = 0.,
 			kAttachPinAngle = 40.,
 
-			kPinRollbackTimeSeconds = 0.1,
+			kPinRollbackTimeSeconds = 0.1
+			,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
@@ -387,7 +388,7 @@ public class Constants {
 	public static class Autonomous {
 		// ----------------------------------------------------------
 		// General
-		
+
 
 	}
 
@@ -395,15 +396,9 @@ public class Constants {
 		// ----------------------------------------------------------
 		// General
 
-		public static final int
-			kFrontCameraUSBPort = 1,
-			kBackCameraUSBPort = 0,
-			kInnerCameraUSBPort = -1;
-
 		public static boolean
-			kEnableFrontCamera = true,
-			kEnableBackCamera = true,
-			kEnableInnerCamera = false;
+			kEnableFrontCenterCamera = false,
+			kEnableBackCenterCamera = false;
 	}
 
 	public static class Lights {
