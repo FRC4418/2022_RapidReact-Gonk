@@ -405,6 +405,11 @@ public class Constants {
 			kEnableFrontCenterCamera = false,
 			kEnableInnerCamera = false,
 			kEnableBackCenterCamera = false;
+		
+		public static final String
+			kFrontCenterCameraName = "Front-Center",
+			kBackCenterCameraName = "Back-Center",
+			kInnerCameraName = "Inner";
 	}
 
 	public static class Lights {
