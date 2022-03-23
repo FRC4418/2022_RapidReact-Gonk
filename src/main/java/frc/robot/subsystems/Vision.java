@@ -55,7 +55,7 @@ public class Vision extends SubsystemBase {
 
 	private HashMap<Camera, CvSource> m_cvSources = new HashMap<>();
 	
-	private HashMap<Camera, VisionThread> m_threads = new HashMap<>();
+	private HashMap<Camera, Thread> m_threads = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -220,7 +220,7 @@ public class Vision extends SubsystemBase {
 		}
 
 		if (Constants.Vision.kEnableInnerCamera) {
-			VisionThread innerCameraThread = new VisionThread(cameras.get(Camera.INNER), null, pipeline -> {
+			Thread innerCameraThread = new Thread(cameras.get(Camera.INNER), null, pipeline -> {
 				Mat input = new Mat();
 				Mat output = new Mat();
 	
