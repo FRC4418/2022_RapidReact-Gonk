@@ -1,7 +1,6 @@
 package frc.robot.commands.drivetrain;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
@@ -26,11 +25,11 @@ public class DriveStraightForDistance extends DriveStraightWhileHeld {
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction, double maxMotorPercent) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction, maxMotorPercent);
+		this(drivetrain, Autonomous.getBallRetrievalMeters(), direction, maxMotorPercent);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, DriveStraightDirection direction) {
-		this(drivetrain, Autonomous.getTarmacLeavingMeters(), direction);
+		this(drivetrain, Autonomous.getBallRetrievalMeters(), direction);
 	}
 
 	// ----------------------------------------------------------
