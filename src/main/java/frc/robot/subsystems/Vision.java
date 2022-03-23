@@ -83,10 +83,10 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			// CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			// m_cvSources.put(Camera.FRONT, frontOutputStream);
+			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
-				frontCameraServer.setSource(frontCamera);
+				frontCameraServer.setSource(frontOutputStream);
 				outputStreams.put(Camera.FRONT, frontCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create front camera's MJPEG server", true);
@@ -140,10 +140,10 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			// CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			// m_cvSources.put(Camera.INNER, innerOutputStream);
+			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			m_cvSources.put(Camera.INNER, innerOutputStream);
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
-				innerCameraServer.setSource(innerCamera);
+				innerCameraServer.setSource(innerOutputStream);
 				outputStreams.put(Camera.INNER, innerCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create inner camera's MJPEG server", true);
