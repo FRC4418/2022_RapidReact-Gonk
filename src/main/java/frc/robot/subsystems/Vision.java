@@ -3,13 +3,17 @@ package frc.robot.subsystems;
 
 import java.util.HashMap;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -45,8 +49,11 @@ public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Private resources
 
+	private HashMap<Camera, CvSink> m_cvSinks = new HashMap<>();
 
-	private HashMap<Camera, CvSource> cvSources = new HashMap<>();
+	private HashMap<Camera, CvSource> m_cvSources = new HashMap<>();
+	
+	private HashMap<Camera, VisionThread> m_threads = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -67,6 +74,7 @@ public class Vision extends SubsystemBase {
 
 			try (CvSink frontCenterCvSink = new CvSink(Camera.FRONT.getName() + " CvSink")) {
 				frontCenterCvSink.setSource(frontCamera);
+				m_cvSinks.put(Camera.FRONT, frontCenterCvSink);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create front camera's CV Sink", true);
 				assert 1 == 0;
@@ -76,7 +84,7 @@ public class Vision extends SubsystemBase {
 
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			cvSources.put(Camera.FRONT, frontOutputStream);
+			m_cvSources.put(Camera.FRONT, frontOutputStream);
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
 				frontCameraServer.setSource(frontOutputStream);
 				outputStreams.put(Camera.FRONT, frontCameraServer);
@@ -127,20 +135,38 @@ public class Vision extends SubsystemBase {
 
 
 	public VideoSource getVideoSource(Camera camera) {
-		VideoSource source = cameras.get(camera);
+		var thing = outputStreams.get(camera);
+		if (thing == null) {
+			SmartDashboard.putString("Thing", "thing exists");
+		}
+
 		try {
-			source = outputStreams.get(camera).getSource();
+			return outputStreams.get(camera).getSource();
 		} catch (Exception e) {
 
 		}
-		return source;
+		return cameras.get(camera);
 	}
 
 	public void toggleCameraStream(Camera camera, boolean enable) {
 		if (enable) {
-			outputStreams.get(camera).setSource(cvSources.get(camera));
+			outputStreams.get(camera).setSource(m_cvSources.get(camera));
 		} else {
 			outputStreams.get(camera).setSource(null);
 		}
+	}
+
+
+	// ----------------------------------------------------------
+	// Camera-pipelines
+
+
+	private void startVisionThreads() {
+		var frontCameraThread = new VisionThread(cameras.get(Camera.FRONT), null, pipeline -> {
+			Mat input = new Mat();
+			m_cvSinks.get(Camera.FRONT).grabFrame(input);
+			
+			m_cvSources.get(Camera.FRONT).putFrame(input);
+		});
 	}
 }
