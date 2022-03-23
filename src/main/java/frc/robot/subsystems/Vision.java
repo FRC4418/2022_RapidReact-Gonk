@@ -3,17 +3,12 @@ package frc.robot.subsystems;
 
 import java.util.HashMap;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -36,20 +31,22 @@ public class Vision extends SubsystemBase {
 			this.name = name;
 		}
 
-		public String name() {
+		public String getName() {
 			return name;
 		}
 	}
-	
+
+	// maps camera name to camera object
+	public HashMap<Camera, UsbCamera> cameras = new HashMap<>();
+	// maps camera name to CV Sink
+	public HashMap<Camera, MjpegServer> outputStreams = new HashMap<>();
+
 
 	// ----------------------------------------------------------
 	// Private resources
 
 
-	// maps camera name to camera object
-	private HashMap<Camera, UsbCamera> cameras = new HashMap<>();
-	// maps camera name to CV Sink
-	private HashMap<Camera, CvSink> cvSinks = new HashMap<>(); 
+	private HashMap<Camera, CvSource> cvSources = new HashMap<>();
 
 
 	// ----------------------------------------------------------
@@ -62,21 +59,27 @@ public class Vision extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Front-center camera
 
-		if (Constants.Vision.kEnableFrontCenterCamera) {
-			String frontCameraName = "Front Cam";
-			UsbCamera frontCamera = new UsbCamera(frontCameraName, 0);
+		if (Constants.Vision.kEnableFrontCamera) {
+			UsbCamera frontCamera = new UsbCamera(Camera.FRONT.getName(), 0);
 			frontCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			// frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(frontCameraName, frontCamera);
+			cameras.put(Camera.FRONT, frontCamera);
 
-			CvSink frontCenterCvSink = new CvSink(frontCameraName + " CvSink");
-			frontCenterCvSink.setSource(frontCamera);
-			cvSinks.put(frontCameraName, frontCenterCvSink);
+			try (CvSink frontCenterCvSink = new CvSink(Camera.FRONT.getName() + " CvSink")) {
+				frontCenterCvSink.setSource(frontCamera);
+			} catch (Exception e) {
+				DriverStation.reportError("Could not create front camera's CV Sink", true);
+				assert 1 == 0;
+			}
+
+			// Use CvSink.grabFrame(Mat) and CvSource.putFrame(Mat) to process the vision pipeline
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontOutputStream = new CvSource(frontCameraName + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
-			try (MjpegServer frontCameraServer = new MjpegServer(frontCameraName + " Mjpeg Server", 1181)) {
+			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			cvSources.put(Camera.FRONT, frontOutputStream);
+			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
 				frontCameraServer.setSource(frontOutputStream);
+				outputStreams.put(Camera.FRONT, frontCameraServer);
 			} catch (Exception e) {
 				DriverStation.reportError("Could not create front camera's MJPEG server", true);
 				assert 1 == 0;
@@ -123,5 +126,21 @@ public class Vision extends SubsystemBase {
 	// Camera-streaming methods
 
 
-	public VideoSource getVideoSource()
+	public VideoSource getVideoSource(Camera camera) {
+		VideoSource source = cameras.get(camera);
+		try {
+			source = outputStreams.get(camera).getSource();
+		} catch (Exception e) {
+
+		}
+		return source;
+	}
+
+	public void toggleCameraStream(Camera camera, boolean enable) {
+		if (enable) {
+			outputStreams.get(camera).setSource(cvSources.get(camera));
+		} else {
+			outputStreams.get(camera).setSource(null);
+		}
+	}
 }

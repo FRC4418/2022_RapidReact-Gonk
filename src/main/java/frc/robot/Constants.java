@@ -388,7 +388,7 @@ public class Constants {
 	public static class Autonomous {
 		// ----------------------------------------------------------
 		// General
-
+		
 
 	}
 
@@ -398,13 +398,13 @@ public class Constants {
 
 		public static final int
 			kFrontCameraUSBPort = 1,
-			kBackCenterCameraUSBPort = 0,
-			kInnerCameraUSBPort = 0;
+			kBackCameraUSBPort = 0,
+			kInnerCameraUSBPort = 1;
 
 		public static boolean
-			kEnableFrontCenterCamera = false,
-			kEnableInnerCamera = false,
-			kEnableBackCenterCamera = false;
+			kEnableFrontCamera = true,
+			kEnableBackCamera = false,
+			kEnableInnerCamera = false;
 	}
 
 	public static class Lights {
