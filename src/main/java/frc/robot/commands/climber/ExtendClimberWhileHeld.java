@@ -27,7 +27,7 @@ public class ExtendClimberWhileHeld extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (Timer.getFPGATimestamp() > m_startTime + Constants.Climber.kPinRollbackTimeSeconds  && m_climber.pinIsReleased()) {
+		if (Timer.getFPGATimestamp() > m_startTime + Constants.Climber.kPinRollbackTimeSeconds) {
 			m_climber.setWinchToExtendPercent();
 		}
 	}
