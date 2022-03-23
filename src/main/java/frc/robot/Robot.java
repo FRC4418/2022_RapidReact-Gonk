@@ -41,14 +41,14 @@ public class Robot extends TimedRobot {
 			robotContainer.initializeJoystickValues();
 		}
 
-		String entryName = "Launcher-Firing Duration [s]";
-		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 2").getEntry(entryName);
-		if (entry.exists()) {
-			SmartDashboard.putString("Entry cleared:", entryName);
-		}
-		entry.clearPersistent();
-		entry.removeListener(0);
-		entry.delete();
+		// String entryName = "Launcher-Firing Duration [s]";
+		// var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 2").getEntry(entryName);
+		// if (entry.exists()) {
+		// 	SmartDashboard.putString("Entry cleared:", entryName);
+		// }
+		// entry.clearPersistent();
+		// entry.removeListener(0);
+		// entry.delete();
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
 		if (robotContainer.drivetrain.isReversed()) {
 			robotContainer.lights.setAllToGreen();
 		} else {
-			robotContainer.lights.setAllToFastRGBCycle();
+			robotContainer.lights.setAllToRed();
 		}
 
 		robotContainer.intake.retractIntakeArm();

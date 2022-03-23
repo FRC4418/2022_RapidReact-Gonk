@@ -1,6 +1,7 @@
 package frc.robot.commands.drivetrain;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 
@@ -18,6 +19,9 @@ public class DriveStraightForDistance extends DriveStraightWhileHeld {
 		super(drivetrain, direction, maxMotorMPS);
 
 		m_distanceInMeters = distanceInMeters;
+
+		SmartDashboard.putNumber("Distance in meters", distanceInMeters);
+		SmartDashboard.putNumber("MaxMotor mps", maxMotorMPS);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {
@@ -34,6 +38,21 @@ public class DriveStraightForDistance extends DriveStraightWhileHeld {
 
 	// ----------------------------------------------------------
 	// Scheduler methods
+
+	@Override
+	public void initialize() {
+		super.initialize();
+	}
+
+	@Override
+	public void execute() {
+		super.execute();
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		super.end(interrupted);
+	}
 
 	@Override
 	public boolean isFinished() {
