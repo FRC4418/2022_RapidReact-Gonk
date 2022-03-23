@@ -19,9 +19,6 @@ public class DriveStraightForDistance extends DriveStraightWhileHeld {
 		super(drivetrain, direction, maxMotorPercent);
 
 		m_distanceInMeters = distanceInMeters;
-
-		SmartDashboard.putNumber("Distance in meters", distanceInMeters);
-		SmartDashboard.putNumber("MaxMotor percent", maxMotorPercent);
 	}
 
 	public DriveStraightForDistance(Drivetrain drivetrain, double distanceInMeters, DriveStraightDirection direction) {

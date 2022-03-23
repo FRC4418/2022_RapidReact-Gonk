@@ -174,8 +174,6 @@ public class Drivetrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeters(), getRightDistanceMeters());
-
-		SmartDashboard.putNumber("Dist traveled", getAverageDistanceMeters());
 	}
 
 
