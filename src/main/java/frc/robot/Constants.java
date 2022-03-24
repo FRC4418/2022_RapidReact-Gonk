@@ -376,7 +376,6 @@ public class Constants {
 		
 		public static class CAN_ID {
 			public static final int
-				// TODO: !!!P1!!! Set the winch motor's CAN ID
 				kWinch = 31;
 		}
 
