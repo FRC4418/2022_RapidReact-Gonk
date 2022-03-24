@@ -91,28 +91,28 @@ public class CamerasDisplay extends VisionDisplay {
 
 	@Override
 	public void addEntryListeners() {
-		{ // Front
-			if (Constants.Vision.kEnableFrontCamera) {
-				enableFrontCameraToggleSwitch.addListener(event -> {
-					m_vision.toggleCameraStream(Camera.FRONT, event.value.getBoolean());
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
-		}
+		// { // Front
+		// 	if (Constants.Vision.kEnableFrontCamera) {
+		// 		enableFrontCameraToggleSwitch.addListener(event -> {
+		// 			m_vision.toggleCameraStream(Camera.FRONT, event.value.getBoolean());
+		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		// 	}
+		// }
 
-		{ // Back
-			if (Constants.Vision.kEnableBackCamera) {
-				enableBackCameraToggleSwitch.addListener(event -> {
-					m_vision.toggleCameraStream(Camera.BACK, event.value.getBoolean());
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
-		}
+		// { // Back
+		// 	if (Constants.Vision.kEnableBackCamera) {
+		// 		enableBackCameraToggleSwitch.addListener(event -> {
+		// 			m_vision.toggleCameraStream(Camera.BACK, event.value.getBoolean());
+		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		// 	}
+		// }
 
-		{ // Inner
-			if (Constants.Vision.kEnableInnerCamera) {
-				enableInnerCameraToggleSwitch.addListener(event -> {
-					m_vision.toggleCameraStream(Camera.INNER, event.value.getBoolean());
-				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-			}
-		}
+		// { // Inner
+		// 	if (Constants.Vision.kEnableInnerCamera) {
+		// 		enableInnerCameraToggleSwitch.addListener(event -> {
+		// 			m_vision.toggleCameraStream(Camera.INNER, event.value.getBoolean());
+		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+		// 	}
+		// }
 	}
 }
