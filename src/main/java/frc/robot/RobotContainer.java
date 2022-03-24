@@ -197,7 +197,7 @@ public class RobotContainer {
 			// TODO: !P1! Add the auto-routine maker display here
 		
 		visionDisplaysGrid
-			.makeOriginWith(new CamerasDisplay(vision, 6, 4));
+			.makeOriginWith(new CamerasDisplay(vision, 7, 4));
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		Display motorPrintoutDisplay;

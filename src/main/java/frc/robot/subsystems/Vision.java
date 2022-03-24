@@ -12,8 +12,8 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
-import edu.wpi.first.cscore.VideoMode.PixelFormat;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+// import edu.wpi.first.cscore.VideoMode.PixelFormat;
+// import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -24,11 +24,11 @@ public class Vision extends SubsystemBase {
 	// Public static resources
 
 
-	private UsbCamera frontCenterCamera;
+	// private UsbCamera frontCenterCamera;
 	private String frontCenterCameraName;
 	public static MjpegServer frontCenterCameraServer;
 
-	private UsbCamera backCenterCamera;
+	// private UsbCamera backCenterCamera;
 	private String backCenterCameraName;
 	public static MjpegServer backCenterCameraServer;
 
