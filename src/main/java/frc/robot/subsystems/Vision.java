@@ -9,13 +9,11 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -131,13 +129,13 @@ public class Vision extends SubsystemBase {
 		return m_cvSources.get(camera);
 	}
 
-	public void toggleCameraStream(Camera camera, boolean enable) {
-		// if (enable) {
-		// 	m_threads.get(camera).run();
-		// } else {
-		// 	m_threads.get(camera).sleep(Long.MAX_VALUE);
-		// }
-	}
+	// public void toggleCameraStream(Camera camera, boolean enable) {
+	// 	if (enable) {
+	// 		m_threads.get(camera).run();
+	// 	} else {
+	// 		m_threads.get(camera).sleep(Long.MAX_VALUE);
+	// 	}
+	// }
 
 
 	// ----------------------------------------------------------
