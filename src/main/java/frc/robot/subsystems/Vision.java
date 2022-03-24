@@ -63,8 +63,6 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
-		// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
-
 		// ----------------------------------------------------------
 		// Front-center camera
 
@@ -88,7 +86,7 @@ public class Vision extends SubsystemBase {
 			// CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
 			m_cvSources.put(Camera.FRONT, frontOutputCvSource);
 			
-			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
+			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", Constants.Vision.kFrontCameraTCPPort)) {
 				frontCameraServer.setSource(frontCamera);
 				outputMjpegServers.put(Camera.FRONT, frontCameraServer);
 			} catch (Exception e) {
@@ -120,7 +118,7 @@ public class Vision extends SubsystemBase {
 			// CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
 			m_cvSources.put(Camera.BACK, backOutputCvSource);
 			
-			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
+			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", Constants.Vision.kBackCameraTCPPort)) {
 				backCameraServer.setSource(backCamera);
 				outputMjpegServers.put(Camera.BACK, backCameraServer);
 			} catch (Exception e) {
@@ -151,7 +149,7 @@ public class Vision extends SubsystemBase {
 			// CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
 			m_cvSources.put(Camera.INNER, innerOutputCvSource);
 			
-			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
+			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", Constants.Vision.kInnerCameraTCPPort)) {
 				innerCameraServer.setSource(innerCamera);
 				outputMjpegServers.put(Camera.INNER, innerCameraServer);
 			} catch (Exception e) {
