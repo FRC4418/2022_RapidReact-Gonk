@@ -308,7 +308,7 @@ public class Constants {
 			kReverseIndexerPercent = 1.0;
 
 		public static int
-			kLauncherFiringRPM = 3_100,
+			kLauncherFiringRPM = 1_600,
 			kLauncherIdleRPM = -200;
 
 		public static class CAN_ID {
@@ -336,7 +336,7 @@ public class Constants {
 			kLauncherRPMGains;
 		private static final Gains
 			kLauncherRPMGainsV1 = new Gains(0.083708, 0., 0., 1023./20660., 300, 1.00),
-			kLauncherRPMGainsV2 = new Gains(0.06, 0., 0., 0.055, 300, 1.00);
+			kLauncherRPMGainsV2 = new Gains(0.07, 0., 0., 0.055, 300, 1.00);
 
 		public static Gains
 			kIndexerRPMGains;

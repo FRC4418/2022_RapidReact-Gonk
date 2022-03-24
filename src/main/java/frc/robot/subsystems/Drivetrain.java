@@ -322,14 +322,11 @@ public class Drivetrain extends SubsystemBase {
 		} else {
 			m_differentialDrive.arcadeDrive(-forward, turn);
 		}
-		m_differentialDrive.feed();
 	}
 
 	public void tankDriveMPS(double leftMPS, double rightMPS) {
 		m_frontLeftMotor.set(ControlMode.Velocity, leftMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * leftMotorsDirectionMultiplier);
-		m_frontRightMotor.set(ControlMode.Velocity, rightMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier);
-		
-		m_differentialDrive.feed();
+		m_frontRightMotor.set(ControlMode.Velocity, rightMPS * Constants.Drivetrain.kOutputMPSToInputTicksPer100ms * rightMotorsDirectionMultiplier);		
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -343,7 +340,6 @@ public class Drivetrain extends SubsystemBase {
 			m_leftGroup.setVoltage(-rightVolts);
 			m_rightGroup.setVoltage(-leftVolts);
 		}
-		m_differentialDrive.feed();
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -355,7 +351,6 @@ public class Drivetrain extends SubsystemBase {
 		} else {
 			m_differentialDrive.tankDrive(-rightSpeed, -leftSpeed);
 		}
-		m_differentialDrive.feed();
 	}
 
 	public void curvatureDrive(double forward, double rotation, boolean allowTurnInPlace) {
@@ -367,7 +362,6 @@ public class Drivetrain extends SubsystemBase {
 		} else {
 			m_differentialDrive.curvatureDrive(-forward, rotation, allowTurnInPlace);
 		}
-		m_differentialDrive.feed();
 	}
 
 	public void stopDrive() {

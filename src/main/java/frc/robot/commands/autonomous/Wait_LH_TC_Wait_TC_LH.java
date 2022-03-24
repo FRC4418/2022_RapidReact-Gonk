@@ -35,13 +35,14 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
 
 			new RunFeederAndIndexer(intake, manipulator, true),
-			new BackTailTwoBallTrajectory(drivetrain, false),
+			new BackTailBallTrajectory(drivetrain, false),
 
 			// At this point, we have now just collected the third ball
 
 			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake),
-			new BackTailTwoBallTrajectory(drivetrain, true),
+			new BackTailBallTrajectory(drivetrain, true),
+			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
 			
 			new LaunchTwoBalls(manipulator)
 

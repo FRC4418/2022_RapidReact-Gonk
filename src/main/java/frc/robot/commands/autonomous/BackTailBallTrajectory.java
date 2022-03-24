@@ -9,7 +9,6 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -20,7 +19,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class BackTailTwoBallTrajectory extends CommandBase {
+public class BackTailBallTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Private resources
 
@@ -34,7 +33,7 @@ public class BackTailTwoBallTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public BackTailTwoBallTrajectory(Drivetrain drivetrain, boolean reversePath) {
+	public BackTailBallTrajectory(Drivetrain drivetrain, boolean reversePath) {
 		m_drivetrain = drivetrain;
 		m_reversePath = reversePath;
 
@@ -58,22 +57,21 @@ public class BackTailTwoBallTrajectory extends CommandBase {
 				// Apply the voltage constraint
 				.addConstraint(autoVoltageConstraint);
 		
-		// An example trajectory to follow. All units in meters.
-		if (!m_reversePath) {
-			exampleTrajectory =
-				TrajectoryGenerator.generateTrajectory(
-					new Pose2d(0, 0, new Rotation2d(0)),
-					List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-					new Pose2d(3, 0, new Rotation2d(0)),
-					config);
-		} else {
-			exampleTrajectory =
-				TrajectoryGenerator.generateTrajectory(
-					new Pose2d(3, 0, new Rotation2d(0)),
-					List.of(new Translation2d(2, -1), new Translation2d(1, 1)),
-					new Pose2d(0, 0, new Rotation2d(0)),
-					config);
+		double xDistance = Constants.inchesToMeters(154.459 + 3.);
+		double yDistance = Constants.inchesToMeters(19.102);
+
+		if (m_reversePath) {
+			xDistance *= -1;
+			yDistance *= -1;
 		}
+
+		var waypoints = List.of(
+			new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+			new Pose2d(xDistance, yDistance, Rotation2d.fromDegrees(7.05))
+		);
+
+		// An example trajectory to follow. All units in meters.
+		exampleTrajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
 	
 		ramseteCommand =
 			new RamseteCommand(
@@ -86,8 +84,8 @@ public class BackTailTwoBallTrajectory extends CommandBase {
 					Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
 					Drivetrain.kDriveKinematics,
 					m_drivetrain::getWheelSpeeds,
-				new PIDController(Constants.Drivetrain.kLeftVelocityGains.kP, 0, 0),
-				new PIDController(Constants.Drivetrain.kRightVelocityGains.kP, 0, 0),
+				new PIDController(Constants.Drivetrain.kLeftVelocityGains.kP, Constants.Drivetrain.kLeftVelocityGains.kI, Constants.Drivetrain.kLeftVelocityGains.kD),
+				new PIDController(Constants.Drivetrain.kRightVelocityGains.kP, Constants.Drivetrain.kRightVelocityGains.kI, Constants.Drivetrain.kRightVelocityGains.kD),
 				// RamseteCommand passes volts to the callback
 				m_drivetrain::tankDriveVolts,
 				m_drivetrain);
@@ -105,17 +103,12 @@ public class BackTailTwoBallTrajectory extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
-
-	}
-
-	@Override
 	public void end(boolean interrupted) {
 		m_drivetrain.tankDriveVolts(0., 0.);
 	}
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return ramseteCommand.isFinished();
 	}
 }
