@@ -39,8 +39,6 @@ public class Robot extends TimedRobot {
 			robotContainer.initializeJoystickValues();
 		}
 
-		robotContainer.vision.startVisionThreads();
-
 		String entryName = "Driving Max Speed [ft per s]";
 		var entry = NetworkTableInstance.getDefault().getTable("Shuffleboard/Autonomous/Autonomous/Column 2").getEntry(entryName);
 		if (entry.exists()) {

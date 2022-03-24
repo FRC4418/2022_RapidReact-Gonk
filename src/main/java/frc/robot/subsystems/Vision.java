@@ -42,14 +42,11 @@ public class Vision extends SubsystemBase {
 		}
 	}
 
-	// maps camera name to camera object
-	public HashMap<Camera, UsbCamera> cameras = new HashMap<>();
-	// maps camera name to CV Sink
-	public HashMap<Camera, MjpegServer> outputMjpegServers = new HashMap<>();
-
 
 	// ----------------------------------------------------------
 	// Private resources
+
+	private HashMap<Camera, UsbCamera> m_cameras = new HashMap<>();
 
 	private HashMap<Camera, CvSink> m_cvSinks = new HashMap<>();
 
@@ -71,7 +68,7 @@ public class Vision extends SubsystemBase {
 			VideoMode frontCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			frontCamera.setVideoMode(frontCameraInputVideoMode);
 			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.FRONT, frontCamera);
+			m_cameras.put(Camera.FRONT, frontCamera);
 
 			CvSink frontCvSink = CameraServer.getVideo((VideoSource) frontCamera);
 			frontCvSink.setSource(frontCamera);
@@ -80,74 +77,17 @@ public class Vision extends SubsystemBase {
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource frontOutputCvSource = new CvSource(Camera.FRONT.getName() + " Input Stream", frontCameraInputVideoMode);
 			m_cvSources.put(Camera.FRONT, frontOutputCvSource);
-			
-			MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", Constants.Vision.kFrontCameraTCPPort);
-			frontCameraServer.setSource(frontCamera);
-			outputMjpegServers.put(Camera.FRONT, frontCameraServer);
 		}
 		
 		// ----------------------------------------------------------
 		// Back-center camera
 
-		if (Constants.Vision.kEnableBackCamera) {
-			UsbCamera backCamera = CameraServer.startAutomaticCapture(Constants.Vision.kBackCameraUSBPort);
-			VideoMode backCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			backCamera.setVideoMode(backCameraInputVideoMode);
-			backCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.BACK, backCamera);
-
-			try (CvSink backCvSink = CameraServer.getVideo((VideoSource) backCamera)) {
-				backCvSink.setSource(backCamera);
-				m_cvSinks.put(Camera.BACK, backCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create back camera's CV Sink", true);
-				assert 1 == 0;
-			}
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource backOutputCvSource = new CvSource(Camera.BACK.getName() + " Input Stream", backCameraInputVideoMode);
-			// CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
-			m_cvSources.put(Camera.BACK, backOutputCvSource);
-			
-			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", Constants.Vision.kBackCameraTCPPort)) {
-				backCameraServer.setSource(backCamera);
-				outputMjpegServers.put(Camera.BACK, backCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create back camera's MJPEG server", true);
-				assert 1 == 0;
-			}
-		}
+		
 
 		// ----------------------------------------------------------
 		// Inner camera
 
-		if (Constants.Vision.kEnableInnerCamera) {
-			UsbCamera innerCamera = CameraServer.startAutomaticCapture(Constants.Vision.kInnerCameraUSBPort);
-			VideoMode innerCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			innerCamera.setVideoMode(innerCameraInputVideoMode);
-			innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			cameras.put(Camera.INNER, innerCamera);
-
-			try (CvSink innerCvSink = CameraServer.getVideo((VideoSource) innerCamera)) {
-				m_cvSinks.put(Camera.INNER, innerCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create inner camera's CV Sink", true);
-				assert 1 == 0;
-			}
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource innerOutputCvSource = new CvSource(Camera.INNER.getName() + " Input Stream", innerCameraInputVideoMode);
-			// CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
-			m_cvSources.put(Camera.INNER, innerOutputCvSource);
-			
-			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", Constants.Vision.kInnerCameraTCPPort)) {
-				innerCameraServer.setSource(innerCamera);
-				outputMjpegServers.put(Camera.INNER, innerCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create inner camera's MJPEG server", true);
-				assert 1 == 0;
-			}
-		}
+		
 	}
 
 
@@ -162,6 +102,28 @@ public class Vision extends SubsystemBase {
 
 
 	// ----------------------------------------------------------
+	// Camera-setups
+
+
+	public void setupFrontCamera() {
+		if (Constants.Vision.kEnableFrontCamera) {
+			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
+			VideoMode inputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			frontCamera.setVideoMode(inputVideoMode);
+			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+			m_cameras.put(Camera.FRONT, frontCamera);
+
+			CvSink cvSink = CameraServer.getVideo((VideoSource) frontCamera);
+			m_cvSinks.put(Camera.FRONT, cvSink);
+
+			// "output streams" in this context mean the image-manipulated camera feed
+			CvSource outputCvSource = CameraServer.putVideo("Front Camera Output", inputVideoMode.width, inputVideoMode.height);
+			m_cvSources.put(Camera.FRONT, outputCvSource);
+		}
+	}
+
+
+	// ----------------------------------------------------------
 	// Camera-streaming methods
 
 
@@ -170,11 +132,11 @@ public class Vision extends SubsystemBase {
 	}
 
 	public void toggleCameraStream(Camera camera, boolean enable) {
-		if (enable) {
-			m_threads.get(camera).run();
-		} else {
-			// m_threads.get(camera).sleep(Long.MAX_VALUE);
-		}
+		// if (enable) {
+		// 	m_threads.get(camera).run();
+		// } else {
+		// 	m_threads.get(camera).sleep(Long.MAX_VALUE);
+		// }
 	}
 
 
@@ -182,47 +144,29 @@ public class Vision extends SubsystemBase {
 	// Camera-pipelines
 
 
-	public void startVisionThreads() {
+	public void startFrontCameraPipeline() {
 		if (Constants.Vision.kEnableFrontCamera) {
 			Thread frontCameraThread = new Thread(() -> {
 				Mat input = new Mat();
 				Mat output = new Mat();
 	
 				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.FRONT).grabFrame(input);
+					var cvSink = m_cvSinks.get(Camera.FRONT);
+					var cvSource = m_cvSources.get(Camera.FRONT);
+
+					// since grabFrame is run in the check for potential error codes, this is also where we grab our input
+					if (cvSink.grabFrame(input) == 0) {
+						// Send the output the error.
+						cvSource.notifyError(cvSink.getError());
+						// skip the rest of the current iteration
+						continue;
+					}
+
 					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
 					m_cvSources.get(Camera.FRONT).putFrame(output);
 				}
 			});
 			frontCameraThread.start();
-		}
-
-		if (Constants.Vision.kEnableBackCamera) {
-			Thread backCameraThread = new Thread(() -> {
-				Mat input = new Mat();
-				Mat output = new Mat();
-	
-				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.BACK).grabFrame(input);
-					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.BACK).putFrame(output);
-				}
-			});
-			backCameraThread.start();
-		}
-
-		if (Constants.Vision.kEnableInnerCamera) {
-			Thread innerCameraThread = new Thread(() -> {
-				Mat input = new Mat();
-				Mat output = new Mat();
-	
-				while (!Thread.interrupted()) {
-					m_cvSinks.get(Camera.INNER).grabFrame(input);
-					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.INNER).putFrame(output);
-				}
-			});
-			innerCameraThread.start();
 		}
 	}
 }
