@@ -35,13 +35,13 @@ public class ThreeBallTrajectoryAuto extends SequentialCommandGroup {
 			new WaitFor(Autonomous.getTarmacReturnDelaySeconds()),
 
 			new RunFeederAndIndexer(intake, manipulator, true),
-			new BackTailBallTrajectory(drivetrain, false),
+			new TerminalBallTrajectory(drivetrain, false),
 
 			// At this point, we have now just collected the third ball
 
 			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake),
-			new BackTailBallTrajectory(drivetrain, true),
+			new TerminalBallTrajectory(drivetrain, true),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
 			
 			new LaunchTwoBalls(manipulator)

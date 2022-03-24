@@ -19,7 +19,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class BackTailBallTrajectory extends CommandBase {
+public class TerminalBallTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Private resources
 
@@ -33,7 +33,7 @@ public class BackTailBallTrajectory extends CommandBase {
 	// ----------------------------------------------------------
 	// Constructor
 
-	public BackTailBallTrajectory(Drivetrain drivetrain, boolean reversePath) {
+	public TerminalBallTrajectory(Drivetrain drivetrain, boolean reversePath) {
 		m_drivetrain = drivetrain;
 		m_reversePath = reversePath;
 
