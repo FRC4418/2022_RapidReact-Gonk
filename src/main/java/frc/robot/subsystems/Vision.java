@@ -68,7 +68,7 @@ public class Vision extends SubsystemBase {
 		// Front-center camera
 
 		if (Constants.Vision.kEnableFrontCamera) {
-			UsbCamera frontCamera = new UsbCamera(Camera.FRONT.getName(), Constants.Vision.kFrontCameraUSBPort);
+			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
 			frontCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.FRONT, frontCamera);
@@ -99,7 +99,7 @@ public class Vision extends SubsystemBase {
 		// Back-center camera
 
 		if (Constants.Vision.kEnableBackCamera) {
-			UsbCamera backCamera = new UsbCamera(Camera.BACK.getName(), Constants.Vision.kBackCameraUSBPort);
+			UsbCamera backCamera = CameraServer.startAutomaticCapture(Constants.Vision.kBackCameraUSBPort);
 			backCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			backCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.BACK, backCamera);
@@ -130,7 +130,7 @@ public class Vision extends SubsystemBase {
 		// Inner camera
 
 		if (Constants.Vision.kEnableInnerCamera) {
-			UsbCamera innerCamera = new UsbCamera(Camera.INNER.getName(), Constants.Vision.kInnerCameraUSBPort);
+			UsbCamera innerCamera = CameraServer.startAutomaticCapture(Constants.Vision.kInnerCameraUSBPort);
 			innerCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.INNER, innerCamera);
