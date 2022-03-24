@@ -422,9 +422,9 @@ public class Constants {
 
 
 		public static boolean
-			kEnableFrontCamera = true,
-			kEnableBackCamera = true,
-			kEnableInnerCamera = false;
+			kUsingFrontCamera = true,
+			kUsingBackCamera = true,
+			kUsingInnerCamera = false;
 	}
 
 	public static class Lights {

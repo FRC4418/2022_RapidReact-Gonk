@@ -61,7 +61,7 @@ public class Vision extends SubsystemBase {
 		// ----------------------------------------------------------
 		// Front-center camera
 
-		if (Constants.Vision.kEnableFrontCamera) {
+		if (Constants.Vision.kUsingFrontCamera) {
 			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
 			VideoMode frontCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			frontCamera.setVideoMode(frontCameraInputVideoMode);
@@ -104,7 +104,7 @@ public class Vision extends SubsystemBase {
 
 
 	public void setupFrontCamera() {
-		if (Constants.Vision.kEnableFrontCamera) {
+		if (Constants.Vision.kUsingFrontCamera) {
 			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
 			VideoMode inputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 			frontCamera.setVideoMode(inputVideoMode);
@@ -143,7 +143,7 @@ public class Vision extends SubsystemBase {
 
 
 	public void startFrontCameraPipeline() {
-		if (Constants.Vision.kEnableFrontCamera) {
+		if (Constants.Vision.kUsingFrontCamera) {
 			Thread frontCameraThread = new Thread(() -> {
 				Mat input = new Mat();
 				Mat output = new Mat();

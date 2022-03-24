@@ -40,13 +40,13 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Front", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
-				if (Constants.Vision.kEnableFrontCamera) {
+				if (Constants.Vision.kUsingFrontCamera) {
 					frontCamLayout
 						.add("Camera", m_vision.getVideoSource(Camera.FRONT))
 						.withWidget(BuiltInWidgets.kCameraStream);
 					
 					enableFrontCameraToggleSwitch = frontCamLayout
-						.add("Switch", Constants.Vision.kEnableFrontCamera)
+						.add("Switch", true)
 						.withWidget(BuiltInWidgets.kToggleSwitch)
 						.getEntry();
 				}
@@ -57,13 +57,13 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Back", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
-				if (Constants.Vision.kEnableBackCamera) {
+				if (Constants.Vision.kUsingBackCamera) {
 					backCamLayout
 						.add("Camera", m_vision.getVideoSource(Camera.BACK))
 						.withWidget(BuiltInWidgets.kCameraStream);
 					
 					enableBackCameraToggleSwitch = backCamLayout
-						.add("Switch", Constants.Vision.kEnableBackCamera)
+						.add("Switch", true)
 						.withWidget(BuiltInWidgets.kToggleSwitch)
 						.getEntry();
 				}
@@ -74,13 +74,13 @@ public class CamerasDisplay extends VisionDisplay {
 				.getLayout("Inner", BuiltInLayouts.kGrid)
 				.withProperties(Map.of("Number of columns", 1, "Number of rows", 2, "Label position", "HIDDEN"));
 				
-				if (Constants.Vision.kEnableInnerCamera) {
+				if (Constants.Vision.kUsingInnerCamera) {
 					backCamLayout
 						.add("Camera", m_vision.getVideoSource(Camera.INNER))
 						.withWidget(BuiltInWidgets.kCameraStream);
 					
 					enableInnerCameraToggleSwitch = backCamLayout
-						.add("Switch", Constants.Vision.kEnableInnerCamera)
+						.add("Switch", true)
 						.withWidget(BuiltInWidgets.kToggleSwitch)
 						.getEntry();
 				}
