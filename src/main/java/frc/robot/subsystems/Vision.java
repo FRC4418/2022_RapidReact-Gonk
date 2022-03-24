@@ -73,26 +73,17 @@ public class Vision extends SubsystemBase {
 			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.FRONT, frontCamera);
 
-			try (CvSink frontCvSink = CameraServer.getVideo((VideoSource) frontCamera)) {
-				frontCvSink.setSource(frontCamera);
-				m_cvSinks.put(Camera.FRONT, frontCvSink);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create front camera's CV Sink", true);
-				assert 1 == 0;
-			}
+			CvSink frontCvSink = CameraServer.getVideo((VideoSource) frontCamera);
+			frontCvSink.setSource(frontCamera);
+			m_cvSinks.put(Camera.FRONT, frontCvSink);
 
 			// "output streams" in this context mean the image-manipulated camera feed
 			CvSource frontOutputCvSource = new CvSource(Camera.FRONT.getName() + " Input Stream", frontCameraInputVideoMode);
-			// CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
 			m_cvSources.put(Camera.FRONT, frontOutputCvSource);
 			
-			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", Constants.Vision.kFrontCameraTCPPort)) {
-				frontCameraServer.setSource(frontCamera);
-				outputMjpegServers.put(Camera.FRONT, frontCameraServer);
-			} catch (Exception e) {
-				DriverStation.reportError("Could not create front camera's MJPEG server", true);
-				assert 1 == 0;
-			}
+			MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", Constants.Vision.kFrontCameraTCPPort);
+			frontCameraServer.setSource(frontCamera);
+			outputMjpegServers.put(Camera.FRONT, frontCameraServer);
 		}
 		
 		// ----------------------------------------------------------
