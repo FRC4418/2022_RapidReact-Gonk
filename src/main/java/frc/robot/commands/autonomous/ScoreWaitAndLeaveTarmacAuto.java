@@ -11,11 +11,11 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Manipulator;
 
 
-public class Wait_LH_LT extends SequentialCommandGroup {
-	public Wait_LH_LT(Drivetrain drivetrain, Manipulator manipulator) {
+public class ScoreWaitAndLeaveTarmacAuto extends SequentialCommandGroup {
+	public ScoreWaitAndLeaveTarmacAuto(Drivetrain drivetrain, Manipulator manipulator) {
 		super(
-			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new LaunchOneBall(manipulator),
+			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new DriveStraightForDistance(drivetrain, DriveStraightDirection.FORWARDS)
 		);
 	}

@@ -85,10 +85,10 @@ public class PremadeAutoRoutineDisplay extends AutonomousDisplay {
 				// setting default options for sendable choosers also adds the label-value pair as an option
 				autoRoutineChooser.setDefaultOption("Two Ball", AutonomousRoutine.TWO_BALL_AUTO);
 				autoRoutineChooser.addOption("Wait LT", AutonomousRoutine.WAIT_AND_LEAVE_TARMAC);
-				autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.WAIT_SCORE_LH_AND_LEAVE_TARMAC);
-				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC);
+				autoRoutineChooser.addOption("Wait LH LT", AutonomousRoutine.SCORE_AND_LEAVE_TARMAC);
+				autoRoutineChooser.addOption("LH Wait LT", AutonomousRoutine.SCORE_AND_WAIT_AND_LEAVE_TARMAC);
 				autoRoutineChooser.addOption("Three Ball Trajectory", AutonomousRoutine.THREE_BALL_TRAJECTORY_AUTO);
-				// autoRoutineChooser.addOption("LH RC LT", AutonomousRoutine.SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC);
+				autoRoutineChooser.addOption("Three Ball Vision", AutonomousRoutine.THREE_BALL_VISION_AUTO);
 				column2
 					.add("Routine", autoRoutineChooser)
 					.withWidget(BuiltInWidgets.kComboBoxChooser);

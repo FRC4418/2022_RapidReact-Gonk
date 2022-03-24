@@ -19,12 +19,12 @@ import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.DriverXboxArcade
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxArcadeControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.arcade.SpotterXboxLoneTankControls;
 import frc.robot.joystickcontrols.singlejoystickcontrols.lonetank.DriverXboxLoneTankControls;
-import frc.robot.commands.autonomous.Wait_LH_LT;
+import frc.robot.commands.autonomous.ScoreAndLeaveTarmacAuto;
 import frc.robot.commands.autonomous.TwoBallAuto;
-import frc.robot.commands.autonomous.Wait_LH_RC_LT;
+import frc.robot.commands.autonomous.ThreeBallVisionAuto;
 import frc.robot.commands.autonomous.ThreeBallTrajectoryAuto;
-import frc.robot.commands.autonomous.LH_Wait_LT;
-import frc.robot.commands.autonomous.WaitAndLeaveTarmac;
+import frc.robot.commands.autonomous.ScoreWaitAndLeaveTarmacAuto;
+import frc.robot.commands.autonomous.WaitAndLeaveTarmacAuto;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.intake.RunFeederAndIndexerWithTrigger;
 import frc.robot.displays.Display;
@@ -194,7 +194,6 @@ public class RobotContainer {
 
 		autonomousDisplaysGrid
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 4, 4));
-			// TODO: !P1! Add the auto-routine maker display here
 		
 		visionDisplaysGrid
 			.makeOriginWith(new CamerasDisplay(vision, 7, 4));
@@ -305,13 +304,13 @@ public class RobotContainer {
 				DriverStation.reportError("Unsupported auto routine detected in setAutoCommand", true);
 				break;
 			case WAIT_AND_LEAVE_TARMAC:
-				autoCommand = new WaitAndLeaveTarmac(drivetrain);
+				autoCommand = new WaitAndLeaveTarmacAuto(drivetrain);
 				break;
-			case WAIT_SCORE_LH_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_LT(drivetrain, manipulator);
+			case SCORE_AND_LEAVE_TARMAC:
+				autoCommand = new ScoreAndLeaveTarmacAuto(drivetrain, manipulator);
 				break;
-			case SCORE_LH_AND_WAIT_AND_LEAVE_TARMAC:
-				autoCommand = new LH_Wait_LT(drivetrain, manipulator);
+			case SCORE_AND_WAIT_AND_LEAVE_TARMAC:
+				autoCommand = new ScoreWaitAndLeaveTarmacAuto(drivetrain, manipulator);
 				break;
 			case TWO_BALL_AUTO:
 				autoCommand = new TwoBallAuto(drivetrain, intake, manipulator);
@@ -319,8 +318,8 @@ public class RobotContainer {
 			case THREE_BALL_TRAJECTORY_AUTO:
 				autoCommand = new ThreeBallTrajectoryAuto(drivetrain, intake, manipulator);
 				break;
-			case WAIT_AND_SCORE_LH_AND_RETRIEVE_CARGO_AND_LEAVE_TARMAC:
-				autoCommand = new Wait_LH_RC_LT(drivetrain, intake, manipulator, vision);
+			case THREE_BALL_VISION_AUTO:
+				autoCommand = new ThreeBallVisionAuto(drivetrain, intake, manipulator, vision);
 				break;
 		}
 		return this;
