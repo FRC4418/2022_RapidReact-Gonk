@@ -42,6 +42,7 @@ public class Wait_LH_TC_Wait_TC_LH extends SequentialCommandGroup {
 			new StopFeederAndIndexer(intake, manipulator, false),
 			new RetractIntakeArm(intake),
 			new BackTailBallTrajectory(drivetrain, true),
+			new DriveStraightForDistance(drivetrain, DriveStraightDirection.BACKWARDS),
 			
 			new LaunchTwoBalls(manipulator)
 
