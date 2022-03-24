@@ -11,6 +11,7 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
@@ -69,7 +70,8 @@ public class Vision extends SubsystemBase {
 
 		if (Constants.Vision.kEnableFrontCamera) {
 			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
-			frontCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			VideoMode frontCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			frontCamera.setVideoMode(frontCameraInputVideoMode);
 			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.FRONT, frontCamera);
 
@@ -82,9 +84,9 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontOutputStream = new CvSource(Camera.FRONT.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource frontOutputCvSource = new CvSource(Camera.FRONT.getName() + " Input Stream", frontCameraInputVideoMode);
 			// CvSource frontOutputStream = CameraServer.putVideo(Camera.FRONT.getName(), 640, 480);
-			m_cvSources.put(Camera.FRONT, frontOutputStream);
+			m_cvSources.put(Camera.FRONT, frontOutputCvSource);
 			
 			try (MjpegServer frontCameraServer = new MjpegServer(Camera.FRONT.getName() + " Mjpeg Server", 1181)) {
 				frontCameraServer.setSource(frontCamera);
@@ -100,7 +102,8 @@ public class Vision extends SubsystemBase {
 
 		if (Constants.Vision.kEnableBackCamera) {
 			UsbCamera backCamera = CameraServer.startAutomaticCapture(Constants.Vision.kBackCameraUSBPort);
-			backCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			VideoMode backCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			backCamera.setVideoMode(backCameraInputVideoMode);
 			backCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.BACK, backCamera);
 
@@ -113,9 +116,9 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource backOutputStream = new CvSource(Camera.BACK.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource backOutputCvSource = new CvSource(Camera.BACK.getName() + " Input Stream", backCameraInputVideoMode);
 			// CvSource backOutputStream = CameraServer.putVideo(Camera.BACK.getName(), 640, 480);
-			m_cvSources.put(Camera.BACK, backOutputStream);
+			m_cvSources.put(Camera.BACK, backOutputCvSource);
 			
 			try (MjpegServer backCameraServer = new MjpegServer(Camera.BACK.getName() + " Mjpeg Server", 1182)) {
 				backCameraServer.setSource(backCamera);
@@ -131,7 +134,8 @@ public class Vision extends SubsystemBase {
 
 		if (Constants.Vision.kEnableInnerCamera) {
 			UsbCamera innerCamera = CameraServer.startAutomaticCapture(Constants.Vision.kInnerCameraUSBPort);
-			innerCamera.setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			VideoMode innerCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+			innerCamera.setVideoMode(innerCameraInputVideoMode);
 			innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 			cameras.put(Camera.INNER, innerCamera);
 
@@ -143,9 +147,9 @@ public class Vision extends SubsystemBase {
 			}
 
 			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource innerOutputStream = new CvSource(Camera.INNER.getName() + " Input Stream", PixelFormat.kMJPEG, 320, 240, 15);
+			CvSource innerOutputCvSource = new CvSource(Camera.INNER.getName() + " Input Stream", innerCameraInputVideoMode);
 			// CvSource innerOutputStream = CameraServer.putVideo(Camera.INNER.getName(), 640, 480);
-			m_cvSources.put(Camera.INNER, innerOutputStream);
+			m_cvSources.put(Camera.INNER, innerOutputCvSource);
 			
 			try (MjpegServer innerCameraServer = new MjpegServer(Camera.INNER.getName() + " Mjpeg Server", 1183)) {
 				innerCameraServer.setSource(innerCamera);
