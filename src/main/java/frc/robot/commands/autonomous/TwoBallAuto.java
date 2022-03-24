@@ -16,8 +16,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 
 
-public class Wait_LH_PC_Wait_LH_LT extends SequentialCommandGroup {
-	public Wait_LH_PC_Wait_LH_LT(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
+public class TwoBallAuto extends SequentialCommandGroup {
+	public TwoBallAuto(Drivetrain drivetrain, Intake intake, Manipulator manipulator) {
 		super(
 			new WaitFor(Autonomous.getStartDelaySeconds()),
 			new LaunchOneBall(manipulator),
