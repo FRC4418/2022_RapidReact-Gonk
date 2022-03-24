@@ -31,7 +31,7 @@ public class CamerasDisplay extends VisionDisplay {
 	protected VisionDisplay createDisplayAt(int column, int row) {
 		{ var layout = tab
 			.getLayout("Cameras", BuiltInLayouts.kGrid)
-			.withProperties(Map.of("Number of columns", 3, "Number of rows", 1, "Label position", "TOP"))
+			.withProperties(Map.of("Number of columns", Constants.Vision.kNumCameras, "Number of rows", 1, "Label position", "TOP"))
 			.withPosition(column, row)
 			.withSize(width, height);
 
@@ -91,28 +91,28 @@ public class CamerasDisplay extends VisionDisplay {
 
 	@Override
 	public void addEntryListeners() {
-		// { // Front
-		// 	if (Constants.Vision.kEnableFrontCamera) {
-		// 		enableFrontCameraToggleSwitch.addListener(event -> {
-		// 			m_vision.toggleCameraStream(Camera.FRONT, event.value.getBoolean());
-		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		// 	}
-		// }
+		{ // Front
+			if (Constants.Vision.kUsingFrontCamera) {
+				enableFrontCameraToggleSwitch.addListener(event -> {
+					m_vision.toggleCameraStream(Camera.FRONT, event.value.getBoolean());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+		}
 
-		// { // Back
-		// 	if (Constants.Vision.kEnableBackCamera) {
-		// 		enableBackCameraToggleSwitch.addListener(event -> {
-		// 			m_vision.toggleCameraStream(Camera.BACK, event.value.getBoolean());
-		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		// 	}
-		// }
+		{ // Back
+			if (Constants.Vision.kUsingBackCamera) {
+				enableBackCameraToggleSwitch.addListener(event -> {
+					m_vision.toggleCameraStream(Camera.BACK, event.value.getBoolean());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+		}
 
-		// { // Inner
-		// 	if (Constants.Vision.kEnableInnerCamera) {
-		// 		enableInnerCameraToggleSwitch.addListener(event -> {
-		// 			m_vision.toggleCameraStream(Camera.INNER, event.value.getBoolean());
-		// 		}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		// 	}
-		// }
+		{ // Inner
+			if (Constants.Vision.kUsingInnerCamera) {
+				enableInnerCameraToggleSwitch.addListener(event -> {
+					m_vision.toggleCameraStream(Camera.INNER, event.value.getBoolean());
+				}, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+			}
+		}
 	}
 }

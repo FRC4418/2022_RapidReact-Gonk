@@ -14,6 +14,7 @@ import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -129,42 +130,96 @@ public class Vision extends SubsystemBase {
 		return m_cvSources.get(camera);
 	}
 
-	// public void toggleCameraStream(Camera camera, boolean enable) {
-	// 	if (enable) {
-	// 		m_threads.get(camera).run();
-	// 	} else {
-	// 		m_threads.get(camera).sleep(Long.MAX_VALUE);
-	// 	}
-	// }
+	public void toggleCameraStream(Camera camera, boolean enable) {
+		if (enable) {
+			startCameraPipeline(camera);
+			m_threads.get(camera).run();
+		} else {
+			stopCameraPipeline(camera);
+		}
+	}
 
 
 	// ----------------------------------------------------------
-	// Camera-pipelines
+	// Camera-image pipelines
 
 
-	public void startFrontCameraPipeline() {
-		if (Constants.Vision.kUsingFrontCamera) {
-			Thread frontCameraThread = new Thread(() -> {
-				Mat input = new Mat();
-				Mat output = new Mat();
-	
-				while (!Thread.interrupted()) {
-					var cvSink = m_cvSinks.get(Camera.FRONT);
-					var cvSource = m_cvSources.get(Camera.FRONT);
+	public void stopCameraPipeline(Camera camera) {
+		m_threads.get(camera).interrupt();
+	}
 
-					// since grabFrame is run in the check for potential error codes, this is also where we grab our input
-					if (cvSink.grabFrame(input) == 0) {
-						// Send the output the error.
-						cvSource.notifyError(cvSink.getError());
-						// skip the rest of the current iteration
-						continue;
-					}
-
-					Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-					m_cvSources.get(Camera.FRONT).putFrame(output);
-				}
-			});
-			frontCameraThread.start();
+	public void startCameraPipeline(Camera camera) {
+		switch (camera) {
+			default:
+				DriverStation.reportError("Unsupported camera type found in startCameraPipeline(Camera)", true);
+				break;
+			case FRONT:
+				startFrontCameraPipeline();
+				break;
+			case BACK:
+				startBackCameraPipeline();
+				break;
+			case INNER:
+				startInnerCameraPipeline();
+				break;
 		}
+	}
+
+	private void startFrontCameraPipeline() {
+		Thread thread = new Thread(() -> {
+			Mat input = new Mat();
+			Mat output = new Mat();
+
+			while (!Thread.interrupted()) {
+				var cvSink = m_cvSinks.get(Camera.FRONT);
+				var cvSource = m_cvSources.get(Camera.FRONT);
+
+				// since grabFrame is run in the check for potential error codes, this is also where we grab our input
+				if (cvSink.grabFrame(input) == 0) {
+					// Send the output the error.
+					cvSource.notifyError(cvSink.getError());
+					// skip the rest of the current iteration
+					continue;
+				}
+
+				Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+				m_cvSources.get(Camera.FRONT).putFrame(output);
+			}
+		});
+
+		m_threads.put(Camera.FRONT, thread);
+
+		thread.start();
+	}
+
+	private void startBackCameraPipeline() {
+
+	}
+
+	private void startInnerCameraPipeline() {
+		Thread thread = new Thread(() -> {
+			Mat input = new Mat();
+			Mat output = new Mat();
+
+			while (!Thread.interrupted()) {
+				var cvSink = m_cvSinks.get(Camera.INNER);
+				var cvSource = m_cvSources.get(Camera.INNER);
+
+				// since grabFrame is run in the check for potential error codes, this is also where we grab our input
+				if (cvSink.grabFrame(input) == 0) {
+					// Send the output the error.
+					cvSource.notifyError(cvSink.getError());
+					// skip the rest of the current iteration
+					continue;
+				}
+
+				Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+				m_cvSources.get(Camera.INNER).putFrame(output);
+			}
+		});
+
+		m_threads.put(Camera.INNER, thread);
+
+		thread.start();
 	}
 }

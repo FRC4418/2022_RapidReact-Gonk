@@ -48,6 +48,10 @@ public class Constants {
 		Climber.kWinchPositionGains = Climber.kWinchPositionGainsV2;
 	}
 
+	public static int booleanToInt(boolean bool) {
+		return bool ? 1 : 0;
+	}
+
 	private static final double kMetersToinches = 39.37007874;
 
 	public static double inchesToMeters(double inches) {
@@ -368,8 +372,7 @@ public class Constants {
 			kReleasePinAngle = 0.,
 			kAttachPinAngle = 40.,
 
-			kPinRollbackTimeSeconds = 0.1
-			,
+			kPinRollbackTimeSeconds = 0.1,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
@@ -420,11 +423,16 @@ public class Constants {
 			kBackCameraTCPPort = 1182,
 			kInnerCameraTCPPort = 1183;
 
-
 		public static boolean
 			kUsingFrontCamera = true,
 			kUsingBackCamera = true,
 			kUsingInnerCamera = false;
+		
+		public static final int
+			kNumCameras =
+				booleanToInt(kUsingFrontCamera)
+				+ booleanToInt(kUsingBackCamera)
+				+ booleanToInt(kUsingInnerCamera);
 	}
 
 	public static class Lights {
