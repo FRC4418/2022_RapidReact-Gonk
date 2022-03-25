@@ -48,6 +48,10 @@ public class Constants {
 		Climber.kWinchPositionGains = Climber.kWinchPositionGainsV2;
 	}
 
+	public static int booleanToInt(boolean bool) {
+		return bool ? 1 : 0;
+	}
+
 	private static final double kMetersToinches = 39.37007874;
 
 	public static double inchesToMeters(double inches) {
@@ -368,8 +372,7 @@ public class Constants {
 			kReleasePinAngle = 0.,
 			kAttachPinAngle = 40.,
 
-			kPinRollbackTimeSeconds = 0.1
-			,
+			kPinRollbackTimeSeconds = 0.1,
 
 			kClimberExtendedHeightInches = 64.,
 			kClimberLoweredHeightInches = 0.;
@@ -410,9 +413,26 @@ public class Constants {
 		// ----------------------------------------------------------
 		// General
 
+		public static final int
+			kFrontCameraUSBPort = 1,
+			kBackCameraUSBPort = -1,
+			kInnerCameraUSBPort = 0,
+
+			// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
+			kFrontCameraTCPPort = 1181,
+			kBackCameraTCPPort = 1182,
+			kInnerCameraTCPPort = 1183;
+
 		public static boolean
-			kEnableFrontCenterCamera = false,
-			kEnableBackCenterCamera = false;
+			kUsingFrontCamera = true,
+			kUsingBackCamera = false,
+			kUsingInnerCamera = true;
+		
+		public static final int
+			kNumCameras =
+				booleanToInt(kUsingFrontCamera)
+				+ booleanToInt(kUsingBackCamera)
+				+ booleanToInt(kUsingInnerCamera);
 	}
 
 	public static class Lights {
