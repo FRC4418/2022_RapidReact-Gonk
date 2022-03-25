@@ -415,8 +415,8 @@ public class Constants {
 
 		public static final int
 			kFrontCameraUSBPort = 1,
-			kBackCameraUSBPort = 0,
-			kInnerCameraUSBPort = -1,
+			kBackCameraUSBPort = -1,
+			kInnerCameraUSBPort = 0,
 
 			// for 2022 Rapid React, only TCP/UDP ports 1180-1190 are allowed for camera data from the roboRIO to dashboard when camera is connected to the roboRIO via USB (section R704 of the game manual)
 			kFrontCameraTCPPort = 1181,
@@ -425,8 +425,8 @@ public class Constants {
 
 		public static boolean
 			kUsingFrontCamera = true,
-			kUsingBackCamera = true,
-			kUsingInnerCamera = false;
+			kUsingBackCamera = false,
+			kUsingInnerCamera = true;
 		
 		public static final int
 			kNumCameras =

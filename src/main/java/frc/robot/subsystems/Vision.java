@@ -89,7 +89,7 @@ public class Vision extends SubsystemBase {
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
 		frontCamera.setExposureAuto();
 		frontCamera.setWhiteBalanceAuto();
-		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 15);
+		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 14);
 		frontCamera.setVideoMode(inputVideoMode);
 		frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 		m_cameras.put(Camera.FRONT, frontCamera);
@@ -113,7 +113,15 @@ public class Vision extends SubsystemBase {
 	}
 
 	private void setupInnerCamera() {
+		UsbCamera innerCamera = CameraServer.startAutomaticCapture(Constants.Vision.kInnerCameraUSBPort);
+		innerCamera.setExposureAuto();
+		innerCamera.setWhiteBalanceAuto();
+		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 3);
+		innerCamera.setVideoMode(inputVideoMode);
+		innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		m_cameras.put(Camera.INNER, innerCamera);
 
+		m_videoSources.put(Camera.INNER, innerCamera);
 	}
 
 
@@ -187,32 +195,40 @@ public class Vision extends SubsystemBase {
 	}
 
 	private void startBackCameraPipeline() {
+		// Thread thread = new Thread(() -> {
+		// 	Mat input = new Mat();
+		// 	Mat output = new Mat();
 
+		// 	while (!Thread.interrupted()) {
+		// 		var cvSink = m_cvSinks.get(Camera.INNER);
+		// 		var cvSource = m_videoSources.get(Camera.INNER);
+
+		// 		// since grabFrame is run in the check for potential error codes, this is also where we grab our input
+		// 		if (cvSink.grabFrame(input) == 0) {
+		// 			// Send the output the error.
+		// 			((CvSource) cvSource).notifyError(cvSink.getError());
+		// 			// skip the rest of the current iteration
+		// 			continue;
+		// 		}
+
+		// 		Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
+		// 		((CvSource) m_videoSources.get(Camera.INNER)).putFrame(output);
+		// 	}
+		// });
+
+		// m_threads.put(Camera.INNER, thread);
+
+		// thread.start();
 	}
 
 	private void startInnerCameraPipeline() {
 		Thread thread = new Thread(() -> {
-			Mat input = new Mat();
-			Mat output = new Mat();
-
 			while (!Thread.interrupted()) {
-				var cvSink = m_cvSinks.get(Camera.INNER);
-				var cvSource = m_videoSources.get(Camera.INNER);
-
-				// since grabFrame is run in the check for potential error codes, this is also where we grab our input
-				if (cvSink.grabFrame(input) == 0) {
-					// Send the output the error.
-					((CvSource) cvSource).notifyError(cvSink.getError());
-					// skip the rest of the current iteration
-					continue;
-				}
-
-				Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-				((CvSource) m_videoSources.get(Camera.INNER)).putFrame(output);
+				
 			}
 		});
 
-		m_threads.put(Camera.INNER, thread);
+		m_threads.put(Camera.FRONT, thread);
 
 		thread.start();
 	}
