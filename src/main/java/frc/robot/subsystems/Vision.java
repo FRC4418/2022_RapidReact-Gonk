@@ -59,34 +59,15 @@ public class Vision extends SubsystemBase {
 
 	
 	public Vision() {
-		// ----------------------------------------------------------
-		// Front-center camera
-
 		if (Constants.Vision.kUsingFrontCamera) {
-			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
-			VideoMode frontCameraInputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			frontCamera.setVideoMode(frontCameraInputVideoMode);
-			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			m_cameras.put(Camera.FRONT, frontCamera);
-
-			CvSink frontCvSink = CameraServer.getVideo((VideoSource) frontCamera);
-			frontCvSink.setSource(frontCamera);
-			m_cvSinks.put(Camera.FRONT, frontCvSink);
-
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource frontOutputCvSource = new CvSource(Camera.FRONT.getName() + " Input Stream", frontCameraInputVideoMode);
-			m_cvSources.put(Camera.FRONT, frontOutputCvSource);
+			setupFrontCamera();
 		}
-		
-		// ----------------------------------------------------------
-		// Back-center camera
-
-		
-
-		// ----------------------------------------------------------
-		// Inner camera
-
-		
+		if (Constants.Vision.kUsingBackCamera) {
+			setupBackCamera();
+		}
+		if (Constants.Vision.kUsingInnerCamera) {
+			setupInnerCamera();
+		}
 	}
 
 
@@ -104,21 +85,27 @@ public class Vision extends SubsystemBase {
 	// Camera-setups
 
 
-	public void setupFrontCamera() {
-		if (Constants.Vision.kUsingFrontCamera) {
-			UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
-			VideoMode inputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-			frontCamera.setVideoMode(inputVideoMode);
-			frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-			m_cameras.put(Camera.FRONT, frontCamera);
+	private void setupFrontCamera() {
+		UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
+		VideoMode inputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		frontCamera.setVideoMode(inputVideoMode);
+		frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		m_cameras.put(Camera.FRONT, frontCamera);
 
-			CvSink cvSink = CameraServer.getVideo((VideoSource) frontCamera);
-			m_cvSinks.put(Camera.FRONT, cvSink);
+		CvSink cvSink = CameraServer.getVideo((VideoSource) frontCamera);
+		m_cvSinks.put(Camera.FRONT, cvSink);
 
-			// "output streams" in this context mean the image-manipulated camera feed
-			CvSource outputCvSource = CameraServer.putVideo("Front Camera Output", inputVideoMode.width, inputVideoMode.height);
-			m_cvSources.put(Camera.FRONT, outputCvSource);
-		}
+		// "output streams" in this context mean the image-manipulated camera feed
+		CvSource outputCvSource = CameraServer.putVideo("Front Camera Output", inputVideoMode.width, inputVideoMode.height);
+		m_cvSources.put(Camera.FRONT, outputCvSource);
+	}
+
+	private void setupBackCamera() {
+
+	}
+
+	private void setupInnerCamera() {
+
 	}
 
 
@@ -143,6 +130,20 @@ public class Vision extends SubsystemBase {
 	// ----------------------------------------------------------
 	// Camera-image pipelines
 
+
+	public void startDefaultCameras() {
+		if (Constants.Vision.kUsingFrontCamera) {
+			startCameraPipeline(Camera.FRONT);
+		}
+
+		if (Constants.Vision.kUsingBackCamera) {
+			startCameraPipeline(Camera.BACK);
+		}
+
+		if (Constants.Vision.kUsingInnerCamera) {
+			startCameraPipeline(Camera.INNER);
+		}
+	}
 
 	public void stopCameraPipeline(Camera camera) {
 		m_threads.get(camera).interrupt();
