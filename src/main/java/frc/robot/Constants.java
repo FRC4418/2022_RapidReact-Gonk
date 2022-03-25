@@ -289,7 +289,7 @@ public class Constants {
 		private static final Gains
 			// TODO: P3 tune V1 retractor gains
 			kRetractorPositionGainsV1 = new Gains(0.1, 0., 0., 1023./20660., 300, 1.00),
-			kRetractorPositionGainsV2 = new Gains(0.023, 0., 0., 1023./20660., 300, 1.00);
+			kRetractorPositionGainsV2 = new Gains(0.020, 0., 0., 1023./20660., 300, 1.00);
 	}
 
 	public static class Manipulator {
@@ -367,7 +367,7 @@ public class Constants {
 			kWinchMaxPositionInches = 70;
 
 		public static double
-			kWinchSpeedPercent = 0.5,
+			kWinchSpeedPercent = 0.75,
 
 			kReleasePinAngle = 0.,
 			kAttachPinAngle = 40.,
