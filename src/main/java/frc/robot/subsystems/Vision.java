@@ -87,8 +87,6 @@ public class Vision extends SubsystemBase {
 
 	private void setupFrontCamera() {
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
-		frontCamera.setExposureAuto();
-		frontCamera.setWhiteBalanceAuto();
 		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 14);
 		frontCamera.setVideoMode(inputVideoMode);
 		frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
@@ -114,8 +112,6 @@ public class Vision extends SubsystemBase {
 
 	private void setupInnerCamera() {
 		UsbCamera innerCamera = CameraServer.startAutomaticCapture(Constants.Vision.kInnerCameraUSBPort);
-		innerCamera.setExposureAuto();
-		innerCamera.setWhiteBalanceAuto();
 		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 3);
 		innerCamera.setVideoMode(inputVideoMode);
 		innerCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
