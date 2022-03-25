@@ -179,7 +179,7 @@ public class RobotContainer {
 			generalDisplaysGrid,
 			drivingDisplaysGrid,
 			autonomousDisplaysGrid,
-			visionDisplaysGrid,
+			// visionDisplaysGrid,
 			motorTuningDisplaysGrid
 		};
 
@@ -196,8 +196,8 @@ public class RobotContainer {
 			.makeOriginWith(autonomousDisplay = new PremadeAutoRoutineDisplay(autonomous, 4, 4));
 			// TODO: !P1! Add the auto-routine maker display here
 		
-		visionDisplaysGrid
-			.makeOriginWith(new CamerasDisplay(vision, 7, 4));
+		// visionDisplaysGrid
+		// 	.makeOriginWith(new CamerasDisplay(vision, 7, 4));
 			// TODO: !P1! Add the Jevois-parameters adjuster display here
 
 		Display motorPrintoutDisplay;

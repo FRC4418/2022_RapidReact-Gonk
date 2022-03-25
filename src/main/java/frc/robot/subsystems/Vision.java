@@ -49,7 +49,7 @@ public class Vision extends SubsystemBase {
 
 	private HashMap<Camera, CvSink> m_cvSinks = new HashMap<>();
 
-	private HashMap<Camera, CvSource> m_cvSources = new HashMap<>();
+	private HashMap<Camera, VideoSource> m_videoSources = new HashMap<>();
 	
 	private HashMap<Camera, Thread> m_threads = new HashMap<>();
 
@@ -87,21 +87,29 @@ public class Vision extends SubsystemBase {
 
 	private void setupFrontCamera() {
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
-		VideoMode inputVideoMode = new VideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+		frontCamera.setExposureAuto();
+		frontCamera.setWhiteBalanceAuto();
+		VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 15);
 		frontCamera.setVideoMode(inputVideoMode);
 		frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 		m_cameras.put(Camera.FRONT, frontCamera);
 
-		CvSink cvSink = CameraServer.getVideo((VideoSource) frontCamera);
-		m_cvSinks.put(Camera.FRONT, cvSink);
-
-		// "output streams" in this context mean the image-manipulated camera feed
-		CvSource outputCvSource = CameraServer.putVideo("Front Camera Output", inputVideoMode.width, inputVideoMode.height);
-		m_cvSources.put(Camera.FRONT, outputCvSource);
+		m_videoSources.put(Camera.FRONT, frontCamera);
 	}
 
 	private void setupBackCamera() {
+		// UsbCamera frontCamera = CameraServer.startAutomaticCapture(Constants.Vision.kFrontCameraUSBPort);
+		// VideoMode inputVideoMode = new VideoMode(PixelFormat.kYUYV, 320, 240, 12);
+		// frontCamera.setVideoMode(inputVideoMode);
+		// frontCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+		// m_cameras.put(Camera.FRONT, frontCamera);
 
+		// CvSink cvSink = CameraServer.getVideo((VideoSource) frontCamera);
+		// m_cvSinks.put(Camera.FRONT, cvSink);
+
+		// // "output streams" in this context mean the image-manipulated camera feed
+		// CvSource outputCvSource = CameraServer.putVideo("Front Camera Output", inputVideoMode.width, inputVideoMode.height);
+		// m_cvSources.put(Camera.FRONT, outputCvSource);
 	}
 
 	private void setupInnerCamera() {
@@ -114,7 +122,7 @@ public class Vision extends SubsystemBase {
 
 
 	public VideoSource getVideoSource(Camera camera) {
-		return m_cvSources.get(camera);
+		return m_videoSources.get(camera);
 	}
 
 	public void toggleCameraStream(Camera camera, boolean enable) {
@@ -168,23 +176,8 @@ public class Vision extends SubsystemBase {
 
 	private void startFrontCameraPipeline() {
 		Thread thread = new Thread(() -> {
-			Mat input = new Mat();
-			Mat output = new Mat();
-
 			while (!Thread.interrupted()) {
-				var cvSink = m_cvSinks.get(Camera.FRONT);
-				var cvSource = m_cvSources.get(Camera.FRONT);
-
-				// since grabFrame is run in the check for potential error codes, this is also where we grab our input
-				if (cvSink.grabFrame(input) == 0) {
-					// Send the output the error.
-					cvSource.notifyError(cvSink.getError());
-					// skip the rest of the current iteration
-					continue;
-				}
-
-				Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-				m_cvSources.get(Camera.FRONT).putFrame(output);
+				
 			}
 		});
 
@@ -204,18 +197,18 @@ public class Vision extends SubsystemBase {
 
 			while (!Thread.interrupted()) {
 				var cvSink = m_cvSinks.get(Camera.INNER);
-				var cvSource = m_cvSources.get(Camera.INNER);
+				var cvSource = m_videoSources.get(Camera.INNER);
 
 				// since grabFrame is run in the check for potential error codes, this is also where we grab our input
 				if (cvSink.grabFrame(input) == 0) {
 					// Send the output the error.
-					cvSource.notifyError(cvSink.getError());
+					((CvSource) cvSource).notifyError(cvSink.getError());
 					// skip the rest of the current iteration
 					continue;
 				}
 
 				Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-				m_cvSources.get(Camera.INNER).putFrame(output);
+				((CvSource) m_videoSources.get(Camera.INNER)).putFrame(output);
 			}
 		});
 
