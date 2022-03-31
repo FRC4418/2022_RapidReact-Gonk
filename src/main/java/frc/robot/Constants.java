@@ -367,10 +367,10 @@ public class Constants {
 			kWinchMaxPositionInches = 70;
 
 		public static double
-			kWinchSpeedPercent = 0.5,
+			kWinchSpeedPercent = 0.0,
 
 			kReleasePinAngle = 0.,
-			kAttachPinAngle = 40.,
+			kAttachPinAngle = 0.,
 
 			kPinRollbackTimeSeconds = 0.1,
 
